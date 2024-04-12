@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <description>Screen Flow to display trading or purchasing information on Account (Customer/Supplier)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>fxAccountGroup</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!getAccountRec.AccountGroup__c})), &quot;-&quot;, TEXT({!getAccountRec.AccountGroup__c}))</expression>
+    </formulas>
+    <formulas>
+        <name>fxGroupKey</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!getAccountRec.GroupKeyAccountKeyOfBank__c}), &quot;-&quot;, {!getAccountRec.GroupKeyAccountKeyOfBank__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fxRegion</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK(TEXT({!getAccountRec.RegionSAP__c})), &quot;-&quot;, TEXT({!getAccountRec.RegionSAP__c}))</expression>
+    </formulas>
+    <formulas>
+        <name>fxTradingPartner</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!getAccountRec.TradingPartner__c}), &quot;-&quot;, {!getAccountRec.TradingPartner__r.Description__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fxTransportationZone</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!getAccountRec.TransportationZone__c}), &quot;-&quot;, {!getAccountRec.TransportationZone__r.Description__c})</expression>
+    </formulas>
+    <interviewLabel>CTRScreenTrading {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CTRScreenTradingPurchasingInfo</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordLookups>
+        <name>getAccountRec</name>
+        <label>getAccountRec</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>screenCustomerTradingInfo</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>screenCustomerTradingInfo</name>
+        <label>screenCustomerTradingInfo</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <fields>
+            <name>TradingInformation</name>
+            <fieldText>Trading Information</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>TradingInformation_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>customerAccountGroup</name>
+                    <fieldText>&lt;p&gt;Account Group&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxAccountGroup}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>customerTradingPartner</name>
+                    <fieldText>&lt;p&gt;Trading Partner&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxTradingPartner}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>customerRegion</name>
+                    <fieldText>&lt;p&gt;Region&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxRegion}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>customerTransportationZone</name>
+                    <fieldText>&lt;p&gt;Transportation Zone&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxTransportationZone}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>getAccountRec.InterestedProductTypeAsCustomerTX__c</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>PurchasingInformation</name>
+            <fieldText>Purchasing Information</fieldText>
+            <fieldType>RegionContainer</fieldType>
+            <fields>
+                <name>PurchasingInformation_Column1</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>supplierAccountGroup</name>
+                    <fieldText>&lt;p&gt;Account Group&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxAccountGroup}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>supplierTradingPartner</name>
+                    <fieldText>&lt;p&gt;Trading Partner&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxTradingPartner}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>supplierGroupKey</name>
+                    <fieldText>&lt;p&gt;Group Key (Account Key of Bank)&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!fxGroupKey}&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(153, 153, 153);&quot;&gt;_______________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>12</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <isRequired>false</isRequired>
+            <regionContainerType>SectionWithHeader</regionContainerType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>getAccountRec.InterestedProductTypeAsSupplierTX__c</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>getAccountRec</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>recordId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
