@@ -382,25 +382,29 @@ public without sharing class CommitteeTakeActionApprove {
 
     private static void updateChangeCreditFinancialInfo(Id recordId) {
         CTRRequestFormItem__c rqit = [
-            SELECT Id, ChangeCreditInternalCreditRating__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, FinancialKey__c
+            SELECT Id, ChangeCreditInternalCreditRating__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, FinancialKey__c,Customer__c,Credit_Condition__c,CreditLimit__c
             FROM CTRRequestFormItem__c
             WHERE Id = :recordId
         ];
 
         String accountId = rqit.Customer__c;
         String financialKey = rqit.FinancialKey__c;
-        C360_FinancialInfo__c fcif = [
+        List<C360_FinancialInfo__c> fcif = [
             SELECT Id, InternalCreditRating__c, Credit_Condition__c, CreditLimit__c
             FROM C360_FinancialInfo__c
             WHERE CompanyName__c = :accountId
                 AND Key__c = :financialKey
         ];
-
-        fcif.InternalCreditRating__c = rqit.ChangeCreditCreditCondition__c;
-        fcif.Credit_Condition__c = rqit.Credit_Condition__c;
-        fcif.CreditLimit__c = rqit.CreditLimit__c;
-
-        update fcif;
+        
+        if(fcif.size() > 0)
+        {
+            fcif[0].InternalCreditRating__c = rqit.ChangeCreditCreditCondition__c;
+            fcif[0].Credit_Condition__c = rqit.Credit_Condition__c;
+            fcif[0].CreditLimit__c = rqit.CreditLimit__c;
+            
+            update fcif[0];
+        }
+        
     }
 
 }

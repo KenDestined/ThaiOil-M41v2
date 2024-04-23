@@ -161,6 +161,7 @@
                 $A.createComponents([
                     [(componentName), {
                         recordId: component.get('v.recordId'),
+                        recordTypeId: recordTypeId,
                         sObjectName: component.get('v.sObjectName'),
                         recordHeader: recordHeader,
                         recordObject: component.get('v.recordObject'),

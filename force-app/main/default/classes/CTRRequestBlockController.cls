@@ -32,7 +32,7 @@ public with sharing class CTRRequestBlockController
             Integer mIndex = 1;
             if(mRecordTypeList[0].DeveloperName.contains('Customer')) {
                 Set<String> setSalesOrg = new Set<String>{'2000','9100','9200','9300','9400'};
-                List<C360_SalesArea__c> mSalesAreaList = new List<C360_SalesArea__c>([SELECT Id, SalesOrganization__c, Division__c, DistributionChannel__c, toLabel(SalesOrganization__c) salesOrgLabel, toLabel(Division__c) divisionLabel, toLabel(DistributionChannel__c) distChLabel FROM C360_SalesArea__c WHERE AccountNumber__c = :mAccountId AND SalesOrganization__c IN :setSalesOrg]);
+                List<C360_SalesArea__c> mSalesAreaList = new List<C360_SalesArea__c>([SELECT Id, CreditControlArea__c, SalesOrganization__c, Division__c, DistributionChannel__c, toLabel(SalesOrganization__c) salesOrgLabel, toLabel(Division__c) divisionLabel, toLabel(DistributionChannel__c) distChLabel FROM C360_SalesArea__c WHERE AccountNumber__c = :mAccountId AND SalesOrganization__c IN :setSalesOrg]);
                 
                 for(C360_SalesArea__c mSalesArea: mSalesAreaList)
                 {
@@ -95,7 +95,7 @@ public with sharing class CTRRequestBlockController
             List<RecordType> RecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE Id = :itemRecordTypeId LIMIT 1];
             Id headerRecordTypeId = Schema.SObjectType.CTRRequestFormHeader__c.getRecordTypeInfosByDeveloperName().get('Blocking').getRecordTypeId();
             if(RecordTypeList[0].DeveloperName.contains('Customer')){
-                C360_SalesArea__c mSalesArea = [SELECT Id, SalesOrganization__c, Division__c, DistributionChannel__c FROM C360_SalesArea__c WHERE Id =: requestWrapper.mRecordId LIMIT 1];
+                C360_SalesArea__c mSalesArea = [SELECT Id, SalesOrganization__c, Division__c, DistributionChannel__c, CreditControlArea__c FROM C360_SalesArea__c WHERE Id =: requestWrapper.mRecordId LIMIT 1];
                 CTRRequestFormHeader__c mRequestFormHeader = new CTRRequestFormHeader__c();
                 mRequestFormHeader.RecordTypeId = headerRecordTypeId;
                 mRequestFormHeader.Customer__c = CustomerId;
@@ -109,8 +109,10 @@ public with sharing class CTRRequestBlockController
                 mRequestFormItem.SalesOrganizationTX__c = mSalesArea.SalesOrganization__c;
                 mRequestFormItem.DistributionChannel__c = mSalesArea.DistributionChannel__c;
                 mRequestFormItem.Division__c = mSalesArea.Division__c;
+                mRequestFormItem.CreditControlArea__c = mSalesArea.CreditControlArea__c;
                 mRequestFormItem.BlockedReason__c = convertFormData.BlockedReason__c;
                 mRequestFormItem.OrderBlock__c = convertFormData.OrderBlock__c;
+                mRequestFormItem.CreditOwner__c = UserInfo.getUserId();
                 mRequestFormItem.Status__c = 'New';
                 insert mRequestFormItem;
 
@@ -132,6 +134,7 @@ public with sharing class CTRRequestBlockController
                 mRequestFormItem.PurchasingOrganizationTX__c = mPurchasingView.PurchasingOrg__c;
                 mRequestFormItem.BlockedReason__c = convertFormData.BlockedReason__c;
                 mRequestFormItem.SelectedPurchasingOrg__c = convertFormData.SelectedPurchasingOrg__c;
+                mRequestFormItem.CreditOwner__c = UserInfo.getUserId();
                 mRequestFormItem.Status__c = 'New';
                 insert mRequestFormItem;
 

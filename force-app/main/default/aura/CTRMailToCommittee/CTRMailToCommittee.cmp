@@ -37,6 +37,7 @@
                     <div class="slds-form-element slds-form-element_horizontal">
                         <label class="slds-form-element__label" for="horizontal-input-id-02">CC:</label>
                         <div class="slds-form-element__control">
+                            
                             <c:CTRCustomMultiLookupComponent disabled="{!!v.isEdit}"
                                 selectedValuesString="{!v.selectedEmailCC}" />
                         </div>

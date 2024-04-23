@@ -5,7 +5,6 @@
         action.setParams({
             "mAccountId": component.get('v.customerId'),
             "RecordType": component.get('v.recordTypeId')
-
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
@@ -14,6 +13,8 @@
 				console.log('Request list ',requestList);
                 if (requestList && requestList.length > 0) {
                     component.set('v.requestList', requestList);
+                    component.set('v.currentUserName', requestList[0].CurrentUserName);
+                    console.log('v.currentUserName: '+component.get('v.currentUserName'));
                 } else {
                     this.closeModal(component);
                     this.showToast('No record found', false);

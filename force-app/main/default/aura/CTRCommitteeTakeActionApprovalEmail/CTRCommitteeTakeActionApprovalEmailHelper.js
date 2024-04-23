@@ -14,6 +14,10 @@
             var remark = component.get('v.input');
         }
         // Process to apex class.
+        console.log('recordId: 222',recordId);
+        console.log('actionApproved: 222',actionApproved);
+        console.log('remark: 222',remark);
+        console.log('sendFromSFDC 222',sendFromSFDC);
         var action = component.get("c.submitProcrssApprovalRequest");
         action.setParams({
             recordId: recordId,
@@ -43,7 +47,7 @@
                 }
                 component.set('v.showLoading',false);
             }else if(data.getState() === 'ERROR'){
-                console.log('ERROR: ',data.message);
+                console.log('ERROR: 222',data.message);
             }
                         this.closeModal(component);
         });

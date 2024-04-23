@@ -1,2 +1,11 @@
 .THIS .slds-textarea[disabled] { background-color: #f3f3f3; }
 .THIS .slds-is-disabled { background-color: #f3f3f3 !important; }
+.THIS .tooltipFormat {
+	position: absolute;
+	bottom: 1.5rem;
+	left: -14px;
+}
+
+.THIS .popup_Class {
+    width: 300px;
+}

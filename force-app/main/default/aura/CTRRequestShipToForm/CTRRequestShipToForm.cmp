@@ -1036,7 +1036,7 @@
                 </div>
 
                 <footer class="slds-modal__footer slds-text-align_center">
-                    <lightning:button type="cancel" variant="brand-outline" label="Cancel" title="Cancel"
+                    <lightning:button variant="brand-outline" label="Cancel" title="Cancel"
                         onclick="{!c.closeModal}" />
                     <lightning:button type="submit" variant="brand" label="Save" title="Save"
                         onclick="{!c.handleSubmit}" />

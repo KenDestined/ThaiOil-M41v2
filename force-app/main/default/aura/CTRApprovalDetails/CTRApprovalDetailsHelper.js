@@ -39,7 +39,7 @@
                                 var isTRCR = requestList[0].isTRCR__c;
                                 var ExcelTemplate = requestList[0].ExcelTemplate__c;
                                 var ImportExcelSummary = requestList[0].ImportExcelSummary__c;
-                                var TypeOfBusiness = requestList[0].TypeOfBusiness__c;
+                                var TypeOfBusiness = requestList[0].CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c;//requestList[0].TypeOfBusiness__c;
                                 var CashOnDelivery = requestList[0].CashOnDelivery__c;
                                 var HavingCollateral = requestList[0].HavingCollateral__c;
                                 var BuyTradeEndorsement = requestList[0].BuyTradeEndorsement__c;
@@ -232,7 +232,6 @@
                                     
                                     if(ApproverStep == "TRCR" )
                                     {
-                                        //Disable Section
                                         component.set("v.IsSectionTraderDisable", true);
                                         component.set("v.IsSectionSHDisable", true);
                                         component.set("v.IsSectionVPDisable", true);
@@ -251,6 +250,21 @@
                                         if(CreditLimitCurrency == '' || CreditLimitCurrency == undefined)
                                             CreditLimitCurrency = 'THB';
                                         component.find("CreditLimitCurrency").set("v.value",CreditLimitCurrency);
+                                        console.log('CreditCondition---'+CreditCondition);
+                                        if(CreditCondition == 'Open Account With Collateral'|| CreditCondition == 'L/C' || CreditCondition == 'Domestic L/C' ) 
+                                        {
+                                            if(CreditCondition == 'Open Account With Collateral')
+                                            {
+                                                component.set("v.IsTradeCreditDisable", true);
+                                                component.set("v.IsCreditLimitDisable", true);
+                                            }
+                                            else
+                                            {
+                                                component.set("v.IsTradeCreditDisable", false);
+                                                component.set("v.IsCreditLimitDisable", false);
+                                            }
+                                        }
+                                        
                                     }
                                     
                                     if(ApproverStep == "Trader" || ApproverStep == 'SH' || ApproverStep == 'VP' || ApproverStep == "Done" )
@@ -409,7 +423,14 @@
                                     component.set("v.IsTradeCreditDisable", false);
                                     console.log('---Render Trade Credit-2---');
                                     
-                                }else if(CreditCondition == 'Open Account With Collateral' || CreditCondition == 'L/C' || CreditCondition == 'Domestic L/C' ){
+                                }else if(CreditCondition == 'Cash in Advance' || CreditCondition == 'Others'){
+                                    component.set("v.IsTradeCreditDisable", false);
+                                    component.set("v.IsCreditLimitDisable", false);
+                                    component.set("v.IsPaymentRequried", false);
+                                    
+                                    
+                                }
+                                    /*else if(CreditCondition == 'Open Account With Collateral' || CreditCondition == 'L/C' || CreditCondition == 'Domestic L/C' ){
                                     component.set("v.IsTradeCreditDisable", true);
                                     component.set("v.IsCreditLimitDisable", true);
                                     
@@ -417,7 +438,7 @@
                                     component.set("v.IsTradeCreditDisable", false);
                                     component.set("v.IsCreditLimitDisable", false);
                                     
-                                } 
+                                } */
                                 
                             }
                             

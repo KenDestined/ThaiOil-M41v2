@@ -13,6 +13,13 @@
     <aura:attribute name="IsShowedButton" type="Boolean" default="true"/>
     <aura:attribute name="IsShowPage" type="Boolean" default="false"/>
     <aura:attribute name="NotShowText" type="String"/>
+    <aura:attribute name="tooltip1" type="boolean" default="false" />
+    <aura:attribute name="tooltip2" type="boolean" default="false" />
+    <aura:attribute name="tooltip3" type="boolean" default="false" />
+    <aura:attribute name="tooltip4" type="boolean" default="false" />
+    <aura:attribute name="tooltip5" type="boolean" default="false" />
+    <aura:attribute name="tooltip6" type="boolean" default="false" />
+    <aura:attribute name="tooltip7" type="boolean" default="false" />
     
     <aura:renderIf isTrue="{!!v.IsShowPage}">
         <br /><br />
@@ -46,10 +53,31 @@
                                             <lightning:inputField aura:id="NumberRegistrationMinistryEnergy__c" fieldName="NumberRegistrationMinistryEnergy__c" variant="label-hidden" disabled="{!v.IsDisable}" onchange="{!c.handlePercentCalculate}"/> -->
                                             <div class="slds-form">
                                                 <div class="slds-form-element">
+                                                    
                                                     <label class="slds-form-element__label">
                                                         <span style="color:red; font-style: italic;" >* </span>
-                                                        Do you have oil trader registration letter (N.P. 104 or N.P.105 or N.P.106) which issued by Ministry of Energy? <br/>(ใบทะเบียนเป็นผู้ค้าน้ำมันตามมาตราต่างๆ ที่ออกโดยกรมธุรกิจพลังงาน)</label>
-                                                    <lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>
+                                                        Do you have oil trader registration letter (N.P. 104 or N.P.105 or N.P.106) which issued by Ministry of Energy? <br/>(ใบทะเบียนเป็นผู้ค้าน้ำมันตามมาตราต่างๆ ที่ออกโดยกรมธุรกิจพลังงาน)
+                                                    <!--<lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>-->
+                                                        <span style="position:relative;">
+                                                            <span class="slds-form-element">
+                                                                <div class="slds-form-element__icon">
+                                                                    
+                                                                    <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help1" title="Help" onmouseover="{!c.showToolTip1}" onmouseout="{!c.HideToolTip1}">
+                                                                        <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                        <span class="slds-assistive-text">Help</span>
+                                                                    </button>
+                                                                </div>
+                                                           </span>
+                                                           <aura:if isTrue="{!v.tooltip1}" >
+                                                                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="help1" >
+                                                                    <div class="slds-popover__body popup_Class">Scores are auto-based on information provided by the customer.<br/>
+                                                                        1 = There are a number of registration issues with the Ministry of Energy.<br/>
+                                                                        4 = There are no registration issues with the Ministry of Energy.</div>
+                                                                </div>
+                                                                
+                                                           </aura:if>
+                                                        </span>
+                                                   </label>
                                                     <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                         <lightning:inputField aura:id="NumberRegistrationMinistryEnergy__c" fieldName="NumberRegistrationMinistryEnergy__c" 
                                                                               variant="label-hidden" disabled="{!v.IsDisable}" onchange="{!c.handlePercentCalculate}"
@@ -67,7 +95,29 @@
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label">
                                                     <span style="color:red; font-style: italic;" >* </span> Level of reputation in the market and credibility of a company 
-                                                    <lightning:helptext content="Scores are automatically determined based on customer-provided 'Business Type' and 'Legal Entity' information, specifically for options that meet the criteria."></lightning:helptext>
+                                                    <!--<lightning:helptext content="Scores are automatically determined based on customer-provided 'Business Type' and 'Legal Entity' information, specifically for options that meet the criteria."></lightning:helptext>-->
+                                                	<span style="position:relative;">
+                                                        <span class="slds-form-element">
+                                                            <div class="slds-form-element__icon">
+                                                                
+                                                                <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help2" title="Help" onmouseover="{!c.showToolTip2}" onmouseout="{!c.HideToolTip2}">
+                                                                    <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                    <span class="slds-assistive-text">Help</span>
+                                                                </button>
+                                                            </div>
+                                                        </span>
+                                                       <aura:if isTrue="{!v.tooltip2}" >
+                                                           <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="reputation" >
+                                                               <div class="slds-popover__body popup_Class">Scores are auto-based on customer's 'Business Type' and 'Legal Entity' for eligible options.<br/>
+                                                                   1 = Other-Other, End User, Supplier w/ Private individual or Sole proprietorship<br/>
+                                                                   2 = Trading Firm, End User, Supplier w/ Private limited company<br/>
+                                                                   3 = National Oil, Trading Firm, Manufacturer, Refinery w/ Subsidiary company of public limited company<br/>
+                                                                   4 = National Oil, Trading Firm, Manufacturer, Refinery w/ Public limited company<br/>
+                                                                   Other matches of 'Business Type' and 'Legal Entity' are scored by the request owner.</div>
+                                                           </div>
+                                                           
+                                                       </aura:if>
+                                                    </span>
                                                 </label>
                                                 <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                     <lightning:inputField aura:id="Thelevelofreputation__c" fieldName="Thelevelofreputation__c" variant="label-hidden" 
@@ -83,8 +133,28 @@
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label">
                                                     <span style="color:red; font-style: italic;" >* </span> Destination country
-                                                    <lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>
+                                                    <!--<lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>-->
+                                                    
                                                 </label>
+                                                <span style="position:relative;">
+                                                        <span class="slds-form-element">
+                                                            <div class="slds-form-element__icon">
+                                                                
+                                                                <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help3" title="Help" onmouseover="{!c.showToolTip3}" onmouseout="{!c.HideToolTip3}">
+                                                                    <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                    <span class="slds-assistive-text">Help</span>
+                                                                </button>
+                                                            </div>
+                                                    </span>
+                                                        <aura:if isTrue="{!v.tooltip3}" >
+                                                            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="reputation" >
+                                                                <div class="slds-popover__body popup_Class">Scores are auto-based on information provided by the customer.<br/>
+                                                                    1 = The country is on the FATF list.<br/>
+                                                                    4 = The country is not on the FATF list.</div>
+                                                            </div>
+                                                            
+                                                        </aura:if>
+                                                </span>
                                                 <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                     <lightning:inputField aura:id="TheDestinationCountry__c" fieldName="TheDestinationCountry__c" 
                                                                           variant="label-hidden" disabled="{!v.IsDisable}" onchange="{!c.handlePercentCalculate}"
@@ -103,8 +173,28 @@
                                                         <span style="color:red; font-style: italic;" >* </span> 
                                                     </aura:If>
                                                         Location of the office (for Domestic only)
-                                                    <lightning:helptext content="1 = No landmarks in Google Maps / 4 = There are any landmarks in Google Maps"></lightning:helptext>
+                                                    <!--<lightning:helptext content="1 = No landmarks in Google Maps / 4 = There are any landmarks in Google Maps"></lightning:helptext>-->
+                                                    
                                                 </label>
+                                                <span style="position:relative;">
+                                                        <span class="slds-form-element">
+                                                            <div class="slds-form-element__icon">
+                                                                
+                                                                <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help4" title="Help" onmouseover="{!c.showToolTip4}" onmouseout="{!c.HideToolTip4}">
+                                                                    <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                    <span class="slds-assistive-text">Help</span>
+                                                                </button>
+                                                            </div>
+                                                    </span>
+                                                    <aura:if isTrue="{!v.tooltip4}" >
+                                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="reputation" >
+                                                            <div class="slds-popover__body popup_Class">Scores are auto-based on information provided by the customer.<br/>
+                                                                1 = No landmarks in Google Maps.<br/>
+                                                                4 = There are any landmarks in Google Maps.</div>
+                                                        </div>
+                                                            
+                                                        </aura:if>
+                                                </span>
                                                 <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                     <lightning:inputField aura:id="DomesticOfficeLocation__c" fieldName="DomesticOfficeLocation__c" 
                                                                           variant="label-hidden" disabled="{!v.IsDomesticDisabled}" 
@@ -124,8 +214,27 @@
                                                         <span style="color:red; font-style: italic;" >* </span> 
                                                     </aura:If>
                                                     Location of the office (for International only)
-                                                    <lightning:helptext content="In the cae of international customers, we will check by using Google Maps to see if there are any landmarks."></lightning:helptext>
+                                                    <!--<lightning:helptext content="In the cae of international customers, we will check by using Google Maps to see if there are any landmarks."></lightning:helptext>-->
                                                 </label>
+                                                <span style="position:relative;">
+                                                        <span class="slds-form-element">
+                                                            <div class="slds-form-element__icon">
+                                                                
+                                                                <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help5" title="Help" onmouseover="{!c.showToolTip5}" onmouseout="{!c.HideToolTip5}">
+                                                                    <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                    <span class="slds-assistive-text">Help</span>
+                                                                </button>
+                                                            </div>
+                                                    </span>
+                                                    <aura:if isTrue="{!v.tooltip5}" >
+                                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="reputation" >
+                                                            <div class="slds-popover__body popup_Class">Scores are auto-based on information provided by the customer.<br/>
+                                                                1 = No landmarks in Google Maps.<br/>
+                                                                4 = There are any landmarks in Google Maps.</div>
+                                                        </div>
+                                                            
+                                                        </aura:if>
+                                                </span>
                                                 <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                     <lightning:inputField aura:id="InternationalOfficeLocation__c" fieldName="InternationalOfficeLocation__c" 
                                                                           variant="label-hidden" disabled="{!v.IsInterDisabled}" 
@@ -141,10 +250,32 @@
                                         <div class="slds-form">
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label">
-                                                    <span style="color:red; font-style: italic;" >* </span> Level of experience in trading, distributing, or regitering products or related items of the company's customers/owners:
-                                                    <br/>(In the case where they told 100% ownership)<br/>
-                                                    <lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>
-                                                </label>
+                                                    <span style="color:red; font-style: italic;" >* </span> Level of experience in trading, distributing, or regitering products or related items of the company's customers/owners:<br/>(In the case where they told 100% ownership)
+                                                    <!--<lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>-->
+                                                
+                                                
+                                                <span style="position:relative;">
+                                                    <span class="slds-form-element">
+                                                        <div class="slds-form-element__icon">
+                                                            
+                                                            <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help6" title="Help" onmouseover="{!c.showToolTip6}" onmouseout="{!c.HideToolTip6}">
+                                                                <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                <span class="slds-assistive-text">Help</span>
+                                                            </button>
+                                                        </div>
+                                                    </span>
+                                                    <aura:if isTrue="{!v.tooltip6}" >
+                                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="reputation" >
+                                                            <div class="slds-popover__body popup_Class">Scores are auto-based on information provided by the customer.<br/>
+                                                                1 = Years of experience less than 2 years.<br/>
+                                                                2 = Years of experience are 2 years or more but not over 4 years.<br/>
+                                                                3 = Years of experience are over 4 years but not over 6 years.<br/>
+                                                                4 = Years of experience are over 6 years.</div>
+                                                        </div>
+                                                        
+                                                    </aura:if>
+                                                </span>
+                                                    </label>
                                                 <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                     <lightning:inputField aura:id="TheLevelOfExperience__c" fieldName="TheLevelOfExperience__c" 
                                                                           variant="label-hidden" disabled="{!v.IsDisable}" 
@@ -159,10 +290,33 @@
                                         <div class="slds-form">
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label">
-                                                    <br /><br /><br />
+                                                    
                                                     <span style="color:red; font-style: italic;" >* </span> Efficiency level of Facility/Storage tank
-                                                    <lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>
-                                                </label>
+                                                    <!--<lightning:helptext content="Scores are automatically based on information provided by the customer."></lightning:helptext>-->
+                                                
+                                                <span style="position:relative;">
+                                                    <span class="slds-form-element">
+                                                        <div class="slds-form-element__icon">
+                                                            
+                                                            <button class="slds-button slds-button_icon slds-button slds-button_icon"  aria-describedby="help7" title="Help" onmouseover="{!c.showToolTip7}" onmouseout="{!c.HideToolTip7}">
+                                                                <lightning:icon iconName="utility:info" size="xx-small" />
+                                                                <span class="slds-assistive-text">Help</span>
+                                                            </button>
+                                                        </div>
+                                                    </span>
+                                                    <aura:if isTrue="{!v.tooltip7}" >
+                                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left tooltipFormat" role="tooltip" id="reputation" >
+                                                            <div class="slds-popover__body popup_Class">Scores are auto-based on information provided by the customer.<br/>
+                                                                1 = No storage or transportation.<br/>
+                                                                2 = Rent storage or transportation less than 1-year contract.<br/>
+                                                                3 = Rent storage or transportation for a minimum 1-year contract.<br/>
+                                                                4 = Own storage or transportation.</div>
+                                                        </div>
+                                                        
+                                                    </aura:if>
+                                                </span>
+                                                    </label>
+                                                <br /><br />
                                                 <div class="slds-form-element__control slds-var-p-top_xxx-small" style="padding-left: 0% !important;">
                                                     <lightning:inputField aura:id="TheEfficiencyLevelOfFacility__c" fieldName="TheEfficiencyLevelOfFacility__c" 
                                                                           variant="label-hidden" disabled="{!v.IsDisable}" onchange="{!c.handlePercentCalculate}"

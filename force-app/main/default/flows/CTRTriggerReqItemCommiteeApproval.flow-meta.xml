@@ -1,10 +1,242 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>SendEmail_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>SendEmail</label>
+        <locationX>622</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_CustomerChangeCredit_Approved_TOPLABIX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_CustomerChangeCredit_Approved_TX</name>
+        <label>SendEmail</label>
+        <locationX>182</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_CustomerChangeCredit_Approved_TX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>SendEmail</label>
+        <locationX>1766</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_CustomerChangeCredit_Rejected_TOPLABIX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_CustomerChangeCredit_Rejected_TX</name>
+        <label>SendEmail</label>
+        <locationX>1326</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_CustomerChangeCredit_Rejected_TX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>SendEmail</label>
+        <locationX>2910</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_SupplierChangeCredit_Approved_TOPLABIX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_SupplierChangeCredit_Approved_TX</name>
+        <label>SendEmail</label>
+        <locationX>2470</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_SupplierChangeCredit_Approved_TX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>SendEmail</label>
+        <locationX>4054</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_SupplierChangeCredit_Rejected_TOPLABIX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmail_SupplierChangeCredit_Rejected_TX</name>
+        <label>SendEmail</label>
+        <locationX>3614</locationX>
+        <locationY>3275</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailTemplate_SupplierChangeCredit_Rejected_TX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>sendFinanceEmail</name>
         <label>sendFinanceEmail</label>
-        <locationX>182</locationX>
-        <locationY>3083</locationY>
+        <locationX>6254</locationX>
+        <locationY>3299</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -59,8 +291,8 @@
     <actionCalls>
         <name>sendFinanceNotify</name>
         <label>sendFinanceNotify</label>
-        <locationX>50</locationX>
-        <locationY>3407</locationY>
+        <locationX>6122</locationX>
+        <locationY>3623</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -100,8 +332,8 @@
     <actionCalls>
         <name>sendFinanceSHEmail</name>
         <label>sendFinanceSHEmail</label>
-        <locationX>248</locationX>
-        <locationY>2267</locationY>
+        <locationX>6320</locationX>
+        <locationY>2483</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -156,8 +388,8 @@
     <actionCalls>
         <name>sendFinanceSHNotify</name>
         <label>sendFinanceSHNotify</label>
-        <locationX>248</locationX>
-        <locationY>2675</locationY>
+        <locationX>6320</locationX>
+        <locationY>2891</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
@@ -200,8 +432,8 @@
     <actionCalls>
         <name>sendNotify_Block_Approved</name>
         <label>sendNotify</label>
-        <locationX>1766</locationX>
-        <locationY>3251</locationY>
+        <locationX>4758</locationX>
+        <locationY>3467</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -241,8 +473,8 @@
     <actionCalls>
         <name>sendNotify_Block_Rejected</name>
         <label>sendNotify</label>
-        <locationX>2074</locationX>
-        <locationY>2051</locationY>
+        <locationX>5066</locationX>
+        <locationY>2267</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -279,12 +511,405 @@
         <nameSegment>customNotificationAction</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
+    <actionCalls>
+        <name>sendNotify_CreateShiptoInformMasterDataController</name>
+        <label>sendNotify</label>
+        <locationX>5594</locationX>
+        <locationY>2051</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>MasterDataControllerRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitle_CreateShiptoInformMDC</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBody_CreateShiptoInformMDC</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>sendNotify</label>
+        <locationX>622</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_CustomerChangeCreditCondition_TOPLABIX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_CustomerChangeCreditCondition_TOPLABIX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_CustomerChangeCredit_Approved_TX</name>
+        <label>sendNotify</label>
+        <locationX>182</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_CustomerChangeCredit_Approved_TX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_CustomerChangeCreditCondition_TX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_CustomerChangeCreditCondition_TX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>sendNotify</label>
+        <locationX>1766</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_CustomerChangeCreditCondition_TOPLABIX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_CustomerChangeCreditCondition_TOPLABIX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_CustomerChangeCredit_Rejected_TX</name>
+        <label>sendNotify</label>
+        <locationX>1326</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_CustomerChangeCredit_Rejected_TX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_CustomerChangeCreditCondition_TX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_CustomerChangeCreditCondition_TX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>sendNotify</label>
+        <locationX>2910</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_SupplierChangeCreditCondition</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_SupplierChangeCreditCondition_TOPLABIX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_SupplierChangeCredit_Approved_TX</name>
+        <label>sendNotify</label>
+        <locationX>2470</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_SupplierChangeCredit_Approved_TX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_SupplierChangeCreditCondition</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_SupplierChangeCreditCondition_TX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>sendNotify</label>
+        <locationX>4054</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_SupplierChangeCreditCondition</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_SupplierChangeCreditCondition_TOPLABIX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendNotify_SupplierChangeCredit_Rejected_TX</name>
+        <label>sendNotify</label>
+        <locationX>3614</locationX>
+        <locationY>3167</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmail_SupplierChangeCredit_Rejected_TX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>otherRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyTitleApproval_SupplierChangeCreditCondition</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyBodyApproval_SupplierChangeCreditCondition_TX</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
         <name>assignEmailSH</name>
         <label>assignEmailSH</label>
-        <locationX>248</locationX>
-        <locationY>2159</locationY>
+        <locationX>6320</locationX>
+        <locationY>2375</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -296,7 +921,7 @@
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>findUsersTRCRTeamforCC.varTargetEmails</elementReference>
+                <elementReference>findUsersTRCR.varTargetEmails</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -306,8 +931,8 @@
     <assignments>
         <name>assignFAEmail</name>
         <label>assignFAEmail</label>
-        <locationX>182</locationX>
-        <locationY>2975</locationY>
+        <locationX>6254</locationX>
+        <locationY>3191</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientEmails</assignToReference>
             <operator>Add</operator>
@@ -322,8 +947,8 @@
     <assignments>
         <name>assignFAId</name>
         <label>assignFAId</label>
-        <locationX>50</locationX>
-        <locationY>3299</locationY>
+        <locationX>6122</locationX>
+        <locationY>3515</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -338,8 +963,8 @@
     <assignments>
         <name>assignFAId_Block_Approved</name>
         <label>assignFAId</label>
-        <locationX>1634</locationX>
-        <locationY>1943</locationY>
+        <locationX>4626</locationX>
+        <locationY>2159</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -354,8 +979,8 @@
     <assignments>
         <name>assignFAId_Block_Rejected</name>
         <label>assignFAId</label>
-        <locationX>2074</locationX>
-        <locationY>1943</locationY>
+        <locationX>5066</locationX>
+        <locationY>2159</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -368,10 +993,102 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignFAId_CustomerChangeCredit_Approved_TX</name>
+        <label>assignFAId</label>
+        <locationX>50</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getFASHUser_CustomerChangeCredit_Approved_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFAId_CustomerChangeCredit_Rejected_TX</name>
+        <label>assignFAId</label>
+        <locationX>1194</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getFASHUser_CustomerChangeCredit_Rejected_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFAId_SupplierChangeCredit_Approved_TX</name>
+        <label>assignFAId</label>
+        <locationX>2338</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getFASHUser_SupplierChangeCredit_Approved_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFAId_SupplierChangeCredit_Rejected_TX</name>
+        <label>assignFAId</label>
+        <locationX>3482</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getFASHUser_SupplierChangeCredit_Rejected_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignFASHId_Block_Approved</name>
         <label>assignFASHId</label>
-        <locationX>1634</locationX>
-        <locationY>2351</locationY>
+        <locationX>4626</locationX>
+        <locationY>2567</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -384,10 +1101,102 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignFASHId_CustomerChangeCredit_Approved_TX</name>
+        <label>assignFASHId</label>
+        <locationX>50</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Approved_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFASHId_CustomerChangeCredit_Rejected_TX</name>
+        <label>assignFASHId</label>
+        <locationX>1194</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Rejected_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFASHId_SupplierChangeCredit_Approved_TX</name>
+        <label>assignFASHId</label>
+        <locationX>2338</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Approved_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFASHId_SupplierChangeCredit_Rejected_TX</name>
+        <label>assignFASHId</label>
+        <locationX>3482</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Rejected_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignIdSH</name>
         <label>assignIdSH</label>
-        <locationX>248</locationX>
-        <locationY>2567</locationY>
+        <locationX>6320</locationX>
+        <locationY>2783</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -400,10 +1209,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignMasterDataControllerRecipientIds</name>
+        <label>assignMasterDataControllerRecipientIds</label>
+        <locationX>5726</locationX>
+        <locationY>1835</locationY>
+        <assignmentItems>
+            <assignToReference>MasterDataControllerRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.MDCName__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkMasterDataController</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignMDCId_Block_Approved</name>
         <label>assignMDCId</label>
-        <locationX>1634</locationX>
-        <locationY>2759</locationY>
+        <locationX>4626</locationX>
+        <locationY>2975</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -418,7 +1243,7 @@
     <assignments>
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>varTargetRec</assignToReference>
@@ -434,8 +1259,8 @@
     <assignments>
         <name>assignTraderId_Block_Approved</name>
         <label>assignTraderId</label>
-        <locationX>1634</locationX>
-        <locationY>3059</locationY>
+        <locationX>4626</locationX>
+        <locationY>3275</locationY>
         <assignmentItems>
             <assignToReference>otherRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -447,11 +1272,379 @@
             <targetReference>sendNotify_Block_Approved</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>assignTraderId_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>assignTraderId</label>
+        <locationX>490</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_CustomerChangeCredit_Approved_TX</name>
+        <label>assignTraderId</label>
+        <locationX>50</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_CustomerChangeCredit_Approved_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>assignTraderId</label>
+        <locationX>1634</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_CustomerChangeCredit_Rejected_TX</name>
+        <label>assignTraderId</label>
+        <locationX>1194</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_CustomerChangeCredit_Rejected_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>assignTraderId</label>
+        <locationX>2778</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_SupplierChangeCredit_Approved_TX</name>
+        <label>assignTraderId</label>
+        <locationX>2338</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_SupplierChangeCredit_Approved_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>assignTraderId</label>
+        <locationX>3922</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderId_SupplierChangeCredit_Rejected_TX</name>
+        <label>assignTraderId</label>
+        <locationX>3482</locationX>
+        <locationY>2975</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendNotify_SupplierChangeCredit_Rejected_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRId_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>assignTRCRId</label>
+        <locationX>490</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getTRCRSHUser_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRId_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>assignTRCRId</label>
+        <locationX>1634</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getTRCRSHUser_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRId_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>assignTRCRId</label>
+        <locationX>2778</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getTRCRSHUser_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRId_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>assignTRCRId</label>
+        <locationX>3922</locationX>
+        <locationY>2267</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CommitteeOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getTRCRSHUser_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRSHId_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>assignTRCRSHId</label>
+        <locationX>490</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRSHId_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>assignTRCRSHId</label>
+        <locationX>1634</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRSHId_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>assignTRCRSHId</label>
+        <locationX>2778</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRSHId_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>assignTRCRSHId</label>
+        <locationX>3922</locationX>
+        <locationY>2675</locationY>
+        <assignmentItems>
+            <assignToReference>otherRecipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>checkApprovalStepStatus_Block</name>
         <label>checkApprovalStepStatus</label>
-        <locationX>1986</locationX>
-        <locationY>1727</locationY>
+        <locationX>4978</locationX>
+        <locationY>1943</locationY>
         <defaultConnector>
             <targetReference>checkFAID_Block_Rejected</targetReference>
         </defaultConnector>
@@ -473,10 +1666,236 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkApprovalStepStatus_CustomerChangeCredit</name>
+        <label>checkApprovalStepStatus</label>
+        <locationX>1128</locationX>
+        <locationY>1835</locationY>
+        <defaultConnector>
+            <targetReference>checkBU_CustomerChangeCredit_Rejected</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Rejected</defaultConnectorLabel>
+        <rules>
+            <name>Approved_CustomerChangeCredit</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Approval_Step__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>checkBU_CustomerChangeCredit_Approved</targetReference>
+            </connector>
+            <label>Approved</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkApprovalStepStatus_SupplierChangeCredit</name>
+        <label>checkApprovalStepStatus</label>
+        <locationX>3416</locationX>
+        <locationY>1835</locationY>
+        <defaultConnector>
+            <targetReference>checkBU_SupplierChangeCredit_Rejected</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Rejected</defaultConnectorLabel>
+        <rules>
+            <name>Approved_SupplierChangeCredit</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Approval_Step__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>checkBU_SupplierChangeCredit_Approved</targetReference>
+            </connector>
+            <label>Approved</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkBU_CustomerChangeCredit_Approved</name>
+        <label>checkBU</label>
+        <locationX>556</locationX>
+        <locationY>1943</locationY>
+        <defaultConnectorLabel>Exception</defaultConnectorLabel>
+        <rules>
+            <name>TX_CustomerChangeCredit_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_CustomerChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+        <rules>
+            <name>TOPLABIX_CustomerChangeCredit_Approved</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>TOP/LABIX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkBU_CustomerChangeCredit_Rejected</name>
+        <label>checkBU</label>
+        <locationX>1700</locationX>
+        <locationY>1943</locationY>
+        <defaultConnectorLabel>Exception</defaultConnectorLabel>
+        <rules>
+            <name>TX_CustomerChangeCredit_Rejected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_CustomerChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+        <rules>
+            <name>TOPLABIX_CustomerChangeCredit_Rejected</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>TOP/LABIX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkBU_SupplierChangeCredit_Approved</name>
+        <label>checkBU</label>
+        <locationX>2844</locationX>
+        <locationY>1943</locationY>
+        <defaultConnectorLabel>Exception</defaultConnectorLabel>
+        <rules>
+            <name>TX_SupplierChangeCredit_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_SupplierChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+        <rules>
+            <name>TOPLABIX_SupplierChangeCredit_Approved</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>TOP/LABIX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkBU_SupplierChangeCredit_Rejected</name>
+        <label>checkBU</label>
+        <locationX>3988</locationX>
+        <locationY>1943</locationY>
+        <defaultConnectorLabel>Exception</defaultConnectorLabel>
+        <rules>
+            <name>TX_SupplierChangeCredit_Rejected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_SupplierChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+        <rules>
+            <name>TOPLABIX_SupplierChangeCredit_Rejected</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailTemplate_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>TOP/LABIX</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkFA</name>
         <label>checkFA</label>
-        <locationX>1114</locationX>
-        <locationY>1619</locationY>
+        <locationX>7186</locationX>
+        <locationY>1835</locationY>
         <defaultConnectorLabel>FASH = Null</defaultConnectorLabel>
         <rules>
             <name>notNullFASH</name>
@@ -504,8 +1923,8 @@
     <decisions>
         <name>checkFAEmail</name>
         <label>checkFAEmail</label>
-        <locationX>380</locationX>
-        <locationY>2867</locationY>
+        <locationX>6452</locationX>
+        <locationY>3083</locationY>
         <defaultConnectorLabel>Email = Null</defaultConnectorLabel>
         <rules>
             <name>notNullEmailFA</name>
@@ -526,8 +1945,8 @@
     <decisions>
         <name>checkFAId</name>
         <label>checkFAId</label>
-        <locationX>182</locationX>
-        <locationY>3191</locationY>
+        <locationX>6254</locationX>
+        <locationY>3407</locationY>
         <defaultConnectorLabel>Id = Null</defaultConnectorLabel>
         <rules>
             <name>notNullIdFA</name>
@@ -548,8 +1967,8 @@
     <decisions>
         <name>checkFAID_Block_Approved</name>
         <label>checkFAID</label>
-        <locationX>1766</locationX>
-        <locationY>1835</locationY>
+        <locationX>4758</locationX>
+        <locationY>2051</locationY>
         <defaultConnector>
             <targetReference>getFinanceSHUse_Block_Approved</targetReference>
         </defaultConnector>
@@ -580,8 +1999,8 @@
     <decisions>
         <name>checkFAID_Block_Rejected</name>
         <label>checkFAID</label>
-        <locationX>2206</locationX>
-        <locationY>1835</locationY>
+        <locationX>5198</locationX>
+        <locationY>2051</locationY>
         <defaultConnectorLabel>MissingFAID</defaultConnectorLabel>
         <rules>
             <name>FoundFAID_Block_Rejected</name>
@@ -600,10 +2019,138 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkFAID_CustomerChangeCredit_Approved_TX</name>
+        <label>checkFAID</label>
+        <locationX>182</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getFASHUser_CustomerChangeCredit_Approved_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingFAID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFAID_CustomerChangeCredit_Approved_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFAId_CustomerChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>FoundFAID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFAID_CustomerChangeCredit_Rejected_TX</name>
+        <label>checkFAID</label>
+        <locationX>1326</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getFASHUser_CustomerChangeCredit_Rejected_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingFAID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFAID_CustomerChangeCredit_Rejected_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findUsers.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findUsers.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFAId_CustomerChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>FoundFAID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFAID_SupplierChangeCredit_Approved_TX</name>
+        <label>checkFAID</label>
+        <locationX>2470</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getFASHUser_SupplierChangeCredit_Approved_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingFAID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFAID_SupplierChangeCredit_Approved_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findUsers.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findUsers.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFAId_SupplierChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>FoundFAID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFAID_SupplierChangeCredit_Rejected_TX</name>
+        <label>checkFAID</label>
+        <locationX>3614</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getFASHUser_SupplierChangeCredit_Rejected_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingFAID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFAID_SupplierChangeCredit_Rejected_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findUsers.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findUsers.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFAId_SupplierChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>FoundFAID</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkFASectionHead</name>
         <label>checkFASectionHead</label>
-        <locationX>858</locationX>
-        <locationY>1835</locationY>
+        <locationX>6930</locationX>
+        <locationY>2051</locationY>
         <defaultConnectorLabel>FA S/H = Null</defaultConnectorLabel>
         <rules>
             <name>notNullFASectionHead</name>
@@ -624,8 +2171,8 @@
     <decisions>
         <name>checkFASectionHeadID_Block_Approved</name>
         <label>checkFASectionHeadID</label>
-        <locationX>1766</locationX>
-        <locationY>2243</locationY>
+        <locationX>4758</locationX>
+        <locationY>2459</locationY>
         <defaultConnector>
             <targetReference>getMDCUser_Block_Approved</targetReference>
         </defaultConnector>
@@ -634,7 +2181,7 @@
             <name>FoundFASHID_Block_Approved</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>getFinanceSHUser.Id</leftValueReference>
+                <leftValueReference>getFinanceSHUse_Block_Approved.Id</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -647,10 +2194,132 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkFASectionHeadID_CustomerChangeCredit_Rejected_TX</name>
+        <label>checkFASectionHeadID</label>
+        <locationX>1326</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Rejected_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing FA S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFASHID_CustomerChangeCredit_Rejected_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getFASHUser_CustomerChangeCredit_Rejected_TX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFASHId_CustomerChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>Found FA S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFASectionHeadID_SupplierChangeCredit_Approved_TX</name>
+        <label>checkFASectionHeadID</label>
+        <locationX>2470</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Approved_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing FA S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFASHID_SupplierChangeCredit_Approved_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getFASHUser_SupplierChangeCredit_Approved_TX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFASHId_SupplierChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>Found FA S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFASectionHeadID_SupplierChangeCredit_Rejected_TX</name>
+        <label>checkFASectionHeadID</label>
+        <locationX>3614</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Rejected_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing FA S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFASHID_SupplierChangeCredit_Rejected_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getFASHUser_SupplierChangeCredit_Rejected_TX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFASHId_SupplierChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>Found FA S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFASHID_CustomerChangeCredit_Approved_TX</name>
+        <label>checkFASHID</label>
+        <locationX>182</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Approved_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing FA S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundFASHID_CustomerChangeCredit_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getFASHUser_CustomerChangeCredit_Approved_TX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFASHId_CustomerChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>Found FA S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkMasterDataController</name>
+        <label>checkMasterDataController</label>
+        <locationX>5726</locationX>
+        <locationY>1943</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MasterDataControllerNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MDCName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sendNotify_CreateShiptoInformMasterDataController</targetReference>
+            </connector>
+            <label>Master Data Controller != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkMDC</name>
         <label>checkMDC</label>
-        <locationX>611</locationX>
-        <locationY>1943</locationY>
+        <locationX>6683</locationX>
+        <locationY>2159</locationY>
         <defaultConnectorLabel>MDCM</defaultConnectorLabel>
         <rules>
             <name>notMDCM</name>
@@ -671,8 +2340,8 @@
     <decisions>
         <name>checkMDC_Block_Approved</name>
         <label>checkMDC</label>
-        <locationX>1766</locationX>
-        <locationY>2651</locationY>
+        <locationX>4758</locationX>
+        <locationY>2867</locationY>
         <defaultConnector>
             <targetReference>checkTraderID_Block_Approved</targetReference>
         </defaultConnector>
@@ -696,30 +2365,41 @@
     <decisions>
         <name>checkRecordType</name>
         <label>checkRecordType</label>
-        <locationX>2122</locationX>
-        <locationY>1511</locationY>
-        <defaultConnectorLabel>Exception</defaultConnectorLabel>
+        <locationX>4157</locationX>
+        <locationY>1727</locationY>
+        <defaultConnector>
+            <targetReference>checkFA</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>OtherRecordType</defaultConnectorLabel>
         <rules>
-            <name>otherRecordType</name>
-            <conditionLogic>or</conditionLogic>
+            <name>CustomerChangeCreditCondition</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>CustomerBlock</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
-                <operator>NotEqualTo</operator>
-                <rightValue>
-                    <stringValue>SupplierBlock</stringValue>
+                    <stringValue>CustomerChangeCrCond</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>checkFA</targetReference>
+                <targetReference>checkApprovalStepStatus_CustomerChangeCredit</targetReference>
             </connector>
-            <label>otherRecordType</label>
+            <label>CustomerChangeCreditCondition</label>
+        </rules>
+        <rules>
+            <name>SupplierChangeCreditCondition</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SupplierChangeCrCond</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>checkApprovalStepStatus_SupplierChangeCredit</targetReference>
+            </connector>
+            <label>SupplierChangeCreditCondition</label>
         </rules>
         <rules>
             <name>Block</name>
@@ -744,35 +2424,26 @@
             <label>Block</label>
         </rules>
         <rules>
-            <name>CustomerChangeCreditCondition</name>
-            <conditionLogic>and</conditionLogic>
+            <name>CreateShipTo</name>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue>CustomerChangeCrCond</stringValue>
+                    <stringValue>ShipToCreate</stringValue>
                 </rightValue>
             </conditions>
-            <label>CustomerChangeCreditCondition</label>
-        </rules>
-        <rules>
-            <name>SupplierChangeCreditCondition</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>SupplierChangeCrCond</stringValue>
-                </rightValue>
-            </conditions>
-            <label>SupplierChangeCreditCondition</label>
+            <connector>
+                <targetReference>assignMasterDataControllerRecipientIds</targetReference>
+            </connector>
+            <label>CreateShipTo</label>
         </rules>
     </decisions>
     <decisions>
         <name>checkSHEmail</name>
         <label>checkSHEmail</label>
-        <locationX>380</locationX>
-        <locationY>2051</locationY>
+        <locationX>6452</locationX>
+        <locationY>2267</locationY>
         <defaultConnector>
             <targetReference>checkSHId</targetReference>
         </defaultConnector>
@@ -796,8 +2467,8 @@
     <decisions>
         <name>checkSHId</name>
         <label>checkSHId</label>
-        <locationX>380</locationX>
-        <locationY>2459</locationY>
+        <locationX>6452</locationX>
+        <locationY>2675</locationY>
         <defaultConnector>
             <targetReference>checkFAEmail</targetReference>
         </defaultConnector>
@@ -821,8 +2492,8 @@
     <decisions>
         <name>checkTraderID_Block_Approved</name>
         <label>checkTraderID</label>
-        <locationX>1766</locationX>
-        <locationY>2951</locationY>
+        <locationX>4758</locationX>
+        <locationY>3167</locationY>
         <defaultConnector>
             <targetReference>sendNotify_Block_Approved</targetReference>
         </defaultConnector>
@@ -850,9 +2521,491 @@
             <label>Found Trader ID</label>
         </rules>
     </decisions>
-    <description>14/03/2024: update Sub-BU in subject
-11/4/2024: support &quot;Block&quot; and add decision
-12/4/2024: support &quot;Change Credit Condition&quot; and add decision</description>
+    <decisions>
+        <name>checkTraderID_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>checkTraderID</label>
+        <locationX>622</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_CustomerChangeCredit_Approved_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_CustomerChangeCredit_Approved_TX</name>
+        <label>checkTraderID</label>
+        <locationX>182</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_CustomerChangeCredit_Approved_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_CustomerChangeCredit_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_CustomerChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>checkTraderID</label>
+        <locationX>1766</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_CustomerChangeCredit_Rejected_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_CustomerChangeCredit_Rejected_TX</name>
+        <label>checkTraderID</label>
+        <locationX>1326</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_CustomerChangeCredit_Rejected_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_CustomerChangeCredit_Rejected_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_CustomerChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>checkTraderID</label>
+        <locationX>2910</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_SupplierChangeCredit_Approved_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_SupplierChangeCredit_Approved_TX</name>
+        <label>checkTraderID</label>
+        <locationX>2470</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_SupplierChangeCredit_Approved_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_SupplierChangeCredit_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_SupplierChangeCredit_Approved_TX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>checkTraderID</label>
+        <locationX>4054</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_SupplierChangeCredit_Rejected_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderID_SupplierChangeCredit_Rejected_TX</name>
+        <label>checkTraderID</label>
+        <locationX>3614</locationX>
+        <locationY>2867</locationY>
+        <defaultConnector>
+            <targetReference>sendNotify_SupplierChangeCredit_Rejected_TX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing Trader ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTraderID_SupplierChangeCredit_Rejected_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderId_SupplierChangeCredit_Rejected_TX</targetReference>
+            </connector>
+            <label>Found Trader ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRID_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>checkTRCRID</label>
+        <locationX>622</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getTRCRSHUser_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingTRCRID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRID_CustomerChangeCredit_Approved_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRId_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>FoundTRCRID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRID_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>checkTRCRID</label>
+        <locationX>1766</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getTRCRSHUser_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingTRCRID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRID_CustomerChangeCredit_Rejected_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRId_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>FoundTRCRID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRID_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>checkTRCRID</label>
+        <locationX>2910</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getTRCRSHUser_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingTRCRID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRID_SupplierChangeCredit_Approved_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRId_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>FoundTRCRID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRID_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>checkTRCRID</label>
+        <locationX>4054</locationX>
+        <locationY>2159</locationY>
+        <defaultConnector>
+            <targetReference>getTRCRSHUser_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>MissingTRCRID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRID_SupplierChangeCredit_Rejected_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CommitteeOwner__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRId_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>FoundTRCRID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRSHID_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>checkTRCRSHID</label>
+        <locationX>622</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing TRCR S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRSHID_CustomerChangeCredit_Approved_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getTRCRSHUser_CustomerChangeCredit_Approved_TOPLABIX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRSHId_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>Found TRCR S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRSHID_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>checkTRCRSHID</label>
+        <locationX>1766</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing TRCR S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRSHID_CustomerChangeCredit_Rejected_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getTRCRSHUser_CustomerChangeCredit_Rejected_TOPLABIX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRSHId_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>Found TRCR S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRSHID_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>checkTRCRSHID</label>
+        <locationX>2910</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing TRCR S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRSHID_SupplierChangeCredit_Approved_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getTRCRSHUser_SupplierChangeCredit_Approved_TOPLABIX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRSHId_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+            </connector>
+            <label>Found TRCR S/H ID</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRSHID_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>checkTRCRSHID</label>
+        <locationX>4054</locationX>
+        <locationY>2567</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderID_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Missing TRCR S/H ID</defaultConnectorLabel>
+        <rules>
+            <name>FoundTRCRSHID_SupplierChangeCredit_Rejected_TOPLABIX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getTRCRSHUser_SupplierChangeCredit_Rejected_TOPLABIX.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRSHId_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+            </connector>
+            <label>Found TRCR S/H ID</label>
+        </rules>
+    </decisions>
+    <description>23/04/2024 Change recipient id in create ship-to outcome for sending notification to MDC.</description>
     <environments>Default</environments>
     <formulas>
         <name>emailFinanceSHSubject</name>
@@ -879,7 +3032,7 @@ IF(OR(
     <formulas>
         <name>fmlRecLink</name>
         <dataType>String</dataType>
-        <expression>LEFT({!$Api.Partner_Server_URL_260}, FIND( &apos;/services&apos;, {!$Api.Partner_Server_URL_260})) &amp; {!varTargetRec}</expression>
+        <expression>{!getOrgWide.SFDomain__c} &amp; {!varTargetRec}</expression>
     </formulas>
     <formulas>
         <name>fmlRecordType</name>
@@ -896,9 +3049,34 @@ IF(OR(
         <expression>IF({!$Record.CTRRequestFormHeader__r.Country__r.Code__c} = &apos;TH&apos;, &apos;Domestic&apos;, &apos;International&apos;)</expression>
     </formulas>
     <formulas>
+        <name>notifyBody_CreateShiptoInformMDC</name>
+        <dataType>String</dataType>
+        <expression>&quot;Ship-to Information has been approved by Trader Section Head. Please review and submit for approval create ship-to master to SAP.&quot;</expression>
+    </formulas>
+    <formulas>
         <name>notifyBodyApproval_Block</name>
         <dataType>String</dataType>
         <expression>&quot;Customer has been approved by Commitee. Please submit summary report.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyBodyApproval_CustomerChangeCreditCondition_TOPLABIX</name>
+        <dataType>String</dataType>
+        <expression>&quot;Customer Credit Condition has been &quot;+ Text({!$Record.Status__c})+&quot; &quot;+ &quot;by Committee. Please submit summary report.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyBodyApproval_CustomerChangeCreditCondition_TX</name>
+        <dataType>String</dataType>
+        <expression>&quot;Customer Credit Condition has been &quot;+ Text({!$Record.Status__c} )+&quot; &quot;+&quot;by Committee. Please submit summary report.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyBodyApproval_SupplierChangeCreditCondition_TOPLABIX</name>
+        <dataType>String</dataType>
+        <expression>&quot;Supplier Credit Condition has been &quot;+ Text({!$Record.Status__c} )+&quot; &quot;+ &quot;by Committee. Please submit summary report.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyBodyApproval_SupplierChangeCreditCondition_TX</name>
+        <dataType>String</dataType>
+        <expression>&quot;Supplier Credit Condition has been &quot;+ Text({!$Record.Status__c} )+&quot; &quot;+ &quot;by Committee. Please submit summary report.&quot;</expression>
     </formulas>
     <formulas>
         <name>notifyBodyRejected_Block</name>
@@ -926,9 +3104,29 @@ IF(OR(
         <expression>{!$Record.CTRRequestFormHeader__r.CompanyNameENF__c} + &quot; &quot; + {!fmlProcess} + &quot; is &quot; + TEXT({!$Record.Approval_Step__c})</expression>
     </formulas>
     <formulas>
+        <name>notifyTitle_CreateShiptoInformMDC</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.ShipToNameEng__c} &amp; &quot; is ready to review SAP Information&quot;</expression>
+    </formulas>
+    <formulas>
         <name>notifyTitleApproval_Block</name>
         <dataType>String</dataType>
         <expression>{!$Record.CTRRequestFormHeader__r.CompanyNameENF__c} &amp; &quot; Customer Registration is Approved.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyTitleApproval_CustomerChangeCreditCondition_TOPLABIX</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.CTRRequestFormHeader__r.CompanyNameENF__c} + &quot;Customer credit condition is &quot; + Text({!$Record.Status__c}) +&quot;.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyTitleApproval_CustomerChangeCreditCondition_TX</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.CTRRequestFormHeader__r.CompanyNameENF__c} &amp; &quot; Customer credit condition is &quot; + Text({!$Record.Status__c}) +&quot;.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>notifyTitleApproval_SupplierChangeCreditCondition</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.CTRRequestFormHeader__r.CompanyNameENF__c} &amp; &quot; Supplier credit condition is &quot; + Text({!$Record.Status__c}) +&quot;.&quot;</expression>
     </formulas>
     <formulas>
         <name>notifyTitleRejected_Block</name>
@@ -959,7 +3157,7 @@ IF(OR(
     <recordLookups>
         <name>getCustomerNotification</name>
         <label>getCustomerNotification</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -979,10 +3177,290 @@ IF(OR(
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getEmailTemplate_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>getEmailTemplate</label>
+        <locationX>622</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRID_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TOPLABIXCustomerChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_CustomerChangeCredit_Approved_TX</name>
+        <label>getEmailTemplate</label>
+        <locationX>182</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFAID_CustomerChangeCredit_Approved_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TXCustomerChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>getEmailTemplate</label>
+        <locationX>1766</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRID_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TOPLABIXCustomerChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_CustomerChangeCredit_Rejected_TX</name>
+        <label>getEmailTemplate</label>
+        <locationX>1326</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFAID_CustomerChangeCredit_Rejected_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TXCustomerChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>getEmailTemplate</label>
+        <locationX>2910</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRID_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TOPLABIXSupplierChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_SupplierChangeCredit_Approved_TX</name>
+        <label>getEmailTemplate</label>
+        <locationX>2470</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFAID_SupplierChangeCredit_Approved_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TXSupplierChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>getEmailTemplate</label>
+        <locationX>4054</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRID_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TOPLABIXSupplierChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate_SupplierChangeCredit_Rejected_TX</name>
+        <label>getEmailTemplate</label>
+        <locationX>3614</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFAID_SupplierChangeCredit_Rejected_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TXSupplierChangeCreditInformApprovalStatus</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getFASHUser_CustomerChangeCredit_Approved_TX</name>
+        <label>getFASHUser</label>
+        <locationX>182</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFASHID_CustomerChangeCredit_Approved_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getFASHUser_CustomerChangeCredit_Rejected_TX</name>
+        <label>getFASHUser</label>
+        <locationX>1326</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFASectionHeadID_CustomerChangeCredit_Rejected_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getFASHUser_SupplierChangeCredit_Approved_TX</name>
+        <label>getFASHUser</label>
+        <locationX>2470</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFASectionHeadID_SupplierChangeCredit_Approved_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getFASHUser_SupplierChangeCredit_Rejected_TX</name>
+        <label>getFASHUser</label>
+        <locationX>3614</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkFASectionHeadID_SupplierChangeCredit_Rejected_TX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getFinanceSHUse_Block_Approved</name>
         <label>getFinanceSHUser</label>
-        <locationX>1766</locationX>
-        <locationY>2135</locationY>
+        <locationX>4758</locationX>
+        <locationY>2351</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>checkFASectionHeadID_Block_Approved</targetReference>
@@ -1009,8 +3487,8 @@ IF(OR(
     <recordLookups>
         <name>getFinanceSHUser</name>
         <label>getFinanceSHUser</label>
-        <locationX>858</locationX>
-        <locationY>1727</locationY>
+        <locationX>6930</locationX>
+        <locationY>1943</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>checkFASectionHead</targetReference>
@@ -1037,8 +3515,8 @@ IF(OR(
     <recordLookups>
         <name>getFinanceUser_Block</name>
         <label>getFinanceUser</label>
-        <locationX>1986</locationX>
-        <locationY>1619</locationY>
+        <locationX>4978</locationX>
+        <locationY>1835</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>checkApprovalStepStatus_Block</targetReference>
@@ -1065,8 +3543,8 @@ IF(OR(
     <recordLookups>
         <name>getMDCUser_Block_Approved</name>
         <label>getMDCUser</label>
-        <locationX>1766</locationX>
-        <locationY>2543</locationY>
+        <locationX>4758</locationX>
+        <locationY>2759</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>checkMDC_Block_Approved</targetReference>
@@ -1093,7 +3571,7 @@ IF(OR(
     <recordLookups>
         <name>getMetaUsers</name>
         <label>getMetaUsers</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>647</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1142,7 +3620,7 @@ IF(OR(
     <recordLookups>
         <name>getMetaUsers_FA</name>
         <label>getMetaUsersFA</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>863</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1191,7 +3669,7 @@ IF(OR(
     <recordLookups>
         <name>getMetaUsers_MDC</name>
         <label>getMetaUsersMDC</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>1079</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1238,13 +3716,13 @@ IF(OR(
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>getMetaUsersTRCRTeamforCC</name>
-        <label>getMetaUsersTRCRTeamforCC</label>
-        <locationX>2122</locationX>
+        <name>getMetaUsersTRCR</name>
+        <label>getMetaUsersTRCR</label>
+        <locationX>4157</locationX>
         <locationY>1295</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>findUsersTRCRTeamforCC</targetReference>
+            <targetReference>findUsersTRCR</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1287,9 +3765,58 @@ IF(OR(
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getMetaUsersTRCRSH</name>
+        <label>getMetaUsersTRCRSH</label>
+        <locationX>4157</locationX>
+        <locationY>1511</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findUsersTRCRSH</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>CreditHead</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlType</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>SummaryReport</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1307,16 +3834,129 @@ IF(OR(
         <object>CTRConfig__c</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>OrgWideEmailAddress__c</queriedFields>
+        <queriedFields>SFDomain__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTRCRSHUser_CustomerChangeCredit_Approved_TOPLABIX</name>
+        <label>getTRCRSHUser</label>
+        <locationX>622</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRSHID_CustomerChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTRCRSHUser_CustomerChangeCredit_Rejected_TOPLABIX</name>
+        <label>getTRCRSHUser</label>
+        <locationX>1766</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRSHID_CustomerChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTRCRSHUser_SupplierChangeCredit_Approved_TOPLABIX</name>
+        <label>getTRCRSHUser</label>
+        <locationX>2910</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRSHID_SupplierChangeCredit_Approved_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTRCRSHUser_SupplierChangeCredit_Rejected_TOPLABIX</name>
+        <label>getTRCRSHUser</label>
+        <locationX>4054</locationX>
+        <locationY>2459</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>checkTRCRSHID_SupplierChangeCredit_Rejected_TOPLABIX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>findUsersTRCRSH.varTargetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>1996</locationX>
+        <locationX>4031</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getCustomerNotification</targetReference>
         </connector>
         <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-        <filterLogic>(1 OR 2) AND (3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9 OR 10)</filterLogic>
+        <filterLogic>(1 OR 2) AND (3 OR 4 OR 5 OR 6 OR 7 OR 8 OR 9 OR 10 OR 11)</filterLogic>
         <filters>
             <field>Approval_Step__c</field>
             <operator>EqualTo</operator>
@@ -1387,15 +4027,22 @@ IF(OR(
                 <stringValue>SupplierBlock</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>RecordTypeName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ShipToCreate</stringValue>
+            </value>
+        </filters>
         <object>CTRRequestFormItem__c</object>
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <name>findUsers</name>
         <label>findUsers</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>755</locationY>
         <connector>
             <targetReference>getMetaUsers_FA</targetReference>
@@ -1412,7 +4059,7 @@ IF(OR(
     <subflows>
         <name>findUsers_FA</name>
         <label>findUsers FA</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>971</locationY>
         <connector>
             <targetReference>getMetaUsers_MDC</targetReference>
@@ -1429,10 +4076,10 @@ IF(OR(
     <subflows>
         <name>findUsers_MDC</name>
         <label>findUsers MDC</label>
-        <locationX>2122</locationX>
+        <locationX>4157</locationX>
         <locationY>1187</locationY>
         <connector>
-            <targetReference>getMetaUsersTRCRTeamforCC</targetReference>
+            <targetReference>getMetaUsersTRCR</targetReference>
         </connector>
         <flowName>CTRSubFlowGetPISUsers</flowName>
         <inputAssignments>
@@ -1444,10 +4091,27 @@ IF(OR(
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
-        <name>findUsersTRCRTeamforCC</name>
-        <label>findUsersTRCRTeamforCC</label>
-        <locationX>2122</locationX>
+        <name>findUsersTRCR</name>
+        <label>findUsersTRCR</label>
+        <locationX>4157</locationX>
         <locationY>1403</locationY>
+        <connector>
+            <targetReference>getMetaUsersTRCRSH</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getMetaUsersTRCR</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findUsersTRCRSH</name>
+        <label>findUsersTRCRSH</label>
+        <locationX>4157</locationX>
+        <locationY>1619</locationY>
         <connector>
             <targetReference>checkRecordType</targetReference>
         </connector>
@@ -1455,7 +4119,7 @@ IF(OR(
         <inputAssignments>
             <name>varMetaUsers</name>
             <value>
-                <elementReference>getMetaUsersTRCRTeamforCC</elementReference>
+                <elementReference>getMetaUsersTRCRSH</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -1475,6 +4139,13 @@ IF(OR(
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!getFinanceSHUser.FirstName} {!getFinanceSHUser.LastName},&lt;br&gt;&lt;br&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name} is {!$Record.Approval_Step__c} by Committee. Please proceed via &lt;a href=&quot;{!fmlRecLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: sans-serif;&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;Best Regards,&lt;br&gt;﻿Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
     </textTemplates>
+    <variables>
+        <name>MasterDataControllerRecipientIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>otherRecipientEmails</name>
         <dataType>String</dataType>

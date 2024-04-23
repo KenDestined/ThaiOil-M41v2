@@ -129,17 +129,6 @@
                                     {!v.committeeInfo.CTRRequestFormHeader__r.MobilePhone__c}
                                 </div>
                             </div>
-                            <div class="slds-grid slds-wrap slds-var-m-top_large">
-                                <div class="slds-size_2-of-7">
-                                    <p>Interested Product Type {!v.counterpartyType}:</p>
-                                </div>
-                                <div class="slds-size_2-of-7">
-                                    <lightning:outputField
-                                        fieldName="InterestedProductTypeAsCustomerTOP__c"
-                                        variant="label-hidden"
-                                        readonly="true" />
-                                </div>
-                            </div>
                         </lightning:layoutItem>
                     </div>
                 </div>
@@ -326,7 +315,7 @@
                     </div>
                 </div>
 
-                <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
+                <!-- <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
                     <div class=" slds-section slds-is-open" aura:id="trcrReassignTaskSection">
                         <h3 class="slds-section__title">
                             <button
@@ -373,7 +362,7 @@
                             </lightning:layoutItem>
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:renderIf> -->
 
                 <div class="slds-section slds-is-open" aura:id="commentSection">
                     <h3 class="slds-section__title">
@@ -531,76 +520,6 @@
                                     {!v.committeeInfo.CTRRequestFormHeader__r.MobilePhone__c}
                                 </div>
                             </div>
-                            <div class="slds-grid slds-wrap slds-var-m-top_large">
-                                <div class="slds-size_2-of-7">
-                                    <p>Interested Product Type {!v.counterpartyType}:</p>
-                                </div>
-                                <div class="slds-size_2-of-7">
-                                    <aura:renderIf isTrue="{!v.counterpartyType == 'Customer'}">
-                                        <aura:renderIf isTrue="{!OR(v.bu == 'TOP',v.bu == 'LABIX')}">
-                                            <lightning:outputField
-                                                fieldName="InterestedProductTypeAsCustomerTOP__c"
-                                                variant="label-hidden"
-                                                readonly="true" />
-                                        </aura:renderIf>
-                                        <aura:renderIf isTrue="{!v.bu == 'TX'}">
-                                            <lightning:outputField
-                                                fieldName="InterestedProductTypeAsCustomerTX__c"
-                                                variant="label-hidden"
-                                                readonly="true" />
-                                        </aura:renderIf>
-                                    </aura:renderIf>
-                                    <aura:renderIf isTrue="{!v.counterpartyType == 'Supplier'}">
-                                        <aura:renderIf isTrue="{!OR(v.bu == 'TOP',v.bu == 'LABIX')}">
-                                            <lightning:outputField
-                                                fieldName="InterestedProductTypeAsSupplierTOP__c"
-                                                variant="label-hidden"
-                                                readonly="true" />
-                                        </aura:renderIf>
-                                        <aura:renderIf isTrue="{!v.bu == 'TX'}">
-                                            <lightning:outputField
-                                                fieldName="InterestedProductTypeAsSupplierTX__c"
-                                                variant="label-hidden"
-                                                readonly="true" />
-                                        </aura:renderIf>
-                                    </aura:renderIf>
-                                </div>
-                            </div>
-                            
-                            <aura:renderIf isTrue="{!AND(v.counterpartyType == 'Supplier', v.bu == 'TX')}">
-                                <div class="slds-grid slds-wrap slds-var-m-top_large">
-                                    <div class="slds-size_1-of-7">
-                                        <label>
-                                            <abbr class="slds-required">*</abbr>
-                                            Payment Term:
-                                        </label>
-                                    </div>
-                                    <div class="slds-size_2-of-7">
-                                        <lightning:inputField
-                                            fieldName="TermOfPayment__c"
-                                            variant="label-hidden"
-                                            value="{!v.requestFormObj.TermOfPayment__c}"
-                                            disabled="{!!v.isEdit}"
-                                            required="true" />
-                                    </div>
-                                    <div class="slds-size_1-of-7" />
-                                    <div class="slds-size_1-of-7">
-                                        <label>
-                                            <abbr class="slds-required">*</abbr>
-                                            Payment Term:
-                                            <lightning:helptext content="Evaluate risk by FA or TRCR"/>
-                                        </label>
-                                    </div>
-                                    <div class="slds-size_2-of-7">
-                                        <lightning:inputField
-                                            fieldName="FinRiskCategory__c"
-                                            variant="label-hidden"
-                                            value="{!v.requestFormObj.FinRiskCategory__c}"
-                                            disabled="{!!v.isEdit}"
-                                            required="true" />
-                                    </div>
-                                </div>
-                            </aura:renderIf>
                         </lightning:layoutItem>
                     </div>
                 </div>
@@ -787,7 +706,7 @@
                     </div>
                 </div>
 
-                <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
+                <!-- <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
                     <div class=" slds-section slds-is-open" aura:id="trcrReassignTaskSection">
                         <h3 class="slds-section__title">
                             <button
@@ -833,7 +752,7 @@
                             </lightning:layoutItem>
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:renderIf> -->
 
                 <aura:renderIf isTrue="{!v.isModalOpen}">
                     <c:CTRCommitteePreviewEmail
@@ -845,6 +764,7 @@
                 <aura:renderIf isTrue="{!v.isEdit}">
                     <div class="slds-align_absolute-center">
                         <lightning:button
+                            class="preview-button"
                             variant="brand"
                             label="Preview"
                             title="Preview"
@@ -939,18 +859,6 @@
                                     {!v.committeeInfo.CTRRequestFormHeader__r.MobilePhone__c}
                                 </div>
                             </div>
-                            <div class="slds-grid slds-wrap slds-var-m-top_large">
-                                <div class="slds-size_2-of-7">
-                                    <p>Interested Product Type {!v.counterpartyType}:</p>
-                                </div>
-                                <div class="slds-size_2-of-7">
-                                    <lightning:outputField 
-                                        aura:id="Interested" 
-                                        variant="label-hidden"
-                                        fieldName="InterestedProductTypeAsSupplierTOP__c" 
-                                        readonly="True" />
-                                </div>
-                            </div>
                         </lightning:layoutItem>
                     </div>
                 </div>
@@ -1137,7 +1045,7 @@
                     </div>
                 </div>
 
-                <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
+                <!-- <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
                     <div class=" slds-section slds-is-open" aura:id="trcrReassignTaskSection">
                         <h3 class="slds-section__title">
                             <button
@@ -1183,7 +1091,7 @@
                             </lightning:layoutItem>
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:renderIf> -->
 
                 <div class="slds-section slds-is-open" aura:id="commentSection">
                     <h3 class="slds-section__title">
@@ -1350,39 +1258,6 @@
                                         readonly="true" />
                                 </div>
                             </div>
-                            
-                            <div class="slds-grid slds-wrap slds-var-m-top_large">
-                                <div class="slds-size_1-of-7">
-                                    <label>
-                                        <abbr class="slds-required">*</abbr>
-                                        Payment Term:
-                                    </label>
-                                </div>
-                                <div class="slds-size_2-of-7">
-                                    <lightning:inputField
-                                        fieldName="TermOfPayment__c"
-                                        variant="label-hidden"
-                                        value="{!v.requestFormObj.TermOfPayment__c}"
-                                        disabled="{!!v.isEdit}"
-                                        required="true" />
-                                </div>
-                                <div class="slds-size_1-of-7" />
-                                <div class="slds-size_1-of-7">
-                                    <label>
-                                        <abbr class="slds-required">*</abbr>
-                                        Risk Category:
-                                        <lightning:helptext content="Evaluate risk by FA or TRCR"/>
-                                    </label>
-                                </div>
-                                <div class="slds-size_2-of-7">
-                                    <lightning:inputField
-                                        fieldName="FinRiskCategory__c"
-                                        variant="label-hidden"
-                                        value="{!v.requestFormObj.FinRiskCategory__c}"
-                                        disabled="{!!v.isEdit}"
-                                        required="true" />
-                                </div>
-                            </div>
                         </lightning:layoutItem>
                     </div>
                 </div>
@@ -1569,7 +1444,7 @@
                     </div>
                 </div>
 
-                <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
+                <!-- <aura:renderIf isTrue="{!AND(v.isEdit, OR(empty(v.committeeStatus), OR(v.committeeStatus == 'Draft', v.committeeStatus == 'Reverted to Credit Team')))}">
                     <div class=" slds-section slds-is-open" aura:id="trcrReassignTaskSection">
                         <h3 class="slds-section__title">
                             <button
@@ -1616,7 +1491,7 @@
                             </lightning:layoutItem>
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:renderIf> -->
 
                 <aura:renderIf isTrue="{!v.isModalOpen}">
                     <c:CTRCommitteePreviewEmail
@@ -1628,6 +1503,7 @@
                 <aura:renderIf isTrue="{!v.isEdit}">
                     <div class="slds-align_absolute-center">
                         <lightning:button
+                            class="preview-button"
                             variant="brand"
                             label="Preview"
                             title="Preview"

@@ -167,20 +167,12 @@
         const bu = this.getBU();
         const counterpartyType = this.component.get("v.counterpartyType");
         const buMapping = {
-            "TOP": {
-                "Customer": "Committee TOP",
-                "Supplier": "Committee TOP",
-            },
             "TX": {
-                "Customer": "Committee Customer TX",
-                "Supplier": "Committee Supplier TX",
-            },
-            "LABIX":{
-                "Customer": "Committee LABIX",
-                "Supplier": "Committee LABIX",
-            },
+                "Customer": "Customer Block to Committee TX",
+                "Supplier": "Supplier Block to Committee TX",
+            }
         };
-        return buMapping[bu][counterpartyType] || "Committee TOP";
+        return buMapping[bu][counterpartyType];
     },
 
     getFinalCreditRating: function () {
@@ -387,22 +379,47 @@
         }));
     },
 
-    getCommitteeInfo: function () {
+    getCommitteeInfo: function (component) {
         const _THIS_ = this;
-        console.log('Debug email template type',_THIS_.getEmailTemplateType(_THIS_.component.get("v.bu")))
+        console.log('Debug email template type',_THIS_.getEmailTemplateType(component.get("v.bu")))
         return new Promise($A.getCallback(function (resolve, reject) {
-            const bu = _THIS_.component.get("v.bu");
-            const action = _THIS_.component.get("c.getCommitteeInfo");
+            const bu = component.get("v.bu");
+            const action = component.get("c.getCommitteeInfo");
             action.setParams({
-                "recordId": _THIS_.component.get("v.recordId"),
+                "recordId": component.get("v.recordId"),
                 "templateType": _THIS_.getEmailTemplateType()
             });
             action.setCallback(this, function (response) {
                 const state = response.getState();
                 if (state === "SUCCESS") {
+                    
                     const committeeInfo = response.getReturnValue();
                     if (committeeInfo) {
-                        _THIS_.setCommitteeInfo(committeeInfo);
+                        _THIS_.setCommitteeInfo(component, committeeInfo);
+                        
+                        if(_THIS_.getEmailTemplateType().includes('Customer'))
+                        {
+                            if(committeeInfo.SalesOrganizationTX__c != '9200' && committeeInfo.SalesOrganizationTX__c != '9300' && committeeInfo.SalesOrganizationTX__c != '9400')
+                            {
+                                component.set("v.AccountNumber",committeeInfo.Customer__r.AccountNumber__c);
+                            }
+                            else
+                            {
+                                component.set("v.AccountNumber",committeeInfo.Customer__r.NonSAPCustomerCode__c);
+                            }
+                        }
+                        else
+                        {
+                            if(committeeInfo.CompanyCodeTX__c != '9200' && committeeInfo.CompanyCodeTX__c != '9300' && committeeInfo.CompanyCodeTX__c != '9400')
+                            {
+                                component.set("v.AccountNumber",committeeInfo.Customer__r.SupplierNumber__c);
+                            }
+                            else
+                            {
+                                component.set("v.AccountNumber",committeeInfo.Customer__r.NonSAPSupplierCode__c); 
+                            }
+                        }
+                        
                     }
                     resolve(committeeInfo);
                 } else {
@@ -414,11 +431,11 @@
         }));
     },
 
-    setCommitteeInfo: function (committeeInfo) {
-        this.component.set("v.committeeInfo", committeeInfo);
+    setCommitteeInfo: function (component, committeeInfo) {
+        component.set("v.committeeInfo", committeeInfo);
 
-        this.component.set("v.emailUrgent", committeeInfo.EmailUrgent__c ? "Yes" : "No");
-        this.component.set("v.requestFormObj", {
+        component.set("v.emailUrgent", committeeInfo.EmailUrgent__c ? "Yes" : "No");
+        component.set("v.requestFormObj", {
             CommitteeAttachment__c: committeeInfo.CommitteeAttachment__c,
             BuyTradeDCLCondition__c: committeeInfo.BuyTradeDCLCondition__c,
             BuyTradeEndorsement__c: committeeInfo.BuyTradeEndorsement__c,
@@ -455,19 +472,20 @@
             Subject__c: committeeInfo.Subject__c,
             Message__c: committeeInfo.Message__c,
         })
-        this.component.set("v.subBU", this.getSubBU());
-        this.component.set("v.creditOwner", this.getCreditOwner());
-        this.component.set("v.creditOwnerOld", this.getCreditOwner());
-        // this.component.set("v.counterpartyType", this.getCounterpartyType());
-        this.component.set("v.interestedProduct", this.getInterestedProduct());
-        this.component.set("v.hasCrudeProduct", this.hasCrudeProduct());
-        this.component.set("v.committeeStatus", this.getCommitteeStatus());
-        this.setEmailInfo(committeeInfo);
+        component.set("v.subBU", this.getSubBU());
+        component.set("v.creditOwner", this.getCreditOwner());
+        component.set("v.creditOwnerOld", this.getCreditOwner());
+        // component.set("v.counterpartyType", this.getCounterpartyType());
+        component.set("v.interestedProduct", this.getInterestedProduct());
+        component.set("v.hasCrudeProduct", this.hasCrudeProduct());
+        component.set("v.committeeStatus", this.getCommitteeStatus());
+        this.setEmailInfo(component, committeeInfo);
         this.calTotalSecuredAmount();
     },
 
-    setEmailInfo: function (committeeInfo) {
+    setEmailInfo: function (component, committeeInfo) {
         try {
+            debugger
             if (!committeeInfo.Subject__c.includes("[RequestNo.:")) {
                 const part = committeeInfo.Subject__c.split(":");
                 if (part.length === 1) {
@@ -478,13 +496,19 @@
                 }
                 committeeInfo.Subject__c = part.join(":");
             }
-            this.component.set("v.requestFormObj.Subject__c",committeeInfo.Subject__c || "");
+            component.set("v.requestFormObj.Subject__c",committeeInfo.Subject__c || "");
 
-            this.component.set("v.emailInfo", {
+            // component.set("v.emailInfo", JSON.parse(JSON.stringify(committeeInfo)));
+
+            // component.set("v.emailInfo.Subject__c", committeeInfo.Subject__c || "");
+            // component.set("v.emailInfo.EmailTo__c", committeeInfo.EmailTo__c || "");
+            // component.set("v.emailInfo.EmailCC__c", committeeInfo.EmailCC__c || "");
+            // component.set("v.emailInfo.Message__c", committeeInfo.Message__c || "");
+            component.set("v.emailInfo", {
                 Subject__c: committeeInfo.Subject__c || "",
                 EmailTo__c: committeeInfo.EmailTo__c || "",
                 EmailCC__c: committeeInfo.EmailCC__c || "",
-                Message__c: committeeInfo.Message__c || "",
+                Message__c: committeeInfo.Message__c || ""
             })
         } catch (ex) {
             console.error(ex);
@@ -500,8 +524,8 @@
     },
 
     setPreviewEMailInfo: function () {
-        const requestFormObj = this.component.get("v.requestFormObj");
-
+        const committeeInfo = this.component.get("v.committeeInfo");
+        
         const emailTo = !$A.util.isEmpty(this.component.get("v.emailInfo.EmailTo__c")) ? String(this.component.get("v.emailInfo.EmailTo__c")) : "";
         const emailCC = !$A.util.isEmpty(this.component.get("v.emailInfo.EmailCC__c")) ? String(this.component.get("v.emailInfo.EmailCC__c")) : "";
         const subject = !$A.util.isEmpty(this.component.get("v.emailInfo.Subject__c")) ? String(this.component.get("v.emailInfo.Subject__c")) : "";
@@ -510,27 +534,35 @@
         let replacedMessage = message;
         replacedMessage = replacedMessage.replace("{$AccountName$}", this.getAccountName);
         replacedMessage = replacedMessage.replace("{$RecordType$}", this.getCounterpartyType());
-        if (requestFormObj
-            && requestFormObj.FinCrCond__c
-        ) {
-            replacedMessage = replacedMessage.replace("{$FinalCreditCondition$}", requestFormObj.FinCrCond__c);
+        
+        if(committeeInfo) {
+            replacedMessage = replacedMessage.replace("{$SalesOrganization$}", committeeInfo.SalesOrganization__c ? committeeInfo.SalesOrganization__c : '');
+            replacedMessage = replacedMessage.replace("{$DistributionChannel$}", committeeInfo.DistributionChannel__c ? committeeInfo.DistributionChannel__c: '');
+            replacedMessage = replacedMessage.replace("{$Division$}", committeeInfo.Division__c ? committeeInfo.Division__c: '');
+            replacedMessage = replacedMessage.replace("{$CommitteeOwner$}", (committeeInfo.CreditOwnerName__c) ? committeeInfo.CreditOwnerName__c: '');
+            replacedMessage = replacedMessage.replace("{$OrderBlock$}", committeeInfo.OrderBlock__c ? committeeInfo.OrderBlock__c: '');
+            replacedMessage = replacedMessage.replace("{$PurchasingOrganization$}", committeeInfo.PurchasingOrganization__c ? committeeInfo.PurchasingOrganization__c: '');
+            replacedMessage = replacedMessage.replace("{$SelectedPurchasingOrg$}", committeeInfo.SelectedPurchasingOrg__c ? 'Yes': 'No');
+            replacedMessage = replacedMessage.replace("{$BlockedReason$}", committeeInfo.BlockedReason__c ? committeeInfo.BlockedReason__c: '');
+            replacedMessage = replacedMessage.replace("{$CreditOwnerName$}", committeeInfo.CreditOwner__c ? committeeInfo.CreditOwner__r.Name: '');
         }
-        if (requestFormObj
-            && requestFormObj.TermOfPayment__c
-        ) {
-            replacedMessage = replacedMessage.replace("{$TermOfPayment$}", requestFormObj.TermOfPayment__r.Name);
-        }
+        // if (requestFormObj
+        //     && requestFormObj.FinCrCond__c
+        // ) {
+        //     replacedMessage = replacedMessage.replace("{$FinalCreditCondition$}", requestFormObj.FinCrCond__c);
+        // }
+        // if (requestFormObj
+        //     && requestFormObj.TermOfPayment__c
+        // ) {
+        //     replacedMessage = replacedMessage.replace("{$TermOfPayment$}", requestFormObj.TermOfPayment__r.Name);
+        // }
 
-        var bu = this.component.get('v.bu');
-        if (bu == 'TOP' || bu == 'LABIX') {
-            if (requestFormObj && requestFormObj.FinPaymentCond__c) {
-                replacedMessage = replacedMessage.replace("{$FinalCondition$}", requestFormObj.FinPaymentCond__c);
-            }
-        } else if (bu == 'TX') {
-            if (requestFormObj && requestFormObj.FinOtherCondition__c) {
-                replacedMessage = replacedMessage.replace("{$FinalCondition$}", requestFormObj.FinOtherCondition__c);
-            }
-        }
+        // var bu = this.component.get('v.bu');
+        // if (bu == 'TX') {
+        //     if (requestFormObj && requestFormObj.FinOtherCondition__c) {
+        //         replacedMessage = replacedMessage.replace("{$FinalCondition$}", requestFormObj.FinOtherCondition__c);
+        //     }
+        // }
         this.component.set("v.previewEMailInfo", {
             EmailTo__c: emailTo,
             EmailCC__c: emailCC,
@@ -758,33 +790,7 @@
                     this.component.set("v.canEdit", canEdit);
                 }
             }
-            // else {
-            //     this.component.set("v.canEdit", true);
-            // }
         } 
-        // else {
-        //     if (status === "In Review" && approvalStep === "Select Committee") {
-        //         if (!committeeStatus || committeeStatus === "Draft" || committeeStatus === "Reverted to Credit Team") {
-        //             if (!creditOwner && $A.util.isArray(trcrList)) {
-        //                 canEdit = trcrList.findIndex((item) => {
-        //                     return currentUser === item.Id;
-        //                 }) > -1;
-        //             } else if (currentUser === creditOwner) {
-        //                 canEdit = true;
-        //             }
-        //         } else if (committeeStatus === "Waiting Section Head Review") {
-        //             if (!creditOwnerSectionHead && $A.util.isArray(trcrHeadList)) {
-        //                 canEdit = trcrHeadList.findIndex((item) => {
-        //                     return currentUser === item.Id;
-        //                 }) > -1;
-        //             } else if (currentUser === creditOwnerSectionHead) {
-        //                 canEdit = true;
-        //             }
-        //         }
-        //     }
-
-        //     this.component.set("v.canEdit", canEdit);
-        // }
     },
 
     convertGroupedCommitteesToList: function (groupedCommittee) {
@@ -894,101 +900,6 @@
             console.log("Debug ex", ex)
         }
     },
-
-    // defaultTOPFinalCreditCondition: function (component) {
-    //     try {
-    //         const committeeInfo = component.get("v.committeeInfo");
-    //         const TraderWaive__c = this.hasWaive();
-    //         const ExemptionResult__c = this.getExemptionResult();
-    //         const counterpartyType = this.getCounterpartyType();
-    //         const hasCrudeProduct = this.hasCrudeProduct();
-
-    //         const FinalPerformanceBond__c = committeeInfo.FinalPerformanceBond__c;
-    //         const FinCrCond__c = committeeInfo.FinCrCond__c;
-    //         const FinCrLimit__c = committeeInfo.FinCrLimit__c;
-    //         const FinCrLimitCur__c = committeeInfo.FinCrLimitCur__c;
-    //         const FinTradeCrIns__c = committeeInfo.FinTradeCrIns__c;
-    //         const FinTradeCrInsCu__c = committeeInfo.FinTradeCrInsCu__c;
-    //         const TermOfPayment__c = committeeInfo.TermOfPayment__c;
-    //         const FinPaymentCond__c = committeeInfo.FinPaymentCond__c;
-    //         const FinIntCrRating__c = committeeInfo.FinIntCrRating__c;
-
-    //         const PerformanceBond__c = committeeInfo.PerformanceBond__c;
-    //         const Credit_Condition__c = committeeInfo.Credit_Condition__c;
-    //         const CreditLimit__c = committeeInfo.CreditLimit__c;
-    //         const CreditLimitCurrency__c = committeeInfo.CreditLimitCurrency__c;
-    //         const Trade_Credit_Insurance__c = committeeInfo.Trade_Credit_Insurance__c;
-    //         const TradeCreditInsuranceCurrency__c = committeeInfo.TradeCreditInsuranceCurrency__c;
-    //         const PaymentTerm__c = committeeInfo.PaymentTerm__c;
-    //         const PaymentCondition__c = committeeInfo.PaymentCondition__c;
-    //         const InternalCreditRating__c = committeeInfo.InternalCreditRatingTOP__c;
-
-    //         const TDPerformanceBond__c = committeeInfo.TDPerformanceBond__c;
-    //         const ApprovalTrader_CreditCondition__c = committeeInfo.ApprovalTrader_CreditCondition__c;
-    //         const ApprovalTrader_CreditLimit__c = committeeInfo.ApprovalTrader_CreditLimit__c;
-    //         const ApprovalTrader_CreditLimitCurrency__c = committeeInfo.ApprovalTraderCreditLimitCurrency__c;
-    //         const ApprovalTrader_TradeCreditInsurance__c = committeeInfo.ApprovalTrader_TradeCreditInsurance__c;
-    //         const ApprovalTrader_TradeCreditCurrency__c = committeeInfo.ApprovalTraderTradeCreditCurrency__c;
-    //         const ApprovalTrader_PaymentTerm__c = committeeInfo.ApprovalTrader_PaymentTerm__c;
-    //         const ApprovalTrader_PaymentCondition__c = committeeInfo.ApprovalTrader_PaymentCondition__c;
-    //         const ApprovalTrader_CreditRating__c = committeeInfo.ApprovalTrader_CreditRating__c;
-
-    //         if (counterpartyType === "Supplier") {
-    //             !FinCrCond__c && component.find("FinCrCond").set("v.value", Credit_Condition__c)
-    //             !FinCrLimit__c && component.find("FinCrLimit").set("v.value", CreditLimit__c)
-    //             !FinCrLimitCur__c && component.find("FinCrLimitCur").set("v.value", CreditLimitCurrency__c)
-    //             !FinTradeCrIns__c && component.find("FinTradeCrIns").set("v.value", Trade_Credit_Insurance__c)
-    //             !FinTradeCrInsCu__c && component.find("FinTradeCrInsCu").set("v.value", TradeCreditInsuranceCurrency__c)
-    //             !TermOfPayment__c && component.find("TermOfPayment").set("v.value", PaymentTerm__c)
-    //             !FinPaymentCond__c && component.find("FinPaymentCond").set("v.value", PaymentCondition__c)
-    //             !FinIntCrRating__c && component.find("FinIntCrRating").set("v.value", InternalCreditRating__c)
-    //             if (hasCrudeProduct) {
-    //                 if (!TraderWaive__c) {
-    //                     !FinalPerformanceBond__c && component.find("FinalPerformanceBond").set("v.value", PerformanceBond__c)
-    //                 } else if (ExemptionResult__c) {
-    //                     !FinalPerformanceBond__c && component.find("FinalPerformanceBond").set("v.value", TDPerformanceBond__c)
-    //                 } else {
-    //                     !FinalPerformanceBond__c && component.find("FinalPerformanceBond").set("v.value", PerformanceBond__c)
-    //                 }
-    //             }
-    //             this.setFinalCreditConditionVisibility(Credit_Condition__c)
-    //         } else {
-    //             if (!TraderWaive__c) {
-    //                 !FinCrCond__c && component.find("FinCrCond").set("v.value", Credit_Condition__c)
-    //                 !FinCrLimit__c && component.find("FinCrLimit").set("v.value", CreditLimit__c)
-    //                 !FinCrLimitCur__c && component.find("FinCrLimitCur").set("v.value", CreditLimitCurrency__c)
-    //                 !FinTradeCrIns__c && component.find("FinTradeCrIns").set("v.value", Trade_Credit_Insurance__c)
-    //                 !FinTradeCrInsCu__c && component.find("FinTradeCrInsCu").set("v.value", TradeCreditInsuranceCurrency__c)
-    //                 !TermOfPayment__c && component.find("TermOfPayment").set("v.value", PaymentTerm__c)
-    //                 !FinPaymentCond__c && component.find("FinPaymentCond").set("v.value", PaymentCondition__c)
-    //                 !FinIntCrRating__c && component.find("FinIntCrRating").set("v.value", InternalCreditRating__c)
-    //                 this.setFinalCreditConditionVisibility(Credit_Condition__c)
-    //             } else if (ExemptionResult__c) {
-    //                 !FinCrCond__c && component.find("FinCrCond").set("v.value", ApprovalTrader_CreditCondition__c)
-    //                 !FinCrLimit__c && component.find("FinCrLimit").set("v.value", ApprovalTrader_CreditLimit__c)
-    //                 !FinCrLimitCur__c && component.find("FinCrLimitCur").set("v.value", ApprovalTrader_CreditLimitCurrency__c)
-    //                 !FinTradeCrIns__c && component.find("FinTradeCrIns").set("v.value", ApprovalTrader_TradeCreditInsurance__c)
-    //                 !FinTradeCrInsCu__c && component.find("FinTradeCrInsCu").set("v.value", ApprovalTrader_TradeCreditCurrency__c)
-    //                 !TermOfPayment__c && component.find("TermOfPayment").set("v.value", ApprovalTrader_PaymentTerm__c)
-    //                 !FinPaymentCond__c && component.find("FinPaymentCond").set("v.value", ApprovalTrader_PaymentCondition__c)
-    //                 !FinIntCrRating__c && component.find("FinIntCrRating").set("v.value", ApprovalTrader_CreditRating__c)
-    //                 this.setFinalCreditConditionVisibility(ApprovalTrader_CreditCondition__c)
-    //             } else {
-    //                 !FinCrCond__c && component.find("FinCrCond").set("v.value", Credit_Condition__c)
-    //                 !FinCrLimit__c && component.find("FinCrLimit").set("v.value", CreditLimit__c)
-    //                 !FinCrLimitCur__c && component.find("FinCrLimitCur").set("v.value", CreditLimitCurrency__c)
-    //                 !FinTradeCrIns__c && component.find("FinTradeCrIns").set("v.value", Trade_Credit_Insurance__c)
-    //                 !FinTradeCrInsCu__c && component.find("FinTradeCrInsCu").set("v.value", TradeCreditInsuranceCurrency__c)
-    //                 !TermOfPayment__c && component.find("TermOfPayment").set("v.value", PaymentTerm__c)
-    //                 !FinPaymentCond__c && component.find("FinPaymentCond").set("v.value", PaymentCondition__c)
-    //                 !FinIntCrRating__c && component.find("FinIntCrRating").set("v.value", InternalCreditRating__c)
-    //                 this.setFinalCreditConditionVisibility(Credit_Condition__c)
-    //             }
-    //         }
-    //     } catch (ex) {
-    //         console.log("Debug ex", ex)
-    //     }
-    // },
 
     loadCommittee: function (lstCommittee, lstCompany, committeeInfo) {
         const bu = this.getBU();
@@ -1428,6 +1339,12 @@
                 }
             }
         });
+
+        const emailUrgent = this.component.get("v.emailUrgent") === "Yes";
+        requestItem['EmailUrgent__c'] = emailUrgent;
+        requestItem['EmailCC__c'] = this.component.get("v.emailInfo.EmailCC__c");
+        requestItem['Subject__c'] = this.component.get("v.emailInfo.Subject__c");
+        requestItem['Message__c'] = this.component.get("v.emailInfo.Message__c");
 
         return requestItem;
     }

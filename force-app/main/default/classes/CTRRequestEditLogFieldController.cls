@@ -22,7 +22,6 @@ public with sharing class CTRRequestEditLogFieldController
             
             if(mRequestItemList.size()>0)
             {
-                
                 CTRRequestFormItem__c mItem = mRequestItemList[0];
                 if(mHistoryType == 'Edit' || mHistoryType == 'Initial' || mHistoryType == '')
                 {
@@ -53,7 +52,7 @@ public with sharing class CTRRequestEditLogFieldController
                                 String mAccountObjName = 'Account';
                                 Map<Id, String> mAccountJsonMapResult = new Map<Id, String>();
 
-                                List<String> mAccountFieldList = getFieldListFromJson(mFieldListMap.get(mAccountObjName), mAccountObjName);
+                                List<String> mAccountFieldList = getFieldListFromJsonFiltered(mFieldListMap.get(mAccountObjName), mAccountObjName, '');
                                 if(mAccountFieldList.size()>0)
                                 {
                                     List<SObject> mAccountList = new List<SObject>();
@@ -70,13 +69,7 @@ public with sharing class CTRRequestEditLogFieldController
                                 if(mAccountJsonMapResult.size()>0)
                                 {
                                     mAccountOriginalValue = mAccountJsonMapResult.values()[0];
-                                    mAccountOriginalValue = replaceApiForAccountJson(mAccountOriginalValue);
-                                    //Replace Account Different Api To Mapping
-                                    // mAccountOriginalValue = mAccountOriginalValue.replace('"Api": "Phone"','"Api": "Phone__c"');
-                                    // mAccountOriginalValue = mAccountOriginalValue.replace('"Api": "Fax"','"Api": "Fax__c"');
-                                    // mAccountOriginalValue = mAccountOriginalValue.replace('"Api": "Website"','"Api": "CompanyWebsite__c"');
-                                    // mAccountOriginalValue = mAccountOriginalValue.replace('"Api": "Location__Latitude__s"','"Api": "LocationInGoogleMapsGeolocation__Latitude__s"');
-                                    // mAccountOriginalValue = mAccountOriginalValue.replace('"Api": "Location__Latitude__s"','"Api": "LocationInGoogleMapsGeolocation__Longitude__s"');
+                                    mAccountOriginalValue = replaceApiAccountToHeaderJson(mAccountOriginalValue);
                                 }
                             }
                         }
@@ -133,72 +126,6 @@ public with sharing class CTRRequestEditLogFieldController
                             mResultRelatedList = compareResultRelatedTable(mShareholderList, mItem.CTRRequestFormHeader__r.OriginalShareholder__c, mShareholderFieldList,'CTRShareholder__c');
                         }
 
-                        //Current Data
-                        /*if(mShareholderList.size()>0)
-                        {
-                            mCurrentShareHolderTableMap = manageRelatedForTable(mShareholderList, 'CTRShareholder__c');
-                        }
-                        //Original Data
-                        if(String.isNotBlank(mItem.CTRRequestFormHeader__r.OriginalShareholder__c))
-                        {
-                            List<SObject> mOriginalShareHolderList = (List<SObject>)convertJsonToObject(mItem.CTRRequestFormHeader__r.OriginalShareholder__c);
-                            if(mOriginalShareHolderList.size()>0)
-                            {
-                                mOriginalShareHolderTableMap = manageRelatedForTable(mOriginalShareHolderList, 'CTRShareholder__c');
-                            }
-                        }
-                        //Removed all
-                        if(mOriginalShareHolderTableMap.size()>0 && mCurrentShareHolderTableMap.size() == 0)
-                        {
-                            List<RelatedTableChangeFieldWrapper> mCalShareholderList = mOriginalShareHolderTableMap.values();
-                            for(RelatedTableChangeFieldWrapper mShareholderTable: mCalShareholderList)
-                            {
-                                mShareholderTable.mStatus ='Removed';
-                                mResultShareholderList.add(mShareholderTable);
-                            }
-                            
-                        }
-                        //add all
-                        else if(mOriginalShareHolderTableMap.size() == 0 && mCurrentShareHolderTableMap.size() > 0)
-                        {
-                            List<RelatedTableChangeFieldWrapper> mCalShareholderList = mCurrentShareHolderTableMap.values();
-                            for(RelatedTableChangeFieldWrapper mShareholderTable: mCalShareholderList)
-                            {
-                                mShareholderTable.mStatus ='New';
-                                mResultShareholderList.add(mShareholderTable);
-                            }
-                        }
-                        //compared all
-                        else if(mOriginalShareHolderTableMap.size() > 0 && mCurrentShareHolderTableMap.size() > 0)
-                        {
-                            Set<String> mSameDataSet = new Set<String>();
-                            for(RelatedTableChangeFieldWrapper mOriShareholderTable: mOriginalShareHolderTableMap.values())
-                            {
-                                for(RelatedTableChangeFieldWrapper mCurrentShareholderTable: mCurrentShareHolderTableMap.values())
-                                {
-                                    if(mCurrentShareholderTable.mKey == mOriShareholderTable.mKey)
-                                    {
-                                        mSameDataSet.add(mOriShareholderTable.mKey);
-                                    }
-                                }
-                            }
-                            if(mSameDataSet.size()>0)
-                            {
-                                mOriginalShareHolderTableMap.keySet().removeAll(mSameDataSet);
-                                mCurrentShareHolderTableMap.keySet().removeAll(mSameDataSet);
-                            }
-                            for(RelatedTableChangeFieldWrapper mShareholderTable: mCurrentShareHolderTableMap.values())
-                            {
-                                mShareholderTable.mStatus ='New';
-                                mResultShareholderList.add(mShareholderTable);
-                            }
-                            for(RelatedTableChangeFieldWrapper mShareholderTable: mOriginalShareHolderTableMap.values())
-                            {
-                                mShareholderTable.mStatus ='Removed';
-                                mResultShareholderList.add(mShareholderTable);
-                            }
-                        }*/
-
                     }
                 }
                 else if(mHistoryType == 'DestinationCountry')
@@ -217,11 +144,6 @@ public with sharing class CTRRequestEditLogFieldController
                         mResultRelatedList = compareResultRelatedTable(mDestinationCountryList, mItem.OriginalDestinationCountry__c, mCountryFieldList,'CTRShippingCountry__c');
                     }
                     
-
-                    // if(mDestinationCountryList.size()>0)
-                    // {
-                        
-                    // }
                 }
 
             }
@@ -294,7 +216,7 @@ public with sharing class CTRRequestEditLogFieldController
                         {
                             //Account To Json
                             String mAccountObjName = 'Account';
-                            List<String> mAccountFieldList = getFieldListFromJson(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName);
+                            List<String> mAccountFieldList = getFieldListFromJsonFiltered(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName, '');
                             if(mAccountFieldList.size()>0)
                             {
                                 mAccountJsonMapResult = manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
@@ -416,10 +338,7 @@ public with sharing class CTRRequestEditLogFieldController
 
                     for(SObject mObj: mObjList)
                     {
-                        // get the SObjectType
-                        Schema.SObjectType objectType = Schema.getGlobalDescribe().get(mObjName);
-                        // get the fields on the object
-                        Map<String, SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
+                        Map<String, SObjectField> fieldMap = getAllSObjectFieldMapFromObject(mObjName);
                         String mKey = '';
                         String mCol1 = '';
                         String mCol2 = '';
@@ -590,7 +509,6 @@ public with sharing class CTRRequestEditLogFieldController
         }
     }
 
-    
     //manage item and header history to table
     public static List<editChangeFieldWrapper> manageRequestWrapperForTable(List<Object> mOriginalList, List<Object> mLatestList, boolean mCheckDiff)
     {
@@ -674,17 +592,33 @@ public with sharing class CTRRequestEditLogFieldController
         }
     }
 
-    //Get Field List String From JSON on Custom metadata
-    public static List<String> getFieldListFromJson(String mFieldListJson, String mObjectName)
+    //Try catch get field map
+    public static Map<String, SObjectField> getAllSObjectFieldMapFromObject(String mObjectName)
+    {
+        try
+        {
+            // get the SObjectType
+            Schema.SObjectType objectType = Schema.getGlobalDescribe().get(mObjectName);
+            // get the fields on the object
+            Map<String, SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
+            return fieldMap;
+        }
+        catch(Exception e)
+        {
+            System.debug('error from editlog.getAllSObjectFieldMapFromObject line: '+e.getLineNumber()+' || message: '+e.getmessage());
+            return new  Map<String, SObjectField>();
+        }
+    }
+
+    //Get Field List String From JSON on Custom metadata For Integration Table
+    public static List<String> getFieldListFromJsonFiltered(String mFieldListJson, String mObjectName, String BuType)
     {
         try
         {
             List<Object> mFieldList = (List<Object>)JSON.deserializeUntyped(mFieldListJson);
             List<String> mFieldNameList = new List<String>();
-            // get the SObjectType
-            Schema.SObjectType objectType = Schema.getGlobalDescribe().get(mObjectName);
-            // get the fields on the object
-            Map<String, SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
+
+            Map<String, SObjectField> fieldMap = getAllSObjectFieldMapFromObject(mObjectName);
     
             for(Object mFieldData : mFieldList)
             {
@@ -693,19 +627,70 @@ public with sharing class CTRRequestEditLogFieldController
                 {
                     if(fieldMap.get((String)mFieldJson.get('Api')) != null)
                     {
-                        mFieldNameList.add((String)mFieldJson.get('Api'));
+                        if(String.isNotBlank(BuType) && mFieldJson.get('Type') != null)
+                        {
+                            String mType = (String)mFieldJson.get('Type');
+                            if(mType.contains(BuType))
+                            {
+                                mFieldNameList.add((String)mFieldJson.get('Api'));
+                            }
+                        }
+                        else
+                        {
+                            mFieldNameList.add((String)mFieldJson.get('Api'));
+                        }
                     }
                 }
             }
-            
             return mFieldNameList;
         }
         catch(exception e)
         {
-            System.debug('Error RequestHeaderHandler.getFieldListFromJson line:'+e.getLineNumber()+' || Message:'+e.getmessage());
+            System.debug('Error RequestHeaderHandler.getFieldListFromJsonFiltered line:'+e.getLineNumber()+' || Message:'+e.getmessage());
             return new List<String>();
         }
     }
+
+       //Get Field Map String From JSON on Custom metadata For Integration Table
+       public static Map<String, Object> getFieldMapFromJsonFiltered(String mFieldListJson, String mObjectName, String BuType)
+       {
+           try
+           {
+               List<Object> mFieldList = (List<Object>)JSON.deserializeUntyped(mFieldListJson);
+               List<String> mFieldNameList = new List<String>();
+               Map<String, Object> mFieldMap = new Map<String, Object>();
+               Map<String, SObjectField> fieldMap = getAllSObjectFieldMapFromObject(mObjectName);
+       
+               for(Object mFieldData : mFieldList)
+               {
+                   Map<String,Object> mFieldJson = (Map<String,Object>)mFieldData;
+                   if(mFieldJson.get('Api') != null)
+                   {
+                       if(fieldMap.get((String)mFieldJson.get('Api')) != null)
+                       {
+                           if(String.isNotBlank(BuType) && mFieldJson.get('Type') != null)
+                           {
+                               String mType = (String)mFieldJson.get('Type');
+                               if(mType.contains(BuType))
+                               {
+                                mFieldMap.put((String)mFieldJson.get('Api'), mFieldData);
+                               }
+                           }
+                           else
+                           {
+                            mFieldMap.put((String)mFieldJson.get('Api'), mFieldData);
+                           }
+                       }
+                   }
+               }
+               return mFieldMap;
+           }
+           catch(exception e)
+           {
+               System.debug('Error RequestHeaderHandler.getFieldMapFromJsonFiltered line:'+e.getLineNumber()+' || Message:'+e.getmessage());
+               return new Map<String, Object>();
+           }
+       }
 
     //SavePoint To Json For Original value ONLY RequestFormItem And Header
     public static Map<Id, String> SavePointValueRecordToJson(List<SObject> mObjList, List<String> mFieldList, String sObjectName)
@@ -720,10 +705,8 @@ public with sharing class CTRRequestEditLogFieldController
             for(SObject mObj: mObjList)
             {
                 Map<String, OriginalFieldWrapper> mChangeFieldMap = new Map<String ,OriginalFieldWrapper>();
-                    // get the SObjectType
-                    Schema.SObjectType objectType = Schema.getGlobalDescribe().get(sObjectName);
-                    // get the fields on the object
-                    Map<String, SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
+
+                    Map<String, SObjectField> fieldMap = getAllSObjectFieldMapFromObject(sObjectName);
 
                     for(String mFieldData : mFieldList)
                     {
@@ -731,6 +714,7 @@ public with sharing class CTRRequestEditLogFieldController
                         Schema.SobjectField mField = fieldMap.get(mFieldData);
                         Schema.DescribeFieldResult fieldResult = mField.getDescribe();
                         String mActualLabel = fieldResult.getLabel();
+                        
                         //SObject mObj = mHeader;
                         Object mDataV1 = mObj.get(mField);
                         //System.debug('mDataV1:' +String.valueOf(mDataV1));
@@ -835,6 +819,7 @@ public with sharing class CTRRequestEditLogFieldController
                                         //System.debug('Header mChangeObj:'+mChangeObj);
                                         if(mChangeObj != null)
                                         {
+                                            mLog.Ref = mLog.Value;
                                             if(mObjectName == 'Master_Map__c'  || mObjectName == 'CTRMasterData__c')
                                             {
                                                 if(mLog.Api == 'CityStateLocal__c')
@@ -860,15 +845,13 @@ public with sharing class CTRRequestEditLogFieldController
                                             }
                                         }
                                     }
-                                    
                                 }
                             }
-                            
                         }
                         String jsonStr = JSON.serialize(mChangeFieldList);
                         if(sObjectName == 'Account')
                         {
-                            jsonStr = replaceApiForAccountJson(jsonStr);
+                            jsonStr = replaceApiAccountToHeaderJson(jsonStr);
                         }
                         jsonStr = jsonStr.replace('null', '""');
                         //System.debug('jsonSt2'+jsonStr);
@@ -908,6 +891,7 @@ public with sharing class CTRRequestEditLogFieldController
                         String mValue = (String)mField.get('Value');
                         String mApi = (String)mField.get('Api');
                         String mTransform = (String)mField.get('Transform');
+                        String mRef = (String)mField.get('Ref');
                         String mUser = (String)mField.get('User');
                         ChangeFieldWrapper mChangeFieldWrapper = new ChangeFieldWrapper();
                         mChangeFieldWrapper.Label = mLabel;
@@ -915,7 +899,7 @@ public with sharing class CTRRequestEditLogFieldController
                         mChangeFieldWrapper.Value = mValue;
                         mChangeFieldWrapper.Source = mSource;
                         mChangeFieldWrapper.User =mUser;
-                        if(String.isNotBlank(mValue)){mChangeFieldWrapper.Transform = mTransform;}
+                        if(String.isNotBlank(mValue)){mChangeFieldWrapper.Transform = mTransform; mChangeFieldWrapper.Ref = mRef;}
                         
                         String fieldName =  mApi;
                         //System.debug('Api'+mApi);
@@ -1012,6 +996,10 @@ public with sharing class CTRRequestEditLogFieldController
                                                 //System.debug('Header mChangeObj:'+mChangeObj);
                                                 if(mChangeObj != null)
                                                 {
+
+                                                        mEditData.Ref = mEditData.Value;
+                                                    
+                                                    
                                                     if(mObjectName == 'Master_Map__c' || mObjectName == 'CTRMasterData__c')
                                                     {
                                                         if(mEditData.Api == 'CityStateLocal__c')
@@ -1036,6 +1024,7 @@ public with sharing class CTRRequestEditLogFieldController
                                                         mEditData.Value = (mChangeObj.get('Name') != null)?(String)mChangeObj.get('Name'): '';
                                                         mEditData.Transform = (mChangeObj.get('Name') != null)?(String)mChangeObj.get('Name'): '';
                                                     }
+                                                    
                                                 }
                                             }
                                         }
@@ -1091,10 +1080,8 @@ public with sharing class CTRRequestEditLogFieldController
                 
                 for(SObject mObj: mRelatedList)
                 {
-                    // get the SObjectType
-                    Schema.SObjectType objectType = Schema.getGlobalDescribe().get(mObjectName);
-                    // get the fields on the object
-                    Map<String, SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
+
+                    Map<String, SObjectField> fieldMap = getAllSObjectFieldMapFromObject(mObjectName);
                     
                     Map<String, String> mObjMap = new Map<String, String>();
                     for(String mFieldData : mFieldNameList)
@@ -1178,7 +1165,6 @@ public with sharing class CTRRequestEditLogFieldController
         }
     }
 
-
     //Compare and filtered JSON Between Account AND Header List
     public static Map<String, String> generateNewJsonCompareHeaderToAccountJson(Set<Id> mCustomerSetId, Set<Id> mHeaderSetId ,Set<Id> mItemSetId)
     {
@@ -1199,7 +1185,7 @@ public with sharing class CTRRequestEditLogFieldController
                 {
                     //Account To Json
                     String mAccountObjName = 'Account';
-                    List<String> mAccountFieldList = getFieldListFromJson(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName);
+                    List<String> mAccountFieldList = getFieldListFromJsonFiltered(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName, '');
                     if(mAccountFieldList.size()>0)
                     {
                         mAccountJsonMapResult = manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
@@ -1211,7 +1197,7 @@ public with sharing class CTRRequestEditLogFieldController
                 if(mSAPInfoFieldListMap.size()>0)
                 {
                     String mHeaderObjName = 'CTRRequestFormHeader__c';
-                    List<String> mHeaderFieldList = getFieldListFromJson(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName);
+                    List<String> mHeaderFieldList = getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName,'');
                     if(mHeaderFieldList.size()>0)
                     {
                         mHeaderJsonMapResult = manageQueryObjToJson(mHeaderFieldList, mHeaderObjName, mHeaderSetId);
@@ -1232,7 +1218,7 @@ public with sharing class CTRRequestEditLogFieldController
                         }
                         else
                         {
-                            String mDiff = filteredCompareAccountAndHeaderJson(mItem.Id, mAccountJson, mHeaderJson);
+                            String mDiff = filteredCompareAccountAndHeaderJson(mItem.Id, mAccountJson, mHeaderJson, null, '');
                             mDiffJsonMap.put((String)mItem.Id,mDiff);
                         }
                     }
@@ -1248,7 +1234,7 @@ public with sharing class CTRRequestEditLogFieldController
     }
 
     //Compare and filtered JSON Between Account AND Header Individual
-    public static String filteredCompareAccountAndHeaderJson(Id mItemId, String mAccountJson ,String mHeaderJson)
+    public static String filteredCompareAccountAndHeaderJson(Id mItemId, String mAccountJson ,String mHeaderJson, Map<String, Object> mLabelFieldDataMap, String mBuType)
     {
         try
         {
@@ -1273,6 +1259,21 @@ public with sharing class CTRRequestEditLogFieldController
                     {
                         if(mHeaderField.Value != mAccountField.Value)
                         {
+                            Object mFieldData = mLabelFieldDataMap.get(mHeaderField.Api);
+                            if(mFieldData != null && String.isNotBlank(mBuType))
+                            {
+                                Map<String,Object> mFieldJson = (Map<String,Object>)mFieldData;
+                                String mType = (String)mFieldJson.get('Type');
+                                if(String.isNotBlank(mType))
+                                {
+                                    if(mType.contains(mBuType))
+                                    {
+                                        mHeaderField.Label = (String)mFieldJson.get('Label');
+                                    }
+                                }
+                                
+                            }
+                            
                             mResultList.add(mHeaderField);
                         }
                     }
@@ -1308,6 +1309,7 @@ public with sharing class CTRRequestEditLogFieldController
                     String mApi = (String)mData.get('Api');
                     String mValue = (String)mData.get('Value');
                     String mTransformValue = (String)mData.get('Transform');
+                    String mRef = (String)mData.get('Ref');
                     String mUser = (String.isNotBlank((String)mData.get('User')))?(String)mData.get('User'):'';
                     
                     ChangeFieldWrapper mChangeFieldWrapper = new ChangeFieldWrapper();
@@ -1316,6 +1318,7 @@ public with sharing class CTRRequestEditLogFieldController
                     mChangeFieldWrapper.Api = mApi;
                     mChangeFieldWrapper.Value = mValue;
                     mChangeFieldWrapper.Transform = (String.isNotBlank(mTransformValue))?mTransformValue:'';
+                    mChangeFieldWrapper.Ref = (String.isNotBlank(mRef))?mRef:'';
                     mChangeFieldWrapper.User = mUser;
                     mResultList.put(mApi,mChangeFieldWrapper);
                 
@@ -1330,7 +1333,7 @@ public with sharing class CTRRequestEditLogFieldController
     }
 
     //Replace Account field to match with Header
-    public static String replaceApiForAccountJson(String mAccountJson)
+    public static String replaceApiAccountToHeaderJson(String mAccountJson)
     {
         try
         {
@@ -1349,10 +1352,35 @@ public with sharing class CTRRequestEditLogFieldController
         }
         catch(exception e)
         {
-            System.debug('Error from filteredCompareAccountAndHeaderJson line:'+e.getLineNumber()+' || Message: '+e.getMessage());
+            System.debug('Error from replaceApiAccountToHeaderJson line:'+e.getLineNumber()+' || Message: '+e.getMessage());
             return mAccountJson;
         }
     }
+
+     //Replace Header field to match with Account
+     public static String replaceApiHeaderToAccountJson(String mHeaderJson)
+     {
+         try
+         {
+            mHeaderJson = mHeaderJson.replace('"Api":"Phone__c"','"Api":"Phone"');
+            mHeaderJson = mHeaderJson.replace('"Api":"Fax__c"','"Api":"Fax"');
+            mHeaderJson = mHeaderJson.replace('"Api":"CompanyWebsite__c"','"Api":"Website"');
+            mHeaderJson = mHeaderJson.replace('"Api":"LocationInGoogleMapsGeolocation__Latitude__s"','"Api":"Location__Latitude__s"');
+            mHeaderJson = mHeaderJson.replace('"Api":"LocationInGoogleMapsGeolocation__Longitude__s"','"Api":"Location__Latitude__s"');
+ 
+            mHeaderJson = mHeaderJson.replace('"Api": "Phone__c"','"Api":"Phone"');
+            mHeaderJson = mHeaderJson.replace('"Api": "Fax__c"','"Api":"Fax"');
+            mHeaderJson = mHeaderJson.replace('"Api": "CompanyWebsite__c"','"Api":"Website"');
+            mHeaderJson = mHeaderJson.replace('"Api": "LocationInGoogleMapsGeolocation__Latitude__s"','"Api":"Location__Latitude__s"');
+            mHeaderJson = mHeaderJson.replace('"Api": "LocationInGoogleMapsGeolocation__Longitude__s"','"Api":"Location__Latitude__s"');
+            return mHeaderJson;
+         }
+         catch(exception e)
+         {
+             System.debug('Error from replaceApiHeaderToAccountJson line:'+e.getLineNumber()+' || Message: '+e.getMessage());
+             return mHeaderJson;
+         }
+     }
 
     public class editLevelWrapper
     {
@@ -1386,6 +1414,7 @@ public with sharing class CTRRequestEditLogFieldController
         @AuraEnabled public String Label{get;set;}
         @AuraEnabled public String Api {get;set;}
         @AuraEnabled public String Value {get;set;}
+        @AuraEnabled public String Ref{get;set;}
         @AuraEnabled public String Transform {get;set;}
     }
     public class ChangeFieldWrapper
@@ -1395,6 +1424,7 @@ public with sharing class CTRRequestEditLogFieldController
         @AuraEnabled public String Value {get;set;}
         @AuraEnabled public String Source{get;set;}
         @AuraEnabled public String Transform{get;set;}
+        @AuraEnabled public String Ref{get;set;}
         @AuraEnabled public String User{get;set;}
     }
 
@@ -1403,6 +1433,36 @@ public with sharing class CTRRequestEditLogFieldController
         @AuraEnabled public String value {get;set;}
         @AuraEnabled public String label {get;set;}
     }
+
+    //Get Field List String From JSON on Custom metadata
+    // public static List<String> getFieldListFromJson(String mFieldListJson, String mObjectName)
+    // {
+    //     try
+    //     {
+    //         List<Object> mFieldList = (List<Object>)JSON.deserializeUntyped(mFieldListJson);
+    //         List<String> mFieldNameList = new List<String>();
+
+    //         Map<String, SObjectField> fieldMap = getAllSObjectFieldMapFromObject(mObjectName);
+    
+    //         for(Object mFieldData : mFieldList)
+    //         {
+    //             Map<String,Object> mFieldJson = (Map<String,Object>)mFieldData;
+    //             if(mFieldJson.get('Api') != null)
+    //             {
+    //                 if(fieldMap.get((String)mFieldJson.get('Api')) != null)
+    //                 {
+    //                     mFieldNameList.add((String)mFieldJson.get('Api'));
+    //                 }
+    //             }
+    //         }
+    //         return mFieldNameList;
+    //     }
+    //     catch(exception e)
+    //     {
+    //         System.debug('Error RequestHeaderHandler.getFieldListFromJson line:'+e.getLineNumber()+' || Message:'+e.getmessage());
+    //         return new List<String>();
+    //     }
+    // }
 
     //Backup jaaaa v2
     /*@AuraEnabled

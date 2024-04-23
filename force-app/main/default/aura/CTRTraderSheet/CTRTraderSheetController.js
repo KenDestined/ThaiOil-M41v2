@@ -51,6 +51,8 @@
             console.log('---#1 Trader Section Enable---');
             component.set('v.IsPageDisable',false);
             component.set('v.IsButtonDisable',false);
+            component.set('v.IsButtonClick',true);
+            
         }
         
         //if(TraderApproved1 == 'Pass' && SHApproved1 != 'Pass' && CMVPApproved1 != 'Pass')
@@ -61,6 +63,7 @@
             component.set('v.IsSubmitted',true);
             component.set('v.IsSectionHeadDisable',false);
             component.set('v.IsButtonDisable',false);
+            component.set('v.IsButtonClick',true);
         }
         //if(SHApproved1 == 'Pass' && CMVPApproved1 != 'Pass')
         if(CurrentApprover == 'VP' && CurrentUser == VPName)
@@ -73,6 +76,7 @@
             component.set('v.IsCMVPApproved',false);
             component.set('v.IsCMVPDisable',false);
             component.set('v.IsButtonDisable',false);
+            component.set('v.IsButtonClick',true);
         }
         //if(SHApproved1 == 'Pass' && CMVPApproved1 == 'Pass')
         if(CurrentApprover == 'Done')
@@ -84,6 +88,7 @@
             component.set('v.IsCMVPApproved',true);
             component.set('v.IsCMVPDisable',true);
             component.set('v.IsButtonDisable',true);
+            component.set('v.IsButtonClick',true);
         }
         //IsCMVPApproved
         

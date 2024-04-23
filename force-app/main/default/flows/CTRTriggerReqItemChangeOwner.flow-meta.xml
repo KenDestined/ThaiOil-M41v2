@@ -3,8 +3,8 @@
     <actionCalls>
         <name>sendCommitteeEmail</name>
         <label>sendCommitteeEmail</label>
-        <locationX>842</locationX>
-        <locationY>1079</locationY>
+        <locationX>1370</locationX>
+        <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -57,10 +57,107 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>sendCommitteeEmail_TX</name>
+        <label>sendCommitteeEmail</label>
+        <locationX>1106</locationX>
+        <locationY>1187</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>sendCommitteeNotify_TX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddressesArray</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>getOrgWide.OrgWideEmailAddress__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>TXemailReassignCommitteeSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>TXemailReassignCommitteeBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>sendCommitteeNotify</name>
         <label>sendCommitteeNotify</label>
-        <locationX>842</locationX>
-        <locationY>1187</locationY>
+        <locationX>1370</locationX>
+        <locationY>1295</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>recipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyReassignCommitteeTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyReassignCommitteeBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendCommitteeNotify_TX</name>
+        <label>sendCommitteeNotify</label>
+        <locationX>1106</locationX>
+        <locationY>1295</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -100,8 +197,8 @@
     <actionCalls>
         <name>sendCreditEmail</name>
         <label>sendCreditEmail</label>
-        <locationX>50</locationX>
-        <locationY>1079</locationY>
+        <locationX>314</locationX>
+        <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -154,10 +251,107 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
-        <name>sendCreditNotify</name>
-        <label>sendCreditNotify</label>
+        <name>sendCreditEmail_TXCreditRating</name>
+        <label>sendCreditEmail</label>
         <locationX>50</locationX>
         <locationY>1187</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>sendCreditNotify_TXCreditRating</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddressesArray</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>getOrgWide.OrgWideEmailAddress__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>emailReassignCreditSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>TXemailReassignCreditBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendCreditNotify</name>
+        <label>sendCreditNotify</label>
+        <locationX>314</locationX>
+        <locationY>1295</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomerNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>recipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>notifyReassignCreditTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>notifyReassignCreditBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendCreditNotify_TXCreditRating</name>
+        <label>sendCreditNotify</label>
+        <locationX>50</locationX>
+        <locationY>1295</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -198,7 +392,7 @@
     <assignments>
         <name>assignCommitteeRecipients</name>
         <label>assignCommitteeRecipients</label>
-        <locationX>842</locationX>
+        <locationX>1238</locationX>
         <locationY>971</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -215,13 +409,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>sendCommitteeEmail</targetReference>
+            <targetReference>CheckBU_SelectComittee</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assignCreditRecipients</name>
         <label>assignCreditRecipients</label>
-        <locationX>50</locationX>
+        <locationX>182</locationX>
         <locationY>971</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -238,13 +432,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>sendCreditEmail</targetReference>
+            <targetReference>CheckBU</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
-        <locationX>1007</locationX>
+        <locationX>1386</locationX>
         <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>varTargetRec</assignToReference>
@@ -260,7 +454,7 @@
     <decisions>
         <name>checkApprovalStep</name>
         <label>checkApprovalStep</label>
-        <locationX>1007</locationX>
+        <locationX>1386</locationX>
         <locationY>647</locationY>
         <defaultConnectorLabel>None</defaultConnectorLabel>
         <rules>
@@ -295,9 +489,59 @@
         </rules>
     </decisions>
     <decisions>
+        <name>CheckBU</name>
+        <label>CheckBU</label>
+        <locationX>182</locationX>
+        <locationY>1079</locationY>
+        <defaultConnector>
+            <targetReference>sendCreditEmail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Other BU</defaultConnectorLabel>
+        <rules>
+            <name>TX_CreditRating</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sendCreditEmail_TXCreditRating</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckBU_SelectComittee</name>
+        <label>CheckBU</label>
+        <locationX>1238</locationX>
+        <locationY>1079</locationY>
+        <defaultConnector>
+            <targetReference>sendCommitteeEmail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Other BU</defaultConnectorLabel>
+        <rules>
+            <name>TX_SelectComittee</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sendCommitteeEmail_TX</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkCreditCondition</name>
         <label>checkCreditCondition</label>
-        <locationX>380</locationX>
+        <locationX>611</locationX>
         <locationY>755</locationY>
         <defaultConnectorLabel>Not Reassign</defaultConnectorLabel>
         <rules>
@@ -333,7 +577,7 @@
     <decisions>
         <name>checkCreditOwner_CreditRating</name>
         <label>checkCreditOwner</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>863</locationY>
         <defaultConnectorLabel>CreditOwner = Null</defaultConnectorLabel>
         <rules>
@@ -369,7 +613,7 @@
     <decisions>
         <name>checkCreditOwner_SelectCommittee</name>
         <label>checkCreditOwner</label>
-        <locationX>974</locationX>
+        <locationX>1436</locationX>
         <locationY>863</locationY>
         <defaultConnectorLabel>CreditOwner = Null</defaultConnectorLabel>
         <rules>
@@ -405,7 +649,7 @@
     <decisions>
         <name>checkSelectCommitteeCondition</name>
         <label>checkSelectCommitteeCondition</label>
-        <locationX>1172</locationX>
+        <locationX>1667</locationX>
         <locationY>755</locationY>
         <defaultConnectorLabel>Not Reassign</defaultConnectorLabel>
         <rules>
@@ -438,7 +682,8 @@
             <label>Reassign</label>
         </rules>
     </decisions>
-    <description>15/03/2024: update reassign committee email typo</description>
+    <description>15/03/2024: update reassign committee email typo
+18/04/2024 : Add TX decision on Cred</description>
     <environments>Default</environments>
     <formulas>
         <name>emailReassignCommitteeSubject</name>
@@ -530,6 +775,11 @@ IF(OR(
         <dataType>String</dataType>
         <expression>{!$Record.Customer__r.CompanyNameENF__c} &amp; &quot; You have been Assigned to Evaluate Credit Rating.&quot;</expression>
     </formulas>
+    <formulas>
+        <name>TXemailReassignCommitteeSubject</name>
+        <dataType>String</dataType>
+        <expression>&quot;[FYA][&quot; + {!$Record.SubBU__c} + &quot;]: Reassign task to select Commitee for Approval New Registration: &quot; + {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
+    </formulas>
     <interviewLabel>CTRTriggerReqItemChangeOwner {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTRTriggerReqItemChangeOwner</label>
     <processMetadataValues>
@@ -554,7 +804,7 @@ IF(OR(
     <recordLookups>
         <name>getCustomerNotification</name>
         <label>getCustomerNotification</label>
-        <locationX>1007</locationX>
+        <locationX>1386</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -576,7 +826,7 @@ IF(OR(
     <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>1007</locationX>
+        <locationX>1386</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -597,7 +847,7 @@ IF(OR(
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>881</locationX>
+        <locationX>1260</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getCustomerNotification</targetReference>
@@ -659,13 +909,23 @@ IF(OR(
     <status>Active</status>
     <textTemplates>
         <name>emailReassignCommitteeBody</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;br&gt;&lt;br&gt;You have been assigned to review acceptance of credit evaluation result. &lt;span style=&quot;font-family: sans-serif;&quot;&gt;Please proceed via &lt;/span&gt;&lt;a href=&quot;{!fmlRecLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: sans-serif;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Company Name: &lt;/span&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Product: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;{!$Record.fmlPositionNameOfFinancial__c} Assigner Name: {!$Record__Prior.CreditOwner__r.FirstName} {!$Record__Prior.CreditOwner__r.LastName}&lt;/span&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;You have been assigned to review acceptance of credit evaluation result. &lt;span style=&quot;font-family: sans-serif;&quot;&gt;Please proceed via &lt;/span&gt;&lt;a href=&quot;{!fmlRecLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: sans-serif;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Company Name: &lt;/span&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Product: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;{!$Record.fmlPositionNameOfFinancial__c} Assigner Name: {!$Record__Prior.CreditOwner__r.FirstName} {!$Record__Prior.CreditOwner__r.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatic generated email. Please do not reply to this address.&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>emailReassignCreditBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;br&gt;&lt;br&gt;You have been assigned to evaluate credit for {!$Record.CTRRequestFormHeader__r.Customer__r.Name}. Please proceed via &lt;/span&gt;&lt;a href=&quot;{!fmlRecLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: sans-serif;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;{!$Record.fmlPositionNameOfFinancial__c} Assigner Name: {!$Record__Prior.CreditOwner__r.FirstName} {!$Record__Prior.CreditOwner__r.LastName}&lt;/span&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>TXemailReassignCommitteeBody</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName}&lt;/span&gt;,&lt;br&gt;&lt;br&gt;&amp;nbsp;You have been assigned to select Committee to approve Counterparty Registration. Please proceed via &lt;a href=&quot;{!fmlRecLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&amp;nbsp;Company Name: {!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/p&gt;&lt;p&gt;&amp;nbsp;Interested to be: {!$Record.fmlAccountTypeName__c}: {!$Record.ProductName__c}&lt;/p&gt;&lt;p&gt;&amp;nbsp;Original FA Name: {!$Record__Prior.CreditOwner__r.FirstName}&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record__Prior.CreditOwner__r.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatic generated email. Please do not reply to this address.&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>TXemailReassignCreditBody</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Dear &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName}&lt;/span&gt;,&lt;br&gt;&lt;br&gt;&amp;nbsp;You have been assigned to evaluate credit for {!$Record.CompanyName__c}. Please proceed via &lt;a href=&quot;{!fmlRecLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&amp;nbsp;Company Name: &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;Interested to be: {!$Record.fmlAccountTypeName__c}: {!$Record.ProductName__c}&lt;/p&gt;&lt;p&gt;&amp;nbsp;Original FA Name: {!$Record__Prior.CreditOwner__r.FirstName}&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record__Prior.CreditOwner__r.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatic generated email. Please do not reply to this address.&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <name>recipientEmails</name>

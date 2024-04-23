@@ -163,7 +163,7 @@
             {
                 var itemInfo = response.getReturnValue();
                 console.log("itemInfo.Customer__c---"+itemInfo.Customer__c);
-                
+                console.log("itemInfo.isTRCR__c--"+itemInfo.isTRCR__c);
                 // if((itemInfo.Customer__r.AccountNumber__c != '' && itemInfo.Customer__r.AccountNumber__c != null) || (itemInfo.Customer__r.SupplierNumber__c != '' && itemInfo.Customer__r.SupplierNumber__c != null))
                 // {
                 //     var toastEvent = $A.get("e.force:showToast");

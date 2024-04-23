@@ -44,7 +44,7 @@
     <aura:attribute name="SupplierTransportationValue" type="List" default="" />
 
     <aura:attribute name="isAccount" type="Boolean" default="true" />
-    <aura:attribute name="isTRCR" type="Boolean" default="false" />
+    <aura:attribute name="isTRCR" type="Boolean" />
 
     <aura:attribute name="isCustomerProductSelected" type="Boolean" default="false" />
     <aura:attribute name="isSupplierProductSelected" type="Boolean" default="false" />

@@ -1,6 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         // component.set('v.isInitial', true);
+        console.log('Record type id ',component.get('v.recordTypeId'))
     },
 
     handleLoad: function (component, event, helper) {

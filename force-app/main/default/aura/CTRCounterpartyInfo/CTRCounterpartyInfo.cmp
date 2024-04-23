@@ -164,7 +164,7 @@
     <force:recordData 
         aura:id="Reqrecord"
         recordId="{!v.ReqItemRecordId}"
-        fields="CTRRequestFormHeader__c,CTRRequestFormHeader__r.FirstName__c,CTRRequestFormHeader__r.LastName__c,CTRRequestFormHeader__r.Email__c,fmlAccountTypeName__c,CTRRequestFormHeader__r.Customer__r.CompanyNameLocal__c, CTRRequestFormHeader__r.Customer__r.FirstName__c, CTRRequestFormHeader__r.Customer__r.LastName__c, CTRRequestFormHeader__r.Customer__r.Email__c,CTRRequestFormHeader__r.CompanyNameENF__c, CTRRequestFormHeader__r.Customer__r.MobilePhone__c, CTRRequestFormHeader__r.Phone__c, InterestedProductTypeAsSupplier__c,InterestedProductTypeAsCustomer__c,InterestedProductTypeAsCustomerTOP__c,InterestedProductTypeAsCustomerTX__c,InterestedProductTypeAsSupplierTOP__c,InterestedProductTypeAsSupplierTX__c,RecordType.DeveloperName,CTRRequestFormHeader__r.CustomerPurchaseProductFrom__c,BusinessUnit__c"
+        fields="CTRRequestFormHeader__c,CTRRequestFormHeader__r.FirstName__c,CTRRequestFormHeader__r.LastName__c,CTRRequestFormHeader__r.Email__c,fmlAccountTypeName__c,CTRRequestFormHeader__r.Customer__r.CompanyNameLocal__c, CTRRequestFormHeader__r.Customer__r.FirstName__c, CTRRequestFormHeader__r.Customer__r.LastName__c, CTRRequestFormHeader__r.Customer__r.Email__c,CTRRequestFormHeader__r.CompanyNameENF__c, CTRRequestFormHeader__r.Customer__r.MobilePhone__c, CTRRequestFormHeader__r.Phone__c, CTRRequestFormHeader__r.MobilePhone__c, InterestedProductTypeAsSupplier__c,InterestedProductTypeAsCustomer__c,InterestedProductTypeAsCustomerTOP__c,InterestedProductTypeAsCustomerTX__c,InterestedProductTypeAsSupplierTOP__c,InterestedProductTypeAsSupplierTX__c,RecordType.DeveloperName,CTRRequestFormHeader__r.CustomerPurchaseProductFrom__c,BusinessUnit__c"
         targetFields="{!v.record}"
         targetError="{!v.error}"
         recordUpdated="{!c.handleRecordUpdated}"
@@ -224,62 +224,64 @@
                             <label class="slds-form-element__label display-table">Telephone :</label>
                         </div>
                         <div class="slds-col slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
-                            <p><b>{!v.record.CTRRequestFormHeader__r.Phone__c}</b></p>
+                            <p><b>{!v.record.CTRRequestFormHeader__r.MobilePhone__c}</b></p>
                         </div>
                     </div>
                 </div>
             </div>
-            <aura:if isTrue="{!v.record.fmlAccountTypeName__c == 'Customer'}">
-            <!--<aura:if isTrue="{(!v.record.RecordType.DeveloperName.includes('Customer'))}">-->
-                <div class="slds-col slds-size_1-of-2 slds-var-m-top_x-large">
-                    <div class="slds-form">
-                        <div class="slds-form-element slds-grid">
-                            <div class="slds-col slds-size_1-of-2">
-                                <label class="slds-form-element__label display-table">Interested in registration to be Customer:</label>
-                            </div>
-                            
-                            <aura:if isTrue="{!or(v.record.BusinessUnit__c == 'TOP',v.record.BusinessUnit__c == 'LABIX')}">
-                            	<div class="slds-col slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
-                                	<p><b>{!v.record.InterestedProductTypeAsCustomerTOP__c}</b></p>
-                            	</div>
-                            </aura:if>
-                            
-                            <aura:if isTrue="{!v.record.BusinessUnit__c == 'TX'}">
-                            	<div class="slds-col slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
-                                	<p><b>{!v.record.InterestedProductTypeAsCustomerTX__c}</b></p>
-                            	</div>
-                            </aura:if>
-                            
-                        </div>
-                    </div>
-                </div>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.record.fmlAccountTypeName__c == 'Supplier'}">
-                <div class="slds-col slds-size_1-of-2 slds-var-m-top_x-large">
-                    <div class="slds-form">
-                        <div class="slds-form-element slds-grid">
-                            
-                            <div class="slds-col slds-size_1-of-2">
-                                <label class="slds-form-element__label display-table">Interested in registration to be Supplier:</label>
-                            </div>
-                            
-                            
-                            <aura:if isTrue="{!or(v.record.BusinessUnit__c == 'TOP',v.record.BusinessUnit__c == 'LABIX')}">
-                            	<div class="slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
-                                	<p><b>{!v.record.InterestedProductTypeAsSupplierTOP__c}</b></p>
-                            	</div>
-                            </aura:if>
-                            
-                            <aura:if isTrue="{!v.record.BusinessUnit__c == 'TX'}">
-                                <div class="slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
-                                	<p><b>{!v.record.InterestedProductTypeAsSupplierTX__c}</b></p>
-                            	</div>
-                            </aura:if>
+            <aura:if isTrue="{(!NOT(v.record.RecordType.DeveloperName.includes('ChangeCr')))}">
+                <aura:if isTrue="{!v.record.fmlAccountTypeName__c == 'Customer'}">
+                <!--<aura:if isTrue="{(!v.record.RecordType.DeveloperName.includes('Customer'))}">-->
+                    <div class="slds-col slds-size_1-of-2 slds-var-m-top_x-large">
+                        <div class="slds-form">
+                            <div class="slds-form-element slds-grid">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <label class="slds-form-element__label display-table">Interested in registration to be Customer:</label>
+                                </div>
                                 
+                                <aura:if isTrue="{!or(v.record.BusinessUnit__c == 'TOP',v.record.BusinessUnit__c == 'LABIX')}">
+                                    <div class="slds-col slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
+                                        <p><b>{!v.record.InterestedProductTypeAsCustomerTOP__c}</b></p>
+                                    </div>
+                                </aura:if>
+                                
+                                <aura:if isTrue="{!v.record.BusinessUnit__c == 'TX'}">
+                                    <div class="slds-col slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
+                                        <p><b>{!v.record.InterestedProductTypeAsCustomerTX__c}</b></p>
+                                    </div>
+                                </aura:if>
+                                
+                            </div>
                         </div>
                     </div>
-                </div>
+                </aura:if>
+                
+                <aura:if isTrue="{!v.record.fmlAccountTypeName__c == 'Supplier'}">
+                    <div class="slds-col slds-size_1-of-2 slds-var-m-top_x-large">
+                        <div class="slds-form">
+                            <div class="slds-form-element slds-grid">
+                                
+                                <div class="slds-col slds-size_1-of-2">
+                                    <label class="slds-form-element__label display-table">Interested in registration to be Supplier:</label>
+                                </div>
+                                
+                                
+                                <aura:if isTrue="{!or(v.record.BusinessUnit__c == 'TOP',v.record.BusinessUnit__c == 'LABIX')}">
+                                    <div class="slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
+                                        <p><b>{!v.record.InterestedProductTypeAsSupplierTOP__c}</b></p>
+                                    </div>
+                                </aura:if>
+                                
+                                <aura:if isTrue="{!v.record.BusinessUnit__c == 'TX'}">
+                                    <div class="slds-form-element__control slds-var-p-top_x-small slds-size_2-of-3" style="padding-left: 0% !important;">
+                                        <p><b>{!v.record.InterestedProductTypeAsSupplierTX__c}</b></p>
+                                    </div>
+                                </aura:if>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
             </aura:if>
         </div>
     </div>

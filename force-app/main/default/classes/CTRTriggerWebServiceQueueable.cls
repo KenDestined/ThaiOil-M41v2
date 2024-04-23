@@ -50,6 +50,7 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
                 if(sObjName == 'CTRRequestFormItem__c')
                 {
                     System.debug('Success Response1: ' + response.getBody());
+                    System.debug('mInputSendType+ '+mInputSendType);
                     if(mInputSendType == 'Sale')
                     {
                         System.debug('Success Response2: ' + response.getBody());
@@ -71,6 +72,7 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
                     }
                     else if(mInputSendType.contains('Block'))
                     {
+                        
                         String mIntegrationName = '';
                         if(mInputSendType.contains('Customer'))
                         {
@@ -119,6 +121,7 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
                 else if(sObjName == 'Account')
                 {
                     Account mAccountQ = [SELECT Id,SubmitToSharepointDateTime__c FROM Account WHERE Id=:mRecordId];
+                    System.debug(mAccountQ);
                     if(mInputSendType.contains('Folder'))
                     {
                         Account mAccount = new Account(Id = mRecordId);
@@ -128,15 +131,15 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
                             mAccount.SubmitToSharepointDateTime__c = System.now();
                         }
                         update mAccount;
-                        List<CTRRequestFormItem__c> mItemList = [SELECT Id FROM CTRRequestFormItem__c WHERE Customer__c =: mRecordId];
-                        List<CTRRequestFormItem__c> mItemUpdateList = new List<CTRRequestFormItem__c>();
-                        for(CTRRequestFormItem__c mItem: mItemList)
-                        {
-                            CTRRequestFormItem__c mItemUpdate = new CTRRequestFormItem__c(Id = mItem.Id);
-                            mItemUpdate.CreateSharePointSubFolderForInitial__c =true;
-                            mItemUpdateList.add(mItemUpdate);
-                        }
-                        update mItemUpdateList;
+                        // List<CTRRequestFormItem__c> mItemList = [SELECT Id FROM CTRRequestFormItem__c WHERE Customer__c =: mRecordId];
+                        // List<CTRRequestFormItem__c> mItemUpdateList = new List<CTRRequestFormItem__c>();
+                        // for(CTRRequestFormItem__c mItem: mItemList)
+                        // {
+                        //     CTRRequestFormItem__c mItemUpdate = new CTRRequestFormItem__c(Id = mItem.Id);
+                        //     //mItemUpdate.CreateSharePointSubFolderForInitial__c =true;
+                        //     mItemUpdateList.add(mItemUpdate);
+                        // }
+                        // update mItemUpdateList;
                     }
                 }
                 

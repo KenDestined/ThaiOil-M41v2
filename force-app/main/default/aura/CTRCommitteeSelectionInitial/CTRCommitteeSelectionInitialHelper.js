@@ -902,7 +902,7 @@
             if (!FinOtherCondition__c && cmpTXFinOtherCondition) {
                 cmpTXFinOtherCondition.set("v.value", OtherCondition__c)
             }
-            const cmpTXFinCashOnDelivery =this.component.find("TXFinCashOnDelivery")
+            const cmpTXFinCashOnDelivery = this.component.find("TXFinCashOnDelivery")
             if (!FinCashOnDelivery__c && cmpTXFinCashOnDelivery) {
                 cmpTXFinCashOnDelivery.set("v.value", CashOnDelivery__c)
             }
@@ -1122,6 +1122,7 @@
                 return !!(item[fieldName])
             })
         })
+
         console.log('Debug includedCommittees ', includedCommittees)
         console.log('Debug selectedCommittees ', selectedCommittees)
         this.component.set("v.includedCommittees", includedCommittees)
@@ -1145,6 +1146,7 @@
                 return !!(item[fieldName])
             })
         })
+
         this.component.set("v.selectedCommittees", selectedCommittees)
         this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
     },
@@ -1158,8 +1160,16 @@
             return String(item.BU__c).includes(bu)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         this.component.set("v.selectedCommittees", selectedCommittees)
-        this.component.set("v.lstCommittees", lstFilteredCommittees)
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
     },
 
     loadTOPCommitteeSupplier: function (lstCommittee, lstCompany, committeeInfo) {
@@ -1171,8 +1181,16 @@
             return String(item.BU__c).includes(bu)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         this.component.set("v.selectedCommittees", selectedCommittees)
-        this.component.set("v.lstCommittees", lstFilteredCommittees)
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
     },
 
     defaultCommittee: function (lstCommittee, lstCompany, committeeInfo) {
@@ -1277,10 +1295,18 @@
             return String(item.BU__c).includes(buProfile)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         // Set Default Committees
         lstCompany.forEach((company) => {
             const fieldName = company + "__c"
-            lstFilteredCommittees.forEach((item) => {
+            lstFilteredCommitteesInCompany.forEach((item) => {
                 if (item[fieldName]) {
                     const rating = item[fieldName].split(",")
                     if (rating.indexOf(creditRating) > -1) {
@@ -1316,10 +1342,18 @@
             return String(item.BU__c).includes(buProfile)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         // Set Default Committees
         lstCompany.forEach((company) => {
             const fieldName = company + "__c"
-            lstFilteredCommittees.forEach((item) => {
+            lstFilteredCommitteesInCompany.forEach((item) => {
                 if (item[fieldName]) {
                     const rating = item[fieldName].split(",")
                     if (rating.indexOf(creditRating) > -1) {

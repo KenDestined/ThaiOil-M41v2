@@ -66,6 +66,7 @@
                 helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
             }
 
+            helper.setDefaultFinalCreditCondition();
             helper.canEdit(trcrList, trcrHeadList);
             helper.setCreditOwnerWhereCondition(trcrList);
         })).catch($A.getCallback(function (error) {
@@ -131,124 +132,145 @@
     handleSave: function (component, event, helper) {
         event.preventDefault();
 
-        const emailAuthorization = component.find("EmailAuthorization").get("v.value");
-        const emailAuthorizationLowerCase = String(emailAuthorization).toLowerCase();
+        let cmpEmailAuthorization = component.find("EmailAuthorization");
+        if (!$A.util.isEmpty(cmpEmailAuthorization)) {
+            if ($A.util.isArray(cmpEmailAuthorization)) {
+                cmpEmailAuthorization = cmpEmailAuthorization[0];
+            }
+            const emailAuthorization = cmpEmailAuthorization.get("v.value");
+            const emailAuthorizationLowerCase = String(emailAuthorization).toLowerCase();
 
-        const emailInfo = component.get('v.emailInfo');
-        if (
-            (emailAuthorizationLowerCase === "ceo required" ||
-                emailAuthorizationLowerCase === "committee required") &&
-            ($A.util.isEmpty(emailInfo) ||
-                $A.util.isEmpty(emailInfo.Subject__c) ||
-                $A.util.isEmpty(emailInfo.Message__c))
-        ) {
-            helper.showToast('Please recheck Email information', 'error');
-            return;
+            const emailInfo = component.get('v.emailInfo');
+            if (
+                (emailAuthorizationLowerCase === "ceo required" ||
+                    emailAuthorizationLowerCase === "committee required") &&
+                ($A.util.isEmpty(emailInfo) ||
+                    $A.util.isEmpty(emailInfo.Subject__c) ||
+                    $A.util.isEmpty(emailInfo.Message__c))
+            ) {
+                helper.showToast('Please recheck Email information', 'error');
+                return;
+            }
+
+            const selectedEmailCommittees = component.get('v.selectedEmailCommittees');
+            if (
+                emailAuthorizationLowerCase === "committee required" &&
+                (!selectedEmailCommittees || selectedEmailCommittees.length === 0)
+            ) {
+                helper.showToast('Please select Committee Name', 'error');
+                return;
+            }
+
+            if (helper.submitType === 'SubmitToSH') {
+                let cmpCTRFileUpload = component.find("CTRFileUpload");
+                if ($A.util.isArray(cmpCTRFileUpload)) {
+                    cmpCTRFileUpload = cmpCTRFileUpload[0];
+                }
+                cmpCTRFileUpload.deletePendingAttachments()
+                    .then($A.getCallback(function () {
+                        component.set(
+                            "v.requestFormObj.CommitteeAttachment__c",
+                            JSON.stringify(cmpCTRFileUpload.getMergedAttachments()));
+
+                        helper.setIsDataSaving(true);
+                        helper.disableEditMode();
+
+                        return helper.submitToSH();
+                    }))
+                    .then($A.getCallback(function () {
+                        window.setTimeout(
+                            $A.getCallback(function () {
+                                window.location.reload();
+                            }), 3000
+                        );
+                    }))
+                    .catch($A.getCallback(function (error) {
+                        helper.showToast(error.message, 'error');
+                    }))
+                    .finally($A.getCallback(function () {
+                        helper.setIsDataSaving(false);
+                    }));
+            } else if (helper.submitType === 'SubmitToCommittee') {
+                let cmpCTRFileUpload = component.find("CTRFileUpload");
+                if ($A.util.isArray(cmpCTRFileUpload)) {
+                    cmpCTRFileUpload = cmpCTRFileUpload[0];
+                }
+                cmpCTRFileUpload.deletePendingAttachments()
+                    .then($A.getCallback(function () {
+                        component.set(
+                            "v.requestFormObj.CommitteeAttachment__c",
+                            JSON.stringify(cmpCTRFileUpload.getMergedAttachments()));
+
+                        helper.setIsDataSaving(true);
+                        helper.disableEditMode();
+
+                        if (emailAuthorizationLowerCase === "ceo required") {
+                            return helper.submitToCEO();
+                        } else if (emailAuthorizationLowerCase === "committee required") {
+                            return helper.submitToCommittees();
+                        } else {
+                            return helper.submitNoApproval()
+                        }
+                    }))
+                    .then($A.getCallback(function () {
+                        helper.uploadFileToSharePoint();
+                        window.setTimeout(
+                            $A.getCallback(function () {
+                                window.location.reload();
+                            }), 3000
+                        );
+                    }))
+                    .catch($A.getCallback(function (error) {
+                        helper.showToast(error.message, 'error');
+                    }))
+                    .finally($A.getCallback(function () {
+                        helper.setIsDataSaving(false);
+                    }));
+            } else {
+                let cmpCTRFileUpload = component.find("CTRFileUpload");
+                if ($A.util.isArray(cmpCTRFileUpload)) {
+                    cmpCTRFileUpload = cmpCTRFileUpload[0];
+                }
+                cmpCTRFileUpload.deletePendingAttachments()
+                    .then($A.getCallback(function () {
+                        component.set(
+                            "v.requestFormObj.CommitteeAttachment__c",
+                            JSON.stringify(cmpCTRFileUpload.getMergedAttachments()));
+
+                        helper.setIsDataSaving(true);
+                        helper.disableEditMode();
+
+                        const committeeStatus = component.get("v.committeeStatus");
+                        if (committeeStatus === "Waiting Section Head Review") {
+                            return helper.saveRequestFormSH();
+                        } else {
+                            return helper.saveRequestForm();
+                        }
+                    }))
+                    .then($A.getCallback(function () {
+                        window.setTimeout(
+                            $A.getCallback(function () {
+                                window.location.reload();
+                            }), 3000
+                        );
+                    }))
+                    .catch($A.getCallback(function (error) {
+                        helper.showToast(error.message, 'error');
+                    }))
+                    .finally($A.getCallback(function () {
+                        helper.setIsDataSaving(false);
+                    }));
+            }
+            helper.submitType = '';
         }
-
-        const selectedEmailCommittees = component.get('v.selectedEmailCommittees');
-        if (
-            emailAuthorizationLowerCase === "committee required" &&
-            (!selectedEmailCommittees || selectedEmailCommittees.length === 0)
-        ) {
-            helper.showToast('Please select Committee Name', 'error');
-            return;
-        }
-
-        if (helper.submitType === 'SubmitToSH') {
-            component.find("CTRFileUpload").deletePendingAttachments()
-                .then($A.getCallback(function () {
-                    component.set(
-                        "v.requestFormObj.CommitteeAttachment__c",
-                        JSON.stringify(component.find("CTRFileUpload").getMergedAttachments()));
-
-                    helper.setIsDataSaving(true);
-                    helper.disableEditMode();
-
-                    return helper.submitToSH();
-                }))
-                .then($A.getCallback(function () {
-                    window.setTimeout(
-                        $A.getCallback(function () {
-                            window.location.reload();
-                        }), 3000
-                    );
-                }))
-                .catch($A.getCallback(function (error) {
-                    helper.showToast(error.message, 'error');
-                }))
-                .finally($A.getCallback(function () {
-                    helper.setIsDataSaving(false);
-                }));
-        } else if (helper.submitType === 'SubmitToCommittee') {
-            component.find("CTRFileUpload").deletePendingAttachments()
-                .then($A.getCallback(function () {
-                    component.set(
-                        "v.requestFormObj.CommitteeAttachment__c",
-                        JSON.stringify(component.find("CTRFileUpload").getMergedAttachments()));
-
-                    helper.setIsDataSaving(true);
-                    helper.disableEditMode();
-
-                    if (emailAuthorizationLowerCase === "ceo required") {
-                        return helper.submitToCEO();
-                    } else if (emailAuthorizationLowerCase === "committee required") {
-                        return helper.submitToCommittees();
-                    } else {
-                        return helper.submitNoApproval()
-                    }
-                }))
-                .then($A.getCallback(function () {
-                    helper.uploadFileToSharePoint();
-                    window.setTimeout(
-                        $A.getCallback(function () {
-                            window.location.reload();
-                        }), 3000
-                    );
-                }))
-                .catch($A.getCallback(function (error) {
-                    helper.showToast(error.message, 'error');
-                }))
-                .finally($A.getCallback(function () {
-                    helper.setIsDataSaving(false);
-                }));
-        } else {
-            component.find("CTRFileUpload").deletePendingAttachments()
-                .then($A.getCallback(function () {
-                    component.set(
-                        "v.requestFormObj.CommitteeAttachment__c",
-                        JSON.stringify(component.find("CTRFileUpload").getMergedAttachments()));
-
-                    helper.setIsDataSaving(true);
-                    helper.disableEditMode();
-
-                    const committeeStatus = component.get("v.committeeStatus");
-                    if (committeeStatus === "Waiting Section Head Review") {
-                        return helper.saveRequestFormSH();
-                    } else {
-                        return helper.saveRequestForm();
-                    }
-                }))
-                .then($A.getCallback(function () {
-                    window.setTimeout(
-                        $A.getCallback(function () {
-                            window.location.reload();
-                        }), 3000
-                    );
-                }))
-                .catch($A.getCallback(function (error) {
-                    helper.showToast(error.message, 'error');
-                }))
-                .finally($A.getCallback(function () {
-                    helper.setIsDataSaving(false);
-                }));
-        }
-        helper.submitType = '';
     },
 
     handleChangeEmailAuthorization: function (component, event, helper) {
-        const cmpEmailAuthorization = component.find("EmailAuthorization");
+        let cmpEmailAuthorization = component.find("EmailAuthorization");
         if (!$A.util.isEmpty(cmpEmailAuthorization)) {
+            if ($A.util.isArray(cmpEmailAuthorization)) {
+                cmpEmailAuthorization = cmpEmailAuthorization[0];
+            }
             const emailAuthorization = cmpEmailAuthorization.get("v.value");
             const emailAuthorizationLowerCase = String(emailAuthorization).toLowerCase();
 
@@ -280,14 +302,31 @@
     },
 
     handleChangeSelectedEmailCommittees: function (component, event, helper) {
+        const requestFormObj = component.get("v.requestFormObj");
         const selectedEmailCommittees = component.get("v.selectedEmailCommittees");
-        component.set("v.emailInfo.EmailTo__c", selectedEmailCommittees.join(","));
-        component.set("v.requestFormObj.EmailTo__c", selectedEmailCommittees.join(","));
+
+        if (!$A.util.isEmpty(requestFormObj.EmailAuthorization__c)) {
+            const emailAuthorization = String(requestFormObj.EmailAuthorization__c).toLowerCase();
+            if (emailAuthorization === "committee required") {
+                component.set("v.emailInfo.EmailTo__c", selectedEmailCommittees.join(","));
+                component.set("v.requestFormObj.EmailTo__c", selectedEmailCommittees.join(","));
+            }
+        }
     },
 
     handleChangeEmailUrgent: function (component, event, helper) {
         const emailUrgent = component.get("v.emailUrgent");
-        const subject = (emailUrgent === "Yes") ? "[Urgent]" + component.get("v.requestFormObj.Subject__c") : component.get("v.requestFormObj.Subject__c");
+        var currSubject = component.get("v.requestFormObj.Subject__c");
+        var subject = currSubject;
+        if (currSubject && currSubject.includes("[Urgent]")) {
+            if (emailUrgent === "No") {
+                subject = currSubject.replace('[Urgent]', '');
+            }
+        } else {
+            if (emailUrgent === "Yes") {
+                subject = "[Urgent]" + currSubject;
+            }
+        }
         component.set("v.emailInfo.Subject__c", subject);
     },
 })

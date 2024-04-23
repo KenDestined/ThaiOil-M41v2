@@ -22,8 +22,8 @@
         &quot;backgroundColor&quot;: &quot;red&quot;
     },
     &quot;Very High Risk&quot;: {
-        &quot;color&quot;: &quot;#000000&quot;,
-        &quot;backgroundColor&quot;: &quot;rgb(199, 197, 197)&quot;
+        &quot;color&quot;: &quot;#ffffff&quot;,
+        &quot;backgroundColor&quot;: &quot;#000000&quot;
     }
 }</value>
     </values>

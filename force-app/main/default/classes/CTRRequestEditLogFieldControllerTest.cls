@@ -72,7 +72,7 @@ public class CTRRequestEditLogFieldControllerTest {
         mDestinationCountryList.add(reqFromItem);
         String mDestinationCountryObjName = 'CTRRequestFormItem__c';
 
-        List<String> mCountryFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mDestinationCountryObjName), mDestinationCountryObjName);
+        List<String> mCountryFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mDestinationCountryObjName), mDestinationCountryObjName,'');
         Map<String, String> mCountryJsonMap = new Map<String, String>();
         mCountryJsonMap = CTRRequestEditLogFieldController.manageRelatedObjectToJson(
             mDestinationCountryList,
@@ -145,7 +145,7 @@ public class CTRRequestEditLogFieldControllerTest {
         List<Map<String, String>> mapList = new List<Map<String,String>>();
         mapList.add(mFieldListMap);
 
-        List<String> results = CTRRequestEditLogFieldController.getFieldListFromJson(JSON.serialize(mapList),mDestinationCountryObjName);
+        List<String> results = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(JSON.serialize(mapList),mDestinationCountryObjName,'');
     }
 
     @isTest
@@ -164,7 +164,7 @@ public class CTRRequestEditLogFieldControllerTest {
         mDestinationCountryList.add(reqFromItem);
 
         String mHeaderObjectName = 'CTRRequestFormHeader__c';
-        List<String> mHeaderFieldNameList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mHeaderObjectName), mHeaderObjectName);
+        List<String> mHeaderFieldNameList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mHeaderObjectName), mHeaderObjectName,'');
         List<SObject> mHeaderFilteredList = new List<SObject>();
         String mHeadersoql = '';
         mHeadersoql+= ' SELECT ' + String.join(mHeaderFieldNameList, ',');

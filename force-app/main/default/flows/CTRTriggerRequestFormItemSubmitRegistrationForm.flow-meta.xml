@@ -489,7 +489,7 @@
             <label>LABIX</label>
         </rules>
     </decisions>
-    <description>04/04/2024 Change text in the edit screen.</description>
+    <description>18/04/2024 Remove filter criteria in COI and add-on text template and filter criteria for ERC.</description>
     <environments>Default</environments>
     <formulas>
         <name>EmailSubject</name>
@@ -809,7 +809,57 @@
         </fields>
         <fields>
             <name>CFRDNOTTXText</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;I have attached the &lt;/span&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;Certificate of Incorporation (COI)&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14px;&quot;&gt;documents for this registration.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;I have attached the &lt;/span&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;Certificate of Incorporation (COI)&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;documents for this registration.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>getRequestFormItemRecord.SalesOrganization__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>9200</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>getRequestFormItemRecord.SalesOrganization__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>9300</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>getRequestFormItemRecord.SalesOrganization__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>9400</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>9200</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>9300</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>9400</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ERCTSVText</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;I have attached the &lt;/span&gt;&lt;strong style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;Enterprise Registration Certificate (ERC)&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 14px; background-color: rgb(255, 255, 255);&quot;&gt;documents for this registration.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>or</conditionLogic>
@@ -821,52 +871,10 @@
                     </rightValue>
                 </conditions>
                 <conditions>
-                    <leftValueReference>getRequestFormItemRecord.SalesOrganization__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>9200</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>getRequestFormItemRecord.SalesOrganization__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>9300</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>getRequestFormItemRecord.SalesOrganization__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>9400</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
                     <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <stringValue>9100</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>9200</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>9300</stringValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>getRequestFormItemRecord.CompanyCodeTX__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>9400</stringValue>
                     </rightValue>
                 </conditions>
             </visibilityRule>

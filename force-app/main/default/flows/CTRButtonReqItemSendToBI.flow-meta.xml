@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>navigateBlockRec</name>
+        <label>navigateBlockRec</label>
+        <locationX>2734</locationX>
+        <locationY>1190</locationY>
+        <actionName>c:CTRNavigateToRecord</actionName>
+        <actionType>component</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>c:CTRNavigateToRecord</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>redirectRecord</name>
         <label>redirectRecord</label>
-        <locationX>616</locationX>
-        <locationY>5708</locationY>
+        <locationX>2822</locationX>
+        <locationY>5324</locationY>
         <actionName>c:CTRNavigateToRecord</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -22,7 +40,7 @@
         <name>sendCustomerEmailToCustomer</name>
         <label>sendCustomerEmailToCustomer</label>
         <locationX>99</locationX>
-        <locationY>5348</locationY>
+        <locationY>4796</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -60,7 +78,7 @@
         <name>sendCustomerEmailToRelevant</name>
         <label>sendCustomerEmailToRelevant</label>
         <locationX>99</locationX>
-        <locationY>5240</locationY>
+        <locationY>4688</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -95,10 +113,86 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>sendShiptoEmailToCustomer</name>
+        <label>sendShiptoEmailToCustomer</label>
+        <locationX>3130</locationX>
+        <locationY>2402</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>redirectRecord</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>customerCCEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>customerEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getShiptoCustomerEmail.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendShiptoEmailToRelevant</name>
+        <label>sendShiptoEmailToRelevant</label>
+        <locationX>3130</locationX>
+        <locationY>2294</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>sendShiptoEmailToCustomer</targetReference>
+        </connector>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>recipientCCEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getShiptoRelevantEmail.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>sendSupplierEmailToRelevant</name>
         <label>sendSupplierEmailToRelevant</label>
         <locationX>363</locationX>
-        <locationY>5240</locationY>
+        <locationY>4688</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -136,7 +230,7 @@
         <name>sendSupplierEmailToSupplier</name>
         <label>sendSupplierEmailToSupplier</label>
         <locationX>363</locationX>
-        <locationY>5348</locationY>
+        <locationY>4796</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -175,7 +269,7 @@
         <name>assignAdditional</name>
         <label>assignAdditional</label>
         <locationX>616</locationX>
-        <locationY>3836</locationY>
+        <locationY>3284</locationY>
         <assignmentItems>
             <assignToReference>recAdditional.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -225,6 +319,13 @@
                 <elementReference>getRequestItem.Application__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAdditional.Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlKeyAddInfo</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>newAdditional</targetReference>
         </connector>
@@ -233,7 +334,7 @@
         <name>assignConfig</name>
         <label>assignConfig</label>
         <locationX>1194</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>customerRunning</assignToReference>
             <operator>Assign</operator>
@@ -248,13 +349,6 @@
                 <elementReference>getConfig.NonSAPSupplierRunningNumber__c</elementReference>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>shiptoRunning</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>getConfig.NonSAPShipToRunningNumber__c</elementReference>
-            </value>
-        </assignmentItems>
         <connector>
             <targetReference>screenConfirmBI</targetReference>
         </connector>
@@ -262,40 +356,357 @@
     <assignments>
         <name>assignCountPurchasing</name>
         <label>assignCountPurchasing</label>
-        <locationX>1282</locationX>
-        <locationY>1490</locationY>
+        <locationX>1194</locationX>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>countPurchasing</assignToReference>
-            <operator>Add</operator>
+            <operator>AssignCount</operator>
             <value>
-                <numberValue>1.0</numberValue>
+                <elementReference>getPurchasingRecs</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>loopPurchasing</targetReference>
+            <targetReference>checkType</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assignCountSalesArea</name>
         <label>assignCountSalesArea</label>
-        <locationX>1282</locationX>
+        <locationX>1194</locationX>
         <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>countSalesArea</assignToReference>
-            <operator>Add</operator>
+            <operator>AssignCount</operator>
             <value>
-                <numberValue>1.0</numberValue>
+                <elementReference>getSalesAreaRecs</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>loopSalesArea</targetReference>
+            <targetReference>getPurchasingRecs</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignCreateShipto</name>
+        <label>assignCreateShipto</label>
+        <locationX>3130</locationX>
+        <locationY>1106</locationY>
+        <assignmentItems>
+            <assignToReference>recAccount.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerPartner__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Customer__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.AccountNumber__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlShipToNumber</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameLocal1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameLocal1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameLocal2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameLocal2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameEN1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameEN1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameEN2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameEN2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.AccountGroup__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>ZSHP</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.TransportationZone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.TransportationZone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Industry__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Industry__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.TaxCode1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.TaxCode1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.BuildingCodeEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingBuildingCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.RoomEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingRoom__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FloorEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingFloor__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.HousenoEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingHousenoLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StreetEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.StreetEN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.SubDistrictEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingSubDistrict__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.DistrictEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.DistrictENText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.ProvinceEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CityStateEN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PostalCodeENText__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingPostalCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.BuildingCodeLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.BuildingCodeLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FloorLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.FloorLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.HousenoLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.HousenoLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StreetLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.StreetLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.SubDistrictLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.SubDistrictLocalText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.DistrictLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.DistrictLocalText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CityStateLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CityStateLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PostalCodeLocalText__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.PostalCodeLocalText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Country__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Country__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Email__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Fax</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Fax__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FaxCountryCode__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.FaxCountryCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FaxExtension__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.FaxExtension__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Phone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PhoneCountryCode__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.PhoneCountryCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PhoneExtension__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.PhoneExtension__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.MobileCountryCode__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MobileCountryCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.MobilePhone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MobilePhone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.TimeZone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.TimeZone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.LocationInGoogleMapsLinks__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.LocationInGoogleMapsLinks__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Location__Latitude__s</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.LocationInGoogleMapsGeolocation__Latitude__s</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Location__Longitude__s</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.LocationInGoogleMapsGeolocation__Longitude__s</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getShiptoRecordType.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StatusDeletionIndicator__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>createShipto</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assignCustomer</name>
         <label>assignCustomer</label>
         <locationX>50</locationX>
-        <locationY>1874</locationY>
+        <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>recAccount.NonSAPCustomerCode__c</assignToReference>
             <operator>Assign</operator>
@@ -584,6 +995,20 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>recAccount.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRecordType.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StatusDeletionIndicator__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>customerRunning</assignToReference>
             <operator>Add</operator>
             <value>
@@ -595,10 +1020,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignCustomerBlock</name>
+        <label>assignCustomerBlock</label>
+        <locationX>2602</locationX>
+        <locationY>782</locationY>
+        <assignmentItems>
+            <assignToReference>recSalesArea.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getSalesArea.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recSalesArea.BlockStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.OrderBlock__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>updateCustomerBlock</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignCustomerEmails</name>
         <label>assignCustomerEmails</label>
         <locationX>99</locationX>
-        <locationY>5132</locationY>
+        <locationY>4580</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -621,7 +1069,7 @@
         <name>assignCustomerFinancial</name>
         <label>assignCustomerFinancial</label>
         <locationX>616</locationX>
-        <locationY>3620</locationY>
+        <locationY>3068</locationY>
         <assignmentItems>
             <assignToReference>recFinancial.CompanyName__c</assignToReference>
             <operator>Assign</operator>
@@ -648,10 +1096,401 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignEditShipto</name>
+        <label>assignEditShipto</label>
+        <locationX>3922</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameLocal1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameLocal1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameLocal2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameLocal2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameEN1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameEN1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CustomerNameEN2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CustomerNameEN2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.TransportationZone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.TransportationZone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Industry__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Industry__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.TaxCode1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.TaxCode1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.BuildingCodeEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingBuildingCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.RoomEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingRoom__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FloorEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingFloor__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.HousenoEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingHousenoLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StreetEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.StreetEN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.SubDistrictEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingSubDistrict__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.DistrictEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.DistrictENText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.ProvinceEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CityStateEN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PostalCodeENText__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MailingPostalCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.BuildingCodeLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.BuildingCodeLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FloorLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.FloorLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.HousenoLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.HousenoLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StreetLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.StreetLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.SubDistrictLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.SubDistrictLocalText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.DistrictLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.DistrictLocalText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.CityStateLocal__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CityStateLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PostalCodeLocalText__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.PostalCodeLocalText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Country__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Country__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Email__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Fax</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Fax__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FaxCountryCode__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.FaxCountryCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.FaxExtension__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.FaxExtension__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Phone</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Phone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PhoneCountryCode__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.PhoneCountryCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.PhoneExtension__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.PhoneExtension__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.MobileCountryCode__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MobileCountryCode__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.MobilePhone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.MobilePhone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.TimeZone__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.TimeZone__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.LocationInGoogleMapsLinks__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.LocationInGoogleMapsLinks__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Location__Latitude__s</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.LocationInGoogleMapsGeolocation__Latitude__s</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Location__Longitude__s</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.LocationInGoogleMapsGeolocation__Longitude__s</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Customer__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>updateShipto</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignNewShiptoEmails</name>
+        <label>assignNewShiptoEmails</label>
+        <locationX>3130</locationX>
+        <locationY>2186</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>getRequestItem.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>getRequestItem.MDCName__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>customerEmail</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>customerCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>getRequestItem.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>customerCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>getRequestItem.MDCName__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendShiptoEmailToRelevant</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignPartner</name>
+        <label>assignPartner</label>
+        <locationX>3130</locationX>
+        <locationY>1430</locationY>
+        <assignmentItems>
+            <assignToReference>recWE.Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Customer__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWE.Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlWEkey</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWE.RelationshipType__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>WE</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWE.ReverseAccount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recAccount.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWERE.Account__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recAccount.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWERE.Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlWEREkey</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWERE.ReverseAccount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Customer__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recWERE.RelationshipType__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>WE-RE</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>createWEPartnerFunc</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignPurchasingView</name>
         <label>assignPurchasingView</label>
         <locationX>754</locationX>
-        <locationY>2414</locationY>
+        <locationY>1862</locationY>
         <assignmentItems>
             <assignToReference>recPurchasing.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -660,7 +1499,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>recPurchasing.PurchasingOrganization__c</assignToReference>
+            <assignToReference>recPurchasing.PurchasingOrg__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>getRequestItem.PurchasingOrganizationTX__c</elementReference>
@@ -695,17 +1534,24 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>recPurchasing.Incoterms2__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>getRequestItem.Incoterms2__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>recPurchasing.Currency__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>getRequestItem.Currency__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recPurchasing.Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlKeyPurchasing</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recPurchasing.Incoterms2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Incoterms2__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -716,7 +1562,7 @@
         <name>assignSalesArea</name>
         <label>assignSalesArea</label>
         <locationX>616</locationX>
-        <locationY>3404</locationY>
+        <locationY>2852</locationY>
         <assignmentItems>
             <assignToReference>recSalesArea.AccountNumber__c</assignToReference>
             <operator>Assign</operator>
@@ -781,13 +1627,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>recSalesArea.Incoterms2__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>getRequestItem.Incoterms2__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>recSalesArea.PricingProcedure__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -836,15 +1675,52 @@
                 <elementReference>getRequestItem.AccountAssignmentGroup__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recSalesArea.Key__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlKeySalesArea</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recSalesArea.Incoterms2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Incoterms2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recSalesArea.Division__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.Division__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>newSalesArea</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignShiptoConfig</name>
+        <label>assignShiptoConfig</label>
+        <locationX>3394</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>shiptoRunning</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getConfig.NonSAPShipToRunningNumber__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getShiptoRecordType</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assignSupplier</name>
         <label>assignSupplier</label>
         <locationX>1150</locationX>
-        <locationY>1874</locationY>
+        <locationY>1322</locationY>
         <assignmentItems>
             <assignToReference>recAccount.NonSAPSupplierCode__c</assignToReference>
             <operator>Assign</operator>
@@ -1105,17 +1981,24 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>recAccount.Name</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>getRequestItem.CTRRequestFormHeader__r.Name</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>recAccount.Id</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>getRequestItem.CTRRequestFormHeader__r.Customer__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRecordType.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recAccount.StatusDeletionIndicator__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Active</stringValue>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1130,10 +2013,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignSupplierBlock</name>
+        <label>assignSupplierBlock</label>
+        <locationX>2866</locationX>
+        <locationY>782</locationY>
+        <assignmentItems>
+            <assignToReference>recPurchasing.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getSalesArea.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recPurchasing.BlockStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRequestItem.SelectedPurchasingOrg__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>updateSupplierBlock</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignSupplierEmails</name>
         <label>assignSupplierEmails</label>
         <locationX>363</locationX>
-        <locationY>5132</locationY>
+        <locationY>4580</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -1156,7 +2062,7 @@
         <name>assignSupplierFinancial</name>
         <label>assignSupplierFinancial</label>
         <locationX>754</locationX>
-        <locationY>2630</locationY>
+        <locationY>2078</locationY>
         <assignmentItems>
             <assignToReference>recFinancial.CompanyName__c</assignToReference>
             <operator>Assign</operator>
@@ -1189,11 +2095,27 @@
             <targetReference>newSupplierFinance</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>countExistingShipto</name>
+        <label>countExistingShipto</label>
+        <locationX>3394</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>numExistingShipto</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>getExistingShipto</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkExistingShipto</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>checkAccountType</name>
         <label>checkAccountType</label>
         <locationX>231</locationX>
-        <locationY>4808</locationY>
+        <locationY>4256</locationY>
         <defaultConnector>
             <targetReference>getSupplierRelevantEmail</targetReference>
         </defaultConnector>
@@ -1215,10 +2137,35 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkBlockType</name>
+        <label>checkBlockType</label>
+        <locationX>2734</locationX>
+        <locationY>566</locationY>
+        <defaultConnector>
+            <targetReference>getPurchasingView</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Supplier</defaultConnectorLabel>
+        <rules>
+            <name>typeCustomerBlock</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CustomerBlock</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getSalesArea</targetReference>
+            </connector>
+            <label>Customer</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkCCUsers</name>
         <label>checkCCUsers</label>
         <locationX>429</locationX>
-        <locationY>4700</locationY>
+        <locationY>4148</locationY>
         <defaultConnector>
             <targetReference>redirectRecord</targetReference>
         </defaultConnector>
@@ -1250,7 +2197,7 @@
         <name>checkCustomer</name>
         <label>checkCustomer</label>
         <locationX>1194</locationX>
-        <locationY>3296</locationY>
+        <locationY>2744</locationY>
         <defaultConnectorLabel>ExistingCustomer</defaultConnectorLabel>
         <rules>
             <name>NoExistingCustomer</name>
@@ -1269,42 +2216,130 @@
         </rules>
     </decisions>
     <decisions>
-        <name>checkPurchasing</name>
-        <label>checkPurchasing</label>
-        <locationX>1414</locationX>
-        <locationY>1382</locationY>
+        <name>checkExistingShipto</name>
+        <label>checkExistingShipto</label>
+        <locationX>3394</locationX>
+        <locationY>998</locationY>
         <defaultConnector>
-            <targetReference>loopPurchasing</targetReference>
+            <targetReference>screenFailNewShipto</targetReference>
         </defaultConnector>
-        <defaultConnectorLabel>notExistedPurchasing</defaultConnectorLabel>
+        <defaultConnectorLabel>No Existed</defaultConnectorLabel>
         <rules>
-            <name>existedPurchasing</name>
+            <name>existedShipto</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>loopPurchasing.PurchasingOrganizationTX__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>numExistingShipto</leftValueReference>
+                <operator>GreaterThan</operator>
                 <rightValue>
-                    <elementReference>getRequestItem.PurchasingOrganizationTX__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>loopPurchasing.Account__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>getRequestItem.CTRRequestFormHeader__r.Customer__c</elementReference>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>assignCountPurchasing</targetReference>
+                <targetReference>assignCreateShipto</targetReference>
             </connector>
-            <label>existedPurchasing</label>
+            <label>Ship-to Existed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkRecordType</name>
+        <label>checkRecordType</label>
+        <locationX>2822</locationX>
+        <locationY>350</locationY>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>typeInitialExtend</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CustomerInitial</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SupplierInitial</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CustomerExtend</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SupplierExtend</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignConfig</targetReference>
+            </connector>
+            <label>Initial &amp; Extend</label>
+        </rules>
+        <rules>
+            <name>typeBlock</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>CustomerBlock</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>SupplierBlock</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screenConfirmResubmit</targetReference>
+            </connector>
+            <label>Block</label>
+        </rules>
+        <rules>
+            <name>typeCreateShipto</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ShipToCreate</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignShiptoConfig</targetReference>
+            </connector>
+            <label>Create Ship-to</label>
+        </rules>
+        <rules>
+            <name>typeEditShipto</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getRequestItem.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ShipToEdit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>screenConfirmEditShipto</targetReference>
+            </connector>
+            <label>Edit Ship-to</label>
         </rules>
     </decisions>
     <decisions>
         <name>checkRelevantUsers</name>
         <label>checkRelevantUsers</label>
         <locationX>616</locationX>
-        <locationY>4376</locationY>
+        <locationY>3824</locationY>
         <defaultConnector>
             <targetReference>redirectRecord</targetReference>
         </defaultConnector>
@@ -1333,42 +2368,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>checkSalesArea</name>
-        <label>checkSalesArea</label>
-        <locationX>1414</locationX>
-        <locationY>782</locationY>
-        <defaultConnector>
-            <targetReference>loopSalesArea</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>notExistedSalesArea</defaultConnectorLabel>
-        <rules>
-            <name>existedSalesArea</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>loopSalesArea.SalesOrganization__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>getRequestItem.SalesOrganizationTX__c</elementReference>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>loopSalesArea.AccountNumber__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <elementReference>getRequestItem.CTRRequestFormHeader__r.Customer__c</elementReference>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>assignCountSalesArea</targetReference>
-            </connector>
-            <label>existedSalesArea</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>checkSupplier</name>
         <label>checkSupplier</label>
         <locationX>1150</locationX>
-        <locationY>2306</locationY>
+        <locationY>1754</locationY>
         <defaultConnectorLabel>ExistingPurchasing</defaultConnectorLabel>
         <rules>
             <name>NoExistingPurchasing</name>
@@ -1390,7 +2393,7 @@
         <name>checkType</name>
         <label>checkType</label>
         <locationX>1194</locationX>
-        <locationY>1766</locationY>
+        <locationY>1214</locationY>
         <defaultConnector>
             <targetReference>screenFail</targetReference>
         </defaultConnector>
@@ -1457,7 +2460,7 @@
             <label>typeExtendSupplier</label>
         </rules>
     </decisions>
-    <description>[11 Apr 2024] Remove create, then add update customer/supplier</description>
+    <description>[21 Apr 2024] Add create and edit ship-to flows</description>
     <environments>Default</environments>
     <formulas>
         <name>fmlCustomerFinancialKey</name>
@@ -1469,9 +2472,9 @@
         <dataType>String</dataType>
         <expression>IF(CONTAINS({!getRequestItem.RecordType.DeveloperName}, &quot;Customer&quot;), &quot;C&quot;, &quot;&quot;)
 &amp;
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TRDL&quot;, &quot;1&quot;,
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TRDF&quot;, &quot;2&quot;,
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TOPG&quot;, &quot;3&quot;, &quot;&quot;)))
+IF(TEXT({!getRequestItem.CTRRequestFormHeader__r.AccountGroup__c}) = &quot;TRDL&quot;, &quot;1&quot;,
+IF(TEXT({!getRequestItem.CTRRequestFormHeader__r.AccountGroup__c}) = &quot;TRDF&quot;, &quot;2&quot;,
+IF(TEXT({!getRequestItem.CTRRequestFormHeader__r.AccountGroup__c}) = &quot;TOPG&quot;, &quot;3&quot;, &quot;&quot;)))
 &amp;
 IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;ID&quot;, &quot;ID&quot;,
 IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;SG&quot;, &quot;SG&quot;,
@@ -1480,17 +2483,24 @@ IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;IN&quot;
 LPAD(TEXT({!customerRunning}), 5, &quot;0&quot;)</expression>
     </formulas>
     <formulas>
+        <name>fmlKeyAddInfo</name>
+        <dataType>String</dataType>
+        <expression>{!recAccount.NonSAPCustomerCode__c}&amp;TEXT({!getRequestItem.SalesOrganizationTX__c})&amp;TEXT({!getRequestItem.DistributionChannel__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fmlKeyPurchasing</name>
+        <dataType>String</dataType>
+        <expression>{!recAccount.NonSAPSupplierCode__c}&amp;TEXT({!getRequestItem.CompanyCodeTX__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fmlKeySalesArea</name>
+        <dataType>String</dataType>
+        <expression>{!recAccount.NonSAPCustomerCode__c}&amp;TEXT({!getRequestItem.SalesOrganizationTX__c})&amp;TEXT({!getRequestItem.DistributionChannel__c})&amp;TEXT({!getRequestItem.Division__c})</expression>
+    </formulas>
+    <formulas>
         <name>fmlShipToNumber</name>
         <dataType>String</dataType>
         <expression>IF(CONTAINS({!getRequestItem.RecordType.DeveloperName}, &quot;ShipTo&quot;), &quot;6&quot;, &quot;&quot;)
-&amp;
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TRDL&quot;, &quot;1&quot;,
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TRDF&quot;, &quot;2&quot;,
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TOPG&quot;, &quot;3&quot;, &quot;&quot;)))
-&amp;
-IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;ID&quot;, &quot;ID&quot;,
-IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;SG&quot;, &quot;SG&quot;,
-IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;IN&quot;, &quot;IN&quot;, &quot;&quot;)))
 &amp;
 LPAD(TEXT({!shiptoRunning}), 5, &quot;0&quot;)</expression>
     </formulas>
@@ -1504,9 +2514,9 @@ LPAD(TEXT({!shiptoRunning}), 5, &quot;0&quot;)</expression>
         <dataType>String</dataType>
         <expression>IF(CONTAINS({!getRequestItem.RecordType.DeveloperName}, &quot;Supplier&quot;), &quot;S&quot;, &quot;&quot;)
 &amp;
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TRDL&quot;, &quot;1&quot;,
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TRDF&quot;, &quot;2&quot;,
-IF(TEXT({!getRequestItem.AccountGroup__c}) = &quot;TOPG&quot;, &quot;3&quot;, &quot;&quot;)))
+IF(TEXT({!getRequestItem.CTRRequestFormHeader__r.AccountGroup__c}) = &quot;TRDL&quot;, &quot;1&quot;,
+IF(TEXT({!getRequestItem.CTRRequestFormHeader__r.AccountGroup__c}) = &quot;TRDF&quot;, &quot;2&quot;,
+IF(TEXT({!getRequestItem.CTRRequestFormHeader__r.AccountGroup__c}) = &quot;TOPG&quot;, &quot;3&quot;, &quot;&quot;)))
 &amp;
 IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;ID&quot;, &quot;ID&quot;,
 IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;SG&quot;, &quot;SG&quot;,
@@ -1514,36 +2524,26 @@ IF({!getRequestItem.CTRRequestFormHeader__r.Country__r.Code__c} = &quot;IN&quot;
 &amp;
 LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
     </formulas>
+    <formulas>
+        <name>fmlWEkey</name>
+        <dataType>String</dataType>
+        <expression>IF(NOT(ISBLANK({!getRequestItem.Customer__r.AccountNumber__c})), {!getRequestItem.Customer__r.AccountNumber__c}, {!getRequestItem.Customer__r.NonSAPCustomerCode__c})
+&amp;
+&apos;WE&apos;
+&amp;
+{!recAccount.AccountNumber__c}</expression>
+    </formulas>
+    <formulas>
+        <name>fmlWEREkey</name>
+        <dataType>String</dataType>
+        <expression>{!recAccount.AccountNumber__c}
+&amp;
+&apos;WE-RE&apos;
+&amp;
+IF(NOT(ISBLANK({!getRequestItem.Customer__r.AccountNumber__c})), {!getRequestItem.Customer__r.AccountNumber__c}, {!getRequestItem.Customer__r.NonSAPCustomerCode__c})</expression>
+    </formulas>
     <interviewLabel>CTRButtonReqItemSendToBI {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTRButtonReqItemSendToBI</label>
-    <loops>
-        <name>loopPurchasing</name>
-        <label>loopPurchasing</label>
-        <locationX>1194</locationX>
-        <locationY>1274</locationY>
-        <collectionReference>getPurchasingRecs</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>checkPurchasing</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>checkType</targetReference>
-        </noMoreValuesConnector>
-    </loops>
-    <loops>
-        <name>loopSalesArea</name>
-        <label>loopSalesArea</label>
-        <locationX>1194</locationX>
-        <locationY>674</locationY>
-        <collectionReference>getSalesAreaRecs</collectionReference>
-        <iterationOrder>Asc</iterationOrder>
-        <nextValueConnector>
-            <targetReference>checkSalesArea</targetReference>
-        </nextValueConnector>
-        <noMoreValuesConnector>
-            <targetReference>getPurchasingRecs</targetReference>
-        </noMoreValuesConnector>
-    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -1564,10 +2564,43 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
     </processMetadataValues>
     <processType>Flow</processType>
     <recordCreates>
+        <name>createShipto</name>
+        <label>createShipto</label>
+        <locationX>3130</locationX>
+        <locationY>1214</locationY>
+        <connector>
+            <targetReference>updateCreateReq</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>screenFailCreateShipto</targetReference>
+        </faultConnector>
+        <inputReference>recAccount</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>createWEPartnerFunc</name>
+        <label>createWEPartnerFunc</label>
+        <locationX>3130</locationX>
+        <locationY>1538</locationY>
+        <connector>
+            <targetReference>createWEREPartnerFunc</targetReference>
+        </connector>
+        <inputReference>recWE</inputReference>
+    </recordCreates>
+    <recordCreates>
+        <name>createWEREPartnerFunc</name>
+        <label>createWEREPartnerFunc</label>
+        <locationX>3130</locationX>
+        <locationY>1646</locationY>
+        <connector>
+            <targetReference>updateShiptoConfig</targetReference>
+        </connector>
+        <inputReference>recWERE</inputReference>
+    </recordCreates>
+    <recordCreates>
         <name>newAdditional</name>
         <label>newAdditional</label>
         <locationX>616</locationX>
-        <locationY>3944</locationY>
+        <locationY>3392</locationY>
         <connector>
             <targetReference>screenNewCustomer</targetReference>
         </connector>
@@ -1580,7 +2613,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>newCustomerFinance</name>
         <label>newCustomerFinance</label>
         <locationX>616</locationX>
-        <locationY>3728</locationY>
+        <locationY>3176</locationY>
         <connector>
             <targetReference>assignAdditional</targetReference>
         </connector>
@@ -1593,7 +2626,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>newPurchasing</name>
         <label>newPurchasing</label>
         <locationX>754</locationX>
-        <locationY>2522</locationY>
+        <locationY>1970</locationY>
         <connector>
             <targetReference>assignSupplierFinancial</targetReference>
         </connector>
@@ -1606,7 +2639,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>newSalesArea</name>
         <label>newSalesArea</label>
         <locationX>616</locationX>
-        <locationY>3512</locationY>
+        <locationY>2960</locationY>
         <connector>
             <targetReference>assignCustomerFinancial</targetReference>
         </connector>
@@ -1619,7 +2652,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>newSupplierFinance</name>
         <label>newSupplierFinance</label>
         <locationX>754</locationX>
-        <locationY>2738</locationY>
+        <locationY>2186</locationY>
         <connector>
             <targetReference>screenNewSupplier</targetReference>
         </connector>
@@ -1632,7 +2665,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>getCCUsers</name>
         <label>getCCUsers</label>
         <locationX>429</locationX>
-        <locationY>4484</locationY>
+        <locationY>3932</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findCCUsers</targetReference>
@@ -1674,11 +2707,11 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
     <recordLookups>
         <name>getConfig</name>
         <label>getConfig</label>
-        <locationX>1194</locationX>
+        <locationX>2822</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>assignConfig</targetReference>
+            <targetReference>checkRecordType</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1700,7 +2733,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>getCustomerEmail</name>
         <label>getCustomerEmail</label>
         <locationX>99</locationX>
-        <locationY>5024</locationY>
+        <locationY>4472</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>assignCustomerEmails</targetReference>
@@ -1721,7 +2754,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>getCustomerRelevantEmail</name>
         <label>getCustomerRelevantEmail</label>
         <locationX>99</locationX>
-        <locationY>4916</locationY>
+        <locationY>4364</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getCustomerEmail</targetReference>
@@ -1739,13 +2772,43 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getExistingShipto</name>
+        <label>getExistingShipto</label>
+        <locationX>3394</locationX>
+        <locationY>782</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>countExistingShipto</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordTypeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getShiptoRecordType.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Account</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getPurchasingRecs</name>
         <label>getPurchasingRecs</label>
         <locationX>1194</locationX>
-        <locationY>1166</locationY>
+        <locationY>998</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>loopPurchasing</targetReference>
+            <targetReference>assignCountPurchasing</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1760,10 +2823,66 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getPurchasingView</name>
+        <label>getPurchasingView</label>
+        <locationX>2866</locationX>
+        <locationY>674</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assignSupplierBlock</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.Customer__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>PurchasingOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.PurchasingOrganizationTX__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CTRPurchasingView__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getRecordType</name>
+        <label>getRecordType</label>
+        <locationX>1194</locationX>
+        <locationY>674</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getSalesAreaRecs</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Account</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>SoldTo</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getRelevantUsers</name>
         <label>getRelevantUsers</label>
         <locationX>616</locationX>
-        <locationY>4160</locationY>
+        <locationY>3608</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findRelevantUsers</targetReference>
@@ -1805,7 +2924,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
     <recordLookups>
         <name>getRequestItem</name>
         <label>getRequestItem</label>
-        <locationX>1194</locationX>
+        <locationX>2822</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -1824,13 +2943,55 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getSalesArea</name>
+        <label>getSalesArea</label>
+        <locationX>2602</locationX>
+        <locationY>674</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assignCustomerBlock</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountNumber__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.Customer__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrganization__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.SalesOrganization__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>DistributionChannel__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.DistributionChannel__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Division__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>getRequestItem.Division__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>C360_SalesArea__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getSalesAreaRecs</name>
         <label>getSalesAreaRecs</label>
         <locationX>1194</locationX>
-        <locationY>566</locationY>
+        <locationY>782</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>loopSalesArea</targetReference>
+            <targetReference>assignCountSalesArea</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -1845,10 +3006,80 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getShiptoCustomerEmail</name>
+        <label>getShiptoCustomerEmail</label>
+        <locationX>3130</locationX>
+        <locationY>2078</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assignNewShiptoEmails</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRCreateShiptoGotNonSAPCodeToCustomer</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getShiptoRecordType</name>
+        <label>getShiptoRecordType</label>
+        <locationX>3394</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>screenConfirmShipto</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Account</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ShipTo</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getShiptoRelevantEmail</name>
+        <label>getShiptoRelevantEmail</label>
+        <locationX>3130</locationX>
+        <locationY>1970</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getShiptoCustomerEmail</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRCreateShipToGotSAPCodeToRelevant</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getSupplierEmail</name>
         <label>getSupplierEmail</label>
         <locationX>363</locationX>
-        <locationY>5024</locationY>
+        <locationY>4472</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>assignSupplierEmails</targetReference>
@@ -1869,7 +3100,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>getSupplierRelevantEmail</name>
         <label>getSupplierRelevantEmail</label>
         <locationX>363</locationX>
-        <locationY>4916</locationY>
+        <locationY>4364</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getSupplierEmail</targetReference>
@@ -1890,7 +3121,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>updateConfigCustomer</name>
         <label>updateConfigCustomer</label>
         <locationX>50</locationX>
-        <locationY>2090</locationY>
+        <locationY>1538</locationY>
         <connector>
             <targetReference>updateCustomerRec</targetReference>
         </connector>
@@ -1914,7 +3145,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>updateConfigSupplier</name>
         <label>updateConfigSupplier</label>
         <locationX>1150</locationX>
-        <locationY>2090</locationY>
+        <locationY>1538</locationY>
         <connector>
             <targetReference>updateSupplierRec</targetReference>
         </connector>
@@ -1935,10 +3166,34 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <object>CTRConfig__c</object>
     </recordUpdates>
     <recordUpdates>
+        <name>updateCreateReq</name>
+        <label>updateCreateReq</label>
+        <locationX>3130</locationX>
+        <locationY>1322</locationY>
+        <connector>
+            <targetReference>assignPartner</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Partner__c</field>
+            <value>
+                <elementReference>recAccount.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CTRRequestFormItem__c</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>updateCustomer</name>
         <label>updateCustomer</label>
         <locationX>50</locationX>
-        <locationY>1982</locationY>
+        <locationY>1430</locationY>
         <connector>
             <targetReference>updateConfigCustomer</targetReference>
         </connector>
@@ -1948,10 +3203,20 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <inputReference>recAccount</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>updateCustomerBlock</name>
+        <label>updateCustomerBlock</label>
+        <locationX>2602</locationX>
+        <locationY>890</locationY>
+        <connector>
+            <targetReference>screenResubmitCompleted</targetReference>
+        </connector>
+        <inputReference>recSalesArea</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>updateCustomerRec</name>
         <label>updateCustomerRec</label>
         <locationX>50</locationX>
-        <locationY>2198</locationY>
+        <locationY>1646</locationY>
         <connector>
             <targetReference>checkCustomer</targetReference>
         </connector>
@@ -1972,10 +3237,47 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <object>CTRRequestFormItem__c</object>
     </recordUpdates>
     <recordUpdates>
+        <name>updateShipto</name>
+        <label>updateShipto</label>
+        <locationX>3922</locationX>
+        <locationY>674</locationY>
+        <connector>
+            <targetReference>screenEditShiptoCompleted</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>screenFailEditShipto</targetReference>
+        </faultConnector>
+        <inputReference>recAccount</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>updateShiptoConfig</name>
+        <label>updateShiptoConfig</label>
+        <locationX>3130</locationX>
+        <locationY>1754</locationY>
+        <connector>
+            <targetReference>screenNewShipto</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SetupOwnerId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Organization.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>NonSAPShipToRunningNumber__c</field>
+            <value>
+                <elementReference>shiptoRunning</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CTRConfig__c</object>
+    </recordUpdates>
+    <recordUpdates>
         <name>updateSupplier</name>
         <label>updateSupplier</label>
         <locationX>1150</locationX>
-        <locationY>1982</locationY>
+        <locationY>1430</locationY>
         <connector>
             <targetReference>updateConfigSupplier</targetReference>
         </connector>
@@ -1985,10 +3287,20 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <inputReference>recAccount</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>updateSupplierBlock</name>
+        <label>updateSupplierBlock</label>
+        <locationX>2866</locationX>
+        <locationY>890</locationY>
+        <connector>
+            <targetReference>screenResubmitCompleted</targetReference>
+        </connector>
+        <inputReference>recPurchasing</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>updateSupplierRec</name>
         <label>updateSupplierRec</label>
         <locationX>1150</locationX>
-        <locationY>2198</locationY>
+        <locationY>1646</locationY>
         <connector>
             <targetReference>checkSupplier</targetReference>
         </connector>
@@ -2013,12 +3325,12 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenConfirmBI</name>
         <label>screenConfirmBI</label>
         <locationX>1194</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <connector>
-            <targetReference>getSalesAreaRecs</targetReference>
+            <targetReference>getRecordType</targetReference>
         </connector>
         <fields>
             <name>txtConfirmBI</name>
@@ -2030,10 +3342,90 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>screenConfirmEditShipto</name>
+        <label>screenConfirmEditShipto</label>
+        <locationX>3922</locationX>
+        <locationY>458</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>assignEditShipto</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_1_of_txtConfirmShipto</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Do you confirm to send information to SAP BI?&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em style=&quot;font-size: 11px;&quot;&gt;(Click &apos;&lt;/em&gt;&lt;em style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;X&lt;/em&gt;&lt;em style=&quot;font-size: 11px;&quot;&gt;&apos; on the top-right to cancel)&lt;/em&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screenConfirmResubmit</name>
+        <label>screenConfirmResubmit</label>
+        <locationX>2734</locationX>
+        <locationY>458</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>checkBlockType</targetReference>
+        </connector>
+        <fields>
+            <name>txtConfirmResubmit</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Do you confirm to send information to SAP BI?&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em style=&quot;font-size: 11px;&quot;&gt;(Click &apos;&lt;/em&gt;&lt;em style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;X&lt;/em&gt;&lt;em style=&quot;font-size: 11px;&quot;&gt;&apos; on the top-right to cancel)&lt;/em&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screenConfirmShipto</name>
+        <label>screenConfirmShipto</label>
+        <locationX>3394</locationX>
+        <locationY>674</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>getExistingShipto</targetReference>
+        </connector>
+        <fields>
+            <name>txtConfirmShipto</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Do you confirm to send information to SAP BI?&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;em style=&quot;font-size: 11px;&quot;&gt;(Click &apos;&lt;/em&gt;&lt;em style=&quot;font-size: 11px; color: rgb(255, 0, 0);&quot;&gt;X&lt;/em&gt;&lt;em style=&quot;font-size: 11px;&quot;&gt;&apos; on the top-right to cancel)&lt;/em&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screenEditShiptoCompleted</name>
+        <label>screenEditShiptoCompleted</label>
+        <locationX>3922</locationX>
+        <locationY>782</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>redirectRecord</targetReference>
+        </connector>
+        <fields>
+            <name>txtEditShiptoCompleted</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Information for ship-to &apos;{!getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c}&apos; updated completely.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>screenFail</name>
         <label>screenFail</label>
         <locationX>2338</locationX>
-        <locationY>1874</locationY>
+        <locationY>1322</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2047,10 +3439,44 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>screenFailCreateShipto</name>
+        <label>screenFailCreateShipto</label>
+        <locationX>3394</locationX>
+        <locationY>1322</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Copy_1_of_Copy_1_of_txtFailNewCustomer</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;New ship-to &apos;{!getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c}&apos; &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;creation &lt;/span&gt;failed.&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Please recheck your information and submit again.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screenFailEditShipto</name>
+        <label>screenFailEditShipto</label>
+        <locationX>4186</locationX>
+        <locationY>782</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>txtFailEditShipto</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Ship-to &apos;{!getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c}&apos; modification&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; &lt;/span&gt;failed.&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Please recheck your information and submit again.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>screenFailNewAdditional</name>
         <label>screenFailNewAdditional</label>
         <locationX>979</locationX>
-        <locationY>4052</locationY>
+        <locationY>3500</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2067,7 +3493,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenFailNewCustomer</name>
         <label>screenFailNewCustomer</label>
         <locationX>314</locationX>
-        <locationY>2090</locationY>
+        <locationY>1538</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2084,7 +3510,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenFailNewCustomerFinance</name>
         <label>screenFailNewCustomerFinance</label>
         <locationX>1243</locationX>
-        <locationY>3836</locationY>
+        <locationY>3284</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2101,7 +3527,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenFailNewPurchasing</name>
         <label>screenFailNewPurchasing</label>
         <locationX>1282</locationX>
-        <locationY>2630</locationY>
+        <locationY>2078</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2118,7 +3544,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenFailNewSalesArea</name>
         <label>screenFailNewSalesArea</label>
         <locationX>1507</locationX>
-        <locationY>3620</locationY>
+        <locationY>3068</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2132,10 +3558,27 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>screenFailNewShipto</name>
+        <label>screenFailNewShipto</label>
+        <locationX>3658</locationX>
+        <locationY>1106</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>txtFailNewShipto</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;New ship-to &apos;{!getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c}&apos; &lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;creation &lt;/span&gt;failed, because it&apos;s already existed.&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Please recheck your information and submit again.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>screenFailNewSupplier</name>
         <label>screenFailNewSupplier</label>
         <locationX>1810</locationX>
-        <locationY>2090</locationY>
+        <locationY>1538</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2152,7 +3595,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenFailNewSupplierFinance</name>
         <label>screenFailNewSupplierFinance</label>
         <locationX>1018</locationX>
-        <locationY>2846</locationY>
+        <locationY>2294</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2169,7 +3612,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>screenNewCustomer</name>
         <label>screenNewCustomer</label>
         <locationX>616</locationX>
-        <locationY>4052</locationY>
+        <locationY>3500</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2186,10 +3629,30 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>screenNewShipto</name>
+        <label>screenNewShipto</label>
+        <locationX>3130</locationX>
+        <locationY>1862</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>getShiptoRelevantEmail</targetReference>
+        </connector>
+        <fields>
+            <name>txtNewShiptoCompleted</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;New ship-to &apos;{!getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c}&apos; creation completed.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
         <name>screenNewSupplier</name>
         <label>screenNewSupplier</label>
         <locationX>754</locationX>
-        <locationY>2846</locationY>
+        <locationY>2294</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -2206,8 +3669,28 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>
+    <screens>
+        <name>screenResubmitCompleted</name>
+        <label>screenResubmitCompleted</label>
+        <locationX>2734</locationX>
+        <locationY>1082</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>navigateBlockRec</targetReference>
+        </connector>
+        <fields>
+            <name>txtResubmitCompleted</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Block status for {!getRequestItem.fmlAccountTypeName__c} &apos;{!getRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c}&apos; updated completely.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
     <start>
-        <locationX>1068</locationX>
+        <locationX>2696</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getRequestItem</targetReference>
@@ -2218,7 +3701,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>findCCUsers</name>
         <label>findCCUsers</label>
         <locationX>429</locationX>
-        <locationY>4592</locationY>
+        <locationY>4040</locationY>
         <connector>
             <targetReference>checkCCUsers</targetReference>
         </connector>
@@ -2235,7 +3718,7 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <name>findRelevantUsers</name>
         <label>findRelevantUsers</label>
         <locationX>616</locationX>
-        <locationY>4268</locationY>
+        <locationY>3716</locationY>
         <connector>
             <targetReference>checkRelevantUsers</targetReference>
         </connector>
@@ -2271,7 +3754,32 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         </value>
     </variables>
     <variables>
+        <name>customerCCEmails</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>customerEmail</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>customerRunning</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+        <value>
+            <numberValue>0.0</numberValue>
+        </value>
+    </variables>
+    <variables>
+        <name>numExistingShipto</name>
         <dataType>Number</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>
@@ -2341,6 +3849,22 @@ LPAD(TEXT({!supplierRunning}), 5, &quot;0&quot;)</expression>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>C360_SalesArea__c</objectType>
+    </variables>
+    <variables>
+        <name>recWE</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>C360_Relationship__c</objectType>
+    </variables>
+    <variables>
+        <name>recWERE</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>C360_Relationship__c</objectType>
     </variables>
     <variables>
         <name>shiptoRunning</name>

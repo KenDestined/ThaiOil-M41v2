@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>CTRDueDiligenceResultReviewForShipTo</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Due Diligence Review Section For Create Ship-to/Edit Ship-to</value>
+    </values>
+    <values>
+        <field>LongValue__c</field>
+        <value xsi:type="xsd:string">{
+    &quot;TOP&quot;: {
+        &quot;traderReview&quot;: {
+            &quot;button&quot;: &quot;&quot;,
+            &quot;section&quot;: &quot;Trader&quot;,
+            &quot;reviewInfo&quot;: {
+                &quot;TraderPreScreenComment__c&quot;: &quot;Trader Comment&quot;,
+                &quot;TraderEnhanceDueDiligenceBy__c&quot;: &quot;Comment By&quot;,
+                &quot;TraderEnhanceDueDiligenceDateTime__c&quot;: &quot;Comment Date/Time&quot;
+            },
+            &quot;actorStep&quot;: &quot;Trader&quot;
+        }
+    },
+    &quot;TX&quot;: {
+        &quot;traderReview&quot;: {
+            &quot;button&quot;: &quot;&quot;,
+            &quot;section&quot;: &quot;Trader&quot;,
+            &quot;reviewInfo&quot;: {
+                &quot;TraderPreScreenComment__c&quot;: &quot;Trader Comment&quot;,
+                &quot;TraderEnhanceDueDiligenceBy__c&quot;: &quot;Comment By&quot;,
+                &quot;TraderEnhanceDueDiligenceDateTime__c&quot;: &quot;Comment Date/Time&quot;
+            },
+            &quot;actorStep&quot;: &quot;Trader&quot;
+        }
+    },
+    &quot;LABIX&quot;: {
+        &quot;traderReview&quot;: {
+            &quot;button&quot;: &quot;&quot;,
+            &quot;section&quot;: &quot;Trader&quot;,
+            &quot;reviewInfo&quot;: {
+                &quot;TraderPreScreenComment__c&quot;: &quot;Trader Comment&quot;,
+                &quot;TraderEnhanceDueDiligenceBy__c&quot;: &quot;Comment By&quot;,
+                &quot;TraderEnhanceDueDiligenceDateTime__c&quot;: &quot;Comment Date/Time&quot;
+            },
+            &quot;actorStep&quot;: &quot;Trader&quot;
+        }
+    }
+}</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>

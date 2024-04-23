@@ -159,8 +159,8 @@ public class CTRInitialCustomerTOP
                                           CTRRequestFormHeader__r.LegalEntity__c,CTRRequestFormHeader__r.LocationInGoogleMapsLinks__c,CTRRequestFormHeader__r.CustomersFacilityTankAndStorage__c,CTRRequestFormHeader__r.CustomersFacilityTransportation__c,
                                           CTRRequestFormHeader__r.Country__r.Code__c,Yearofexperience__c,CTRRequestFormHeader__r.Yearofexperience__c,ReputationInTheMarket__c,CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c
                                           ,CTRRequestFormHeader__r.SuppliersFacilityTankAndStorage__c,CTRRequestFormHeader__r.SuppliersFacilityTransportation__c,OwnerId, SubBU__c, InterestedProductTypeAsSupplierTOP__c, isTRCR__c, 
-                                          CTRRequestFormHeader__r.ApprovedChangeCounterparty__c, CTRRequestFormHeader__r.DocumentSubmittedDateTime__c,CompanyCodeTOP__c,CompanyCodeTX__c, 
-                                          IsOwner__c, IsCreditOwner__c, DocumentChecklistButton__c,ApprovedChangeCounterparty__c, BusinessUnit__c
+                                          CTRRequestFormHeader__r.ApprovedChangeCounterparty__c, CTRRequestFormHeader__r.DocumentSubmittedDateTime__c,CompanyCodeTOP__c,CompanyCodeTX__c,
+                                          IsOwner__c, IsCreditOwner__c, DocumentChecklistButton__c,ApprovedChangeCounterparty__c, BusinessUnit__c,Approval_Step__c
                                           FROM CTRRequestFormItem__c WHERE id =: itemId];
                                           List<User> mUser = [SELECT Id, Name,UserRole.name,Profile.Name FROM User WHERE Id =: UserInfo.getUserId()];
             String Process = 'VerifyDocuments';
@@ -178,11 +178,14 @@ public class CTRInitialCustomerTOP
 
             String isByTX = 'No';
             String VP = 'VP';
-            Map<String,List<String>>actorMap = CTRRequestFormItemController.getActor(Process,SalesOrg,isDom,RecordType,Product,isByTX,'');           
+            Map<String,List<String>>actorMap = CTRRequestFormItemController.getActor(Process,SalesOrg,isDom,RecordType,Product,isByTX,'');  
+            System.debug('User1');         
             if(actorMap != null  && reqFormItem.Status__c == 'In Review')
             {
+                System.debug('User12+'+ actorMap.get('Credit'));       
                 if(actorMap.get('Credit') != null )
                 {
+                    System.debug('User3+ '+UserInfo.getUserId());       
                     if(actorMap.get('Credit').contains(UserInfo.getUserId()))
                     {
                         reqFormItem.isTRCR__c = 'true';
@@ -231,8 +234,13 @@ public class CTRInitialCustomerTOP
                                                             System.debug('itemId:'+itemId);
         try 
         {
+            System.debug('isTRCR:'+isTRCR);
+            System.debug('shareholderList:'+shareholderList);
+            System.debug('shippingList:'+shippingList);
+
             List<CTRShareholder__c>existingSH = [select id from CTRShareholder__c where CTRRequestFormHeader__c =: headerId];
             List<CTRShippingCountry__c>existingSC = [select id from CTRShippingCountry__c where CTRRequestFormItem__c =: itemId];
+
             if(existingSH.size() > 0) delete existingSH;
             if(existingSC.size() > 0) delete existingSC;
       
@@ -262,10 +270,10 @@ public class CTRInitialCustomerTOP
             }
             if(!isAccountCreate)
             {
-                List<CTRRequestFormItem__c> mItemList = [SELECT Id, Name, BusinessUnit__c, RecordTypeName__c,Sensitive__c FROM CTRRequestFormItem__c WHERE Id =:itemId];
+                List<CTRRequestFormItem__c> mItemList = [SELECT Id, Name, BusinessUnit__c, RecordTypeName__c,Sensitive__c, IsOwner__c FROM CTRRequestFormItem__c WHERE Id =:itemId];
                 CTRRequestFormItem__c mItem = new CTRRequestFormItem__c(Id = itemId);
                 System.debug('Debug item '+mItemList[0]);
-                if(isTRCR && (mItemList[0].BusinessUnit__c == 'TOP' || mItemList[0].BusinessUnit__c == 'LABIX'))
+                if(isTRCR )
                 {
                     System.debug('itemId:'+itemId);
                     // CTRRequestFormItem__c mItem = new CTRRequestFormItem__c(Id = itemId);
@@ -280,7 +288,7 @@ public class CTRInitialCustomerTOP
                     update mItem;
                 }
                 
-                CTRRequestFormItem__c responseItem = [SELECT Id, Name, BusinessUnit__c, RecordTypeName__c,Sensitive__c FROM CTRRequestFormItem__c WHERE Id =:itemId LIMIT 1];
+                CTRRequestFormItem__c responseItem = [SELECT Id, Name, BusinessUnit__c, RecordTypeName__c,Sensitive__c,IsOwner__c FROM CTRRequestFormItem__c WHERE Id =:itemId LIMIT 1];
                 return responseItem;
             }
             return null;
@@ -383,7 +391,7 @@ public class CTRInitialCustomerTOP
         try 
         {
             string result ='';
-            List<CTRRequestFormItem__c> RequestFormItemList = [select Country__r.Code__c from CTRRequestFormItem__c  WHERE id =:recordId ];
+            List<CTRRequestFormItem__c> RequestFormItemList = [select Country__r.Code__c,IsOwner__c from CTRRequestFormItem__c  WHERE id =:recordId ];
             system.debug('=====RequestFormItemList======'+RequestFormItemList);
             if(!RequestFormItemList.isEmpty()){
                 string itemCountry = RequestFormItemList[0].Country__r.Code__c;

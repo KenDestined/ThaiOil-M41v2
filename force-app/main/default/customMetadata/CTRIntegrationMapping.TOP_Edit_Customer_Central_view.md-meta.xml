@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>JsonMapping__c</field>
-        <value xsi:type="xsd:string">[{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;AccountGroup&quot;,&quot;Api&quot;:&quot;AccountGroup__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;TaxCode1&quot;,&quot;Api&quot;:&quot;TaxCode1__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;TaxCode5&quot;,&quot;Api&quot;:&quot;TaxCode1__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;TypeofBusiness&quot;,&quot;Api&quot;:&quot;TypeofBusiness__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;Industry&quot;,&quot;Api&quot;:&quot;Industry__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;CustomerType&quot;,&quot;Api&quot;:&quot;CustomerType__c&quot;}]</value>
+        <value xsi:type="xsd:string">[{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;AccountGroup&quot;,&quot;Api&quot;:&quot;//AccountGroup__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;TaxCode1&quot;,&quot;Api&quot;:&quot;TaxCode1__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;TaxCode5&quot;,&quot;Api&quot;:&quot;TaxCode1__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;TypeofBusiness&quot;,&quot;Api&quot;:&quot;TypeofBusiness__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;Industry&quot;,&quot;Api&quot;:&quot;Industry__c&quot;},{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;CustomerType&quot;,&quot;Api&quot;:&quot;CustomerType__c&quot;}]</value>
     </values>
     <values>
         <field>RecordType__c</field>

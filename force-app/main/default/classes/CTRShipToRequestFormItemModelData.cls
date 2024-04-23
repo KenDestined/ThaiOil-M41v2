@@ -125,6 +125,7 @@ public with sharing class CTRShipToRequestFormItemModelData
         public String Task{ get; set; }
         public String ShippingConditions{ get; set; }
         public String AccountAssignmentGroup{ get; set; }
+        public String CreditControlArea{ get; set; }
         public String Flag{ get; set; }
     }
 
@@ -159,20 +160,20 @@ public with sharing class CTRShipToRequestFormItemModelData
         List<TaxClassificationModel> taxClassificationModelList = new List<TaxClassificationModel>();
         List<CompanyCodeViewModel> companyCodeViewModelList = new List<CompanyCodeViewModel>();
         
-        subInputModel.AccountNumber = mRequestItem.Customer__r.AccountNumber__c !=null ? mRequestItem.Customer__r.AccountNumber__c: ''; //TODO Null value in google sheet
+        subInputModel.AccountNumber = (mRequestItem.Partner__c != null)? mRequestItem.Partner__r.AccountNumber__c: mRequestItem.Customer__r.AccountNumber__c;//mRequestItem.Customer__r.AccountNumber__c !=null ? mRequestItem.Customer__r.AccountNumber__c: ''; //TODO Null value in google sheet
         subInputModel.CompanyCode = '';//mRequestItem.Customer__r.CompanyCode__c !=null ? mRequestItem.Customer__r.CompanyCode__c: '';
         subInputModel.SalesOrganization = mRequestItem.SalesOrganization__c !=null ? mRequestItem.SalesOrganization__c: '';
         subInputModel.DistributionChannel = mRequestItem.DistributionChannel__c !=null ? mRequestItem.DistributionChannel__c: '';
         subInputModel.Division = mRequestItem.Division__c !=null ? mRequestItem.Division__c: '';
-        subInputModel.Id = mRequestHeader.Customer__c;
+        subInputModel.Id = (mRequestItem.Partner__c != null)? mRequestItem.Partner__c: mRequestHeader.Customer__c;
         subInputModel.GatewayId = uuid;
         subInputModel.Partner = mRequestItem.Customer__r.AccountNumber__c !=null ? mRequestItem.Customer__r.AccountNumber__c: '';
-        subInputModel.RecordType = mRequestItem.RecordType.DeveloperName;
+        subInputModel.RecordType = 'ShipTo';//mRequestItem.RecordType.DeveloperName;
         subInputModel.Flag = 'I';
         
             // CentralDataModel
             CentralDataModel centralDataModel = new CentralDataModel();
-            centralDataModel.AccountGroup = mRequestHeader.AccountGroup__c !=null ? mRequestHeader.AccountGroup__c: '';
+            centralDataModel.AccountGroup = 'ZSHP';// mRequestHeader.AccountGroup__c !=null ? mRequestHeader.AccountGroup__c: '';
             centralDataModel.Country = '';// mRequestHeader.Country__r.Code__c !=null ? mRequestHeader.Country__r.Code__c: ''; //Country__c Map แล้ว Error
             centralDataModel.TaxCode1 = (mRequestHeader.TaxCode1__c !=null && mRequestHeader.TaxCode1__c.length() <= 16) ? mRequestHeader.TaxCode1__c: '';
             centralDataModel.TaxCode5 = mRequestHeader.TaxCode1__c !=null ? mRequestHeader.TaxCode1__c: '';
@@ -211,7 +212,7 @@ public with sharing class CTRShipToRequestFormItemModelData
             addressGenModel.Country = mRequestHeader.Country__r.Code__c !=null ? mRequestHeader.Country__r.Code__c: '';//Country__r.code__c
             addressGenModel.Language = mRequestHeader.Language__c !=null ? mRequestHeader.Language__c: '';//ดู value ภาษาไทย = 2 //อังกฤษ = E
             addressGenModel.Region = mRequestHeader.RegionSAP__c !=null ? mRequestHeader.RegionSAP__c: '';//lookup depend on Country ขอ Data จาก sap
-            addressGenModel.TimeZone = mRequestHeader.TimeZone__c !=null ? mRequestHeader.TimeZone__c: '';
+            //addressGenModel.TimeZone = mRequestHeader.TimeZone__c !=null ? mRequestHeader.TimeZone__c: '';
             addressGenModel.SearchTerm = mRequestHeader.CustomerSearchTermLocal__c !=null ? mRequestHeader.CustomerSearchTermLocal__c: '';
             addressGenModel.SearchTermEN = mRequestHeader.CustomerSearchTermEN__c !=null ? mRequestHeader.CustomerSearchTermEN__c: '';
             
@@ -298,6 +299,8 @@ public with sharing class CTRShipToRequestFormItemModelData
             salesDataModel.Task = 'I';
             salesDataModel.ShippingConditions = mRequestItem.ShippingConditions__c !=null ? mRequestItem.ShippingConditions__c:''; 
             salesDataModel.AccountAssignmentGroup = mRequestItem.AccountAssignmentGroup__c !=null ? mRequestItem.AccountAssignmentGroup__c: '';
+            salesDataModel.CreditControlArea = mRequestItem.CreditControlArea__c !=null ? mRequestItem.CreditControlArea__c: '';
+
             salesDataModel.Flag = 'I';
             
             salesDataModelList.add(salesDataModel);

@@ -37,14 +37,20 @@
     },
     handleEditClick: function(component, event, helper) {
         console.log('---handleEditClick---');
+        var  RecTypeName = component.get("v.RecordTypeName");
+        console.log('---RecTypeName--'+RecTypeName);
+        var buInfo = component.get("v.BUInfo"); 
+        console.log('---buInfo.BusinessUnit__c---'+buInfo.BusinessUnit__c);
+        
         component.set('v.IsPageDisable',false);
         component.set('v.IsButtonDisable',false);
+        component.set('v.IsEditButtonDisable',true);
         
         if(buInfo.BusinessUnit__c=="TX")
-            {
-                //this.handleRenderPicklist
+        {
                 
                 var CashOnDelivery = component.find("CashOnDelivery").get("v.value");
+            	console.log('---EDIT-CashOnDelivery--'+CashOnDelivery);
                 var HavingCollateral = component.find("HavingCollateral").get("v.value");
                 var BuyTradeEndorsement = component.find("BuyTradeEndorsement").get("v.value");
                 var BuyTradeDCLCondition = component.find("BuyTradeDCLCondition").get("v.value");
@@ -59,6 +65,7 @@
                         component.set('v.BuyTradeEndorsementIsDisable',false); 
                         component.set('v.BuyTradeDCLConditionIsDisable',false);
                         component.set('v.HavingOpenedCreditIsDisable',false);
+                        component.set("v.CurrencyDisable",false);
                         
                         if(HavingCollateral == '' && BuyTradeEndorsement == '' && BuyTradeDCLCondition == '' && HavingOpenedCredit == '')
                         {
@@ -75,32 +82,41 @@
                             component.set('v.IsRequired',false); 
                             component.set('v.IsShowRequiredMsg',false);
                         }
+                        
+                        if(HavingCollateral == 'Yes'){
+                            component.set('v.HavingCollateralIsDisable',false);
+                            component.set('v.AmountBankGuaranteeIsDisable',false);
+    
+                        }else 
+                            component.set('v.HavingCollateralIsDisable',false);
+                        
+                        if(BuyTradeEndorsement == 'Yes'){
+                            component.set('v.BuyTradeEndorsementIsDisable',false);
+                            component.set('v.AmountBuyTradeIsDisable',false);
+                        }else 
+                            component.set('v.BuyTradeEndorsementIsDisable',false);
+                        
+                        if(BuyTradeDCLCondition == 'Yes'){
+                            component.set('v.BuyTradeDCLConditionIsDisable',false);
+                            component.set('v.AmountDCLConditionIsDisable',false);
+                        }else 
+                            component.set('v.BuyTradeDCLConditionIsDisable',false);
+                        
+                        if(HavingOpenedCredit == 'Yes'){
+                            component.set('v.HavingOpenedCreditIsDisable',false);
+                            component.set('v.AmountOpenedCreditIsDisable',false);
+                        }else 
+                            component.set('v.HavingOpenedCreditIsDisable',false);
                     }
-                    
-                    if(HavingCollateral == 'Yes'){
-                        component.set('v.HavingCollateralIsDisable',false);
-                        component.set('v.AmountBankGuaranteeIsDisable',false);
-
-                    }else 
-                        component.set('v.HavingCollateralIsDisable',false);
-                    
-                    if(BuyTradeEndorsement == 'Yes'){
-                        component.set('v.BuyTradeEndorsementIsDisable',false);
-                        component.set('v.AmountBuyTradeIsDisable',false);
-                    }else 
-                        component.set('v.BuyTradeEndorsementIsDisable',false);
-                    
-                    if(BuyTradeDCLCondition == 'Yes'){
-                        component.set('v.BuyTradeDCLConditionIsDisable',false);
-                        component.set('v.AmountDCLConditionIsDisable',false);
-                    }else 
-                        component.set('v.BuyTradeDCLConditionIsDisable',false);
-                    
-                    if(HavingOpenedCredit == 'Yes'){
-                        component.set('v.HavingOpenedCreditIsDisable',false);
-                        component.set('v.AmountOpenedCreditIsDisable',false);
-                    }else 
-                        component.set('v.HavingOpenedCreditIsDisable',false);
+                    else
+                    {
+                        console.log('---CashOnDelivery-else--');
+                        component.set('v.HavingCollateralIsDisable',true);
+                        component.set('v.BuyTradeEndorsementIsDisable',true); 
+                        component.set('v.BuyTradeDCLConditionIsDisable',true);
+                        component.set('v.HavingOpenedCreditIsDisable',true);
+                        component.set("v.CurrencyDisable",true);
+                    }
                 }
                 else if(RecTypeName == 'Supplier')
                 {
@@ -111,7 +127,7 @@
                         console.log('---No1--');
                         component.set('v.HavingCollateralIsDisable',false);
                         component.set('v.radioCreditTermIsDisable',false);
-                        
+                        component.set("v.CurrencyDisable",false);
                         //enable picklist
                         if(HavingCollateral == 'Yes'){
                             component.set('v.HavingCollateralIsDisable',false);
@@ -132,27 +148,161 @@
                         component.set('v.radioCreditTermIsDisable',true);
 					}
                 }    
-            }
+        }
     },
     handleSubmit : function(component, event, helper) {
         try
         {
+            var errormsg= '';
             var ButtonLabel1 = component.get("v.ButtonLabel");
-        console.log('---ButtonLabel1---'+ButtonLabel1);
-        if(ButtonLabel1 != undefined && ButtonLabel1 != '')
-        {
-            console.log('---handleSubmit---');
-            component.set('v.IsPageDisable',true);
-            component.set('v.IsButtonDisable',true);
-            event.preventDefault();
-            const fields = event.getParam('fields');
-            if(ButtonLabel1 == 'Submit')
+            console.log('---ButtonLabel1---'+ButtonLabel1);
+            var buInfo = component.get("v.BUInfo"); 
+        	console.log('---buInfo.BusinessUnit__c---'+buInfo.BusinessUnit__c);
+            var  RecTypeName = component.get("v.RecordTypeName");
+            console.log('---RecTypeName--'+RecTypeName);
+            var checkAmountPass;
+            if(ButtonLabel1 != undefined && ButtonLabel1 != '')
             {
-                fields.Status__c = 'In Review';
-                fields.Approval_Step__c = 'Select Committee';
+                console.log('---handleSave---');
+                component.set('v.IsPageDisable',true);
+                component.set('v.IsButtonDisable',true);
+                event.preventDefault();
+                const fields = event.getParam('fields');
+                
+                if(buInfo.BusinessUnit__c=="TX")
+                {
+                    var RequestToChangeCredit = component.find("RequestToChangeCreditTX").get("v.value");
+                    fields.RequestToChangeCredit__c = RequestToChangeCredit;
+                    fields.RequestToChangeCreditTX__ = RequestToChangeCredit;
+                        var msgErr = 'Amount need to be more than zero';
+                        if(RecTypeName == 'Customer') 
+                        {
+                            var CashOnDelivery1 = component.find("CashOnDelivery").get("v.value");
+                            console.log('CashOnDeliverybuInfo is not defined1---' + CashOnDelivery1);
+                        
+                            var amount2 = component.find("Amount2").get("v.value");
+                            var HavingCollateral = component.find("HavingCollateral").get("v.value");
+                            console.log('amount2---' + amount2);
+                            
+                            var amount3 = component.find("Amount3").get("v.value");
+                            var BuyTradeEndorsement = component.find("BuyTradeEndorsement").get("v.value");
+                            console.log('amount3---' + amount3);
+                            
+                            var amount4 = component.find("Amount4").get("v.value");
+                            var BuyTradeDCLCondition = component.find("BuyTradeDCLCondition").get("v.value");
+                            console.log('amount4---' + amount4);
+                            
+                            var amount5 = component.find("Amount5").get("v.value");
+                            var HavingOpenedCredit = component.find("HavingOpenedCredit").get("v.value");
+                            console.log('amount5---' + amount5);
+                            
+                            var amount6 = component.find("Amount6").get("v.value");
+                            console.log('amount6---' + amount6);
+                            //fields.TotalSecuredAmount__c = amount6;
+                                                             
+                            
+                            if((amount2 <= 0 && HavingCollateral == 'Yes') || (amount3 <= 0 && BuyTradeEndorsement == 'Yes') || (amount4 <= 0 && BuyTradeDCLCondition == 'Yes') || (amount5 <= 0 && HavingOpenedCredit == 'Yes'))
+                            {
+                                checkAmountPass = false;
+                                if(amount2 <= 0 && HavingCollateral == 'Yes')
+                                    component.set('v.isAmount2Required',true);
+                                else if(amount3 <= 0 && BuyTradeEndorsement == 'Yes')
+                                    component.set('v.isAmount3Required',true);
+                                else if(amount4 <= 0 && BuyTradeDCLCondition == 'Yes')
+                                    component.set('v.isAmount4Required',true);
+                                else if(amount5 <= 0 && HavingOpenedCredit == 'Yes')
+                                    component.set('v.isAmount5Required',true);
+                            }
+                            
+                            if(CashOnDelivery1 == 'Yes')
+                            {
+                                checkAmountPass = true;
+                            }
+                            else if(CashOnDelivery1 == 'No')
+                            {
+                                console.log('----CashOnDelivery1- NO --');
+                                if((HavingCollateral == '' && BuyTradeEndorsement == '' && BuyTradeDCLCondition == '' && HavingOpenedCredit == '')||(HavingCollateral == 'Yes' || BuyTradeEndorsement == 'Yes' || BuyTradeDCLCondition == 'Yes' || HavingOpenedCredit == 'Yes'))
+                                {
+                                    console.log('----ERROR- masg --');
+                                    component.set('v.IsRequired',true);
+                                    component.set('v.IsShowRequiredMsg',true);
+                                }
+                            }                    
+                        }
+                        else
+                        {
+                            var amount2 = component.find("Amount2").get("v.value");
+                            var HavingCollateral = component.find("HavingCollateral").get("v.value");
+                            
+                            var AmountCreditTerm = component.find("AmountCreditTerm").get("v.value");
+                            var HavingCreditTermorLetter = component.find("HavingCreditTermorLetter").get("v.value");
+                            
+                            console.log('amount2---' + amount2);
+                            console.log('AmountCreditTerm---' + AmountCreditTerm);
+                            
+                            if((amount2 <= 0 && HavingCollateral == 'Yes') || (AmountCreditTerm <= 0 && HavingCreditTermorLetter == 'Yes'))
+                            {
+                                checkAmountPass = false;
+                            }
+                            
+                            if(HavingCollateral == 'No' && HavingCreditTermorLetter == 'No')
+                            {
+                                checkAmountPass = false;
+                                msgErr = 'Please complete all required fields.';
+                                component.set('v.IsShowRequiredMsg',true);
+                                //component.set('v.IsRequired',true);
+                            }
+                                
+                        }
+                }
+                else
+                {
+                    var RequestToChangeCredit = component.find("RequestToChangeCredit").get("v.value");
+                    fields.RequestToChangeCredit__c = RequestToChangeCredit;
+                    fields.RequestToChangeCreditTX__ = RequestToChangeCredit;
+                }
+                if(component.get('v.IsSubTypeCondition2Disable') == true)
+                {
+                    fields.SubTypeCondition2__c = component.find("SubTypeConditionhidden").get("v.value");
+                }
+                else
+                {
+                    fields.SubTypeCondition2__c = component.find("SubTypeCondition2").get("v.value");
+                }
+                
+                //var RequestToChangeCredit = component.find("RequestToChangeCredit").get("v.value");
+                //fields.RequestToChangeCredit__c = RequestToChangeCredit;
+                console.log('RequestToChangeCredit__c---'+fields.RequestToChangeCredit__c);
+                console.log('RequestToChangeCreditTX__c---'+fields.RequestToChangeCreditTX__);
+                
+                component.find("RequestToChangeCreditTX").get("v.value");
+                if(ButtonLabel1 == 'Submit')
+                {
+                    fields.Status__c = 'In Review';
+                    fields.Approval_Step__c = 'Select Committee';
+                    
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        "title": "Success!",
+                        "message": 'The new credit condition has been completed',
+                        "type" : "success"
+                    });
+                    toastEvent.fire();
+                }
+                else
+                {
+                    var toastEvent = $A.get("e.force:showToast");
+                    toastEvent.setParams({
+                        "title": "Success!",
+                        "message": 'The request form has been saved',
+                        "type" : "success"
+                    });
+                    toastEvent.fire();
+                }
+                component.find('recordEditForm').submit(fields); 
+                
             }
-        	component.find('recordEditForm').submit(fields); 
-        }
+            
             
         }
         catch(ex)
@@ -165,166 +315,292 @@
         console.log('---handleSuccess--');
         var ButtonLabel1 = component.get("v.ButtonLabel");
         console.log('---ButtonLabel1---'+ButtonLabel1);
+        
+        //disable fields
+        component.set('v.IsEditButtonDisable',false);
+        component.set('v.HavingCollateralIsDisable',true);
+        component.set('v.BuyTradeEndorsementIsDisable',true); 
+        component.set('v.BuyTradeDCLConditionIsDisable',true);
+        component.set('v.HavingOpenedCreditIsDisable',true);
+        component.set("v.CurrencyDisable",true);
+        
         if(ButtonLabel1 != undefined && ButtonLabel1 != '')
         {
+            
             window.setTimeout(
                 $A.getCallback(function() {
                     window.location.reload();
                     component.set("v.ButtonLabel",'');
                 }), 3000
             );
-            
         }
     },
+    handleCancel : function(component, event, helper) {
+        console.log('button cancel---');
+        component.set('v.IsEditButtonDisable',false);
+        component.set("v.ButtonLabel",'');
+        component.set('v.IsPageDisable',true);
+        component.set('v.IsButtonDisable',true);
+        
+        component.set('v.HavingCollateralIsDisable',true);
+        component.set('v.BuyTradeEndorsementIsDisable',true); 
+        component.set('v.BuyTradeDCLConditionIsDisable',true);
+        component.set('v.HavingOpenedCreditIsDisable',true);
+        component.set("v.CurrencyDisable",true);
+        component.set("v.AmountBankGuaranteeIsDisable",true);
+        component.set("v.AmountBuyTradeIsDisable",true);
+        component.set("v.AmountDCLConditionIsDisable",true);
+        component.set("v.AmountOpenedCreditIsDisable",true);
+        
+        /*component.set('v.IsWaiveDisable',true);
+        component.set('v.IsTDFieldsDisable',true);
+        component.set('v.IsTDWaiveDisable',true);
+        component.set('v.IsSHDisable',true);
+        component.set('v.IsVPDisable',true);
+        component.set('v.radioCreditTermIsDisable',true);
+        component.set('v.YesCreditTermIsDisable',true);
+        component.set('v.radio2IsDisable',true);
+        component.set('v.Yes2IsDisable',true);
+        component.set('v.CurrencyDisable',true);
+        component.set('v.radio3IsDisable',true);
+        component.set('v.Yes3IsDisable',true);
+        
+        component.set('v.radio4IsDisable',true);
+        component.set('v.Yes4IsDisable',true);*/
+        
+        //window.location.reload();
+    },
     handleRenderCreditConditionFields: function(component, event, helper) { 
-		console.log('---RenderCreditConditionFields--');
-        var RequestToChangeCredit = component.find("RequestToChangeCredit").get("v.value"); 
-        console.log('-0--RequestToChangeCredit---'+RequestToChangeCredit);
-        var SubTypeCondition = component.find("SubTypeCondition").get("v.value"); 
-        console.log('-1--SubTypeCondition---'+SubTypeCondition);
-        var SubTypeCondition2 = component.find("SubTypeCondition2").get("v.value"); 
-        console.log('-2--SubTypeCondition2---'+SubTypeCondition2);
-        var CreditCondition = component.find("ChangeCreditCreditCondition").get("v.value"); 
-        console.log('-3--CreditCondition---'+CreditCondition);
-        
-        component.set('v.IsDescriptionDisable',false);
-        
-        if(RequestToChangeCredit == 'Request to Change Credit Condition')
-        {
-            component.set('v.IsSubTypeConditionDisable',false);
-            component.set('v.IsEffectiveDateDisable',false);
+        try{
+            console.log('---RenderCreditConditionFields--');
+            var RequestToChangeCredit = component.find("RequestToChangeCredit").get("v.value"); 
+            console.log('-0--RequestToChangeCredit---'+RequestToChangeCredit);
+            var SubTypeCondition = component.find("SubTypeCondition").get("v.value"); 
+            console.log('-1--SubTypeCondition---'+SubTypeCondition);
+            var SubTypeCondition2 = component.find("SubTypeCondition2").get("v.value"); 
+            console.log('-2--SubTypeCondition2---'+SubTypeCondition2);
+            var CreditCondition = component.find("ChangeCreditCreditCondition").get("v.value"); 
+            console.log('-3--CreditCondition---'+CreditCondition);
+            var buInfo = component.get("v.BUInfo"); 
             
-            if (SubTypeCondition == 'Expand Temporary Credit Line')
-            {   
-                component.set('v.IsAmountDisable',false);
-                
-                component.set('v.IsCreditLimitDisable',true);
-                component.set('v.IsSubTypeCondition2Disable',true);                
-                component.set('v.IsTradeCreditInsuranceDisable',true);
-                component.set('v.IsInternalCreditRatingDisable',true);
-                
-                component.set('v.IsChangeCreditCreditConditionDisable',true);
-            }
-            if (SubTypeCondition == 'Expand Credit Line')
-            {   
-                component.set('v.IsCreditLimitDisable',false);
-                
-                component.set('v.IsSubTypeCondition2Disable',true);
-                component.set('v.IsAmountDisable',true);
-                component.set('v.IsTradeCreditInsuranceDisable',true);
-                component.set('v.IsInternalCreditRatingDisable',true);
-                component.set('v.IsChangeCreditCreditConditionDisable',true);
-            }
-            else if (SubTypeCondition == 'Change Credit Condition')
+            component.set('v.IsDescriptionDisable',false);
+            
+            component.set('v.IsChangeCreditPaymentTermDisable',true);
+            if(buInfo.BusinessUnit__c != "TX")
             {
-                CreditCondition = component.find("ChangeCreditCreditCondition").get("v.value"); 
-        		console.log('-4--CreditCondition---'+CreditCondition);
+            	//component.set('v.IsChangeCreditPaymentTermDisable',false);
+                component.set('v.IsPaymentConditionRequried',true);
+                //component.find("RequestToChangeCredithidden").set("v.value",""); 
+            }
+            else
+            {
+                var txvalue = component.find("RequestToChangeCreditTX").get("v.value"); 
+                component.find("RequestToChangeCredithidden").set("v.value",txvalue); 
+                RequestToChangeCredit = txvalue;
+            }
+            
+            if(RequestToChangeCredit == 'Request to Change Credit Condition')
+            {
+                component.set('v.IsSubTypeConditionDisable',false);
+                component.set('v.IsEffectiveDateDisable',false);
                 
-        		component.set('v.IsChangeCreditCreditConditionDisable',false);
-                component.set('v.IsInternalCreditRatingDisable',false);
-                component.set('v.IsCreditLimitDisable',false);
-                
-                component.set('v.IsSubTypeCondition2Disable',true);
-                component.set('v.IsAmountDisable',true);
-                console.log('---5---');
-                
-                if(CreditCondition == 'Open Account' )
-                {
+                if (SubTypeCondition == 'Expand Temporary Credit Line')
+                {   
+                    
+                    component.find("SubTypeCondition2").set("v.value","");
+                    component.find("SubTypeConditionhidden").set("v.value","Expand Temporary Credit Line");
+                    component.set('v.IsAmountDisable',false);
+                    console.log('-2--SubTypeCondition2-start--'+component.find("SubTypeCondition2").get("v.value"));
+                    component.set('v.IsCreditLimitDisable',true);
+                    component.set('v.IsSubTypeCondition2Disable',true);                
                     component.set('v.IsTradeCreditInsuranceDisable',true);
+                    component.set('v.IsInternalCreditRatingDisable',true);
+                    
+                    component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    
+                    
+                    console.log('-2--SubTypeConditionhidden-start--');
+                    console.log('-2--SubTypeConditionhidden-get--'+component.find("SubTypeConditionhidden").get("v.value"));
                 }
-                else if(CreditCondition == 'L/C' || CreditCondition == 'Domestic L/C' || CreditCondition == 'Open Account With Collateral')
-                {
-                    console.log('---6---');
-                    component.set('v.IsTradeCreditInsuranceDisable',false);
-                    console.log('---7---');
+                else if (SubTypeCondition == 'Expand Credit Line')
+                {   
+                    component.find("SubTypeCondition2").set("v.value","");
+                    component.set('v.IsCreditLimitDisable',false);
+                    
+                    component.set('v.IsSubTypeCondition2Disable',true);
+                    component.set('v.IsAmountDisable',true);
+                    component.set('v.IsTradeCreditInsuranceDisable',true);
+                    component.set('v.IsInternalCreditRatingDisable',true);
+                    component.set('v.IsChangeCreditCreditConditionDisable',true);
                 }
-                else if(CreditCondition == 'Cash in Advance' || CreditCondition == 'Others')
+                else if (SubTypeCondition == 'Change Credit Condition')
                 {
+                    CreditCondition = component.find("ChangeCreditCreditCondition").get("v.value"); 
+                    console.log('-4--CreditCondition---'+CreditCondition);
+                    
+                    component.set('v.IsChangeCreditCreditConditionDisable',false);
+                    component.set('v.IsInternalCreditRatingDisable',false);
+                    component.set('v.IsCreditLimitDisable',false);
+                    component.find("SubTypeCondition2").set("v.value","");
+                    component.set('v.IsSubTypeCondition2Disable',true);
+                    component.set('v.IsAmountDisable',true);
+                    console.log('---5---'+component.get('v.IsPaymentConditionRequried'));
+                    
+                    if(CreditCondition == 'Open Account' )
+                    {
+                        component.set('v.IsTradeCreditInsuranceDisable',true);
+                    }
+                    //else if(CreditCondition == 'L/C' || CreditCondition == 'Domestic L/C' || CreditCondition == 'Open Account With Collateral')
+                    else if( CreditCondition == 'Open Account With Collateral')
+                    {
+                        console.log('---6---');
+                        component.set('v.IsTradeCreditInsuranceDisable',false);
+                        console.log('---7---');
+                    }
+                    else if(CreditCondition == 'Cash in Advance' || CreditCondition == 'Others')
+                    {
+                        
+                        component.set('v.IsCreditLimitDisable',true);
+                        component.set('v.IsTradeCreditInsuranceDisable',true);
+                        component.set('v.IsPaymentConditionRequried',false);
+                        console.log('---88---'+component.get('v.IsPaymentConditionRequried'));
+                        
+                    }
+                    else
+                    {
+                        component.set('v.IsTradeCreditInsuranceDisable',true);  
+                        component.set('v.IsCreditLimitDisable',true);
+                    }
+                    
+                    if(buInfo.BusinessUnit__c=="TX")
+                    {
+                        component.set('v.IsCreditLimitDisable',false);
+                    }
+                    else
+                    {
+                        component.set('v.IsChangeCreditPaymentTermDisable',false);
+                    }
+                    console.log('---8---');
+                }
+                else if (SubTypeCondition == 'Others')
+                {
+                    component.find("SubTypeCondition2").set("v.value","");
+                    component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    component.set('v.IsInternalCreditRatingDisable',true);
+                    component.set('v.IsSubTypeCondition2Disable',true);
+                    component.set('v.IsAmountDisable',true);
                     component.set('v.IsCreditLimitDisable',true);
                     component.set('v.IsTradeCreditInsuranceDisable',true);
-                }
-                console.log('---8---');
-            }
-            else if (SubTypeCondition == 'Others')
-            {
-                component.set('v.IsChangeCreditCreditConditionDisable',true);
-                component.set('v.IsInternalCreditRatingDisable',true);
-                component.set('v.IsSubTypeCondition2Disable',true);
-                component.set('v.IsAmountDisable',true);
-            	component.set('v.IsCreditLimitDisable',true);
-            	component.set('v.IsTradeCreditInsuranceDisable',true);
-                component.set('v.IsDescriptionDisable',true);
-            }
-            
-        }
-        else if(RequestToChangeCredit == 'Request to reduce/waive late payment')
-        {
-            SubTypeCondition = component.find("SubTypeCondition").get("v.value"); 
-        	console.log('-1--SubTypeCondition---'+SubTypeCondition);
-            SubTypeCondition2 = component.find("SubTypeCondition2").get("v.value"); 
-        	console.log('-2--SubTypeCondition2---'+SubTypeCondition2);
-            
-            component.set('v.IsSubTypeConditionDisable',false);
-            if(SubTypeCondition == 'Others' ||SubTypeCondition == 'Early payment for next invoice')
-            {
-                component.set('v.IsSubTypeCondition2Disable',true);
-                component.set('v.IsAmountDisable',true);
-                component.set('v.IsCreditLimitDisable',true);
-                component.set('v.IsTradeCreditInsuranceDisable',true);
-                component.set('v.IsInternalCreditRatingDisable',true);
-                component.set('v.IsEffectiveDateDisable',true);
-                component.set('v.IsChangeCreditCreditConditionDisable',true);
-                if(SubTypeCondition == 'Others')
                     component.set('v.IsDescriptionDisable',true);
-            }
-            else if(SubTypeCondition == 'Customer False')
-            {
-                component.set('v.IsSubTypeCondition2Disable',false);
-                if(SubTypeCondition2 == 'Others')
+                }
+                else
                 {
+                    component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    component.set('v.IsInternalCreditRatingDisable',true);
+                    component.set('v.IsSubTypeCondition2Disable',true);
+                    component.set('v.IsAmountDisable',true);
+                    component.set('v.IsCreditLimitDisable',true);
+                    component.set('v.IsTradeCreditInsuranceDisable',true);
+                    component.set('v.IsDescriptionDisable',false);
+                }
+                
+                if(buInfo.BusinessUnit__c!="TX" && SubTypeCondition != 'Change Credit Condition')
+                {
+                    component.set('v.IsChangeCreditPaymentTermDisable',true);
+                }
+                
+            }
+            else if(RequestToChangeCredit == 'Request to reduce/waive late payment')
+            {
+                SubTypeCondition = component.find("SubTypeCondition").get("v.value"); 
+                console.log('-1--SubTypeCondition---'+SubTypeCondition);
+                SubTypeCondition2 = component.find("SubTypeCondition2").get("v.value"); 
+                console.log('-2--SubTypeCondition2---'+SubTypeCondition2);
+                
+                component.set('v.IsSubTypeConditionDisable',false);
+                if(SubTypeCondition == 'Others' ||SubTypeCondition == 'Early payment for next invoice')
+                {
+                    component.find("SubTypeCondition2").set("v.value","");
+                    component.set('v.IsSubTypeCondition2Disable',true);
                     component.set('v.IsAmountDisable',true);
                     component.set('v.IsCreditLimitDisable',true);
                     component.set('v.IsTradeCreditInsuranceDisable',true);
                     component.set('v.IsInternalCreditRatingDisable',true);
                     component.set('v.IsEffectiveDateDisable',true);
                     component.set('v.IsChangeCreditCreditConditionDisable',true);
-                    component.set('v.IsDescriptionDisable',true);
+                    if(SubTypeCondition == 'Others')
+                        component.set('v.IsDescriptionDisable',true);
                 }
-                else if(SubTypeCondition2 == 'Not first time of late payment' || SubTypeCondition2 == 'First time of late payment')
+                else if(SubTypeCondition == 'Customer False')
                 {
+                    
+                    component.set('v.IsSubTypeCondition2Disable',false);
+                    if(SubTypeCondition2 == 'Others')
+                    {
+                        component.set('v.IsAmountDisable',true);
+                        component.set('v.IsCreditLimitDisable',true);
+                        component.set('v.IsTradeCreditInsuranceDisable',true);
+                        component.set('v.IsInternalCreditRatingDisable',true);
+                        component.set('v.IsEffectiveDateDisable',true);
+                        component.set('v.IsChangeCreditCreditConditionDisable',true);
+                        component.set('v.IsDescriptionDisable',true);
+                    }
+                    else if(SubTypeCondition2 == 'Not first time of late payment' || SubTypeCondition2 == 'First time of late payment')
+                    {
+                        component.set('v.IsAmountDisable',false);
+                        component.set('v.IsCreditLimitDisable',true);
+                        component.set('v.IsTradeCreditInsuranceDisable',true);
+                        component.set('v.IsInternalCreditRatingDisable',true);
+                        component.set('v.IsEffectiveDateDisable',true);
+                        component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    }
+                }
+                else if(SubTypeCondition == 'Internal False')
+                {
+                    component.find("SubTypeCondition2").set("v.value","");
                     component.set('v.IsAmountDisable',false);
+                    
+                    component.set('v.IsEffectiveDateDisable',true);
+                    component.set('v.IsSubTypeCondition2Disable',true);
                     component.set('v.IsCreditLimitDisable',true);
                     component.set('v.IsTradeCreditInsuranceDisable',true);
                     component.set('v.IsInternalCreditRatingDisable',true);
-                    component.set('v.IsEffectiveDateDisable',true);
                     component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    
+                    component.find("SubTypeConditionhidden").set("v.value","Internal False");
+                    console.log('-2--SubTypeConditionhidden-start--');
+                    console.log('-2--SubTypeConditionhidden-get--'+component.find("SubTypeConditionhidden").get("v.value"));
+                }
+                else
+                {
+                    component.set('v.IsEffectiveDateDisable',true);
+                    component.set('v.IsSubTypeCondition2Disable',true);
+                    component.set('v.IsCreditLimitDisable',true);
+                    component.set('v.IsTradeCreditInsuranceDisable',true);
+                    component.set('v.IsInternalCreditRatingDisable',true);
+                    component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    component.set('v.IsAmountDisable',true);
                 }
             }
-            else if(SubTypeCondition == 'Internal False')
+            else if(RequestToChangeCredit == 'Request to set due date of debit/credit note' || RequestToChangeCredit == 'Other requests')
             {
-                component.set('v.IsAmountDisable',false);
-                
-                component.set('v.IsEffectiveDateDisable',true);
+                component.find("SubTypeCondition2").set("v.value","");
+                component.set('v.IsSubTypeConditionDisable',true);
                 component.set('v.IsSubTypeCondition2Disable',true);
+                component.set('v.IsAmountDisable',true);
                 component.set('v.IsCreditLimitDisable',true);
                 component.set('v.IsTradeCreditInsuranceDisable',true);
                 component.set('v.IsInternalCreditRatingDisable',true);
+                component.set('v.IsEffectiveDateDisable',true);
                 component.set('v.IsChangeCreditCreditConditionDisable',true);
+                component.set('v.IsDescriptionDisable',true);
             }
+            component.find("SubTypeCondition").set("v.value",SubTypeCondition);
         }
-        else if(RequestToChangeCredit == 'Request to set due date of debit/credit note' || RequestToChangeCredit == 'Other requests')
+        catch(ex)
         {
-            component.set('v.IsSubTypeConditionDisable',true);
-            component.set('v.IsSubTypeCondition2Disable',true);
-            component.set('v.IsAmountDisable',true);
-            component.set('v.IsCreditLimitDisable',true);
-            component.set('v.IsTradeCreditInsuranceDisable',true);
-            component.set('v.IsInternalCreditRatingDisable',true);
-            component.set('v.IsEffectiveDateDisable',true);
-            component.set('v.IsChangeCreditCreditConditionDisable',true);
-            component.set('v.IsDescriptionDisable',true);
+            console.error('ex---'+ex.message);            
         }
-        
     },
     handleRenderPicklist: function(component, event, helper) {
         var  RecTypeName = component.get("v.RecordTypeName");
@@ -360,11 +636,13 @@
             if(CashOnDelivery == 'No' && (HavingCollateral == 'Yes' || HavingCreditTermorLetter == 'Yes'))
             {
                 component.set('v.IsShowRequiredMsg',false); 
+                component.set("v.CurrencyDisable",false);
             }
             
             if(CashOnDelivery == 'No' && (HavingCollateral != 'Yes' && HavingCreditTermorLetter != 'Yes'))
             {
                 component.set('v.IsShowRequiredMsg',true); 
+                component.set("v.CurrencyDisable",false);
             }
             
             //2 HavingCreditTermorLetter
@@ -393,12 +671,14 @@
             {
                 console.log('---2.2--');
                 component.set('v.IsShowRequiredMsg',false); 
+                component.set("v.CurrencyDisable",false);
             }
             console.log('---3--');
             if(CashOnDelivery == 'No' && (HavingCollateral != 'Yes' && BuyTradeEndorsement != 'Yes' && BuyTradeDCLCondition != 'Yes' && HavingOpenedCredit != 'Yes'))
             {
                 console.log('---3.1--');
                 component.set('v.IsShowRequiredMsg',true); 
+                component.set("v.CurrencyDisable",false);
             }
             console.log('---4--');
             //3 BuyTradeEndorsement
@@ -416,6 +696,7 @@
                 component.set('v.Ispass_Excelsummary',true);
                 component.find("Amount3").set("v.value",0);
                 component.set('v.isAmount3Required ',false);
+                component.set('v.AmountBuyTradeIsDisable',true);
             }   
             console.log('---5--');
             //4 BuyTradeDCLCondition
@@ -473,10 +754,11 @@
                 component.set('v.Ispass_CashOnDelivery',true);
                 component.set('v.HavingCollateralIsDisable',true);
                 component.find("Amount2").set("v.value",0);
-                component.find("Total_Secured_Currency__c").set("v.value",'');
+                //component.find("Total_Secured_Currency__c").set("v.value",'');
                 component.set('v.CurrencyDisable',true);
                 component.set('v.IsRequired',false);
                 component.set('v.IsShowRequiredMsg',false);
+                component.find("Total_Secured_Currency__c").set("v.value",'');
                 
                 if(RecTypeName == 'Customer')
                 {
@@ -525,13 +807,14 @@
             }
             else if(CashOnDelivery == 'No')
             {
-                component.find("Total_Secured_Currency__c").set("v.value",'');
+                //component.find("Total_Secured_Currency__c").set("v.value",'');
                 component.set('v.Ispass_CashOnDelivery',true);
                 component.set('v.HavingCollateralIsDisable',false);
                 component.set('v.BuyTradeEndorsementIsDisable',false);
                 component.set('v.BuyTradeDCLConditionIsDisable',false);
                 component.set('v.HavingOpenedCreditIsDisable',false);
                 component.set('v.IsRequired',true);
+                component.set('v.CurrencyDisable',false);
                 
                 if(RecTypeName == 'Customer')
                 {
@@ -590,6 +873,16 @@
             console.error('---handleCashOnDelivery--erropr-'+ex);
         }
         
+    },
+    handleCreditLimitCurrency: function(component,event, helper) {
+        console.log('--- handleCreditLimitCurrency ---');
+        var buInfo = component.get("v.BUInfo"); 
+        console.log('---buInfo.BusinessUnit__c---'+buInfo.BusinessUnit__c);
+        if(buInfo.BusinessUnit__c == 'TX')
+        {
+            var CreditLimitCurrency = component.find("ChangeCreditCreditLimitCurrency").get("v.value");
+            component.find("Total_Secured_Currency__c").set("v.value",CreditLimitCurrency);
+        }
     },
     calTotalAmont: function(component, event, helper) {
         var  RecTypeName = component.get("v.RecordTypeName");

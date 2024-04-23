@@ -8,18 +8,19 @@ public class CTRApprovalDetailController
      {
          if(recID != '' || recID != null)
         {
-            List<CTRRequestFormItem__c>itemList =  [SELECT id,InternalCreditRatingTOP__c,ApprovalTrader_CreditCondition__c,CreditOwner__c,OwnersSectionHead__c,OwnersCMVP__c
+            List<CTRRequestFormItem__c>itemList =  [SELECT id,Status__c,InternalCreditRatingTOP__c,ApprovalTrader_CreditCondition__c,CreditOwner__c,OwnersSectionHead__c,OwnersCMVP__c
                                                     ,ImportExcelSummary__c,HavingCreditTermorLetter__c,PerformanceBond__c,RecordTypeName__c,Trade_Credit_Insurance__c
                                                     ,TradeCreditInsuranceCurrency__c,OwnerId,IsTraderSaved__c,TermOfPayment__r.Code__c,PaymentCondition__c,CreditLimit__c
                                                     ,CreditLimitCurrency__c,Approval_SHAgree__c,Approval_VPAgree__c,TraderWaive__c,PaymentTerm__c,ApprovalTrader_CreditRating__c
                                                     ,ApproverStep__c,WaiveRequest__c,TraderRemark__c, Name,Credit_Condition__c,ReputationInTheMarket__c,ResultFromNewsScreening__c
                                                     ,LinkToNEWS__c,TypeOfBusiness__c,CashOnDelivery__c,HavingCollateral__c,BuyTradeEndorsement__c,BuyTradeDCLCondition__c
-                                                    ,HavingOpenedCredit__c, InternalCreditRating__c,    TotalSecuredAmount__c ,isTRCR__c,BusinessUnit__c,Customer__c,
+                                                    ,HavingOpenedCredit__c, InternalCreditRating__c, TotalSecuredAmount__c ,isTRCR__c,BusinessUnit__c,Customer__c,
                                                     SubBU__c,CTRRequestFormHeader__r.Country__r.Code__c,RecordType.DeveloperName,Approval_Step__c,FinancialKey__c
                                                     ,InterestedProductTypeAsCustomerTOP__c,InterestedProductTypeAsCustomerTX__c,InterestedProductTypeAsSupplierTOP__c,InterestedProductTypeAsSupplierTX__c,
                                                     CTRRequestFormHeader__r.Email__c,CTRRequestFormHeader__r.FirstName__c,CTRRequestFormHeader__r.LastName__c,CTRRequestFormHeader__r.MobilePhone__c,InterestedProductTypeAsSupplier__c,
-                                                    ChangeCreditInternalCreditRating__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, ChangeCreditCreditLimitCurrency__c, ChangeCreditTradeCreditInsurance__c, ChangeCreditTradeCreditInsuranceCurrency__c
-                                                    ,RequestToChangeCredit__c, SubTypeCondition__c, ChangeCreditAmount__c,SubTypeCondition2__c, EffectiveDateForm__c, EffectiveDateTo__c
+                                                    FinIntCrRating__c, FinCrCond__c, FinCrLimit__c, FinCrLimitCur__c, FinTradeCrIns__c, FinTradeCrInsCu__c
+                                                    ,CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c,RequestToChangeCredit__c, SubTypeCondition__c, ChangeCreditAmount__c,SubTypeCondition2__c, EffectiveDateForm__c, EffectiveDateTo__c,
+                                                    FinancialInformation__c,FinancialInformation__r.Credit_Condition__c,FinancialInformation__r.CreditLimit__c,FinancialInformation__r.InternalCreditRating__c
                                                     FROM CTRRequestFormItem__c WHERE id =: recID];
             
             String Process = 'ApprovalDetail';
@@ -88,7 +89,8 @@ public class CTRApprovalDetailController
             List<String>sharepointLinkList = CTRSharePointLinkController.getSharepointPath(recID,'03');
             
            	itemList[0].ImportExcelSummary__c = sharepointLinkList.size() > 0 ? sharepointLinkList[0] : '';
-            
+            System.debug('itemList[0].ImportExcelSummary__c:'+itemList[0].ImportExcelSummary__c);
+            System.debug('sharepointLinkList:'+sharepointLinkList);
             return itemList;
         } 
         else
@@ -222,6 +224,7 @@ public class CTRApprovalDetailController
                                              CTRRequestFormHeader__r.CityStateLocal__c,
                                              CTRRequestFormHeader__c,
                                              InternalCreditRating__c,
+                                             SubBU__c,
                                              CompanyLatestCreditRating__c,
                                              Credit_Condition__c ,
                                              StartTradingDate__c ,
@@ -326,7 +329,7 @@ public class CTRApprovalDetailController
         companyNameModel.ceo =companyName.CTRRequestFormHeader__r.CEOFirstName__c !=null ?  companyName.CTRRequestFormHeader__r.CEOFirstName__c +' ':'';
         companyNameModel.ceo +=companyName.CTRRequestFormHeader__r.CEOLastName__c !=null ?  companyName.CTRRequestFormHeader__r.CEOLastName__c :'';
         companyNameModel.creditRating =companyName.CompanyLatestCreditRating__c !=null ?  companyName.CompanyLatestCreditRating__c :'';
-        companyNameModel.forCompany = companyName.SalesOrganization__c !=null ?  companyName.SalesOrganization__c :'';
+        companyNameModel.forCompany = companyName.SubBU__c !=null ?  companyName.SubBU__c :'';
         companyNameModel.requestedFor =companyName.RecordType.Name.contains('Customer') ?  'Customer' :'Supplier';
         companyNameModel.hasCorporateGovernancePolicy = companyName.CTRRequestFormHeader__r.CorporateGovernancePolicy__c !=null ?  companyName.CTRRequestFormHeader__r.CorporateGovernancePolicy__c :'';
         companyNameModel.hasEnvironmentalPolicy = companyName.CTRRequestFormHeader__r.EnvironmentPolicy__c !=null ?  companyName.CTRRequestFormHeader__r.EnvironmentPolicy__c :'';

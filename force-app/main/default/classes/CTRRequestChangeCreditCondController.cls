@@ -95,7 +95,7 @@ public with sharing class CTRRequestChangeCreditCondController {
                                                             AND CreditControlArea__c = :mRequestWrapper.mCreditControlArea];
 
                 Id itemRecordTypeId = Schema.SObjectType.CTRRequestFormItem__c.getRecordTypeInfosByDeveloperName().get('CustomerChangeCrCond').getRecordTypeId();
-                List<CTRRequestFormItem__c> checkInprogressItem = [SELECT Id FROM CTRRequestFormItem__c WHERE RecordTypeId = :itemRecordTypeId AND Status__c NOT IN('Approved','Rejected') AND SalesOrganization__c = :mRequestWrapper.mSalesOrg];
+                List<CTRRequestFormItem__c> checkInprogressItem = [SELECT Id FROM CTRRequestFormItem__c WHERE RecordTypeId = :itemRecordTypeId AND Customer__c =: customerId AND Status__c NOT IN('Approved','Rejected') AND SalesOrganization__c = :mRequestWrapper.mSalesOrg];
 
                 if(checkInprogressItem.size() > 0) {
                     responseResult.message = 'Cannot create request, found pending request on the current customer';
@@ -114,8 +114,10 @@ public with sharing class CTRRequestChangeCreditCondController {
                 itemToInsert.RecordTypeId = itemRecordTypeId;
                 itemToInsert.SalesOrganization__c = mRequestWrapper.mSalesOrg;
                 itemToInsert.CreditControlArea__c = mRequestWrapper.mCreditControlArea;
-                itemToInsert.Status__c = 'New';
-                itemToInsert.Approval_Step__c = 'Open';
+                itemToInsert.CreditOwner__c = UserInfo.getUserId();
+                itemToInsert.Status__c = 'In Review';
+                itemToInsert.Approval_Step__c = 'Credit Rating';
+                itemToInsert.FinancialInformation__c = mRequestWrapper.mRecordId;
 
                 if (businessUnit == 'TX') {
                     itemToInsert.SalesOrganizationTX__c = mRequestWrapper.mSalesOrg;

@@ -13,8 +13,9 @@
     <aura:attribute name="EmailStr" type="String" />
     <aura:attribute name="ContactStr" type="String" />
     <aura:attribute name="TelephoneStr" type="String" />
-    <aura:attribute name="ButtonLabel" type="String" />
-    
+    <aura:attribute name="ButtonLabel" type="String" /> 
+    <aura:attribute name="IsEditButtonDisable" type="Boolean" default="false"/> 
+
     <!-- Disable -->
     <aura:attribute name="IsPageDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsButtonDisable" type="Boolean" default="true"/>
@@ -25,10 +26,14 @@
     <aura:attribute name="IsCreditLimitDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsTradeCreditInsuranceDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsChangeCreditCreditConditionDisable" type="Boolean" default="true"/>
+    <aura:attribute name="IsChangeCreditPaymentTermDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsInternalCreditRatingDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsEffectiveDateDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsDescriptionDisable" type="Boolean" default="false"/>
+    <aura:attribute name="IsPaymentConditionRequried" type="Boolean" default="true"/>
     <aura:attribute name="CurrentStepUserId" type="String"/>
+    
+    
     <!--TX-->
     <aura:attribute name="Ispass_CashOnDelivery" type="Boolean" default="true"/>
     <aura:attribute name="Ispass_Excelsummary" type="Boolean" default="true"/>
@@ -46,7 +51,10 @@
     <aura:attribute name="isAmount5Required" type="Boolean" default="false"/>
     <aura:attribute name="CurrencyDisable" type="Boolean" default="true"/>
     <aura:attribute name="IsDisable" type="Boolean" default="true"/>
+    <aura:attribute name="IsRequired" type="Boolean" default="false" />
     <aura:attribute name="IsShowRequiredMsg" type="Boolean" default="false" />
+    <!--auto calculate-->
+    <aura:attribute name="TotalAmount" type="Decimal"/> 
     
     <!-- Existing Credit Condtion -->
     <aura:attribute name="CreditCondition" type="String" default=""/>
@@ -54,14 +62,22 @@
     <aura:attribute name="InternalCreditRating" type="String" default=""/>
     <aura:attribute name="PaymentCondition" type="String" default=""/>
     <aura:attribute name="BankGuarantee" type="String" default=""/>
+    <aura:attribute name="Status" type="String" default=""/>
+    <aura:attribute name="ApprovalStep" type="String" default=""/>
     
-        <aura:If isTrue="{!v.CurrentStepUserId == v.LogInUserId}">
-            <div class="slds-float_right">
-                <lightning:button variant="brand-outline" label="Change Credit Condition" title="Change Credit Condition" onclick="{!c.handleEditClick }" />
-            </div><br/> <br/> 
-        </aura:If>
+    <aura:renderIf isTrue="{!!v.IsEditButtonDisable}">
+        <aura:renderIf isTrue="{!and(v.Status == 'In Review',v.ApprovalStep == 'Credit Rating')}">
+            <aura:If isTrue="{!v.CurrentStepUserId == v.LogInUserId}">
+                <div class="slds-float_right">
                     <lightning:button variant="brand-outline" label="Change Credit Condition" title="Change Credit Condition" onclick="{!c.handleEditClick }" />
-
+                </div><br/> <br/> 
+            </aura:If>
+        </aura:renderIf>
+        
+        <!--Admin Test
+        <lightning:button variant="brand-outline" label="Change Credit Condition" title="Change Credit Condition" onclick="{!c.handleEditClick }" />-->
+    </aura:renderIf>
+    
     <lightning:recordEditForm aura:id="recordEditForm" objectApiName="CTRRequestFormItem__c" recordId="{!v.recordId}" onsubmit="{!c.handleSubmit}" onsuccess="{!c.handleSuccess}" >
         <aura:if isTrue="{!v.showLoading}">
             <lightning:spinner alternativeText="Loading" size="medium" />
@@ -113,6 +129,7 @@
                                             <br/>
                                         </div>
                              </div>
+                    <!--
                     		 <div class="slds-grid slds-wrap flexibility:auto">
                                         <div class="slds-size_2-of-7">
                                             <p>Interested Product Type {!v.RecordTypeName}:</p>
@@ -145,7 +162,7 @@
                                             </aura:renderIf>
                                              <br/>
                                         </div>
-                             </div>
+                             </div>-->
                         </lightning:layoutItem>
             </div>
         </div>
@@ -181,7 +198,7 @@
                                     	{!v.CreditLimit}
                                     </div>
                                 </div><br/>
-                                
+                                <!--
                                 <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
                                     <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -191,7 +208,7 @@
                                             {!v.BankGuarantee}
                                         </div>
                                     </div><br/>
-                                </aura:renderIf>
+                                </aura:renderIf>-->
                                 
                                 <div class="slds-grid slds-wrap">
                                 	<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -201,17 +218,8 @@
                                     	{!v.InternalCreditRating}
                                      </div>
                                 </div><br/>      
-                                <!--div class="slds-grid slds-wrap">
-                                	<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
-                                    	<p>Payment Term: </p>
-                                	</div>
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
-                                    	<lightning:outputField aura:id="PaymentTerm" 
-                                                              fieldName="PaymentTerm__c" 
-                                                              variant="label-hidden"
-                                                              readonly="True"/>
-                                    </div>
-                                </div><br/-->
+                                
+                                <!--
                                 <div class="slds-grid slds-wrap">
                                 	<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
                                     	<p>Payment Condition: </p>
@@ -220,6 +228,7 @@
                                      	{!v.PaymentCondition}
                                     </div>
                             	</div><br/>
+                                -->
                                             
                             </div>
                         </lightning:layoutItem>
@@ -440,7 +449,7 @@
                                         </aura:renderIf>
                                         
                                         
-                                        <!--Row5.2-->
+                                    <!--Row5.2 // IsPageDisable -->
                                         <br/><br/>
                                         <div class="slds-col slds-size_4-of-7"></div>
                                         <div class="slds-col slds-size_1-of-7">
@@ -450,7 +459,7 @@
                                             <lightning:inputField aura:id="Total_Secured_Currency__c" 
                                                                   fieldName="TotalSecuredCurrency__c" 
                                                                   variant="label-hidden"
-                                                                  disabled="{!v.CurrencyDisable}"/>
+                                                                  disabled="{!v.CurrencyDisable}" required="{!!v.CurrencyDisable}"/>
                                         </div>
                                         
                                         <!--Row6-->
@@ -460,7 +469,9 @@
                                             <p style="text-align: right;"> Total Secured Amount:<span class="slds-p-left_medium"></span></p>
                                         </div>
                                         <div class="slds-form_horizontal slds-col slds-size_2-of-7" >
-                                            <lightning:input type="text" id="Amount6" aura:id="Amount6" value="{!v.TotalAmount}" disabled="{!v.IsDisable}" ></lightning:input>
+                                            <lightning:input type="text" id="Amount6" aura:id="Amount6" 
+															 value="{!v.TotalAmount}" 
+                                                             disabled="{!v.IsDisable}" ></lightning:input>  
                                         </div>
                                         
                                         <!--Row7-->
@@ -496,6 +507,7 @@
                                             <span style="color:red; font-style: italic;" >* </span>
                                             Request to Change Credit: </p>
                                     </div>
+                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TX'}">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
                                         <div class="slds-size_3-of-6" >
                                         	<lightning:inputField aura:id="RequestToChangeCredit" 
@@ -506,6 +518,19 @@
                                                               required = "true"/>
                                         </div>
                                     </div>
+                                </aura:renderIf>
+                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                        <div class="slds-size_3-of-6" >
+                                        	<lightning:inputField aura:id="RequestToChangeCreditTX" 
+                                                              fieldName="RequestToChangeCreditTX__c" 
+                                                              variant="label-hidden"
+                                                              disabled="{!v.IsPageDisable}"
+                                                              onchange="{!c.handleRenderCreditConditionFields}"
+                                                              required = "true"/>
+                                        </div>
+                                    </div>
+                                </aura:renderIf>
                             </div><br/>
                             <aura:renderIf isTrue="{!!v.IsSubTypeConditionDisable}">
                             	<div class="slds-grid slds-wrap">
@@ -522,6 +547,7 @@
                                                               disabled="{!v.IsPageDisable}"
                                                               onchange="{!c.handleRenderCreditConditionFields}"
                                                               required = "true"/>
+                                            
                                         </div>
                                     </div>
                             	</div><br/>
@@ -545,6 +571,7 @@
                                     </div>
                             	</div><br/>
                             </aura:renderIf>
+                            
                             <aura:renderIf isTrue="{!!v.IsAmountDisable}">
                             	<div class="slds-grid slds-wrap">
                                 	<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -563,6 +590,26 @@
                                     </div>
                             	</div><br/>
                             </aura:renderIf>
+                            <aura:renderIf isTrue="{!!v.IsInternalCreditRatingDisable}">
+                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TX'}">
+                                    <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                                <p> 
+                                                    <span style="color:red; font-style: italic;" >* </span>
+                                                    Internal Credit Rating: </p>
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                                <div class="slds-size_3-of-6" >
+                                                    <lightning:inputField aura:id="ChangeCreditInternalCreditRating" 
+                                                                                  fieldName="FinIntCrRating__c" 
+                                                                                  variant="label-hidden"
+                                                                                  disabled="{!v.IsPageDisable}"
+                                                                                  required = "true"/>
+                                                </div>
+                                            </div>
+                                    </div><br/>
+                                </aura:renderIf>
+                            </aura:renderIf>
                             <aura:renderIf isTrue="{!!v.IsChangeCreditCreditConditionDisable}">
                                 <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -573,7 +620,7 @@
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
                                             <div class="slds-size_3-of-6" >
                                                 <lightning:inputField aura:id="ChangeCreditCreditCondition" 
-                                                                  fieldName="ChangeCreditCreditCondition__c" 
+                                                                  fieldName="FinCrCond__c" 
                                                                   variant="label-hidden"
                                                                   disabled="{!v.IsPageDisable}" 
                                                                   onchange="{!c.handleRenderCreditConditionFields}"
@@ -581,7 +628,47 @@
                                             </div>
                                         </div>
                                 </div><br/>
+                                
+                               <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">  
+                                   <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                            <p> 
+                                                <span style="color:red; font-style: italic;" >* </span>
+                                                Payment Term: </p>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                            <div class="slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="PaymentTermTX" 
+                                                                      fieldName="TermOfPayment__c" 
+                                                                      variant="label-hidden"
+                                                                      disabled="{!v.IsPageDisable}"
+                                                                      required="true"/>
+                                            </div>
+                                        </div>
+                                	</div><br/>
+                                   
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                            <p> 
+                                                <span style="color:red; font-style: italic;" >* </span>
+                                                Risk Category: </p>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                            <div class="slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="RiskCategoryTX" 
+                                                                      fieldName="FinRiskCategory__c" 
+                                                                      variant="label-hidden"
+                                                                      disabled="{!v.IsPageDisable}"
+                                                                      required="true"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1">   
+                                                <p style="color:gray; font-style: italic;" >Remark: If L/C terms, please select Risk Category as C: High Risk</p><br/>
+                                        </div>
+                                	</div><br/>
+        						</aura:renderIf>
                             </aura:renderIf>
+                            
                             <aura:renderIf isTrue="{!!v.IsCreditLimitDisable}">
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -593,52 +680,27 @@
                                         <div class="slds-grid slds-wrap slds-size_1-of-1" >
                                             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-6" >   
                                                  <lightning:inputField aura:id="ChangeCreditCreditLimit" 
-                                                                       fieldName="ChangeCreditCreditLimit__c" 
+                                                                       fieldName="FinCrLimit__c" 
                                                                        variant="label-hidden"
                                                                        disabled="{!v.IsPageDisable}"
                                                                        required = "true"/> 
                                             </div> &nbsp;&nbsp;&nbsp;
                                             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_1-of-6">
                                                  <lightning:inputField aura:id="ChangeCreditCreditLimitCurrency" 
-                                                                       fieldName="ChangeCreditCreditLimitCurrency__c" 
+                                                                       fieldName="FinCrLimitCur__c" 
                                                                        variant="label-hidden"
                                                                        disabled="{!v.IsPageDisable}"
+                                                                       onchange="{!c.handleCreditLimitCurrency}"
                                                                        required = "true"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div><br/>
                             </aura:renderIf>
-                            <aura:renderIf isTrue="{!!v.IsTradeCreditInsuranceDisable}">
-                                <div class="slds-grid slds-wrap">
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
-                                        <p>
-                                            <span style="color:red; font-style: italic;" >* </span>
-                                            Trade Credit Insurance: </p>
-                                    </div>
-                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
-                                        <div class="slds-grid slds-wrap slds-size_1-of-1" >
-                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-6" >   
-                                                 <lightning:inputField aura:id="ChangeCreditTradeCreditInsurance" 
-                                                                                  fieldName="ChangeCreditTradeCreditInsurance__c" 
-                                                                                  variant="label-hidden"
-                                                                                  disabled="{!v.IsPageDisable}"
-                                                                       			  required = "true"/> 
-                                            </div> &nbsp;&nbsp;&nbsp;
-                                            <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_1-of-6">
-                                                  <lightning:inputField aura:id="ChangeCreditTradeCreditInsuranceCurrency" 
-                                                                                  fieldName="ChangeCreditTradeCreditInsuranceCurrency__c" 
-                                                                                  variant="label-hidden"
-                                                                                  disabled="{!v.IsPageDisable}"
-                                                                        		  required = "true"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div><br/>
-                            </aura:renderIf>
                             
-                            <aura:renderIf isTrue="{!!v.IsInternalCreditRatingDisable}">
-                                <div class="slds-grid slds-wrap">
+                            <aura:renderIf isTrue="{!!v.IsChangeCreditCreditConditionDisable}">
+                            	<aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
+                                    <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
                                             <p> 
                                                 <span style="color:red; font-style: italic;" >* </span>
@@ -646,15 +708,67 @@
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
                                             <div class="slds-size_3-of-6" >
-                                                <lightning:inputField aura:id="ChangeCreditInternalCreditRating" 
-                                                                              fieldName="ChangeCreditInternalCreditRating__c" 
-                                                                              variant="label-hidden"
-                                                                              disabled="{!v.IsPageDisable}"
-                                                                      		  required = "true"/>
+                                                <lightning:inputField aura:id="InternalCreditRating" 
+                                                                          fieldName="FinIntCrRating__c" 
+                                                                          variant="label-hidden"
+                                                                          disabled="{!v.IsPageDisable}"
+                                                                          required="true"/>
                                             </div>
                                         </div>
-                                </div><br/>
+                                	</div><br/>
+                                    
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                        	<p> 
+                                                <span style="color:red; font-style: italic;" >* </span>
+                                                Payment Condition: 
+                                            </p>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                            <div class="slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="PaymentCondition" 
+                                                                              fieldName="PaymentCondition__c" 
+                                                                              variant="label-hidden"
+                                                                              disabled="{!v.IsPageDisable}"
+                                                                              required="true"/> <!--{!v.IsPaymentRequried}-->
+                                            </div>
+                                        </div>
+                                	</div><br/>
+        						</aura:renderIf>
+                            </aura:renderIf> 
+                            
+                            
+                            
+                            <aura:renderIf isTrue="{!!v.IsTradeCreditInsuranceDisable}">
+                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TX'}">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                            <p>
+                                                <span style="color:red; font-style: italic;" >* </span>
+                                                Trade Credit Insurance: </p>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                            <div class="slds-grid slds-wrap slds-size_1-of-1" >
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_3-of-6" >   
+                                                     <lightning:inputField aura:id="ChangeCreditTradeCreditInsurance" 
+                                                                                      fieldName="FinTradeCrIns__c" 
+                                                                                      variant="label-hidden"
+                                                                                      disabled="{!v.IsPageDisable}"
+                                                                                      required = "true"/> 
+                                                </div> &nbsp;&nbsp;&nbsp;
+                                                <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_1-of-6">
+                                                      <lightning:inputField aura:id="ChangeCreditTradeCreditInsuranceCurrency" 
+                                                                                      fieldName="FinTradeCrInsCu__c" 
+                                                                                      variant="label-hidden"
+                                                                                      disabled="{!v.IsPageDisable}"
+                                                                                      required = "true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><br/>
+                                </aura:renderIf>
                             </aura:renderIf>
+                            
                             <aura:renderIf isTrue="{!v.IsDescriptionDisable}">
                                 <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -673,6 +787,48 @@
                                         </div>
                                 </div><br/>
                             </aura:renderIf>
+                            
+                            <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TX'}">
+                            	<aura:renderIf isTrue="{!!v.IsChangeCreditPaymentTermDisable}">
+                                    <div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                            <p> 
+                                                <span style="color:red; font-style: italic;" >* </span>
+                                                Payment Term: </p>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                            <div class="slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="PaymentTermTX" 
+                                                                      fieldName="TermOfPayment__c" 
+                                                                      variant="label-hidden"
+                                                                      disabled="{!v.IsPageDisable}"
+                                                                      required="true"/>
+                                            </div>
+                                        </div>
+                                	</div><br/>
+                                
+                                	<div class="slds-grid slds-wrap">
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                                        	<p> 
+                                                        <aura:renderIf isTrue="{!v.IsPaymentConditionRequried}">
+                                                        	<span style="color:red; font-style: italic;" >* </span>
+                                                        </aura:renderIf>
+                                                        Payment Condition: 
+                                            </p>
+                                        </div>
+                                        <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
+                                            <div class="slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="PaymentCondition" 
+                                                                              fieldName="PaymentCondition__c" 
+                                                                              variant="label-hidden"
+                                                                              disabled="{!v.IsPageDisable}"
+                                                                              required="{!v.IsPaymentConditionRequried}"/>
+                                            </div>
+                                        </div>
+                                	</div><br/>
+                           		</aura:renderIf>
+                            </aura:renderIf>
+                            
                             <aura:renderIf isTrue="{!!v.IsEffectiveDateDisable}">
                             	<div class="slds-grid slds-wrap">
                                 	<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
@@ -703,6 +859,24 @@
                                     </div>
                             	</div><br/>
                             </aura:renderIf>
+                            
+                            	<div class="slds-hidden">
+                                	<lightning:inputField aura:id="SubTypeConditionhidden" 
+                                                              fieldName="SubTypeCondition2__c" 
+                                                              variant="label-hidden"
+                                                              disabled="{!v.IsPageDisable}"
+                                                              
+                                                              required = "true"/>
+                            	</div>
+                            
+                            <div class="slds-hidden" >
+                                <lightning:inputField aura:id="RequestToChangeCredithidden" 
+                                                      fieldName="RequestToChangeCredit__c" 
+                                                      variant="label-hidden"
+                                                      disabled="{!v.IsPageDisable}"
+                                                    
+                                                      required = "true"/>
+                            </div>
                         </lightning:layoutItem>
             		</div>
         </div>

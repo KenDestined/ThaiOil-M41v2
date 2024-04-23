@@ -245,8 +245,8 @@
     <assignments>
         <name>Assign_AccountID</name>
         <label>Assign AccountID</label>
-        <locationX>4827</locationX>
-        <locationY>2464</locationY>
+        <locationX>4828</locationX>
+        <locationY>2453</locationY>
         <assignmentItems>
             <assignToReference>varAccountRecord.Id</assignToReference>
             <operator>Assign</operator>
@@ -875,7 +875,7 @@
             <assignToReference>varEmailToCollection</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>$Record.SubmitToSAPUser__r.Email</elementReference>
+                <elementReference>$Record.Owner__r.Email</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -1182,20 +1182,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>varFinancialview.Authorization__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.CTRRequestFormHeader__r.Authorization__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>varFinancialview.ReconAccount__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.ReconAccount__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>varFinancialview.AccigClerk__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -1213,14 +1199,7 @@
             <assignToReference>varFinancialview.CompanyCode__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.CompanyCodeTOP__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>varFinancialview.CompanyCode__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.CompanyCodeTX__c</elementReference>
+                <elementReference>fmlSalesOrg</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -1352,7 +1331,7 @@
         <name>Assign_HeaderData_To_Customer</name>
         <label>Assign HeaderData To Customer</label>
         <locationX>4302</locationX>
-        <locationY>2685</locationY>
+        <locationY>2684</locationY>
         <assignmentItems>
             <assignToReference>varAccountRecord.CoName__c</assignToReference>
             <operator>Assign</operator>
@@ -1896,6 +1875,118 @@
                 <elementReference>$Record.CTRRequestFormHeader__r.TypeOfBusinessBranch__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.TaxClassification__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.TAXClassification__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.CustomerNameEN1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.CustomerNameEN1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.CustomerNameEN2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.CustomerNameEN2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.CustomerNameLocal1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.CustomerNameLocal1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.CustomerNameLocal2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.CustomerNameLocal2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Language__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Language__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.SubDistrictENText__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.DistrictENText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.StreetEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.StreetEN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street2Local__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street2Local__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street3Local__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street3Local__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street4Local__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street4Local__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street5Local__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street5Local__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street2EN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street2EN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street3EN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street3EN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street4EN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street4EN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Street5EN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.StreetEN__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Assign_AccountID</targetReference>
         </connector>
@@ -2094,13 +2185,6 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>varPurchasingViewRecord.Incoterms2__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Incoterms2__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
             <assignToReference>varPurchasingViewRecord.GRBasedInvVerif__c</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -2163,6 +2247,20 @@
                 <elementReference>$Record.PaymentMethod__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varPurchasingViewRecord.Incoterms2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Incoterms2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varPurchasingViewRecord.BlockStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>fmlPurchasingBlock</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>getExistingPurchasingView</targetReference>
         </connector>
@@ -2177,13 +2275,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Incoterms__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>varSalesAreaRecord.Incoterms2__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Incoterms2__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -2238,6 +2329,9 @@
         <assignmentItems>
             <assignToReference>varSalesAreaRecord.ShippingConditions__c</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.ShippingConditions__c</elementReference>
+            </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>varSalesAreaRecord.SalesGroup__c</assignToReference>
@@ -2391,6 +2485,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.UnderdeliveryTolerance__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varSalesAreaRecord.Incoterms2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Incoterms2__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varSalesAreaRecord.BlockStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.OrderBlock__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -2996,7 +3104,7 @@
     <decisions>
         <name>has_Sales_area</name>
         <label>has Sales area?</label>
-        <locationX>3289</locationX>
+        <locationX>3288</locationX>
         <locationY>1927</locationY>
         <defaultConnector>
             <targetReference>Create_Sales_Area_Record</targetReference>
@@ -4233,7 +4341,7 @@
         <locationX>4294</locationX>
         <locationY>2278</locationY>
         <defaultConnector>
-            <targetReference>Assign_HeaderData_To_Customer</targetReference>
+            <targetReference>Assign_AccountID</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>doesn&apos;t send general</defaultConnectorLabel>
         <rules>
@@ -5196,6 +5304,11 @@
         <expression>{!fmlAccountNumber}&amp;IF(CONTAINS({!$Record.RecordTypeName__c}, &apos;Supplier&apos;), IF({!$Record.BusinessUnit__c} == &apos;TX&apos;, TEXT({!$Record.CompanyCodeTX__c}),TEXT({!$Record.CompanyCodeTOP__c})),TEXT({!$Record.SalesOrganization__c}))&amp;TEXT({!$Record.CreditControlArea__c})</expression>
     </formulas>
     <formulas>
+        <name>fmlPurchasingBlock</name>
+        <dataType>String</dataType>
+        <expression>IF({!$Record.SelectedPurchasingOrg__c} == true, &apos;TRUE&apos;, &apos;FALSE&apos;)</expression>
+    </formulas>
+    <formulas>
         <name>fmlPurchasingKey</name>
         <dataType>String</dataType>
         <expression>{!fmlAccountNumber}&amp;TEXT({!$Record.PurchasingOrganization__c})</expression>
@@ -5209,6 +5322,11 @@
         <name>fmlSalesAreaKey</name>
         <dataType>String</dataType>
         <expression>{!fmlAccountNumber}&amp;TEXT({!$Record.SalesOrganization__c})&amp;TEXT({!$Record.DistributionChannel__c})&amp;TEXT({!$Record.Division__c})</expression>
+    </formulas>
+    <formulas>
+        <name>fmlSalesOrg</name>
+        <dataType>String</dataType>
+        <expression>IF(Contains({!$Record.RecordType.DeveloperName}, &apos;Supplier&apos;), IF({!$Record.BusinessUnit__c} = &apos;TX&apos;,TEXT({!$Record.CompanyCodeTX__c}) ,TEXT({!$Record.CompanyCodeTOP__c})), TEXT({!$Record.SalesOrganization__c}))</expression>
     </formulas>
     <formulas>
         <name>fmlSearchterm</name>
@@ -5306,8 +5424,8 @@
     <recordCreates>
         <name>Create_Sales_Area_Record</name>
         <label>Create Sales Area Record</label>
-        <locationX>3543</locationX>
-        <locationY>2067</locationY>
+        <locationX>3472</locationX>
+        <locationY>2168</locationY>
         <connector>
             <targetReference>checkBU</targetReference>
         </connector>
@@ -5526,7 +5644,7 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <name>TOPCustomerProductConcat</name>
         <label>TOPCustomerProductConcat</label>

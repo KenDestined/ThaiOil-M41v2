@@ -237,7 +237,7 @@ public with sharing class CTRRequestHeaderHandler
                         String mShareholderObjName = 'CTRShareholder__c';
                         Map<String, String> mShareholderJsonMap = new Map<String, String>();
                         //List<String> mShareholderFieldList = new List<String>{'of_Shareholder__c', 'Name', 'CTRRequestFormHeader__c'};
-                        List<String> mShareholderFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mShareholderObjName), mShareholderObjName);
+                        List<String> mShareholderFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mShareholderObjName), mShareholderObjName,'');
                         List<SObject> mShareholderList = new List<SObject>();
                         if(mShareholderFieldList.size()>0)
                         {
@@ -257,7 +257,7 @@ public with sharing class CTRRequestHeaderHandler
                         String mHeaderObjectName = 'CTRRequestFormHeader__c';
                         Map<Id, String> mCounterPartyJsonMapResult = new Map<Id, String>();
                         
-                            List<String> mHeaderFieldNameList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mHeaderObjectName), mHeaderObjectName);
+                            List<String> mHeaderFieldNameList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mHeaderObjectName), mHeaderObjectName,'');
                             if(mHeaderFieldNameList.size()>0)
                             {
                                 // List<SObject> mHeaderFilteredList = new List<SObject>();

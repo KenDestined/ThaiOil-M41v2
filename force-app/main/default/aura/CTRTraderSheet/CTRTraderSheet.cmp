@@ -45,6 +45,9 @@
     <aura:attribute name="CTRUserId" type="String" />
     <aura:attribute name="PositionNameOfVP" type="String" />
     
+    <aura:attribute name="BU" type="String" />
+    <aura:attribute name="IsButtonClick" type="Boolean" default="false"/>
+    
     <aura:handler name="change" value="{!v.pageReference}" action="{!c.onPageReferenceChanged}" />
         <aura:If isTrue="{!and(v.CurrentApprover != 'Done',v.CurrentUserID == v.CurrentApproverId)}">
             <div class="slds-float_right">
@@ -54,7 +57,8 @@
                 <!--lightning:button variant="brand-outline" label="EDIT" title="Fill in Trader Sheet" onclick="{! c.handleClick }" /-->
             </div><br/> <br/> 
         </aura:If>
-    <!--lightning:button variant="brand-outline" label="Fill in Trader Sheet" title="Fill in Trader Sheet" onclick="{!c.handleClick }" /-->
+    <!--admin-->
+<lightning:button variant="brand-outline" label="Fill in Trader Sheet" title="Fill in Trader Sheet" onclick="{!c.handleClick }"/> 
         <lightning:recordEditForm aura:id="recordEditForm" objectApiName="CTRRequestFormItem__c" recordId="{!v.recordId}" onsubmit="{!c.handleSubmit}" onsuccess="{!c.handleSuccess}">
             
             <div class="slds-section slds-is-open animate" aura:id="Summarized">
@@ -404,11 +408,19 @@
                             
                             <aura:if isTrue="{!v.RecordTypeName == 'Customer'}">
                                 <p> <span style="color:red; font-style: italic;" >* </span>  5. Result from Commercial Evaluation:</p>
+                                <p><span style="color:gray; font-style: italic;" >(Recommended score ≥ 60% for qualified customer)</span></p>
                                 <aura:set attribute="else">
                                     <p> 3. Result from Commercial Evaluation:</p>
+                                    <aura:if isTrue="{!v.BU == 'TOP' || v.BU == 'LABIX'}">
+                                        <p><span style="color:gray; font-style: italic;" >(Recommended score ≥ 60% for qualified supplier)</span></p>
+                                        <aura:set attribute="else">
+                                          <p><span style="color:gray; font-style: italic;" >(CTR Supplier for TOP NEXT Group not required)</span></p>  
+                                        </aura:set>
+                                    </aura:if>
                                 </aura:set>
+                                
                             </aura:if>
-                            <p><span style="color:gray; font-style: italic;" >(CTR Supplier for TOP NEXT Group not required)</span></p>
+                            
                             <br />
                             <p>Please specify commercial risks or observations from evaluation result</p>
                             <br /><br />
@@ -442,7 +454,7 @@
                             <aura:if isTrue="{!v.RecordTypeName == 'Customer'}">
                                 <p><span style="color:red; font-style: italic;" >* </span>  7. Do you agree to register this customer?</p> <!-- AgreeRegisterCustomer__c -->
                                 <aura:set attribute="else">
-                                    <p><span style="color:red; font-style: italic;" >* </span>  5. Do you agree to register this customer?</p> <!-- AgreeRegisterCustomer__c -->
+                                    <p><span style="color:red; font-style: italic;" >* </span>  5. Do you agree to register this supplier?</p> <!-- AgreeRegisterCustomer__c -->
                                 </aura:set>
                             </aura:if>
                             <p>(Please specify any disagreement):</p>
@@ -478,7 +490,7 @@
                         	<aura:if isTrue="{!v.RecordTypeName == 'Customer'}">
                                 <p>9. Provide any additional opinions or recommendations for actions subsequent to the registration of this customer (If any):</p>
                                 <aura:set attribute="else">
-                                    <p>7. Provide any additional opinions or recommendations for actions subsequent to the registration of this customer (If any):</p>
+                                    <p>7. Provide any additional opinions or recommendations for actions subsequent to the registration of this supplier (If any):</p>
                                 </aura:set>
                             </aura:if>
                             <br /><br />
@@ -527,7 +539,7 @@
                 </lightning:layoutItem>
         	</div>
             </div>
-            <aura:renderIf isTrue="{! v.CurrentApprover == 'Head' || v.CurrentApprover == 'VP' || v.CurrentApprover == 'Done'}">
+            <aura:renderIf isTrue="{! or( v.CurrentApprover == 'VP' || v.CurrentApprover == 'Done' , and(v.CurrentApprover == 'Head' ,v.IsButtonClick))}">
             <!--<aura:renderIf isTrue="{!v.IsSubmitted}">-->
             	<div class="slds-section slds-is-open animate" aura:id="SectionHead" >
                     <h3 class="slds-section__title">
@@ -575,7 +587,7 @@
                     </div>
             </div>
             </aura:renderIf>
-            <aura:renderIf isTrue="{!v.CurrentApprover == 'VP' || v.CurrentApprover == 'Done'}">
+            <aura:renderIf isTrue="{!or( v.CurrentApprover == 'Done',and(v.CurrentApprover == 'VP' ,v.IsButtonClick))}">
             	<div class="slds-section slds-is-open animate" aura:id="CMVP/SA09" >
                     <h3 class="slds-section__title">
                             <button aria-controls="SummarizedList" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}" data-auraId="CMVP/SA09">

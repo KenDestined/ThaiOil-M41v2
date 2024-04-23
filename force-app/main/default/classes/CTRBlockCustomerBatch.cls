@@ -93,6 +93,7 @@ public without sharing class CTRBlockCustomerBatch implements Database.Batchable
             
         // Make the HTTP request
         Http http = new Http();
+        
         HttpResponse response = http.send(request);
 
         // Parse and handle the response

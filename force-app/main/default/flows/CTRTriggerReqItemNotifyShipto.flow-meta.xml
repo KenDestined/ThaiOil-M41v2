@@ -381,6 +381,7 @@
             <label>FoundTraderID</label>
         </rules>
     </decisions>
+    <description>22/04/2024 Edit entry criteria for using &quot;OR&quot; condition between record type.</description>
     <environments>Default</environments>
     <formulas>
         <name>EDDAMMRejectEmailSubject</name>
@@ -581,7 +582,7 @@
         <connector>
             <targetReference>getRequestItemRecord</targetReference>
         </connector>
-        <filterLogic>(1 AND 2) AND 3 AND 4 AND (5 OR 6) AND (7 OR 8 OR 9)</filterLogic>
+        <filterLogic>(1 OR 2) AND 3 AND 4 AND (5 OR 6) AND (7 OR 8 OR 9)</filterLogic>
         <filters>
             <field>RecordTypeName__c</field>
             <operator>EqualTo</operator>

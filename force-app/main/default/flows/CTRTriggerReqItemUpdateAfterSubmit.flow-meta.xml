@@ -112,8 +112,8 @@
     <actionCalls>
         <name>InitialFinalRiskHHSendEmail</name>
         <label>InitialFinalRiskHHSendEmail</label>
-        <locationX>6650</locationX>
-        <locationY>1295</locationY>
+        <locationX>7706</locationX>
+        <locationY>1403</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -177,7 +177,7 @@
     <actionCalls>
         <name>InitialFinalRiskHighSendEmail</name>
         <label>InitialFinalRiskHighSendEmail</label>
-        <locationX>5858</locationX>
+        <locationX>6122</locationX>
         <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -245,8 +245,8 @@
     <actionCalls>
         <name>InitialFinalRiskLowanMediumSendEmail</name>
         <label>InitialFinalRiskLowanMediumSendEmail</label>
-        <locationX>4736</locationX>
-        <locationY>1787</locationY>
+        <locationX>4868</locationX>
+        <locationY>2927</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -313,7 +313,7 @@
     <actionCalls>
         <name>InitialFinalRiskNoti</name>
         <label>InitialFinalRiskNoti</label>
-        <locationX>5858</locationX>
+        <locationX>6122</locationX>
         <locationY>1295</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -354,8 +354,49 @@
     <actionCalls>
         <name>InitialFinalRiskSendNoti</name>
         <label>InitialFinalRiskSendNoti</label>
-        <locationX>4736</locationX>
-        <locationY>1895</locationY>
+        <locationX>4868</locationX>
+        <locationY>3035</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>InitialFinalRiskRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>InitialFinalRiskNotifyTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>InitialFinalRiskNotifyBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>InitialFinalRiskSendNotiFATX</name>
+        <label>InitialFinalRiskSendNoti</label>
+        <locationX>4538</locationX>
+        <locationY>2243</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -908,6 +949,79 @@
         <nameSegment>customNotificationAction</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
+    <actionCalls>
+        <name>TXInitialFinalRiskHHSendEmails</name>
+        <label>TXInitialFinalRiskHHSendEmail</label>
+        <locationX>6914</locationX>
+        <locationY>2027</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>InitialFinalRiskRecipientEmailsCC</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>InitialFinalRiskRecipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>GetTXHHEmail.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>TXInitialFinalRiskLowanMediumSendEmail</name>
+        <label>TXInitialFinalRiskLowanMediumSendEmail</label>
+        <locationX>4538</locationX>
+        <locationY>2135</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>InitialFinalRiskSendNotiFATX</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mBody</name>
+            <value>
+                <elementReference>GetInitialFinalRiskEmailTemplateFATX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>InitialFinalRiskRecipientEmailsCC</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>InitialFinalRiskRecipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
         <name>assignCPCE</name>
@@ -981,7 +1095,7 @@
     <assignments>
         <name>assignFALB_0</name>
         <label>assignFALB</label>
-        <locationX>5066</locationX>
+        <locationX>5330</locationX>
         <locationY>1295</locationY>
         <assignmentItems>
             <assignToReference>InitialFinalRiskRecipientIds</assignToReference>
@@ -1002,9 +1116,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignFAMgr</name>
+        <label>assignFAMgr</label>
+        <locationX>4538</locationX>
+        <locationY>1727</locationY>
+        <assignmentItems>
+            <assignToReference>InitialFinalRiskRecipientEmailsCC</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findFAMgrFinalRisk.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckRecipientFATX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignFATX</name>
         <label>assignFATX</label>
-        <locationX>4538</locationX>
+        <locationX>4670</locationX>
         <locationY>1295</locationY>
         <assignmentItems>
             <assignToReference>InitialFinalRiskRecipientIds</assignToReference>
@@ -1021,13 +1151,29 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>CheckRecipient_1</targetReference>
+            <targetReference>getFAMgrFinalRiskMeta</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFATX_HighH</name>
+        <label>assignFATX</label>
+        <locationX>6914</locationX>
+        <locationY>1511</locationY>
+        <assignmentItems>
+            <assignToReference>InitialFinalRiskRecipientEmailsCC</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findFATXFinalRisk.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>assignInitialFinalRiskRecipient_HighHighTX</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>assignInitialFinalRiskRecipient</name>
         <label>assignInitialFinalRiskRecipient</label>
-        <locationX>5990</locationX>
+        <locationX>6254</locationX>
         <locationY>971</locationY>
         <assignmentItems>
             <assignToReference>InitialFinalRiskRecipientIds</assignToReference>
@@ -1062,11 +1208,41 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignInitialFinalRiskRecipient_HighHighTX</name>
+        <label>assignInitialFinalRiskRecipient</label>
+        <locationX>7046</locationX>
+        <locationY>1703</locationY>
+        <assignmentItems>
+            <assignToReference>InitialFinalRiskRecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InitialFinalRiskRecipientEmailsCC</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.OwnersSectionHead__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InitialFinalRiskRecipientEmailsCC</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.OwnersCMVP__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckRecipient_TX</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>For Testing Send Email and Notification.</description>
         <name>assignRecordOwner</name>
         <label>assignRecordOwner</label>
-        <locationX>6782</locationX>
-        <locationY>1079</locationY>
+        <locationX>7838</locationX>
+        <locationY>1187</locationY>
         <assignmentItems>
             <assignToReference>InitialFinalRiskRecipientIds</assignToReference>
             <operator>Add</operator>
@@ -1088,7 +1264,7 @@
     <assignments>
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
-        <locationX>4175</locationX>
+        <locationX>4703</locationX>
         <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
@@ -1220,7 +1396,7 @@
     <decisions>
         <name>Action</name>
         <label>Action</label>
-        <locationX>4175</locationX>
+        <locationX>4703</locationX>
         <locationY>647</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1392,7 +1568,7 @@
     <decisions>
         <name>CheckBU</name>
         <label>CheckBU</label>
-        <locationX>4868</locationX>
+        <locationX>5000</locationX>
         <locationY>863</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1439,6 +1615,31 @@
                 <targetReference>getFALBFinalRiskMeta</targetReference>
             </connector>
             <label>LABIX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckBU_HighHigh</name>
+        <label>CheckBU</label>
+        <locationX>7640</locationX>
+        <locationY>971</locationY>
+        <defaultConnector>
+            <targetReference>CheckRecipientIsActive_SubmitInitialFinalRisk_HighHighRisk</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Other BU</defaultConnectorLabel>
+        <rules>
+            <name>TX_HighHigh</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CheckRecipientIsActive_TX</targetReference>
+            </connector>
+            <label>TX</label>
         </rules>
     </decisions>
     <decisions>
@@ -1533,7 +1734,7 @@
     <decisions>
         <name>CheckFALB_0</name>
         <label>CheckFALB</label>
-        <locationX>5198</locationX>
+        <locationX>5462</locationX>
         <locationY>1187</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1560,9 +1761,41 @@
         </rules>
     </decisions>
     <decisions>
+        <name>CheckFAMgr</name>
+        <label>CheckFAMgr</label>
+        <locationX>4670</locationX>
+        <locationY>1619</locationY>
+        <defaultConnector>
+            <targetReference>CheckRecipientFATX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>FAMgrUserfound</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findFAMgrFinalRisk.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findFATXFinalRisk.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFAMgr</targetReference>
+            </connector>
+            <label>FA User found</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>CheckFATX</name>
         <label>CheckFATX</label>
-        <locationX>4670</locationX>
+        <locationX>4868</locationX>
         <locationY>1187</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1584,6 +1817,38 @@
             </conditions>
             <connector>
                 <targetReference>assignFATX</targetReference>
+            </connector>
+            <label>FA User found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckFATX_HighHighTX</name>
+        <label>CheckFATX</label>
+        <locationX>7046</locationX>
+        <locationY>1403</locationY>
+        <defaultConnector>
+            <targetReference>assignInitialFinalRiskRecipient_HighHighTX</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>FAUserfound_HighHighTX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findFALBFinalRisk.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findFATXFinalRisk.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFATX_HighH</targetReference>
             </connector>
             <label>FA User found</label>
         </rules>
@@ -1674,8 +1939,8 @@
     <decisions>
         <name>CheckRecipient_1</name>
         <label>CheckRecipient</label>
-        <locationX>4868</locationX>
-        <locationY>1571</locationY>
+        <locationX>5000</locationX>
+        <locationY>2711</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>HaveRecipient_1</name>
@@ -1797,8 +2062,8 @@
     <decisions>
         <name>CheckRecipient_4</name>
         <label>CheckRecipient</label>
-        <locationX>6782</locationX>
-        <locationY>1187</locationY>
+        <locationX>7838</locationX>
+        <locationY>1295</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>HaveRecipient_4</name>
@@ -1826,7 +2091,7 @@
     <decisions>
         <name>CheckRecipient_SubmitInitialFinalRisk_HighRisk</name>
         <label>CheckRecipient</label>
-        <locationX>5990</locationX>
+        <locationX>6254</locationX>
         <locationY>1079</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1848,6 +2113,64 @@
             </conditions>
             <connector>
                 <targetReference>InitialFinalRiskHighSendEmail</targetReference>
+            </connector>
+            <label>HaveRecipient</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckRecipient_TX</name>
+        <label>CheckRecipient</label>
+        <locationX>7046</locationX>
+        <locationY>1811</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>HaveRecipient_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>InitialFinalRiskRecipientIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>InitialFinalRiskRecipientEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetTXHHEmail</targetReference>
+            </connector>
+            <label>HaveRecipient</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckRecipientFATX</name>
+        <label>CheckRecipient</label>
+        <locationX>4670</locationX>
+        <locationY>1919</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>HaveRecipientFATX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>InitialFinalRiskRecipientIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>InitialFinalRiskRecipientEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetInitialFinalRiskEmailTemplateFATX</targetReference>
             </connector>
             <label>HaveRecipient</label>
         </rules>
@@ -1884,8 +2207,8 @@
     <decisions>
         <name>CheckRecipientIsActive_SubmitInitialFinalRisk_HighHighRisk</name>
         <label>CheckRecipientIsActive</label>
-        <locationX>6980</locationX>
-        <locationY>971</locationY>
+        <locationX>8036</locationX>
+        <locationY>1079</locationY>
         <defaultConnectorLabel>RecipientNotActive</defaultConnectorLabel>
         <rules>
             <name>RecipientIsActive_SubmitInitialFinalRisk_HighHighRisk</name>
@@ -1906,7 +2229,7 @@
     <decisions>
         <name>CheckRecipientIsActive_SubmitInitialFinalRisk_HighRisk</name>
         <label>CheckRecipientIsActive</label>
-        <locationX>6188</locationX>
+        <locationX>6452</locationX>
         <locationY>863</locationY>
         <defaultConnectorLabel>RecipientNotActive</defaultConnectorLabel>
         <rules>
@@ -1921,6 +2244,28 @@
             </conditions>
             <connector>
                 <targetReference>assignInitialFinalRiskRecipient</targetReference>
+            </connector>
+            <label>RecipientIsActive</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckRecipientIsActive_TX</name>
+        <label>CheckRecipientIsActive</label>
+        <locationX>7244</locationX>
+        <locationY>1079</locationY>
+        <defaultConnectorLabel>RecipientNotActive</defaultConnectorLabel>
+        <rules>
+            <name>RecipientIsActive_TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getFATXFinalRiskMeta_HighHighTX</targetReference>
             </connector>
             <label>RecipientIsActive</label>
         </rules>
@@ -1965,7 +2310,7 @@
     <decisions>
         <name>CheckRiskLevel</name>
         <label>CheckRiskLevel</label>
-        <locationX>5528</locationX>
+        <locationX>6056</locationX>
         <locationY>755</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2184,7 +2529,8 @@
             <label>TOP</label>
         </rules>
     </decisions>
-    <description>10/04/2024: update account type name</description>
+    <description>10/04/2024: update account type name
+18/04/2024 : Add TX HighHigh Risk Email Template</description>
     <environments>Default</environments>
     <formulas>
         <name>fmlCountry</name>
@@ -2290,6 +2636,11 @@
         <name>TOPSupplierApprovedNotifyTitle</name>
         <dataType>String</dataType>
         <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &apos; was Approved.&apos;</expression>
+    </formulas>
+    <formulas>
+        <name>TXInitialFinalRiskHHEmailSubject</name>
+        <dataType>String</dataType>
+        <expression>&quot;[FYA] Initial:&quot;&amp;{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp;&quot;Enhance Due Diligence Required for New Customer Registration is not pass&quot;</expression>
     </formulas>
     <interviewLabel>CTRTriggerReqItemUpdateAfterSubmit {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTRTriggerReqItemUpdateAfterSubmit</label>
@@ -2415,7 +2766,7 @@
     <recordLookups>
         <name>getCustomNotification</name>
         <label>getCustomNotification</label>
-        <locationX>4175</locationX>
+        <locationX>4703</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2520,7 +2871,7 @@
     <recordLookups>
         <name>getFALBFinalRiskMeta</name>
         <label>getFALBFinalRiskMeta</label>
-        <locationX>5198</locationX>
+        <locationX>5462</locationX>
         <locationY>971</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2625,9 +2976,66 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getFAMgrFinalRiskMeta</name>
+        <label>getFAMgrFinalRiskMeta</label>
+        <locationX>4670</locationX>
+        <locationY>1403</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findFAMgrFinalRisk</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CommitteeSelection</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CreditHead</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>EmployeeId__c</queriedFields>
+        <queriedFields>ActorTeam__c</queriedFields>
+        <queriedFields>ActorPosition__c</queriedFields>
+        <queriedFields>Process__c</queriedFields>
+        <queriedFields>SalesOrg__c</queriedFields>
+        <queriedFields>Step__c</queriedFields>
+        <queriedFields>Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getFATXFinalRiskMeta</name>
         <label>getFATXFinalRiskMeta</label>
-        <locationX>4670</locationX>
+        <locationX>4868</locationX>
         <locationY>971</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2682,10 +3090,67 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getFATXFinalRiskMeta_HighHighTX</name>
+        <label>getFATXFinalRiskMeta</label>
+        <locationX>7046</locationX>
+        <locationY>1187</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findFATXFinalRisk_HIghHighTX</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CheckDueDiligence</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>EmployeeId__c</queriedFields>
+        <queriedFields>ActorTeam__c</queriedFields>
+        <queriedFields>ActorPosition__c</queriedFields>
+        <queriedFields>Process__c</queriedFields>
+        <queriedFields>SalesOrg__c</queriedFields>
+        <queriedFields>Step__c</queriedFields>
+        <queriedFields>Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>GetInitialFinalRiskEmailTemplate</name>
         <label>GetInitialFinalRiskEmailTemplate</label>
-        <locationX>4736</locationX>
-        <locationY>1679</locationY>
+        <locationX>4868</locationX>
+        <locationY>2819</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>InitialFinalRiskLowanMediumSendEmail</targetReference>
@@ -2703,9 +3168,30 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>GetInitialFinalRiskEmailTemplateFATX</name>
+        <label>GetInitialFinalRiskEmailTemplate</label>
+        <locationX>4538</locationX>
+        <locationY>2027</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>TXInitialFinalRiskLowanMediumSendEmail</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRInitialTXCustomerFinalRiskResult</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>4175</locationX>
+        <locationX>4703</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2875,13 +3361,34 @@
         <queriedFields>Type__c</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>GetTXHHEmail</name>
+        <label>GetTXHHEmail</label>
+        <locationX>6914</locationX>
+        <locationY>1919</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>TXInitialFinalRiskHHSendEmails</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>TXInitialCompleteComplianceCheckandRiskLevelHighHighRisk</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>HighHighStatusUpdateRecord</name>
         <label>HighHighStatusUpdateRecord</label>
-        <locationX>6980</locationX>
+        <locationX>7640</locationX>
         <locationY>863</locationY>
         <connector>
-            <targetReference>CheckRecipientIsActive_SubmitInitialFinalRisk_HighHighRisk</targetReference>
+            <targetReference>CheckBU_HighHigh</targetReference>
         </connector>
         <inputAssignments>
             <field>Approval_Step__c</field>
@@ -2952,7 +3459,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>4049</locationX>
+        <locationX>4577</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getOrgWide</targetReference>
@@ -3035,7 +3542,7 @@
     <subflows>
         <name>findFALBFinalRisk</name>
         <label>findFALBFinalRisk</label>
-        <locationX>5198</locationX>
+        <locationX>5462</locationX>
         <locationY>1079</locationY>
         <connector>
             <targetReference>CheckFALB_0</targetReference>
@@ -3067,9 +3574,26 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <name>findFAMgrFinalRisk</name>
+        <label>findFAMgrFinalRisk</label>
+        <locationX>4670</locationX>
+        <locationY>1511</locationY>
+        <connector>
+            <targetReference>CheckFAMgr</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getFAMgrFinalRiskMeta</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <name>findFATXFinalRisk</name>
         <label>findFATXFinalRisk</label>
-        <locationX>4670</locationX>
+        <locationX>4868</locationX>
         <locationY>1079</locationY>
         <connector>
             <targetReference>CheckFATX</targetReference>
@@ -3079,6 +3603,23 @@
             <name>varMetaUsers</name>
             <value>
                 <elementReference>getFATXFinalRiskMeta</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findFATXFinalRisk_HIghHighTX</name>
+        <label>findFATXFinalRisk</label>
+        <locationX>7046</locationX>
+        <locationY>1295</locationY>
+        <connector>
+            <targetReference>CheckFATX_HighHighTX</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getFATXFinalRiskMeta_HighHighTX</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -3164,8 +3705,20 @@
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!$Record.fmlPositionNameOfFinancial__c} Team,&lt;br&gt;&lt;br&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name} has submitted additional information.&lt;br&gt;Please review by proceed via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Company Name:&amp;nbsp;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Responsible Trader Name:&amp;nbsp;{!$Record.Owner:User.FirstName} &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.Owner:User.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Request Number: {!$Record.Name}&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatically generated email. Please do not reply to this address.</text>
     </textTemplates>
+    <textTemplates>
+        <name>TXInitialFinalRiskHHEmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear {!$Record.Owner:User.FirstName} {!$Record.Owner:User.LastName},&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&amp;nbsp;We regret to inform you that {!$Record.CTRRequestFormHeader__r.Customer__r.Name} has a &lt;strong style=&quot;font-size: 16px; color: rgb(0, 97, 202);&quot;&gt;high-high&lt;/strong&gt;&lt;span style=&quot;color: rgb(0, 97, 202);&quot;&gt; &lt;/span&gt;&lt;strong style=&quot;color: rgb(0, 97, 202); font-size: 16px;&quot;&gt;risk&lt;/strong&gt; level in Compliance and does not meet the criteria for counterparty registration. Please notify your customer about this situation as soon as possible.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please see due diligence result by proceed via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatic generated email, please do not reply to this email address&quot;&lt;/p&gt;</text>
+    </textTemplates>
     <variables>
         <name>InitialFinalRiskRecipientEmails</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>InitialFinalRiskRecipientEmailsCC</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>

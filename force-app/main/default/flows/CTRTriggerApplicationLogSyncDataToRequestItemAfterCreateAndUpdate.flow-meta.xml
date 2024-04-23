@@ -103,6 +103,29 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Queue_success_general_view_to_Item</name>
+        <label>Assign Queue success general view to Item</label>
+        <locationX>281</locationX>
+        <locationY>1789</locationY>
+        <assignmentItems>
+            <assignToReference>varRequestItemUpdateRecord.SAPStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Queue CCA</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varRequestItemUpdateRecord.SAPInitialGeneralConfirmed__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Assign_confirmed_success_general_view_to_Item</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assign_related_record_item</name>
         <label>assign related record item</label>
         <locationX>743</locationX>
@@ -232,8 +255,8 @@
     <assignments>
         <name>Assign_success_general_view_to_Item</name>
         <label>Assign success general view to Item</label>
-        <locationX>50</locationX>
-        <locationY>1697</locationY>
+        <locationX>101</locationX>
+        <locationY>1831</locationY>
         <assignmentItems>
             <assignToReference>varRequestItemUpdateRecord.SAPStatus__c</assignToReference>
             <operator>Assign</operator>
@@ -667,6 +690,31 @@
         </rules>
     </decisions>
     <decisions>
+        <name>is_found_pending_cca_record</name>
+        <label>is found pending cca record?</label>
+        <locationX>273</locationX>
+        <locationY>1573</locationY>
+        <defaultConnector>
+            <targetReference>Assign_success_general_view_to_Item</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>found_cca_pending</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getRelatedItemCCAWaiting</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Queue_success_general_view_to_Item</targetReference>
+            </connector>
+            <label>found cca pending</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_found_related_record</name>
         <label>is found related record</label>
         <locationX>261</locationX>
@@ -921,7 +969,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>General_failed</name>
-            <conditionLogic>1 AND 2 AND (3 OR 4)</conditionLogic>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Message_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -930,24 +978,10 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>get_RequestItem.SAPInitialGeneralConfirmed__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>get_RequestItem.LatestIntegrationName__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>Initial Customer General View</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>get_RequestItem.LatestIntegrationName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Initial Supplier General+Purchasing View</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -986,7 +1020,7 @@
         </rules>
         <rules>
             <name>Purchasing_Fail</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3) AND 4</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Message_Type__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -1002,10 +1036,10 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>get_RequestItem.SAPInitialGeneralConfirmed__c</leftValueReference>
+                <leftValueReference>get_RequestItem.LatestIntegrationName__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
+                    <stringValue>Initial Supplier General+Purchasing View</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -1251,13 +1285,6 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>get_RequestItem.SAPInitialGeneralConfirmed__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>get_RequestItem.LatestIntegrationName__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
@@ -1265,7 +1292,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Assign_success_general_view_to_Item</targetReference>
+                <targetReference>getRelatedItemCCAWaiting</targetReference>
             </connector>
             <label>Included General success</label>
         </rules>
@@ -1530,6 +1557,48 @@
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRRequestFormItem__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getRelatedItemCCAWaiting</name>
+        <label>getRelatedItemCCAWaiting</label>
+        <locationX>285</locationX>
+        <locationY>1455</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>is_found_pending_cca_record</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <elementReference>get_RequestItem.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Customer__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>get_RequestItem.Customer__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SAPStatus__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Pending CCA</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrganization__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>get_RequestItem.SalesOrganization__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>CTRRequestFormItem__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>

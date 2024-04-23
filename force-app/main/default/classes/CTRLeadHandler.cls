@@ -79,7 +79,9 @@ public class CTRLeadHandler
                             //String mBody = '{"MainFolder": "'+mSetting.SharePointMainFolderDuringCreate__c+'","AccFolder" : "'+mLead.LeadNo__c+'","SubFolder" : "Common", "Type": ""}';
                             String mEndPoint = mSetting.HerokuIntegrationDomain__c+mIntegrationList[0].Path__c;
                             String mGatewayId = (mLead.GatewayId__c!= null)?mLead.GatewayId__c:Uuid.randomUUID();
-                            system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mIntegrationList[0].Token__c, mEndPoint, 'Folder creation', mLead.Id, mGatewayId));
+                            CTRTriggerWebServiceQueueable.sendServiceToHeroku(mBody, mIntegrationList[0].Token__c, mEndPoint, 'Folder creation', mLead.Id, mGatewayId);
+
+                            //system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mIntegrationList[0].Token__c, mEndPoint, 'Folder creation', mLead.Id, mGatewayId));
                         }
 
                     }
@@ -125,7 +127,8 @@ public class CTRLeadHandler
                     {
                         String mGatewayId = (mLead.GatewayId__c!= null)?mLead.GatewayId__c:Uuid.randomUUID();
                         String mBody = '{"request_header" : "'+mLead.Id+'", "GatewayId" : "'+mGatewayId+'"}';
-                        system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, 'NewsSharedHolder', mLead.Id, mGatewayId));
+                        CTRTriggerWebServiceQueueable.sendServiceToHeroku(mBody, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, 'NewsSharedHolder', mLead.Id, mGatewayId);
+                        //system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, 'NewsSharedHolder', mLead.Id, mGatewayId));
 
                     }
                 }

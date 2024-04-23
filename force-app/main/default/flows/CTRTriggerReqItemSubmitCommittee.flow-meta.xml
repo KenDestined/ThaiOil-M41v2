@@ -5,7 +5,7 @@
         <name>TOPCusSubmitCommitteeSendEmailAction</name>
         <label>TOPCusSubmitCommitteeSendEmailAction</label>
         <locationX>842</locationX>
-        <locationY>2111</locationY>
+        <locationY>1895</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -74,7 +74,7 @@
         <name>TOPCusSubmitCommitteeSendNotification</name>
         <label>TOPCusSubmitCommitteeSendNotification</label>
         <locationX>842</locationX>
-        <locationY>2219</locationY>
+        <locationY>2003</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -230,7 +230,7 @@
         <name>TOPSupSubmitCommitteeSendEmailAction</name>
         <label>TOPSupSubmitCommitteeSendEmailAction</label>
         <locationX>1106</locationX>
-        <locationY>2111</locationY>
+        <locationY>1895</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -299,7 +299,7 @@
         <name>TOPSupSubmitCommitteeSendNotification</name>
         <label>TOPSupSubmitCommitteeSendNotification</label>
         <locationX>1106</locationX>
-        <locationY>2219</locationY>
+        <locationY>2003</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -341,7 +341,7 @@
         <name>TXCusSubmitCommitteeSendEmailAction</name>
         <label>TXCusSubmitCommitteeSendEmailAction</label>
         <locationX>1634</locationX>
-        <locationY>2111</locationY>
+        <locationY>1895</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -410,7 +410,7 @@
         <name>TXCusSubmitCommitteeSendNotification</name>
         <label>TXCusSubmitCommitteeSendNotification</label>
         <locationX>1634</locationX>
-        <locationY>2219</locationY>
+        <locationY>2003</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -566,7 +566,7 @@
         <name>TXSupSubmitCommitteeSendEmailAction</name>
         <label>TXSupSubmitCommitteeSendEmailAction</label>
         <locationX>1898</locationX>
-        <locationY>2111</locationY>
+        <locationY>1895</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -635,7 +635,7 @@
         <name>TXSupSubmitCommitteeSendNotification</name>
         <label>TXSupSubmitCommitteeSendNotification</label>
         <locationX>1898</locationX>
-        <locationY>2219</locationY>
+        <locationY>2003</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -717,12 +717,12 @@
         <name>assignSubmitCommitteeRecipientEmails</name>
         <label>assignSubmitCommitteeRecipientEmails</label>
         <locationX>1634</locationX>
-        <locationY>1403</locationY>
+        <locationY>1187</locationY>
         <assignmentItems>
             <assignToReference>SubmitCommitteeRecipientEmails</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>findCreditSH.varTargetEmails</elementReference>
+                <elementReference>$Record.CreditOwnerSectionHead__r.Email</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -741,12 +741,12 @@
         <name>assignSubmitCommitteeRecipientIds</name>
         <label>assignSubmitCommitteeRecipientIds</label>
         <locationX>1634</locationX>
-        <locationY>1295</locationY>
+        <locationY>1079</locationY>
         <assignmentItems>
             <assignToReference>SubmitCommitteeRecipientIds</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>findCreditSH.varTargetIds</elementReference>
+                <elementReference>$Record.CreditOwnerSectionHead__r.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -928,7 +928,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>getCreditSH</targetReference>
+                <targetReference>checkRecipient</targetReference>
             </connector>
             <label>SubmitCommitteeByCredit</label>
         </rules>
@@ -937,7 +937,7 @@
         <name>checkRecipient</name>
         <label>checkRecipient</label>
         <locationX>1766</locationX>
-        <locationY>1187</locationY>
+        <locationY>971</locationY>
         <defaultConnector>
             <targetReference>updateStatus</targetReference>
         </defaultConnector>
@@ -946,7 +946,7 @@
             <name>haveRecipient</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>findCreditSH.targetUserRecs</leftValueReference>
+                <leftValueReference>$Record.CreditOwnerSectionHead__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -962,7 +962,7 @@
         <name>RecordType</name>
         <label>RecordType</label>
         <locationX>1106</locationX>
-        <locationY>2003</locationY>
+        <locationY>1787</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Customer</name>
@@ -1027,7 +1027,7 @@
         <name>RecordType_0</name>
         <label>RecordType</label>
         <locationX>1898</locationX>
-        <locationY>2003</locationY>
+        <locationY>1787</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Customer_0</name>
@@ -1093,7 +1093,7 @@
         <name>SelectUserBUbySales_Org</name>
         <label>Select User BU by Sales Org</label>
         <locationX>1766</locationX>
-        <locationY>1895</locationY>
+        <locationY>1679</locationY>
         <defaultConnectorLabel>None</defaultConnectorLabel>
         <rules>
             <name>TOP_LABIX</name>
@@ -1238,7 +1238,7 @@
         <name>updateStatus</name>
         <label>updateStatus</label>
         <locationX>1766</locationX>
-        <locationY>1595</locationY>
+        <locationY>1379</locationY>
         <defaultConnector>
             <targetReference>ReqItemUpdateStatus</targetReference>
         </defaultConnector>
@@ -1284,7 +1284,7 @@
             <label>recordtypeBlock</label>
         </rules>
     </decisions>
-    <description>10/04/2024 Enhance for change credit cond, extend, block record type</description>
+    <description>17/04/2024 Update find Credit SH logic</description>
     <environments>Default</environments>
     <formulas>
         <name>fmlAccountTypeName_Body</name>
@@ -1451,63 +1451,6 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>getCreditSH</name>
-        <label>getCreditSH</label>
-        <locationX>1766</locationX>
-        <locationY>971</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>findCreditSH</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>Process__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>CommitteeSelection</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>Step__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>CreditHead</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>SalesOrg__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.SubBU__c</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>Type__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>fmlCountry</elementReference>
-            </value>
-        </filters>
-        <filters>
-            <field>RecordType__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
-            </value>
-        </filters>
-        <getFirstRecordOnly>false</getFirstRecordOnly>
-        <object>CTRActorInProcess__mdt</object>
-        <queriedFields>Id</queriedFields>
-        <queriedFields>EmployeeId__c</queriedFields>
-        <queriedFields>ActorTeam__c</queriedFields>
-        <queriedFields>ActorPosition__c</queriedFields>
-        <queriedFields>Process__c</queriedFields>
-        <queriedFields>SalesOrg__c</queriedFields>
-        <queriedFields>Step__c</queriedFields>
-        <queriedFields>Type__c</queriedFields>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <description>Get custom notification ID (API: CTRNotification)</description>
         <name>getCustomNotification</name>
         <label>getCustomNotification</label>
@@ -1613,7 +1556,7 @@
         <name>ReqItemUpdateStatus</name>
         <label>ReqItemUpdateStatus</label>
         <locationX>1854</locationX>
-        <locationY>1703</locationY>
+        <locationY>1487</locationY>
         <connector>
             <targetReference>SelectUserBUbySales_Org</targetReference>
         </connector>
@@ -1700,23 +1643,6 @@
     </start>
     <status>Active</status>
     <subflows>
-        <name>findCreditSH</name>
-        <label>findCreditSH</label>
-        <locationX>1766</locationX>
-        <locationY>1079</locationY>
-        <connector>
-            <targetReference>checkRecipient</targetReference>
-        </connector>
-        <flowName>CTRSubFlowGetPISUsers</flowName>
-        <inputAssignments>
-            <name>varMetaUsers</name>
-            <value>
-                <elementReference>getCreditSH</elementReference>
-            </value>
-        </inputAssignments>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </subflows>
-    <subflows>
         <name>findTRCRTeamforCC</name>
         <label>findTRCRTeamforCC</label>
         <locationX>1502</locationX>
@@ -1737,28 +1663,42 @@
         <description>Email Body for TOP trader</description>
         <name>TOPCusSubmitCommitteeEmailBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;Please select Committee to approve {!fmlAccountTypeName_Body}, proceed via&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Interested to be: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.fmlAccountTypeName__c} &lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Trader Name: {!$Record.Owner:User.FirstName}&lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;{!$Record.Owner:User.LastName}&lt;/span&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;
+Please select Committee to approve {!fmlAccountTypeName_Body}, proceed via&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;br&gt;
+&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;br&gt;
+&lt;p class=&quot;ql-indent-1&quot;&gt;Credit Condition: {!$Record.FinCrCond__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Credit Limit: {!$Record.FinCrLimit__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Internal Credit Rating: {!$Record.FinIntCrRating__c}&lt;br&gt;&lt;br&gt;
+Best Regards,&lt;br&gt;&lt;br&gt;
+Counterparties Registration Automated System&lt;br&gt;
+This is an automatic generated email. Please do not reply to this address.</text>
     </textTemplates>
     <textTemplates>
         <name>TOPRevertRequestEmailBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;br&gt;&lt;br&gt;Please revise and re-submit approval request via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Company Name: {!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Trader Name:&lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;{!$Record.Owner:User.FirstName} &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.Owner:User.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <text>Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;br&gt;&lt;br&gt; 
+Please revise and re-submit approval request via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;
+&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt; &lt;br&gt;
+&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Condition: {!$Record.FinCrCond__c}&lt;/span&gt;&lt;br&gt;
+&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Limit: {!$Record.FinCrLimit__c}&lt;/span&gt;&lt;br&gt;
+&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Internal Credit Rating: {!$Record.FinIntCrRating__c}&lt;/span&gt;&lt;br&gt;&lt;br&gt;
+Best Regards,&lt;br&gt;&lt;br&gt;
+Counterparties Registration Automated System&lt;br&gt;
+This is an automatic generated email. Please do not reply to this address.</text>
     </textTemplates>
     <textTemplates>
         <name>TOPSupSubmitCommitteeEmailBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;Please select Committee to approve {!fmlAccountTypeName_Body}, proceed via&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Interested to be: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.fmlAccountTypeName__c} &lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Trader Name: {!$Record.Owner:User.FirstName}&lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;{!$Record.Owner:User.LastName}&lt;/span&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName},&lt;br&gt; Please select Committee to approve {!fmlAccountTypeName_Body}, proceed via&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Condition: {!$Record.FinCrCond__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Limit: {!$Record.FinCrLimit__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Internal Credit Rating: {!$Record.FinIntCrRating__c}&lt;/span&gt;&lt;br&gt;&lt;br&gt; Best Regards,&lt;br&gt;&lt;br&gt; Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
     </textTemplates>
     <textTemplates>
         <description>Email Body for TX</description>
         <name>TXCusSubmitCommitteeEmailBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;Please select Committee to approve {!fmlAccountTypeName_Body}, proceed via&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Interested to be: &lt;/span&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.fmlAccountTypeName__c} &lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Trader Name: {!$Record.Owner:User.FirstName}&lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-size: 12px;&quot;&gt;{!$Record.Owner:User.LastName}&lt;/span&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;Please select Committee to approve {!fmlAccountTypeName_Body}, proceed via&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt; &lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Condition: {!$Record.FinCrCond__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Limit: {!$Record.FinCrLimit__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Internal Credit Rating: {!$Record.FinIntCrRating__c}&lt;/span&gt;&lt;br&gt;&lt;br&gt;Best Regards,&lt;br&gt;&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>TXRevertRequestEmailBody</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;br&gt;&lt;br&gt;Please revise and re-submit approval request via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Company Name: {!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Trader Name:&lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;{!$Record.Owner:User.FirstName} &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.Owner:User.LastName}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;/p&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Dear {!$Record.CreditOwner__r.FirstName} {!$Record.CreditOwner__r.LastName},&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please revise and re-submit approval request via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;this link&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Company Name: &lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Condition: {!$Record.FinCrCond__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Credit Limit: {!$Record.FinCrLimit__c}&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px; background-color: rgb(255, 255, 255);&quot;&gt;Internal Credit Rating: {!$Record.FinIntCrRating__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatic generated email. Please do not reply to this address.&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>TXSupSubmitCommitteeEmailBody</name>

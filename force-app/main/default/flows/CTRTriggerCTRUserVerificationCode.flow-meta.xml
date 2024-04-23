@@ -4,8 +4,8 @@
         <description>Sending email to recipient(s)</description>
         <name>SendEmailAction</name>
         <label>SendEmailAction</label>
-        <locationX>50</locationX>
-        <locationY>863</locationY>
+        <locationX>182</locationX>
+        <locationY>1163</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -68,9 +68,25 @@
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
+        <name>assignDefaultRecipientName</name>
+        <label>assignDefaultRecipientName</label>
+        <locationX>314</locationX>
+        <locationY>971</locationY>
+        <assignmentItems>
+            <assignToReference>recipientName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CompanyName__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SendEmailAction</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignRecipientEmails</name>
         <label>assignRecipientEmails</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>647</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -84,10 +100,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignRecipientName</name>
+        <label>assignRecipientName</label>
+        <locationX>50</locationX>
+        <locationY>971</locationY>
+        <assignmentItems>
+            <assignToReference>recipientName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.VerificationCodeCustomer__r.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>SendEmailAction</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>Assign target record to variable as hyperlink</description>
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
@@ -103,7 +135,7 @@
     <decisions>
         <name>CheckRecipient</name>
         <label>CheckRecipient</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>755</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -117,13 +149,39 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>SendEmailAction</targetReference>
+                <targetReference>HaveVerificationCompanyName</targetReference>
             </connector>
             <label>HaveRecipient</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>HaveVerificationCompanyName</name>
+        <label>HaveVerificationCompanyName</label>
+        <locationX>182</locationX>
+        <locationY>863</locationY>
+        <defaultConnector>
+            <targetReference>assignDefaultRecipientName</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.VerificationCodeCustomer__r.Name</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignRecipientName</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
     <description>13/3/2024 Update Email html
-21/3/2024 Revise Company Name</description>
+21/3/2024 Revise Company Name
+17/04/2024 Revise Company Name</description>
     <environments>Default</environments>
     <formulas>
         <description>Subject email</description>
@@ -171,7 +229,7 @@
         <description>Get custom notification ID (API: CTRNotification)</description>
         <name>getCustomNotification</name>
         <label>getCustomNotification</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -192,7 +250,7 @@
     <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>182</locationX>
+        <locationX>380</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -213,7 +271,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>56</locationX>
+        <locationX>254</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getCustomNotification</targetReference>
@@ -241,7 +299,7 @@
     <textTemplates>
         <name>EmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;Dear &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.VerificationCodeCustomer__r.Name}&lt;/span&gt;,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To access the counterparty registration system, please use the code below for account verification.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Account Verification Code: {!$Record.VerificationCode__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;If you didn&apos;t request a code, you can ignore this email.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatically generated email. Please do not reply to this address.&lt;/p&gt;</text>
+        <text>&lt;p&gt;Dear &lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!recipientName}&lt;/span&gt;,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To access the counterparty registration system, please use the code below for account verification.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Account Verification Code: {!$Record.VerificationCode__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;If you didn&apos;t request a code, you can ignore this email.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatically generated email. Please do not reply to this address.&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <description>Recipient emails for sending email</description>
@@ -255,6 +313,13 @@
         <name>recipientIds</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recipientName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>

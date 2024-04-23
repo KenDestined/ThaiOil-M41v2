@@ -7,7 +7,7 @@
         const p1 = helper.onLoadedBUProfile = helper.getCurrentUserBUProfile();
         const p2 = helper.onLoadedRequestCounterpartyType = helper.getRequestCounterpartyType();
         const p3 = helper.onLoadedCommitteeInfo = Promise.all([p1, p2]).then($A.getCallback(function () {
-            return helper.getCommitteeInfo();
+            return helper.getCommitteeInfo(component);
         })).catch($A.getCallback(function (error) {
             helper.showToast(error.message, 'error');
         }));
@@ -80,7 +80,7 @@
 
     handleClickPreview: function (component, event, helper) {
         console.log('Preview email')
-        helper.setPreviewEMailInfo();
+        helper.setPreviewEMailInfo(component);
         component.set("v.isModalOpen", true);
         console.log('Preview email end',component.get('v.isModalOpen'))
     },
@@ -118,7 +118,6 @@
     },
 
     handleSave: function (component, event, helper) {
-        debugger
         event.preventDefault();
         let bu = helper.getBU();
         let counterpartyType = helper.getCounterpartyType();
@@ -229,95 +228,6 @@
         }
         helper.submitType = '';
     },
-
-    // handleChangeTypeOfBusiness: function (component, event, helper) {
-    //     const typeOfBusiness = component.find("TypeOfBusiness").get("v.value");
-    //     if (typeOfBusiness == "Other") {
-    //         component.set("v.requiredTypeOfBusinessOther", true);
-    //     } else {
-    //         component.find("TypeOfBusinessOther").set("v.value", "");
-    //         component.set("v.requiredTypeOfBusinessOther", false);
-    //     }
-    // },
-
-    // handleChangeFinalCreditCondition: function (component, event, helper) {
-    //     const creditCondition = $A.util.isArray(component.find("FinCrCond"))
-    //         ? component.find("FinCrCond")[0].get("v.value")
-    //         : component.find("FinCrCond").get("v.value");
-    //     helper.setFinalCreditConditionVisibility(creditCondition);
-    //     helper.resetFinalCreditCondition();
-    // },
-
-    // handleChangeTXCashOnDelivery: function (component, event, helper) {
-    //     const CashOnDelivery = component.find("TXFinCashOnDelivery");
-    //     const HavingCollateral = component.find("TXFinHavingCollateral");
-    //     const AmountBankGuarantee = component.find("TXFinAmountBankGuarantee");
-    //     // const HavingCreditTermorLetter = component.find("TXFinHavingCreditTermOrLetter");
-    //     const AmountCreditTerm = component.find("TXFinAmountCreditTerm");
-    //     const BuyTradeEndorsement = component.find("TXFinBuyTradeEndorsement");
-    //     const AmountBuyTrade = component.find("TXFinAmountBuyTrade");
-    //     const BuyTradeDCLCondition = component.find("TXFinBuyTradeDCLCondition");
-    //     const AmountDCLCondition = component.find("TXFinAmountDCLCondition");
-    //     const HavingOpenedCredit = component.find("TXFinHavingOpenedCredit");
-    //     const AmountOpenedCredit = component.find("TXFinAmountOpenedCredit");
-
-    //     if (CashOnDelivery.get("v.value") !== "No") {
-    //         HavingCollateral.set("v.value", "");
-    //         // HavingCreditTermorLetter.set("v.value", "");
-    //         BuyTradeEndorsement.set("v.value", "");
-    //         BuyTradeDCLCondition.set("v.value", "");
-    //         HavingOpenedCredit.set("v.value", "");
-
-    //         AmountBankGuarantee.set("v.value", "0.00");
-    //         AmountCreditTerm.set("v.value", "0.00");
-    //         AmountBuyTrade.set("v.value", "0.00");
-    //         AmountDCLCondition.set("v.value", "0.00");
-    //         AmountOpenedCredit.set("v.value", "0.00");
-    //     }
-    //     helper.alertTXRequiredCreditInsurance();
-    // },
-
-    // handleChangeTXCreditInsurance: function (component, event, helper) {
-    //     const HavingCollateral = component.find("TXFinHavingCollateral");
-    //     const AmountBankGuarantee = component.find("TXFinAmountBankGuarantee");
-    //     // const HavingCreditTermorLetter = component.find("TXFinHavingCreditTermOrLetter");
-    //     const AmountCreditTerm = component.find("TXFinAmountCreditTerm");
-    //     const BuyTradeEndorsement = component.find("TXFinBuyTradeEndorsement");
-    //     const AmountBuyTrade = component.find("TXFinAmountBuyTrade");
-    //     const BuyTradeDCLCondition = component.find("TXFinBuyTradeDCLCondition");
-    //     const AmountDCLCondition = component.find("TXFinAmountDCLCondition");
-    //     const HavingOpenedCredit = component.find("TXFinHavingOpenedCredit");
-    //     const AmountOpenedCredit = component.find("TXFinAmountOpenedCredit");
-
-    //     if (HavingCollateral.get("v.value") === "No") {
-    //         AmountBankGuarantee.set("v.value", 0);
-    //     }
-    //     // if (HavingCreditTermorLetter.get("v.value") === "No") {
-    //     //     AmountCreditTerm.set("v.value", 0);
-    //     // }
-    //     if (BuyTradeEndorsement.get("v.value") === "No") {
-    //         AmountBuyTrade.set("v.value", 0);
-    //     }
-    //     if (BuyTradeDCLCondition.get("v.value") === "No") {
-    //         AmountDCLCondition.set("v.value", 0);
-    //     }
-    //     if (HavingOpenedCredit.get("v.value") === "No") {
-    //         AmountOpenedCredit.set("v.value", 0);
-    //     }
-    //     helper.alertTXRequiredCreditInsurance(component, event, helper);
-    // },
-
-    // handleChangeCurrency: function (component, event, helper) {
-    //     try {
-    //         if (helper.getBU() === "TX") {
-    //             component.find("FinTotalSecuredCurrency").set("v.value", component.find("TXFinCrLimitCur").get("v.value"))
-    //         } else {
-    //             component.find("FinTotalSecuredCurrency").set("v.value", component.find("FinCrLimitCur").get("v.value"))
-    //         }
-    //     } catch (ex) {
-    //         console.error(ex);
-    //     }
-    // },
     handleChangeSelectedCommittees: function (component, event, helper) {
         const selectedCommittees = component.get("v.selectedCommittees");
         component.set("v.requestFormObj.CommitteeName__c", selectedCommittees.join(","));
@@ -351,7 +261,6 @@
     },
     
     handleCheckboxChange: function (component, event, helper) {
-        debugger
         let requestFormObj = component.get("v.requestFormObj");
         let id = event.getSource().getLocalId();
         requestFormObj[id] = event.getSource().get("v.checked");

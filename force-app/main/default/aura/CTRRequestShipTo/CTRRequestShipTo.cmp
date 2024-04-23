@@ -4,8 +4,9 @@
     <aura:attribute name="recordTypeId" type="Id" />
     <aura:attribute name="bu" type="String" />
     <aura:attribute name="requestType" type="String" />
-    <!--  -->
+    <!--  --> 
 
+    <aura:attribute name="currentUserName" type="String" />
     <aura:attribute name="requestList" type="List" default="[]" />
     <aura:attribute name="showSpinner" type="Boolean" default="true" />
     <aura:attribute name="isModalOpen" type="Boolean" default="true" />
@@ -182,6 +183,6 @@
 
     <aura:if isTrue="{!v.isFormModalOpen}">
         <c:CTRRequestShipToForm customerId="{!v.customerId}" recordTypeId="{!v.recordTypeId}" requestType="{!v.requestType}"
-            selectedRequest="{!v.selectedRequest}" />
+            selectedRequest="{!v.selectedRequest}" currentUserName = "{!v.currentUserName}"/>
     </aura:if>
 </aura:component>

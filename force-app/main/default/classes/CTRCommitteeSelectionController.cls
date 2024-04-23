@@ -109,19 +109,19 @@ public without sharing class CTRCommitteeSelectionController {
                     Id, Name,
                     AgreeAsTraderCommentSH__c, AgreeAsTraderCommentVP__c, AmountBankGuarantee__c, AmountBuyTrade__c, AmountCreditTerm__c, AmountDCLCondition__c, AmountOpenedCredit__c, Approval_SHAgree__c, Approval_Step__c, Approval_VPAgree__c, ApprovalTrader_CreditCondition__c, ApprovalTrader_CreditLimit__c, ApprovalTrader_CreditRating__c, ApprovalTrader_PaymentCondition__c, ApprovalTrader_PaymentTerm__c, ApprovalTrader_TradeCreditInsurance__c, ApprovalTraderCreditLimitCurrency__c, ApprovalTraderRiskCategory__c, ApprovalTraderTradeCreditCurrency__c, Authorization__c,
                     BuyTradeDCLCondition__c, BuyTradeEndorsement__c,
-                    CashOnDelivery__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, ChangeCreditCreditLimitCurrency__c, ChangeCreditInternalCreditRating__c, CMVPPreScreenDecision__c, Comment__c, CommitteeAttachment__c, CommitteeEmail__c, CommitteeName__c, CommitteeStatus__c, Country__c, Country__r.Code__c, Credit_Condition__c, CreditLimit__c, CreditLimitCurrency__c, CreditOwner__c, CreditOwnerSectionHead__c, CTRRequestFormHeader__r.Customer__c, CTRRequestFormHeader__r.Customer__r.Name, CTRRequestFormHeader__r.Email__c, CTRRequestFormHeader__r.FirstName__c, CTRRequestFormHeader__r.LastName__c, CTRRequestFormHeader__r.MobilePhone__c, CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c, CTRRequestFormHeader__r.TypeOfBusinessOthers__c, Currency__c, Customer__c,
+                    CashOnDelivery__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, ChangeCreditCreditLimitCurrency__c, ChangeCreditInternalCreditRating__c, CMVPPreScreenDecision__c, Comment__c, CommitteeAttachment__c, CommitteeEmail__c, CommitteeName__c, CommitteeStatus__c, Country__c, Country__r.Code__c, Credit_Condition__c, CreditLimit__c, CreditLimitCurrency__c, CreditOwner__c, CreditOwnerSectionHead__c, CTRRequestFormHeader__r.Customer__c, CTRRequestFormHeader__r.Customer__r.Name, Customer__r.AccountNumber__c, CTRRequestFormHeader__r.Email__c, CTRRequestFormHeader__r.FirstName__c, CTRRequestFormHeader__r.LastName__c, CTRRequestFormHeader__r.MobilePhone__c, CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c, CTRRequestFormHeader__r.TypeOfBusinessOthers__c, Currency__c, Customer__c,
                     EffectiveDateForm__c, EffectiveDateTo__c, EmailAuthorization__c, EmailCC__c, EmailTo__c, EmailUrgent__c,
-                    FinalPerformanceBond__c, FinAmountBankGuarantee__c, FinAmountBuyTrade__c, FinAmountCreditTerm__c, FinAmountDCLCondition__c, FinAmountOpenedCredit__c, FinBuyTradeDCLCondition__c, FinBuyTradeEndorsement__c, FinCashOnDelivery__c, FinCrCond__c, FinCrLimit__c, FinCrLimitCur__c, FinHavingCollateral__c, FinHavingCreditTermOrLetter__c, FinHavingOpenedCredit__c, FinIntCrRating__c, FinOtherCondition__c, FinPaymentCond__c, FinPaymentTerm__c, FinRiskCategory__c, FinTotalSecuredCurrency__c, FinTradeCrIns__c, FinTradeCrInsCu__c,
+                    FinancialInformation__r.InternalCreditRating__c, FinancialInformation__r.Credit_Condition__c, FinancialInformation__r.CreditLimit__c, FinalPerformanceBond__c, FinAmountBankGuarantee__c, FinAmountBuyTrade__c, FinAmountCreditTerm__c, FinAmountDCLCondition__c, FinAmountOpenedCredit__c, FinBuyTradeDCLCondition__c, FinBuyTradeEndorsement__c, FinCashOnDelivery__c, FinCrCond__c, FinCrLimit__c, FinCrLimitCur__c, FinHavingCollateral__c, FinHavingCreditTermOrLetter__c, FinHavingOpenedCredit__c, FinIntCrRating__c, FinOtherCondition__c, FinPaymentCond__c, FinPaymentTerm__c, FinRiskCategory__c, FinTotalSecuredCurrency__c, FinTradeCrIns__c, FinTradeCrInsCu__c,
                     HavingCollateral__c, HavingCreditTermOrLetter__c, HavingOpenedCredit__c,
                     InterestedProductTypeAsCustomer__c, InterestedProductTypeAsCustomerTOP__c, InterestedProductTypeAsCustomerTX__c, InterestedProductTypeAsSupplier__c, InterestedProductTypeAsSupplierTOP__c, InterestedProductTypeAsSupplierTX__c, InternalCreditRating__c, InternalCreditRatingTOP__c,
                     Message__c,
                     OtherCondition__c, Owner__c, Owner__r.Name, OwnersCMVP__c,
                     PaymentCondition__c, PaymentTerm__c, PerformanceBond__c, Product__c, PurchasingOrganizationTOP__c, PurchasingOrganizationTX__c,
-                    RecordType.Name, RemarkPerformanceBond__c, RequestToChangeCredit__c, RiskCategory__c,
+                    RecordType.Name, RemarkPerformanceBond__c, RequestToChangeCredit__c, RequestToChangeCreditTX__c, RiskCategory__c,
                     SalesOrganization__c, SalesOrganizationTOP__c, SalesOrganizationTX__c, Status__c, SubBU__c, Subject__c, SubTypeCondition__c,
-                    TDPerformanceBond__c, TermOfPayment__c, TotalSecuredCurrency__c, Trade_Credit_Insurance__c, TradeCreditInsuranceCurrency__c, TraderRemark__c, TraderWaive__c, TypeOfBusiness__c, TypeOfBusinessOther__c, TermOfPayment__r.Name,
+                    TDPerformanceBond__c, TermOfPayment__c, TotalSecuredAmount__c, TotalSecuredCurrency__c, Trade_Credit_Insurance__c, TradeCreditInsuranceCurrency__c, TraderRemark__c, TraderWaive__c, TypeOfBusiness__c, TypeOfBusinessOther__c, TermOfPayment__r.Name,
                     CompanyCodeTX__c, DistributionChannel__c, Division__c, PurchasingOrganization__c, 
-                    BlockedReason__c, SelectedPurchasingOrg__c
+                    BlockedReason__c, SelectedPurchasingOrg__c, OrderBlock__c, CommitteeOwner__r.Name, CreditOwner__r.Name, CreditOwnerName__c, Customer__r.NonSAPCustomerCode__c, Customer__r.SupplierNumber__c,Customer__r.NonSAPSupplierCode__c
                 FROM CTRRequestFormItem__c
                 WHERE Id = :recordId
             ];
@@ -172,7 +172,8 @@ public without sharing class CTRCommitteeSelectionController {
     @AuraEnabled
     public static List<User> getCEO(String salesOrg, String recordType, String type, String hasCrude, String interByTX) {
         List<String> actors = new List<String>();
-        for (CTRActorInProcess__mdt actor : [ SELECT EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'DueDiligence' AND Step__c IN ('CEO') AND SalesOrg__c = :salesOrg AND Type__c = :type AND RecordType__c = :recordType AND Product__c = :hasCrude AND InterByTX__c = :interByTX]) {
+        // for (CTRActorInProcess__mdt actor : [ SELECT EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'DueDiligence' AND Step__c IN ('CEO') AND SalesOrg__c = :salesOrg AND Type__c = :type AND RecordType__c = :recordType AND Product__c = :hasCrude AND InterByTX__c = :interByTX]) {
+        for (CTRActorInProcess__mdt actor : [ SELECT EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'DueDiligence' AND Step__c IN ('CEO') AND SalesOrg__c = :salesOrg AND RecordType__c = :recordType AND Product__c = :hasCrude AND InterByTX__c = :interByTX]) {
             actors.add(actor.EmployeeId__c);
         }
         List<String> users = new List<String>();
@@ -183,7 +184,7 @@ public without sharing class CTRCommitteeSelectionController {
     }
 
     private static String mergeFieldEmailTemplate(String recordId, String msg, String stage) {
-        CTRRequestFormItem__c reqFormItem = [ SELECT Id, RecordType.Name, SubBU__c, CTRRequestFormHeader__r.Customer__c, CTRRequestFormHeader__r.Customer__r.Name, FinCrCond__c, FinPaymentCond__c, FinOtherCondition__c, TermOfPayment__c, TermOfPayment__r.Name, BusinessUnit__c FROM CTRRequestFormItem__c WHERE Id = :recordId ];
+        CTRRequestFormItem__c reqFormItem = [ SELECT Id, RecordType.Name, SubBU__c, CTRRequestFormHeader__r.Customer__c, CTRRequestFormHeader__r.Customer__r.Name, FinIntCrRating__c, FinCrLimit__c, FinCrCond__c, FinRiskCategory__c, FinPaymentCond__c, FinOtherCondition__c, TermOfPayment__c, TermOfPayment__r.Name, BusinessUnit__c, SalesOrganization__c, DistributionChannel__c, Division__c, CommitteeOwner__r.Name, OrderBlock__c, PurchasingOrganization__c, SelectedPurchasingOrg__c, BlockedReason__c,CashOnDelivery__c, HavingCollateral__c, BuyTradeEndorsement__c, TotalSecuredAmount__c, TotalSecuredCurrency__c, CreditOwnerName__c FROM CTRRequestFormItem__c WHERE Id = :recordId ];
 
         if (reqFormItem.RecordType.Name.contains('Customer')) {
             msg = msg.replace('{$RecordType$}', 'Customer');
@@ -217,7 +218,25 @@ public without sharing class CTRCommitteeSelectionController {
             } else {
                 msg = msg.replace('{$TermOfPayment$}', '');
             }
-            // msg = msg.replace('{$FinalPaymentCondition$}', reqFormItem.FinPaymentCond__c);
+            msg = msg.replace('{$SalesOrganization$}', (reqFormItem.SalesOrganization__c != null) ? reqFormItem.SalesOrganization__c : '');
+            msg = msg.replace('{$DistributionChannel$}', (reqFormItem.DistributionChannel__c != null) ? reqFormItem.DistributionChannel__c : '');
+            msg = msg.replace('{$Division$}', (reqFormItem.Division__c != null) ? reqFormItem.Division__c : '');
+            System.debug(reqFormItem.CommitteeOwner__r.Name);
+            msg = msg.replace('{$CommitteeOwner$}', (reqFormItem.CommitteeOwner__r.Name != null) ? reqFormItem.CommitteeOwner__r.Name : '');
+            msg = msg.replace('{$OrderBlock$}', (reqFormItem.OrderBlock__c != null) ? reqFormItem.OrderBlock__c : '');
+            msg = msg.replace('{$PurchasingOrganization$}', (reqFormItem.PurchasingOrganization__c != null) ? reqFormItem.PurchasingOrganization__c : '');
+            msg = msg.replace('{$SelectedPurchasingOrg$}', (reqFormItem.SelectedPurchasingOrg__c) ? 'Yes' : 'No');
+            msg = msg.replace('{$BlockedReason$}', (reqFormItem.BlockedReason__c != null) ? reqFormItem.BlockedReason__c : '');
+            msg = msg.replace('{$CashOnDelivery$}', (reqFormItem.CashOnDelivery__c != null) ? String.valueOf(reqFormItem.CashOnDelivery__c) : '');
+            msg = msg.replace('{$HavingCollateral$}', (reqFormItem.HavingCollateral__c != null) ? String.valueOf(reqFormItem.HavingCollateral__c) : '');
+            msg = msg.replace('{$BuyTradeEndorsement$}', (reqFormItem.BuyTradeEndorsement__c != null) ? String.valueOf(reqFormItem.BuyTradeEndorsement__c) : '');
+            msg = msg.replace('{$TotalSecuredAmount$}', (reqFormItem.TotalSecuredAmount__c != null) ? String.valueOf(reqFormItem.TotalSecuredAmount__c.format()) : '');
+            msg = msg.replace('{$CreditLimitCurrency$}', (reqFormItem.TotalSecuredCurrency__c != null) ? reqFormItem.TotalSecuredCurrency__c : '');
+            msg = msg.replace('{$FinRiskCategory$}', (reqFormItem.FinRiskCategory__c != null) ? String.valueOf(reqFormItem.FinRiskCategory__c) : '');
+            msg = msg.replace('{$FinalCreditLimit$}', (reqFormItem.FinCrLimit__c != null) ? String.valueOf(reqFormItem.FinCrLimit__c.format()) : '');
+            msg = msg.replace('{$FinalInternalCreditRating$}', (reqFormItem.FinIntCrRating__c != null) ? reqFormItem.FinIntCrRating__c : '');
+            msg = msg.replace('{$CreditOwnerName$}', (reqFormItem.CreditOwnerName__c != null) ? reqFormItem.CreditOwnerName__c : '');
+            
         }
 
         return msg;
@@ -249,16 +268,19 @@ public without sharing class CTRCommitteeSelectionController {
     }
 
     private static void setTRCRSectionHeadIfBlank(String recordId, CTRRequestFormItem__c reit) {
-        List<CTRRequestFormItem__c> lst = [SELECT SubBU__c, InterestedProductTypeAsSupplierTOP__c, CreditOwnerSectionHead__c, RecordType.Name, Country__r.Code__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
+        List<CTRRequestFormItem__c> lst = [SELECT SubBU__c, CommitteeOwner__c, CreditOwner__c, InterestedProductTypeAsSupplierTOP__c, CreditOwnerSectionHead__c, RecordType.Name, Country__r.Code__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
         if (!(lst.size() > 0)) {
             return;
+        }
+        if (String.isBlank(lst[0].CommitteeOwner__c) && String.isNotBlank(lst[0].CreditOwner__c)) {
+            reit.CommitteeOwner__c = lst[0].CreditOwner__c;
         }
         if (String.isNotBlank(lst[0].CreditOwnerSectionHead__c)) {
             return;
         }
         String salesOrg = lst[0].SubBU__c;
         String counterpartyType = lst[0].RecordType?.Name?.contains('Customer') ? 'Customer' : (lst[0].RecordType?.Name?.contains('Supplier') ? 'Supplier' : '');
-        String type = (lst[0].Country__r?.Code__c == 'TH' || lst[0].Country__r == null) ? 'Domestic' : 'International';
+        String type = lst[0].Country__r?.Code__c == 'TH' ? 'Domestic' : 'International';
         String product = lst[0].InterestedProductTypeAsSupplierTOP__c;
         String hasCrude = String.isNotBlank(product) && product.contains('Crude') ? 'Crude' : '';
         String interByTX = 'No';
@@ -731,6 +753,7 @@ public without sharing class CTRCommitteeSelectionController {
         if (String.isNotBlank(rqForm.Message__c)) {
             msg = mergeFieldEmailTemplate(recordId, rqForm.Message__c, '');
         }
+        System.debug(msg);
 
         List<String> ccAddresses = new List<String>();
         if (reqFormObj.EmailCC__c != null && reqFormObj.EmailCC__c.replace(' ','') != '') {
@@ -811,17 +834,22 @@ public without sharing class CTRCommitteeSelectionController {
         String title = '';
         String body = '';
         String accountName = '';
-        List<CTRRequestFormItem__c> rqit = [SELECT CTRRequestFormHeader__r.Customer__r.Name FROM CTRRequestFormItem__c WHERE Id = :reqItem.Id];
+        List<CTRRequestFormItem__c> rqit = [SELECT RecordType.DeveloperName, CTRRequestFormHeader__r.Customer__r.Name FROM CTRRequestFormItem__c WHERE Id = :reqItem.Id];
         if (rqit.size() > 0) {
             accountName = rqit[0].CTRRequestFormHeader__r.Customer__r.Name;
         }
 
-        if (profile == 'TOP') {
+        if (rqit[0].RecordType.DeveloperName.contains('ChangeCr')) {
             title = accountName + ' is requesting for approval.';
-            body = 'Please kindly approve the counterparty registration.';
-        } else if(profile == 'TX' || profile == 'System Administrator') {
-            title = accountName + ' is requesting for approval.';
-            body = 'Please kindly approve the counterparty registration.';
+            body = 'Please kindly approve the new credit condition.';
+        } else {
+            if (profile == 'TOP') {
+                title = accountName + ' is requesting for approval.';
+                body = 'Please kindly approve the counterparty registration.';
+            } else if(profile == 'TX' || profile == 'System Administrator') {
+                title = accountName + ' is requesting for approval.';
+                body = 'Please kindly approve the counterparty registration.';
+            }
         }
 
         for (CTRCommitteeApproval__c commAppr : newCommApprs) {

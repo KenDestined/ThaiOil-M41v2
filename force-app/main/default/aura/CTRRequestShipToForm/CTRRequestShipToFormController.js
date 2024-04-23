@@ -71,7 +71,7 @@
     handleAddJsonHeader: function(component, event, helper) 
     {
         helper.validateField(component, event, helper);
-        if(component.get('v.sObjectName') != 'Account' && component.get('v.requestType').includes('Edit'))
+        if(component.get('v.requestType').includes('Edit'))
         {
             helper.addFieldChangeToJson(component,event,'Header');
         }
@@ -79,7 +79,7 @@
     handleAddJsonItem: function(component, event, helper) 
     {
         helper.validateField(component, event, helper);
-        if(component.get('v.sObjectName') != 'Account' && component.get('v.requestType').includes('Edit'))
+        if(component.get('v.requestType').includes('Edit'))
         {
             helper.addFieldChangeToJson(component,event,'Item');
         }

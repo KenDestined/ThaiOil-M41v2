@@ -7,6 +7,9 @@
         <locationY>731</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
+        <connector>
+            <targetReference>Assigntorecipient</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>objectId</name>
@@ -43,6 +46,9 @@
         <locationY>734</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
+        <connector>
+            <targetReference>Assigntorecipient</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>objectId</name>
@@ -72,7 +78,102 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
         <versionSegment>1</versionSegment>
     </actionCalls>
+    <actionCalls>
+        <name>SendNotificatitonSH</name>
+        <label>SendNotificatitonSH</label>
+        <locationX>668</locationX>
+        <locationY>1118</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>GetRequestItemRecord_0.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>recipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>fmlNotifyTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>fmlNotifyBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
+    <assignments>
+        <name>AssignTargetRec</name>
+        <label>AssignTargetRec</label>
+        <locationX>857</locationX>
+        <locationY>326</locationY>
+        <assignmentItems>
+            <assignToReference>varTargetRecord</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ConfirmationforSubmitforApproval</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assigntorecipient</name>
+        <label>Assigntorecipient</label>
+        <locationX>676</locationX>
+        <locationY>859</locationY>
+        <assignmentItems>
+            <assignToReference>recipientIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.OwnersSectionHead__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Is_Null</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Check_Is_Null</name>
+        <label>Check Is Null</label>
+        <locationX>666</locationX>
+        <locationY>987</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.OwnersSectionHead__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendNotificatitonSH</targetReference>
+            </connector>
+            <label>Not Null</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>CheckRecordType</name>
         <label>CheckRecordType</label>
@@ -111,6 +212,16 @@
         </rules>
     </decisions>
     <environments>Default</environments>
+    <formulas>
+        <name>fmlNotifyBody</name>
+        <dataType>String</dataType>
+        <expression>&quot;Request Number: &quot;+{!GetRequestItemRecord.Name}+&quot;, Customer Name: &quot;+ {!GetRequestItemRecord.Customer__r.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>fmlNotifyTitle</name>
+        <dataType>String</dataType>
+        <expression>{!GetRequestItemRecord.Owner:User.FirstName}+&quot; &quot;+{!GetRequestItemRecord.Owner:User.LastName}+ &quot; is requesting approval for request form.&quot;</expression>
+    </formulas>
     <interviewLabel>CTR Submit Ship To for Approval {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTR Submit Ship To for Approval</label>
     <processMetadataValues>
@@ -135,11 +246,11 @@
     <recordLookups>
         <name>GetRequestItemRecord</name>
         <label>Get Request Item Record</label>
-        <locationX>689</locationX>
+        <locationX>688</locationX>
         <locationY>171</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>ConfirmationforSubmitforApproval</targetReference>
+            <targetReference>GetRequestItemRecord_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -151,6 +262,27 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>CTRRequestFormItem__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetRequestItemRecord_0</name>
+        <label>Get Request Item Record</label>
+        <locationX>863</locationX>
+        <locationY>190</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>AssignTargetRec</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRNotification</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CustomNotificationType</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
@@ -183,6 +315,7 @@
         </inputAssignments>
         <object>CTRRequestFormItem__c</object>
     </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <description>Confirmation to Submit</description>
         <name>ConfirmationforSubmitforApproval</name>
@@ -226,10 +359,24 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>recipientIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>recordId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varTargetRecord</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
 </Flow>

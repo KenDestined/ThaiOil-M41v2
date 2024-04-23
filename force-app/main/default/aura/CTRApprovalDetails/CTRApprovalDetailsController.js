@@ -25,7 +25,7 @@
         var buInfo = component.get("v.BUInfo"); 
         var  ApproverStep = component.get("v.ApproverStepVal");
         console.log('---ButtonLabel-Submit--'+ApproverStep);
-        var TypeOfBusiness = component.find("TypeOfBusiness").get("v.value"); 
+        var TypeOfBusiness = component.get("v.TypeOfBusiness");//component.find("TypeOfBusiness").get("v.value"); 
         console.log('---TypeOfBusiness---'+TypeOfBusiness);
         var  RecTypeName = component.get("v.RecordTypeName");
         console.log('---RecTypeName--'+RecTypeName);
@@ -723,7 +723,7 @@
                 component.set('v.Ispass_CashOnDelivery',true);
                 component.set('v.radio2IsDisable',true);
                 component.find("Amount2").set("v.value",0);
-                component.find("Total_Secured_Currency__c").set("v.value",'');
+                //component.find("Total_Secured_Currency__c").set("v.value",'');
                 component.set('v.CurrencyDisable',true);
                 component.set('v.IsRequired',false);
                 component.set('v.IsShowRequiredMsg',false);
@@ -775,7 +775,7 @@
             }
             else if(CashOnDelivery == 'No')
             {
-                component.find("Total_Secured_Currency__c").set("v.value",'');
+                //component.find("Total_Secured_Currency__c").set("v.value",'');
                 component.set('v.Ispass_CashOnDelivery',true);
                 component.set('v.radio2IsDisable',false);
                 component.set('v.radio3IsDisable',false);
@@ -1587,12 +1587,13 @@
                     //Reset Value
                     component.find("CreditLimit").set("v.value",'');
                     component.find("CreditLimitCurrency").set("v.value",'');
-                    component.find("InternalCreditRatingTOP").set("v.value",'');
+                    //component.find("InternalCreditRatingTOP").set("v.value",''); //comment out due to it be moved before  credit condition
                     component.find("PaymentCondition").set("v.value",'');
                     //component.find("TraderRemark__c").set("v.value",'');
                     component.find("Trade_Credit_Insurance__c").set("v.value",'');
                     component.find("TradeCreditInsuranceCurrency__c").set("v.value",'');
                     component.find("PaymentTermTOP").set("v.value",'');
+                    component.set("v.IsPaymentRequried", true);
                     
                 }
                 else if(ApproverStep == 'Trader')
@@ -1625,9 +1626,10 @@
                     }
                     
                 }
-                else if(CreditConditionValue == 'Open Account With Collateral' || CreditConditionValue == 'L/C' || CreditConditionValue == 'Domestic L/C' )
+                //CR : Remove Trade_Credit_Insurance__c,TradeCreditInsuranceCurrency__c from 'L/C',Domestic L/C 
+                else if(CreditConditionValue == 'Open Account With Collateral'|| CreditConditionValue == 'L/C' || CreditConditionValue == 'Domestic L/C' ) 
                 {
-                    if(ApproverStep == 'TRCR')
+                    if(ApproverStep == 'TRCR' && CreditConditionValue == 'Open Account With Collateral')
                     {
                         component.set("v.IsTradeCreditDisable", true);
                         component.set("v.IsCreditLimitDisable", true);
@@ -1636,6 +1638,11 @@
                         component.set("v.IsTDCreditLimitDisable", true);
                         component.set("v.IsTDTradeCreditDisable", true);
                     }
+                    else
+                    {
+                        component.set("v.IsTradeCreditDisable", false);
+                        component.set("v.IsCreditLimitDisable", false);
+                    }
                 } 
                     else if(CreditConditionValue == 'Cash in Advance' || CreditConditionValue == 'Others')
                     {
@@ -1643,6 +1650,7 @@
                         {
                             component.set("v.IsTradeCreditDisable", false);
                             component.set("v.IsCreditLimitDisable", false);
+                            component.set("v.IsPaymentRequried", false);
                         }else if (ApproverStep == 'Trader')
                         {
                             component.set("v.IsTDCreditLimitDisable", false);

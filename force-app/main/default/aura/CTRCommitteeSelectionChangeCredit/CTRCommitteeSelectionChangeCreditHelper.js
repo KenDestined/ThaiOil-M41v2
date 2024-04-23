@@ -44,6 +44,20 @@
         return "";
     },
 
+    getRequestChangeCreditCondition: function () {
+        const committeeInfo = this.component.get("v.committeeInfo");
+        if (this.getBU() === "TX") {
+            return committeeInfo.RequestToChangeCreditTX__c;
+        } else {
+            return committeeInfo.RequestToChangeCredit__c;
+        }
+    },
+
+    getSubTypeCondition: function () {
+        const committeeInfo = this.component.get("v.committeeInfo");
+        return committeeInfo.SubTypeCondition__c;
+    },
+
     getCounterpartyType: function () {
         const committeeInfo = this.component.get("v.committeeInfo");
         if (committeeInfo.RecordType && committeeInfo.RecordType.Name) {
@@ -194,7 +208,20 @@
 
     getFinalCreditRating: function () {
         const committeeInfo = this.component.get("v.committeeInfo");
-        return committeeInfo.ChangeCreditInternalCreditRating__c;
+        const requestChangeCreditCodition = this.getRequestChangeCreditCondition() || "";
+        const requestChangeCreditCoditionLowerCase = requestChangeCreditCodition.toLowerCase();
+        const subTypeCondition = this.getSubTypeCondition() || "";
+        const subTypeConditionLowerCase = subTypeCondition.toLowerCase();
+
+        if (requestChangeCreditCoditionLowerCase === "request to change credit condition") {
+            if (subTypeConditionLowerCase === "change credit condition") {
+                return committeeInfo.FinIntCrRating__c;
+            } else {
+                return committeeInfo.FinancialInformation__r.InternalCreditRating__c;
+            }
+        } else {
+            return committeeInfo.FinancialInformation__r.InternalCreditRating__c;
+        }
     },
 
     isDomesticOrInternational: function () {
@@ -430,6 +457,8 @@
             CashOnDelivery__c: committeeInfo.CashOnDelivery__c,
             CommitteeName__c: committeeInfo.CommitteeName__c,
             Currency__c: committeeInfo.Currency__c,
+            TotalSecuredAmount__c: committeeInfo.TotalSecuredAmount__c,
+            TotalSecuredCurrency__c: committeeInfo.TotalSecuredCurrency__c,
             HavingCollateral__c: committeeInfo.HavingCollateral__c,
             HavingOpenedCredit__c: committeeInfo.HavingOpenedCredit__c,
             AmountBankGuarantee__c: committeeInfo.AmountBankGuarantee__c || 0.00,
@@ -450,6 +479,8 @@
             FinAmountCreditTerm__c: committeeInfo.FinAmountCreditTerm__c || 0.00,
             FinTotalSecuredCurrency__c: committeeInfo.FinTotalSecuredCurrency__c,
             FinHavingCreditTermOrLetter__c: committeeInfo.FinHavingCreditTermOrLetter__c,
+            FinIntCrRating__c: committeeInfo.FinIntCrRating__c,
+            FinCrLimit__c: committeeInfo.FinCrLimit__c,
             FinCrCond__c: committeeInfo.FinCrCond__c,
             FinPaymentCond__c: committeeInfo.FinPaymentCond__c,
             FinOtherCondition__c: committeeInfo.FinOtherCondition__c,
@@ -485,6 +516,8 @@
                 }
                 committeeInfo.Subject__c = part.join(":");
             }
+            this.component.set("v.requestFormObj.Subject__c", committeeInfo.Subject__c || "");
+
             this.component.set("v.emailInfo", {
                 Subject__c: committeeInfo.Subject__c || "",
                 EmailTo__c: committeeInfo.EmailTo__c || "",
@@ -515,20 +548,92 @@
         let replacedMessage = message;
         replacedMessage = replacedMessage.replace("{$AccountName$}", this.getAccountName);
         replacedMessage = replacedMessage.replace("{$RecordType$}", this.getCounterpartyType());
+        replacedMessage = replacedMessage.replace("{$ProductTX$}", this.getInterestedProduct());
         if (requestFormObj
             && requestFormObj.FinCrCond__c
         ) {
             replacedMessage = replacedMessage.replace("{$FinalCreditCondition$}", requestFormObj.FinCrCond__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$FinalCreditCondition$}", "");
         }
         if (requestFormObj
-            && requestFormObj.FinOtherCondition__c
+            && requestFormObj.TermOfPayment__c
         ) {
-            replacedMessage = replacedMessage.replace("{$FinalOtherCondition$}", requestFormObj.FinOtherCondition__c);
+            if (this.getPaymentTerm(requestFormObj.TermOfPayment__c))
+                replacedMessage = replacedMessage.replace("{$TermOfPayment$}", this.getPaymentTerm(requestFormObj.TermOfPayment__c).Name);
+        } else {
+            replacedMessage = replacedMessage.replace("{$TermOfPayment$}", "");
+        }
+
+        let bu = this.component.get('v.bu');
+        if (bu == 'TOP' || bu == 'LABIX') {
+            if (requestFormObj && requestFormObj.FinPaymentCond__c) {
+                replacedMessage = replacedMessage.replace("{$FinalCondition$}", requestFormObj.FinPaymentCond__c);
+            } else {
+                replacedMessage = replacedMessage.replace("{$FinalCondition$}", "");
+            }
+        } else if (bu == 'TX') {
+            if (requestFormObj && requestFormObj.FinOtherCondition__c) {
+                replacedMessage = replacedMessage.replace("{$FinalCondition$}", requestFormObj.FinOtherCondition__c);
+            } else {
+                replacedMessage = replacedMessage.replace("{$FinalCondition$}", "");
+            }
         }
         if (requestFormObj
-            && requestFormObj.FinPaymentCond__c
+            && requestFormObj.CashOnDelivery__c
         ) {
-            replacedMessage = replacedMessage.replace("{$FinalPaymentCondition$}", requestFormObj.FinPaymentCond__c);
+            replacedMessage = replacedMessage.replace("{$CashOnDelivery$}", requestFormObj.CashOnDelivery__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$CashOnDelivery$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.HavingCollateral__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$HavingCollateral$}", requestFormObj.HavingCollateral__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$HavingCollateral$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.BuyTradeEndorsement__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$BuyTradeEndorsement$}", requestFormObj.BuyTradeEndorsement__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$BuyTradeEndorsement$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.TotalSecuredAmount__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$TotalSecuredAmount$}", $A.localizationService.formatNumber(requestFormObj.TotalSecuredAmount__c));
+        } else {
+            replacedMessage = replacedMessage.replace("{$TotalSecuredAmount$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.TotalSecuredCurrency__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$CreditLimitCurrency$}", requestFormObj.TotalSecuredCurrency__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$CreditLimitCurrency$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.FinRiskCategory__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$FinRiskCategory$}", requestFormObj.FinRiskCategory__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$FinRiskCategory$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.FinCrLimit__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$FinalCreditLimit$}", $A.localizationService.formatNumber(requestFormObj.FinCrLimit__c));
+        } else {
+            replacedMessage = replacedMessage.replace("{$FinalCreditLimit$}", "");
+        }
+        if (requestFormObj
+            && requestFormObj.FinIntCrRating__c
+        ) {
+            replacedMessage = replacedMessage.replace("{$FinalInternalCreditRating$}", requestFormObj.FinIntCrRating__c);
+        } else {
+            replacedMessage = replacedMessage.replace("{$FinalInternalCreditRating$}", "");
         }
 
         this.component.set("v.previewEMailInfo", {
@@ -537,7 +642,14 @@
             Subject__c: subject,
             Message__c: replacedMessage,
         });
-        this.component.set("v.previewEmailAttachments", this.component.find("CTRFileUpload").getMergedAttachments());
+
+        let cmpCTRFileUpload = this.component.find("CTRFileUpload");
+        if (!$A.util.isEmpty(cmpCTRFileUpload)) {
+            if ($A.util.isArray(cmpCTRFileUpload)) {
+                cmpCTRFileUpload = cmpCTRFileUpload[0];
+            }
+            this.component.set("v.previewEmailAttachments", cmpCTRFileUpload.getMergedAttachments());
+        }
     },
 
     calTotalSecuredAmount: function () {
@@ -581,15 +693,15 @@
     },
 
     submitToCommittees: function () {
-        return this.saveRequestFormServerAction("c.saveReqFormItemAndSubmitToCommittees", "Approval sent to Committee!", true);
+        return this.saveRequestFormServerAction("c.saveReqFormItemAndSubmitToCommittees", "The request has been submitted", true);
     },
 
     submitToCEO: function () {
-        return this.saveRequestFormServerAction("c.saveReqFormItemAndSubmitToCEO", "Approval sent to Committee!", true);
+        return this.saveRequestFormServerAction("c.saveReqFormItemAndSubmitToCEO", "The request has been submitted", true);
     },
 
     submitNoApproval: function () {
-        return this.saveRequestFormServerAction("c.saveReqFormItemAndSubmitNoApproval", "The request form has been submitted and not required approval!", true);
+        return this.saveRequestFormServerAction("c.saveReqFormItemAndSubmitNoApproval", "The request has been submitted", true);
     },
 
     saveRequestFormServerAction: function (actionName, successMessage, isSubmit) {
@@ -669,6 +781,30 @@
         $A.enqueueAction(action);
     },
 
+    setDefaultFinalCreditCondition: function() {
+        const committeeInfo = this.component.get("v.committeeInfo");
+        const requestChangeCreditCodition = this.getRequestChangeCreditCondition() || "";
+        const requestChangeCreditCoditionLowerCase = requestChangeCreditCodition.toLowerCase();
+        const subTypeCondition = this.getSubTypeCondition() || "";
+        const subTypeConditionLowerCase = subTypeCondition.toLowerCase();
+
+        if (requestChangeCreditCoditionLowerCase === "request to change credit condition") {
+            if (subTypeConditionLowerCase === "change credit condition") {
+                this.component.set('v.requestFormObj.FinIntCrRating__c', committeeInfo.FinIntCrRating__c);
+                this.component.set('v.requestFormObj.FinCrLimit__c', committeeInfo.FinCrLimit__c);
+                this.component.set('v.requestFormObj.FinCrCond__c', committeeInfo.FinCrCond__c);
+            } else if (subTypeConditionLowerCase === "expand credit line") {
+                this.component.set('v.requestFormObj.FinIntCrRating__c', committeeInfo.FinancialInformation__r.InternalCreditRating__c);
+                this.component.set('v.requestFormObj.FinCrLimit__c', committeeInfo.FinCrLimit__c);
+                this.component.set('v.requestFormObj.FinCrCond__c', committeeInfo.FinancialInformation__r.Credit_Condition__c);
+            }
+        } else {
+            this.component.set('v.requestFormObj.FinIntCrRating__c', committeeInfo.FinancialInformation__r.InternalCreditRating__c);
+            this.component.set('v.requestFormObj.FinCrLimit__c', committeeInfo.FinancialInformation__r.CreditLimit__c);
+            this.component.set('v.requestFormObj.FinCrCond__c', committeeInfo.FinancialInformation__r.Credit_Condition__c);
+        }
+    },
+
     setFinalCreditConditionVisibility: function (creditCondition) {
         const bu = this.getBU();
 
@@ -728,13 +864,23 @@
     },
 
     resetCommittee: function () {
+        const bu = this.getBU();
+        const subBU = this.getSubBU();
+        const lstCompany = [subBU];
         const groupedCommittees = this.component.get("v.groupedCommittees");
         const lstCommittee = this.convertGroupedCommitteesToList(groupedCommittees);
-        lstCommittee.forEach((item) => {
+        const lstFilteredCommittees = lstCommittee.filter((item) => {
             item.checked = false;
-        });
+            return String(item.BU__c).includes(bu)
+        })
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
         this.component.set("v.selectedCommittees", []);
-        this.component.set("v.lstCommittees", lstCommittee);
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany);
     },
 
     convertGroupedCommitteesToList: function (groupedCommittee) {
@@ -1041,10 +1187,18 @@
             return String(item.BU__c).includes(buProfile)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         // Set Default Committees
         lstCompany.forEach((company) => {
             const fieldName = company + "__c"
-            lstFilteredCommittees.forEach((item) => {
+            lstFilteredCommitteesInCompany.forEach((item) => {
                 if (item[fieldName]) {
                     const rating = item[fieldName].split(",")
                     if (rating.indexOf(creditRating) > -1) {
@@ -1065,7 +1219,7 @@
         })
 
         this.component.set("v.selectedCommittees", selectedCommittees)
-        this.component.set("v.lstCommittees", lstFilteredCommittees)
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
 
         if (!creditRating) {
             this.showToast("INFO-0001", "info")
@@ -1080,10 +1234,18 @@
             return String(item.BU__c).includes(buProfile)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         // Set Default Committees
         lstCompany.forEach((company) => {
             const fieldName = company + "__c"
-            lstFilteredCommittees.forEach((item) => {
+            lstFilteredCommitteesInCompany.forEach((item) => {
                 if (item[fieldName]) {
                     const rating = item[fieldName].split(",")
                     if (rating.indexOf(creditRating) > -1) {
@@ -1104,7 +1266,7 @@
         })
 
         this.component.set("v.selectedCommittees", selectedCommittees)
-        this.component.set("v.lstCommittees", lstFilteredCommittees)
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
 
         if (!creditRating) {
             this.showToast("INFO-0001", "info")
@@ -1165,7 +1327,9 @@
             })
         })
 
-        this.component.set("v.includedCommittees", includedCommittees)
+        if (String(committeeInfo.EmailAuthorization__c).toLowerCase() === "committee required") {
+            this.component.set("v.includedCommittees", includedCommittees)
+        }
         this.component.set("v.selectedCommittees", selectedCommittees)
         this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
     },
@@ -1203,8 +1367,16 @@
             return String(item.BU__c).includes(bu)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         this.component.set("v.selectedCommittees", selectedCommittees)
-        this.component.set("v.lstCommittees", lstFilteredCommittees)
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
     },
 
     loadTOPCommitteeSupplier: function (lstCommittee, lstCompany, committeeInfo) {
@@ -1218,8 +1390,16 @@
             return String(item.BU__c).includes(bu)
         })
 
+        // Filter for Specific Sub BU
+        const lstFilteredCommitteesInCompany = lstFilteredCommittees.filter((item) => {
+            return lstCompany.some((company) => {
+                const fieldName = company + "__c"
+                return !!(item[fieldName])
+            })
+        })
+
         this.component.set("v.selectedCommittees", selectedCommittees)
-        this.component.set("v.lstCommittees", lstFilteredCommittees)
+        this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany)
     },
 
     canEdit: function (trcrList, trcrHeadList) {

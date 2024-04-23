@@ -18,7 +18,7 @@
             <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium" style="background-color:rgb(199, 197, 197)">
                 <b>{!result.riskLevel}</b>
             </div>
-            <div class="slds-grid slds-wrap slds-var-p-around_large">
+            <div class="slds-col slds-grid slds-wrap slds-var-p-around_large">
                 <aura:iteration items="{!result.details}" var="detail" indexVar="detailIndex">
                     <div class="slds-col slds-size_9-of-12 slds-var-p-around_large" style="display: flex;">
                         <aura:renderIf isTrue="{!!detail.hidePosition}"><div class="slds-text-title slds-var-p-top_xxx-small">{!detail.position}.&emsp;</div></aura:renderIf><aura:unescapedHtml value="{!detail.detail}" />

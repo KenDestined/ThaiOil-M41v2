@@ -18,6 +18,7 @@ public class CTRAccountTriggerHandler implements ITriggerHandler
         }}
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) 
     {
+        CTRAccountHandler.upsertPartnerFunctionShipToAfterUpdate((Map<Id,Account>) oldItems, (Map<Id,Account>) newItems);
         CTRAccountHandler.CreateFolderSharePointAfterCreate((Map<Id,Account>) oldItems, (Map<Id,Account>) newItems);
         CTRAccountHandler.createRequestFolderAfterSharepointFolderReady((Map<Id,Account>) oldItems, (Map<Id,Account>) newItems);
     }

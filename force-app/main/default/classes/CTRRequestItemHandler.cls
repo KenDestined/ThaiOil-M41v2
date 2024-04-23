@@ -10,8 +10,8 @@ public with sharing class CTRRequestItemHandler
             {
                 if(mItem.Customer__c != null)
                 {
-                    mItem.Status__c = 'New';
-                    mItem.Approval_Step__c = 'Open';
+                    mItem.Status__c = (mItem.Status__c != null)?mItem.Status__c: 'New';
+                    mItem.Approval_Step__c = (mItem.Approval_Step__c != null)?mItem.Approval_Step__c:'Open';
                     mItem.OrderCombination__c = false;
                     mItem.Rebate__c = true;
                     mItem.Chkdoubleinv__c = true;
@@ -108,8 +108,8 @@ public with sharing class CTRRequestItemHandler
                                 String mJson = JSON.serialize(mCustomerData);
                                 mJson = mJson.replace('null', '""');
                                 System.debug('mJson: '+mJson);
-                                
-                                system.enqueuejob(new CTRTriggerWebServiceQueueable(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId));
+                                CTRTriggerWebServiceQueueable.sendServiceToHeroku(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId);
+                                //system.enqueuejob(new CTRTriggerWebServiceQueueable(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId));
                             }
 
                         }
@@ -214,7 +214,7 @@ public with sharing class CTRRequestItemHandler
                         {
                             String mGatewayId = Uuid.randomUUID();
                             String mBody = '{"request_header" : "'+mItem.CTRRequestFormHeader__c+'", "GatewayId" : "'+mGatewayId+'"}';
-                            system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mToken, mEndPoint, mSendType, mItem.Id, mGatewayId));
+                            //system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mToken, mEndPoint, mSendType, mItem.Id, mGatewayId));
                         }*/
                     }
                     if(mIntegrationDataMapList.size()>0)
@@ -228,7 +228,9 @@ public with sharing class CTRRequestItemHandler
                                 {
                                     String mGatewayId = Uuid.randomUUID();
                                     String mBody = '{"request_header" : "'+mItem.CTRRequestFormHeader__c+'", "GatewayId" : "'+mGatewayId+'"}';
-                                    system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mMap.get('mToken'), mMap.get('mEndPoint'), mMap.get('mSendType'), mItem.Id, mGatewayId));
+                                    CTRTriggerWebServiceQueueable.sendServiceToHeroku(mBody, mMap.get('mToken'), mMap.get('mEndPoint'), mMap.get('mSendType'), mItem.Id, mGatewayId);
+
+                                    //system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mMap.get('mToken'), mMap.get('mEndPoint'), mMap.get('mSendType'), mItem.Id, mGatewayId));
                                 }
                                 
                             }
@@ -552,8 +554,9 @@ public with sharing class CTRRequestItemHandler
                                 String mJson = JSON.serialize(mCustomerData);
                                 mJson = mJson.replace('null', '""');
                                 System.debug('mJson: '+mJson);
-                                
-                                system.enqueuejob(new CTRTriggerWebServiceQueueable(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId));
+                                CTRTriggerWebServiceQueueable.sendServiceToHeroku(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId);
+
+                                //system.enqueuejob(new CTRTriggerWebServiceQueueable(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId));
                             }
 
                         }
@@ -1574,11 +1577,11 @@ public with sharing class CTRRequestItemHandler
             Set<Id> mHeaderSetId = new Set<Id>();
             for(CTRRequestFormItem__c mItem: mItemNewMap.values())
             {
-                if(mItem.RecordTypeName__c.contains('Initial') && (mItem.BusinessUnit__c == 'TOP' || mItem.BusinessUnit__c == 'LABIX'))
+                if((mItem.RecordTypeName__c.contains('Initial') || mItem.RecordTypeName__c.contains('Extend')))
                 {
                     if(mItem.Status__c != mItemOldMap.get(mItem.Id).Status__c)
                     {
-                        if(mItem.Status__c == 'In Review' && mItemOldMap.get(mItem.Id).Status__c == 'New')
+                        if(mItem.Status__c == 'In Review')
                         {
                             mItemSetId.add(mItem.Id);
                             if(mItem.CTRRequestFormHeader__c != null)
@@ -1626,7 +1629,7 @@ public with sharing class CTRRequestItemHandler
                             List<CTRFieldEditLog__mdt> mSAPInfoFieldLogList = [SELECT Id, Source__c, FieldList__c, Object__c FROM CTRFieldEditLog__mdt WHERE Source__c = 'SAP Information' AND Object__c = :mItemObjName];
                             if(mSAPInfoFieldLogList.size()>0)
                             {
-                                List<String> mSAPInfoFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mSAPInfoFieldLogList[0].FieldList__c, mItemObjName);
+                                List<String> mSAPInfoFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldLogList[0].FieldList__c, mItemObjName,'');
                                 if(mSAPInfoFieldList.size()>0)
                                 {
                                     List<SObject> mItemList = new List<SObject>();
@@ -1645,7 +1648,7 @@ public with sharing class CTRRequestItemHandler
                         //DestinationCountry Json log
                         String mDestinationCountryObjName = 'CTRShippingCountry__c';
                         //List<String> mCountryFieldList = new List<String>{'ShippingCountry__c', 'LocationType__c', 'CTRRequestFormItem__c'};
-                        List<String> mCountryFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mDestinationCountryObjName), mDestinationCountryObjName);
+                        List<String> mCountryFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mDestinationCountryObjName), mDestinationCountryObjName, '');
                         if(mCountryFieldList.size()>0)
                         {
                             List<SObject> mDestinationCountryList = new List<SObject>();
@@ -1683,7 +1686,7 @@ public with sharing class CTRRequestItemHandler
                             String mShareholderObjName = 'CTRShareholder__c';
                             Map<String, String> mShareholderJsonMap = new Map<String, String>();
                             //List<String> mShareholderFieldList = new List<String>{'of_Shareholder__c', 'Name', 'CTRRequestFormHeader__c'};
-                            List<String> mShareholderFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mShareholderObjName), mShareholderObjName);
+                            List<String> mShareholderFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mShareholderObjName), mShareholderObjName,'');
                             List<SObject> mShareholderList = new List<SObject>();
                             if(mShareholderFieldList.size()>0)
                             {
@@ -1704,7 +1707,7 @@ public with sharing class CTRRequestItemHandler
                             Map<Id, String> mCounterPartyJsonMapResult = new Map<Id, String>();
                             List<SObject> mHeaderFilteredList = new List<SObject>();
 
-                                List<String> mHeaderFieldNameList = CTRRequestEditLogFieldController.getFieldListFromJson(mFieldListMap.get(mHeaderObjectName), mHeaderObjectName);
+                                List<String> mHeaderFieldNameList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mFieldListMap.get(mHeaderObjectName), mHeaderObjectName,'');
                                 if(mHeaderFieldNameList.size()>0)
                                 {
                                     //List<String> mHeaderFields = new List<String>(Schema.getGlobalDescribe().get(mObjectName).getDescribe().fields.getMap().keySet());            
@@ -1764,7 +1767,7 @@ public with sharing class CTRRequestItemHandler
             {
                 if(mItem.RecordTypeName__c.contains('Edit') && mItem.Sensitive__c == false)
                 {
-                    if(mItem.CheckSensitiveField__c == true && mItem.CheckSensitiveField__c != mItemOldMap.get(mItem.Id).CheckSensitiveField__c)
+                    if(mItem.CheckSensitiveField__c == true && (mItemOldMap == null  || ( mItemOldMap != null && mItem.CheckSensitiveField__c != mItemOldMap.get(mItem.Id).CheckSensitiveField__c)))
                     {
                         mBuMap.put(mItem.Id, mItem.BusinessUnit__c);
                         mItemFilteredList.add(mItem);
@@ -1798,12 +1801,17 @@ public with sharing class CTRRequestItemHandler
                 }
                 for(CTRRequestFormItem__c mItem: mItemFilteredList)
                 {
+                    Boolean mResultSensitive = false;
+
                     Map<Id, CTRSensitiveFieldList__mdt> mSensitiveFiledMap = new Map<Id, CTRSensitiveFieldList__mdt>();
                     for(CTRSensitiveFieldList__mdt mSensitive: mSensitiveFieldList)
                     {
                         //finding sensitive field set
                         if(mItem.BusinessUnit__c == mSensitive.BusinessUnit__c && mItem.RecordTypeName__c.contains(mSensitive.Type__c))
                         {
+                            System.debug('mItem.BusinessUnit__c: '+mItem.BusinessUnit__c);
+                            System.debug('mSensitive.Type__c: '+mSensitive.Type__c);
+                            System.debug('mItem.RecordTypeName__c.contains(mSensitive.Type__c): '+mItem.RecordTypeName__c.contains(mSensitive.Type__c));
                             if(mSensitive.ObjectName__c == 'CTRRequestFormHeader__c')
                             {
                                 if(mItem.CTRRequestFormHeader__c != null)
@@ -1819,7 +1827,6 @@ public with sharing class CTRRequestItemHandler
                     }
                     if(mSensitiveFiledMap.size()>0)
                     {
-                        Boolean mResultSensitive = false;
                         Boolean isHeaderSensitive = false;
                         Boolean isItemSensitive = false;
                         String mHeaderJson = '';
@@ -1830,6 +1837,8 @@ public with sharing class CTRRequestItemHandler
                         {
                             mSensitiveFieldHeader = mSensitiveFiledMap.get(mItem.CTRRequestFormHeader__c);
                             mHeaderJson = mAllHeaderFieldChangedMap.get(mItem.CTRRequestFormHeader__c);
+                            System.debug('mSensitiveFieldHeader:'+ mSensitiveFieldHeader);
+                            System.debug('mHeaderJson:'+mHeaderJson);
                         }
                         if(mSensitiveFieldHeader!= null && String.isNotBlank(mHeaderJson))
                         {
@@ -1843,6 +1852,7 @@ public with sharing class CTRRequestItemHandler
                         {
                             mResultSensitive = true;
                         }
+                    }
                         CTRRequestFormItem__c mItemUpdate = new CTRRequestFormItem__c(Id = mItem.Id);
                         mItemUpdate.CheckSensitiveField__c = false;
                         if(mResultSensitive)
@@ -1850,7 +1860,6 @@ public with sharing class CTRRequestItemHandler
                             mItemUpdate.Sensitive__c = mResultSensitive;
                         }
                         mItemUpdateList.add(mItemUpdate);
-                    }
                     
                 }
                 if(mItemUpdateList.size()>0)
@@ -2075,7 +2084,8 @@ public with sharing class CTRRequestItemHandler
                         {
                             String mEndPoint = mSetting.HerokuIntegrationDomain__c+mIntegrationList[0].Path__c;
                             String mGatewayId = Uuid.randomUUID();
-                            system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mIntegrationList[0].Token__c, mEndPoint, 'Item Folder creation', mItem.Id, mGatewayId));
+                            CTRTriggerWebServiceQueueable.sendServiceToHeroku(mBody, mIntegrationList[0].Token__c, mEndPoint, 'Item Folder creation', mItem.Id, mGatewayId);
+                            //system.enqueuejob(new CTRTriggerWebServiceQueueable(mBody, mIntegrationList[0].Token__c, mEndPoint, 'Item Folder creation', mItem.Id, mGatewayId));
 
                         }
                     }
@@ -2095,23 +2105,32 @@ public with sharing class CTRRequestItemHandler
         try
         {
             set<Id> mItemSetId = new set<Id>();
-
+            
             for(CTRRequestFormItem__c mItem: mItemNewMap.values())
             {
-                if(mItem.RecordTypeName__c.contains('Edit') && mItem.Status__c == 'Approved')
+                
+                if(mItem.Status__c != mItemOldMap.get(mItem.Id).Status__c && mItem.Status__c == 'Approved')
                 {
-                    if(mItem.Status__c == mItemOldMap.get(mItem.Id).Status__c)
+                    if(mItem.BusinessUnit__c == 'TOP' || mItem.BusinessUnit__c == 'LABIX' || (mItem.BusinessUnit__c == 'TX' && (mItem.SalesOrganizationTX__c == '2000' || (mItem.SalesOrganizationTX__c == '9100' || mItem.PurchasingOrganizationTX__c == 'A000' || mItem.PurchasingOrganizationTX__c == 'H100'))))
                     {
-                        if(mItem.EffectiveType__c == 'Immediately' || (mItem.EffectiveType__c == 'Schedule' && mItem.EffectiveDate__c <= System.Today()))
+                        if(mItem.RecordTypeName__c.contains('Edit'))
+                        {
+                            if(mItem.EffectiveType__c == 'Immediately' || (mItem.EffectiveType__c == 'Schedule' && mItem.EffectiveDate__c <= System.Today()))
+                            {
+                                mItemSetId.add(mItem.Id);
+                            }
+                        }
+                        else if(mItem.RecordTypeName__c.contains('Block'))
                         {
                             mItemSetId.add(mItem.Id);
                         }
                     }
+
                 }
             }
             if(mItemSetId.size()>0)
             {
-                sendEditIntegrationViaTrigger(mItemSetId);
+                sendEditIntegrationViaTrigger(mItemSetId, true);
             }
         }
         catch(exception e)
@@ -2120,7 +2139,7 @@ public with sharing class CTRRequestItemHandler
         }
     }
 
-    public static void sendEditIntegrationViaTrigger(Set<Id> mItemSetId)
+    public static void sendEditIntegrationViaTrigger(Set<Id> mItemSetId, boolean isMain)
     {
         try
         {
@@ -2152,11 +2171,15 @@ public with sharing class CTRRequestItemHandler
                     Map<String, String> mEditDataMap = new Map<String, String>();
                     for(CTRRequestFormHeader__c mHeader: mHeaderList)
                     {
+                        system.debug('mItem.CTRRequestFormHeader__c---'+mItem.CTRRequestFormHeader__c);
+                        system.debug('mHeader.Id---'+mHeader.Id);
                         if(mItem.CTRRequestFormHeader__c != null && mItem.CTRRequestFormHeader__c == mHeader.Id)
                         {
-                            
-                            if(mItem.RecordTypeName__c.contains('Customer') && mItem.RecordTypeName__c.contains('Supplier'))
+                            system.debug('mItem.RecordTypeName__c---'+mItem.RecordTypeName__c);
+                            if(mItem.RecordTypeName__c.contains('Customer') || mItem.RecordTypeName__c.contains('Supplier'))
                             {
+                                
+                                system.debug('check---');
                                 String mRecordTypeName = '';
                                 String mPath = '';
                                 String mToken = '';
@@ -2164,15 +2187,35 @@ public with sharing class CTRRequestItemHandler
 
                                 if(mItem.RecordTypeName__c.contains('Customer')) 
                                 {
-                                    mRecordTypeName = 'Customer';
-                                    mPath = mIntegrationInitialCustomer.Path__c;
-                                    mToken = mIntegrationInitialCustomer.Token__c;
+                                    if(isMain)
+                                    {
+                                        mRecordTypeName = 'Customer';
+                                        mPath = mIntegrationInitialCustomer.Path__c;
+                                        mToken = mIntegrationInitialCustomer.Token__c;
+                                    }
+                                    else
+                                    {
+                                        mRecordTypeName = 'Supplier';
+                                        mPath = mIntegrationInintialSupplier.Path__c;
+                                        mToken = mIntegrationInitialCustomer.Token__c;
+                                    }
+                                    
                                 }
                                 else if(mItem.RecordTypeName__c.contains('Supplier'))
                                 {
-                                    mRecordTypeName = 'Supplier';
-                                    mPath = mIntegrationInintialSupplier.Path__c;
-                                    mToken = mIntegrationInitialCustomer.Token__c;
+                                    if(isMain)
+                                    {
+                                        mRecordTypeName = 'Supplier';
+                                        mPath = mIntegrationInintialSupplier.Path__c;
+                                        mToken = mIntegrationInitialCustomer.Token__c;
+                                    }
+                                    else
+                                    {
+                                        mRecordTypeName = 'Customer';
+                                        mPath = mIntegrationInitialCustomer.Path__c;
+                                        mToken = mIntegrationInitialCustomer.Token__c;
+                                    }
+
                                 }
                                 if(mPath != null)
                                 {
@@ -2180,30 +2223,51 @@ public with sharing class CTRRequestItemHandler
                                     String jsonInput = '';
                                     mEndPoint += mPath;
 
-                                    if(mItem.RecordTypeName__c.contains('Edit'))
+                                    if(isMain)
                                     {
-                                        mSendType = 'Edit '+mRecordTypeName;
-                                        CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
-                                        mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mHeader,mItem, mRecordTypeName, mItem.BusinessUnit__c, mGatewayId);
-                                        jsonInput = JSON.serialize(mEditData);
+                                        if(mItem.RecordTypeName__c.contains('Edit'))
+                                        {
+                                            mSendType = 'Edit '+mRecordTypeName;
+                                            CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
+                                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mHeader,mItem, mRecordTypeName, mItem.BusinessUnit__c, mGatewayId);
+                                            //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader,mItem ,mRecordTypeName, mItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  isMain);
+                                            jsonInput = JSON.serialize(mEditData);
+                                        }
+                                        if(mItem.RecordTypeName__c.contains('Block'))
+                                        {
+                                            if(mItem.RecordTypeName__c.contains('Customer')) 
+                                            {
+                                                mSendType = 'Block '+mRecordTypeName;
+                                                CTRBlockRequestFormItemModelData mBlockData = new CTRBlockRequestFormItemModelData();
+                                                mBlockData = CTRBlockRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem,'SoldTo' , mItem.BusinessUnit__c, mGatewayId);
+                                                jsonInput = JSON.serialize(mBlockData);
+                                            }
+                                            if(mItem.RecordTypeName__c.contains('Supplier'))
+                                            {
+                                                mSendType = 'Block '+mRecordTypeName;
+                                                CTRBlockSupplierRequestFormItemModelData mBlockSupplier = new CTRBlockSupplierRequestFormItemModelData();
+                                                mBlockSupplier = CTRBlockSupplierRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem, '', mItem.BusinessUnit__c, mGatewayId);
+                                                jsonInput = JSON.serialize(mBlockSupplier);
+                                            }
+                                        }
                                     }
-                                    if(mItem.RecordTypeName__c.contains('Block'))
+                                    else
                                     {
-                                        if(mItem.RecordTypeName__c.contains('Customer')) 
+                                        if(!mItem.RecordTypeName__c.contains('Block'))
                                         {
-                                            mSendType = 'Block '+mRecordTypeName;
-                                            CTRBlockRequestFormItemModelData mBlockData = new CTRBlockRequestFormItemModelData();
-                                            mBlockData = CTRBlockRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem,'SoldTo' , mItem.BusinessUnit__c, mGatewayId);
-                                            jsonInput = JSON.serialize(mBlockData);
+                                            if((mItem.RecordTypeName__c.contains('Customer') && mItem.Customer__r.SupplierNumber__c != null) ||
+                                            (mItem.RecordTypeName__c.contains('Supplier') && mItem.Customer__r.AccountNumber__c != null))
+                                            {
+                                                mGatewayId = Uuid.randomUUID();
+                                                mSendType = 'Sub '+mRecordTypeName;
+                                                CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
+                                                mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader,mItem ,mRecordTypeName, mItem.BusinessUnit__c, mGatewayId, 'Dynamic', '' ,'Edit',  isMain);
+                                                jsonInput = JSON.serialize(mEditData);
+                                            }
                                         }
-                                        if(mItem.RecordTypeName__c.contains('Supplier'))
-                                        {
-                                            mSendType = 'Block '+mRecordTypeName;
-                                            CTRBlockSupplierRequestFormItemModelData mBlockSupplier = new CTRBlockSupplierRequestFormItemModelData();
-                                            mBlockSupplier = CTRBlockSupplierRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem, '', mItem.BusinessUnit__c, mGatewayId);
-                                            jsonInput = JSON.serialize(mBlockSupplier);
-                                        }
+
                                     }
+
                                     
                                     if(String.isNotBlank(jsonInput))
                                     {
@@ -2213,22 +2277,25 @@ public with sharing class CTRRequestItemHandler
                                         mEditDataMap.put('mRequestId', mItem.Id);
                                         mEditDataMap.put('mToken', mToken);
                                         mEditDataMap.put('mSendType', mSendType);
+                                        mEditDataMapWrap.add(mEditDataMap);
                                     }
                                 }
                             }
                         }
                     }
-                    if(mEditDataMap.size()>0)
+                    system.debug('check--mEditDataMap.size()-'+mEditDataMap.size());
+                    system.debug('check--mEditDataMap-'+mEditDataMap);
+                    if(mEditDataMap != null)
                     {
                         for( Map<String, String> mDataToSend: mEditDataMapWrap)
                         {
-                            system.enqueuejob(new CTRTriggerWebServiceQueueable(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mAccountId'), mDataToSend.get('mGatewayId')));
+                            CTRTriggerWebServiceQueueable.sendServiceToHeroku(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mRequestId'), mDataToSend.get('mGatewayId'));
+
+                            //system.enqueuejob(new CTRTriggerWebServiceQueueable(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mRequestId'), mDataToSend.get('mGatewayId')));
                         }
                     }
-
                 }
             }
-            
         }
         catch(exception e)
         {
@@ -2237,15 +2304,133 @@ public with sharing class CTRRequestItemHandler
     }
 
 
-    public static void SAPConfirmedToUpdateAccount(Set<Id> mItemSetId)
+    public static void IntegrationToMaintenDataToSAPAfterUpdate(Map<Id,CTRRequestFormItem__c> mItemOldMap, Map<Id,CTRRequestFormItem__c> mItemNewMap)
+    {
+        try
+        {
+            Set<Id> mItemSetId = new Set<Id>();
+            for(CTRRequestFormItem__c mItem: mItemNewMap.values())
+            {
+                if(!mItem.RecordTypeName__c.contains('Block'))
+                {
+                    if(mItem.RecordTypeName__c.contains('Customer') || mItem.RecordTypeName__c.contains('Supplier'))
+                    {
+                        if(mItem.IntegrationStatus__c == 'Success' && mItem.IntegrationStatus__c != mItemOldMap.get(mItem.Id).IntegrationStatus__c)
+                        {
+                            if(mItem.LatestIntegrationName__c.contains('General'))
+                            {
+                                mItemSetId.add(mItem.Id); 
+                            }
+                        }
+                    }
+                }
+            }
+            if(mItemSetId.size()>0)
+            {
+                sendEditIntegrationViaTrigger(mItemSetId, false);
+            }
+        }
+        catch(exception e)
+        {
+            system.debug('Error from IntegrationToMaintenDataToSAPAfterUpdate line:'+e.getLineNumber()+' || Message: '+e.getMessage());
+        }
+    }
+
+    public static void updateHeaderToAccountAfterUpdate(Map<Id,CTRRequestFormItem__c> mItemOldMap, Map<Id,CTRRequestFormItem__c> mItemNewMap)
     {
         try
         {
 
+            Map<String,Map<String ,CTRRequestEditLogFieldController.ChangeFieldWrapper>> mJsonObjMap = new Map<String,Map<String ,CTRRequestEditLogFieldController.ChangeFieldWrapper>>();
+            List<CTRRequestFormItem__c> mItemFilteredList = new List<CTRRequestFormItem__c>();
+            for(CTRRequestFormItem__c mItem: mItemNewMap.values())
+            {
+                if(mItem.Customer__c != null)
+                {
+                    if(String.isNotBlank(mItem.InternalGeneralChangedField__c) && mItem.InternalGeneralChangedField__c != '[]')
+                    {
+                        if(mItem.SAPInitialGeneralConfirmed__c == true && mItem.SAPInitialGeneralConfirmed__c != mItemOldMap.get(mItem.Id).SAPInitialGeneralConfirmed__c)
+                        {
+                            mItemFilteredList.add(mItem);
+                            String mAccountJson = CTRRequestEditLogFieldController.replaceApiHeaderToAccountJson(mItem.InternalGeneralChangedField__c);
+                            List<Object> mAccountObj = CTRRequestEditLogFieldController.convertJsonToObject(mAccountJson);
+                            mJsonObjMap.put(mItem.Id, CTRRequestEditLogFieldController.manageObjToRequestWrapper(mAccountObj));
+                        }
+                    }
+                }
+            }
+            if(mItemFilteredList.size()>0 && mJsonObjMap.size()>0)
+            {
+                List<Account> mAccountUpdateList = new List<Account>();
+                for(CTRRequestFormItem__c mItem: mItemFilteredList)
+                {
+                    if(mItem.Customer__c != null)
+                    {
+                        Map<String ,CTRRequestEditLogFieldController.ChangeFieldWrapper> mAccountAPIMap = mJsonObjMap.get(mItem.Id);
+                        if(mAccountAPIMap != null && mAccountAPIMap.size()>0)
+                        {
+                            Map<String, SObjectField> fieldMap = CTRRequestEditLogFieldController.getAllSObjectFieldMapFromObject('Account');
+                            Account mAccount = new Account(Id = mItem.Customer__c);
+                            String CustomerNameEN = '';
+                            String CustomerNameLocal = '';
+                            String TaxCode = '';
+                            List<String> mAPIList = new List<String>();
+                            mAPIList.addall(mAccountAPIMap.keySet());
+                            mAPIList.sort();
+                            for(String mApi: mAPIList)
+                            {
+                                CTRRequestEditLogFieldController.ChangeFieldWrapper mChangeField = mAccountAPIMap.get(mApi);
+                                String mValue = (String.isNotBlank(mChangeField.Ref))?mChangeField.Ref: mChangeField.Value;
+                                mAccount.put(fieldMap.get(mChangeField.Api), mValue);
+                                if(mChangeField.Api == 'CustomerNameLocal1__c')
+                                {
+                                    CustomerNameLocal += mValue+' ';
+                                }
+                                else if(mChangeField.Api == 'CustomerNameLocal2__c')
+                                {
+                                    CustomerNameLocal += mValue+' ';
+                                }
+                                else if(mChangeField.Api == 'CustomerNameEN1__c')
+                                {
+                                    CustomerNameEN += mValue+' ';
+                                }
+                                else if(mChangeField.Api == 'CustomerNameEN2__c')
+                                {
+                                    CustomerNameEN += mValue+' ';
+                                }
+                                else if(mChangeField.Api == 'TaxCode1__c')
+                                {
+                                    TaxCode = mValue;
+                                }
+                            }
+                            if(String.isNotBlank(CustomerNameEN))
+                            {
+                                mAccount.Name = CustomerNameEN;
+                                mAccount.CompanyNameENF__c = CustomerNameEN;
+                            }
+                            if(String.isNotBlank(CustomerNameLocal))
+                            {
+                                mAccount.CompanyNameLocal__c = CustomerNameLocal;
+                            }
+                            if(String.isNotBlank(TaxCode))
+                            {
+                                mAccount.TaxCode5__c = TaxCode;
+                            }
+
+                            mAccountUpdateList.add(mAccount);
+                        }
+                    }
+                }
+                if(mAccountUpdateList.size()>0)
+                {
+                    update mAccountUpdateList;
+                }
+            }
+
         }
         catch(exception e)
         {
-            system.debug('Error from SAPConfirmedToUpdateAccount line:'+e.getLineNumber()+' || Message: '+e.getMessage());
+            system.debug('Error from updateHeaderToAccountAfterUpdate line:'+e.getLineNumber()+' || Message: '+e.getMessage());
         }
     }
     

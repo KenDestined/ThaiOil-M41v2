@@ -12,6 +12,7 @@ public with sharing class CTRRequestShipToController {
         @auraEnabled public String mLabelSalesOrg {get; set;}
         @auraEnabled public String mLabelDivision {get;set;}
         @auraEnabled public String mLabelDistributionChannel {get;set;}
+        @auraEnabled public String CurrentUserName {get;set;}
         @auraEnabled public Boolean mSelected {get; set;}
     }
 
@@ -21,18 +22,77 @@ public with sharing class CTRRequestShipToController {
         @AuraEnabled public Id resRecordId {get; set;}
     }
 
+    // public static Map<String, User> actorUserMap {
+    //     get {
+    //         if(actorUserMap == null) {
+    //             Map<String, String> empIdMap = new Map<String, String>();
+    //             List<CTRActorInProcess__mdt> sectionHeadMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'DueDiligence' AND Step__c = 'TraderHead' AND SalesOrg__c = 'TSV' AND Type__c = 'International' AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
+    //             if(sectionHeadMdt.size() > 0) {
+    //                 empIdMap.put(sectionHeadMdt[0].EmployeeId__c,'sectionHead');
+    //             }
+
+    //             List<CTRActorInProcess__mdt> mdcMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'SAPInformation' AND Step__c = 'TXMO' AND SalesOrg__c = 'TSV' AND Type__c = 'International' AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
+    //             if(mdcMdt.size() > 0) {
+    //                 empIdMap.put(mdcMdt[0].EmployeeId__c,'mdc');
+    //             }
+
+    //             List<CTRActorInProcess__mdt> mdcMngMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'SAPInformation' AND Step__c = 'TXMOHead' AND SalesOrg__c = 'TSV' AND Type__c = 'International' AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
+    //             if(mdcMngMdt.size() > 0) {
+    //                 empIdMap.put(mdcMngMdt[0].EmployeeId__c,'mdcMng');
+    //             }
+    //             System.debug(empIdMap.keySet());
+    //             List<User> actorList = [SELECT Id, Employee_Id__c FROM User WHERE Employee_Id__c IN: empIdMap.keySet()];
+    //             actorUserMap = new Map<String, User>();
+    //             for(User actor : actorList) {
+    //                 System.debug(actor);
+    //                 actorUserMap.put(empIdMap.get(actor.Employee_Id__c),actor);
+    //             }
+    //         }
+    //         return actorUserMap;
+    //     }set;
+    // }
+
+    public static Map<String, User> getActorUserMap(String subBU, String mType) {
+        Map<String, User> actorUserMap = new Map<String, User>();
+        Map<String, String> empIdMap = new Map<String, String>();
+        List<CTRActorInProcess__mdt> sectionHeadMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'DueDiligence' AND Step__c = 'TraderHead' AND SalesOrg__c =: subBU AND Type__c =: mType AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
+        if(sectionHeadMdt.size() > 0) {
+            empIdMap.put(sectionHeadMdt[0].EmployeeId__c,'sectionHead');
+        }
+
+        List<CTRActorInProcess__mdt> mdcMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'SAPInformation' AND Step__c = 'TXMO' AND SalesOrg__c =: subBU AND Type__c =: mType AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
+        if(mdcMdt.size() > 0) {
+            empIdMap.put(mdcMdt[0].EmployeeId__c,'mdc');
+        }
+
+        List<CTRActorInProcess__mdt> mdcMngMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'SAPInformation' AND Step__c = 'TXMOHead' AND SalesOrg__c =: subBU AND Type__c =: mType AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
+        if(mdcMngMdt.size() > 0) {
+            empIdMap.put(mdcMngMdt[0].EmployeeId__c,'mdcMng');
+        }
+        System.debug(empIdMap.keySet());
+        List<User> actorList = [SELECT Id, Employee_Id__c FROM User WHERE Employee_Id__c IN: empIdMap.keySet()];
+        actorUserMap = new Map<String, User>();
+        for(User actor : actorList) {
+            System.debug(actor);
+            actorUserMap.put(empIdMap.get(actor.Employee_Id__c),actor);
+        }
+
+        return actorUserMap;
+    }
+
     @AuraEnabled
     public static List<RequestWrapper> onloadCreatePage(Id mAccountId, Id RecordType)
     {
         try 
         {
             List<Account> currAccount = [SELECT Id, SalesOrganization__c FROM Account WHERE Id =: mAccountId];
+            List<User> mUserList = [SELECT Id, Name, ProfileId ,Profile.Name From User WHERE Id = :UserInfo.getUserId()];
             List<RequestWrapper> mRequestWrapperList = new List<RequestWrapper>();
             Set<String> setSalesOrg = new Set<String>{'2000','9100','9200','9300','9400'};
             List<RecordType> RecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE Id = :RecordType LIMIT 1];
 
-            if(RecordTypeList[0].DeveloperName.contains('Edit')) {
-
+            if(RecordTypeList[0].DeveloperName.contains('Edit')) 
+            {
                 List<C360_Relationship__c> mRelatedShipToList = new List<C360_Relationship__c>([SELECT Id, ReverseAccount__c, ReverseAccount__r.Name, ReverseAccount__r.Country__r.Description__c, RelationshipType__c FROM C360_Relationship__c WHERE Account__c =: mAccountId AND RelationshipType__c = 'WE']); // Has Ship to Party
                 // Set<Id> mAccIdSet = new Set<Id>();
                 Map<Id, C360_Relationship__c> mapAccIdRelatedShipTo = new Map<Id, C360_Relationship__c>();
@@ -57,6 +117,7 @@ public with sharing class CTRRequestShipToController {
                     mRequestWrapper.mLabelSalesOrg = String.valueOf(mSalesArea.get('salesOrgLabel'));
                     mRequestWrapper.mLabelDivision = String.valueOf(mSalesArea.get('divisionLabel'));
                     mRequestWrapper.mLabelDistributionChannel = String.valueOf(mSalesArea.get('distChLabel'));
+                    mRequestWrapper.CurrentUserName = mUserList[0].Name;
                     if(currAccount[0].SalesOrganization__c == mSalesArea.SalesOrganization__c) {
                         mRequestWrapper.mSelected = true; // default as selected customer
                     }
@@ -78,6 +139,7 @@ public with sharing class CTRRequestShipToController {
                     mRequestWrapper.mLabelSalesOrg = String.valueOf(mSalesArea.get('salesOrgLabel'));
                     mRequestWrapper.mLabelDivision = String.valueOf(mSalesArea.get('divisionLabel'));
                     mRequestWrapper.mLabelDistributionChannel = String.valueOf(mSalesArea.get('distChLabel'));
+                    mRequestWrapper.CurrentUserName = mUserList[0].Name;
                     if(currAccount[0].SalesOrganization__c == mSalesArea.SalesOrganization__c) {
                         mRequestWrapper.mSelected = true; // default as selected customer
                     }
@@ -99,9 +161,11 @@ public with sharing class CTRRequestShipToController {
     public static ResponseWrapper saveRequestShipTo(Id mItemId, String formData, String customerId, String itemRecordTypeId, RequestWrapper requestWrapper ){
         ResponseWrapper responseResult = new ResponseWrapper();
         responseResult.result = false;
+        System.debug('itemRecordTypeId: '+itemRecordTypeId);
         try
         {
             List<RecordType> RecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE Id = :itemRecordTypeId LIMIT 1];
+            System.debug('RecordTypeList: '+RecordTypeList[0].Name);
 
             if(requestWrapper == null) {
                 responseResult.message = 'Not found selected item';
@@ -169,8 +233,8 @@ public with sharing class CTRRequestShipToController {
                     mRequestFormHeader.CityStateLocal__c = String.valueOf(objMap.get('CityStateLocal__c'));
                     mRequestFormHeader.PostalCodeLocalText__c = String.valueOf(objMap.get('PostalCodeLocalText__c'));
                     mRequestFormHeader.LocationInGoogleMapsLinks__c = String.valueOf(objMap.get('LocationInGoogleMapsLinks__c'));
-                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Latitude__s = Decimal.valueOf((String)objMap.get('Location__Latitude__s'));
-                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Longitude__s = Decimal.valueOf((String)objMap.get('Location__Longitude__s'));
+                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Latitude__s = objMap.get('Location__Latitude__s') != null ? Decimal.valueOf((String)objMap.get('Location__Latitude__s')) : null;
+                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Longitude__s = objMap.get('Location__Longitude__s') != null ? Decimal.valueOf((String)objMap.get('Location__Longitude__s')) : null;
                     mRequestFormHeader.ContactSalutation__c = String.valueOf(objMap.get('ContactSalutation__c'));
                     mRequestFormHeader.Nickname__c = String.valueOf(objMap.get('Nickname__c'));
                     mRequestFormHeader.FirstName__c = String.valueOf(objMap.get('FirstName__c'));
@@ -191,13 +255,24 @@ public with sharing class CTRRequestShipToController {
                     // mRequestFormHeader.ShippingCondition__c = salesArea.ShippingConditions__c;
                     // mRequestFormHeader.DeliveryPlant__c = salesArea.DeliveryPlant__c;
                     // mRequestFormHeader.MaxPartialDeliveries__c = salesArea.MaxPartialDeliveries__c != null ? String.valueOf(salesArea.MaxPartialDeliveries__c) : null;
-                    mRequestFormHeader.TransportationZone__c = String.valueOf(objMap.get('TransportationZone__c'));
+                    // mRequestFormHeader.TransportationZone__c = String.valueOf(objMap.get('TransportationZone__c'));
                     // mRequestFormHeader.PartialDeliveriesperitem__c = salesArea.PartialDeliveriesperitem__c;
                     // mRequestFormHeader.UnderdeliveryTolerance__c = salesArea.UnderdeliveryTolerance__c;
                     // mRequestFormHeader.OverdeliveryTolerance__c = salesArea.OverdeliveryTolerance__c;
                     // mRequestFormHeader.AccountAssignmentGroup__c = salesArea.AccountAssignmentGroup__c;
+                    // mRequestFormHeader.SalesDistrict__c = String.valueOf(objMap.get('SalesDistrict__c'));
+                    // mRequestFormHeader.DeliveryPriority__c = String.valueOf(objMap.get('DeliveryPriority__c'));
+                    // mRequestFormHeader.ShippingCondition__c = String.valueOf(objMap.get('ShippingConditions__c'));
+                    // mRequestFormHeader.DeliveryPlant__c = String.valueOf(objMap.get('DeliveryPlant__c'));
+                    // mRequestFormHeader.MaxPartialDeliveries__c = (String)objMap.get('MaxPartialDeliveries__c') != null ? (String)objMap.get('MaxPartialDeliveries__c') : null;
+                    mRequestFormHeader.TransportationZone__c = String.valueOf(objMap.get('TransportationZone__c')); 
+                    // mRequestFormHeader.PartialDeliveriesperitem__c = String.valueOf(objMap.get('PartialDeliveriesperitem__c'));
+                    // mRequestFormHeader.UnderdeliveryTolerance__c = Decimal.valueOf(String.valueOf(objMap.get('UnderdeliveryTolerance__c')));
+                    // mRequestFormHeader.OverdeliveryTolerance__c = Decimal.valueOf((String)objMap.get('OverdeliveryTolerance__c'));
+                    // mRequestFormHeader.AccountAssignmentGroup__c = String.valueOf(objMap.get('AccountAssignmentGroup__c'));
                     mRequestFormHeader.TAXClassification__c = String.valueOf(objMap.get('TaxClassification__c'));
-    
+                    mRequestFormHeader.AccountGroup__c = 'ZSHP';
+                    mRequestFormHeader.InternalEditField__c = objMap.get('HeaderInternalEditField') != null ? String.valueOf(objMap.get('HeaderInternalEditField')) : null; 
                     // mRequestFormHeader.DistributionChannel__c = requestWrapper.mDistributionChannel;
                     // mRequestFormHeader.Division__c = requestWrapper.mDivision;
                     // mRequestFormHeader.SalesOrganization__c = requestWrapper.mSalesOrg;
@@ -213,12 +288,12 @@ public with sharing class CTRRequestShipToController {
                     mRequestFormItem.RecordTypeId = itemRecordTypeId;
                     mRequestFormItem.Status__c = 'New';
                     mRequestFormItem.Approval_Step__c = 'Open';
-                    mRequestFormItem.Sensitive__c = true;
+                    mRequestFormItem.CheckSensitiveField__c = true;
                     mRequestFormItem.SalesDistrict__c = String.valueOf(objMap.get('SalesDistrict__c'));
                     mRequestFormItem.DeliveryPriority__c = String.valueOf(objMap.get('DeliveryPriority__c'));
                     mRequestFormItem.ShippingConditions__c = String.valueOf(objMap.get('ShippingConditions__c'));
                     mRequestFormItem.DeliveryPlant__c = String.valueOf(objMap.get('DeliveryPlant__c'));
-                    mRequestFormItem.MaxPartialDeliveries__c = Decimal.valueOf((String)objMap.get('MaxPartialDeliveries__c')) != null ? Decimal.valueOf((String)objMap.get('MaxPartialDeliveries__c')) : null;
+                    mRequestFormItem.MaxPartialDeliveries__c = objMap.get('MaxPartialDeliveries__c') != null ? Decimal.valueOf((String)objMap.get('MaxPartialDeliveries__c')) : null;
                     // mRequestFormItem.TransportationZone__c = salesArea.TransportationZone__c;
                     mRequestFormItem.PartialDeliveriesperitem__c = String.valueOf(objMap.get('PartialDeliveriesperitem__c'));
                     mRequestFormItem.UnderdeliveryTolerance__c = Decimal.valueOf((String)objMap.get('UnderdeliveryTolerance__c'));
@@ -228,9 +303,36 @@ public with sharing class CTRRequestShipToController {
     
                     mRequestFormItem.DistributionChannel__c = salesArea.DistributionChannel__c;
                     mRequestFormItem.Division__c = salesArea.Division__c;
+                    // mRequestFormItem.Seller__c = salesArea.SalesOrganization__c;
                     mRequestFormItem.SalesOrganization__c = salesArea.SalesOrganization__c;
                     mRequestFormItem.SalesOrganizationTX__c = salesArea.SalesOrganization__c;
+                    mRequestFormItem.CreditControlArea__c = salesArea.CreditControlArea__c;
+                    mRequestFormItem.InternalEditField__c = objMap.get('ItemInternalEditField') != null ? String.valueOf(objMap.get('ItemInternalEditField')) : null; 
+
+                    // if(RecordTypeList[0].DeveloperName.contains('Create')) {
+                        
+                    // }
                     insert mRequestFormItem;
+
+                    CTRRequestFormItem__c itemToUpdate = [SELECT Id, SubBU__c FROM CTRRequestFormItem__c WHERE Id =: mRequestFormItem.Id];
+                    Master_Map__c masterMap = [SELECT Id,Code__c FROM Master_Map__c WHERE Id =: String.valueOf(objMap.get('Country__c'))];
+                    String mType = 'International';
+                    if(masterMap.Code__c == 'TH') {
+                        mType = 'Domestic';
+                    }
+                    System.debug('Debug sub BU'+itemToUpdate.SubBU__c);
+                    Map<String, User> actorUserMap = getActorUserMap(itemToUpdate.SubBU__c, mType);
+                    System.debug(actorUserMap);
+                    if(actorUserMap.containsKey('sectionHead')) {
+                        itemToUpdate.OwnersSectionHead__c = actorUserMap.get('sectionHead').Id;
+                    }
+                    if(actorUserMap.containsKey('mdc')) {
+                        itemToUpdate.MDCName__c = actorUserMap.get('mdc').Id;
+                    }
+                    if(actorUserMap.containsKey('mdcMng')) {
+                        itemToUpdate.MDCMngName__c = actorUserMap.get('mdcMng').Id;
+                    }
+                    update itemToUpdate;
     
                     responseResult.result = true;
                     responseResult.message = 'Success';
@@ -238,7 +340,7 @@ public with sharing class CTRRequestShipToController {
                 }
             } else { // edit from item detail screen
                     System.debug('Debug existing item id '+mItemId);
-                    CTRRequestFormItem__c mRequestFormItem = [SELECT Id,CTRRequestFormHeader__c,SalesDistrict__c,DeliveryPriority__c,ShippingConditions__c,DeliveryPlant__c,MaxPartialDeliveries__c,PartialDeliveriesperitem__c,UnderdeliveryTolerance__c,OverdeliveryTolerance__c,AccountAssignmentGroup__c FROM CTRRequestFormItem__c WHERE Id =: mItemId];
+                    CTRRequestFormItem__c mRequestFormItem = [SELECT Id,CTRRequestFormHeader__c,SalesDistrict__c,DeliveryPriority__c,ShippingConditions__c,DeliveryPlant__c,MaxPartialDeliveries__c,PartialDeliveriesperitem__c,UnderdeliveryTolerance__c,OverdeliveryTolerance__c,AccountAssignmentGroup__c, SubBU__c FROM CTRRequestFormItem__c WHERE Id =: mItemId];
 
                     // CTRRequestFormHeader__c mRequestFormHeader = [SELECT Id FROM CTRRequestFormHeader__c WHERE Id =: mRequestFormItem.CTRRequestFormHeader__c];
                     CTRRequestFormHeader__c mRequestFormHeader = new CTRRequestFormHeader__c();
@@ -262,8 +364,8 @@ public with sharing class CTRRequestShipToController {
                     mRequestFormHeader.CityStateLocal__c = String.valueOf(objMap.get('CityStateLocal__c'));
                     mRequestFormHeader.PostalCodeLocalText__c = String.valueOf(objMap.get('PostalCodeLocalText__c'));
                     mRequestFormHeader.LocationInGoogleMapsLinks__c = String.valueOf(objMap.get('LocationInGoogleMapsLinks__c'));
-                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Latitude__s = Decimal.valueOf(String.valueOf(objMap.get('LocationInGoogleMapsGeolocation__Latitude__s')));
-                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Longitude__s = Decimal.valueOf(String.valueOf(objMap.get('LocationInGoogleMapsGeolocation__Longitude__s')));
+                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Latitude__s = objMap.get('Location__Latitude__s') != null ? Decimal.valueOf((String)objMap.get('Location__Latitude__s')) : null;
+                    mRequestFormHeader.LocationInGoogleMapsGeolocation__Longitude__s = objMap.get('Location__Longitude__s') != null ? Decimal.valueOf((String)objMap.get('Location__Longitude__s')) : null;
                     mRequestFormHeader.ContactSalutation__c = String.valueOf(objMap.get('ContactSalutation__c'));
                     mRequestFormHeader.Nickname__c = String.valueOf(objMap.get('Nickname__c'));
                     mRequestFormHeader.FirstName__c = String.valueOf(objMap.get('FirstName__c'));
@@ -280,6 +382,17 @@ public with sharing class CTRRequestShipToController {
                     mRequestFormHeader.TransportationZone__c = String.valueOf(objMap.get('TransportationZone__c')); 
                     mRequestFormHeader.InternalEditField__c = objMap.get('HeaderInternalEditField') != null ? String.valueOf(objMap.get('HeaderInternalEditField')) : null; 
                     mRequestFormHeader.TAXClassification__c = String.valueOf(objMap.get('TAXClassification__c'));
+                    mRequestFormHeader.AccountGroup__c = 'ZSHP';
+                    // mRequestFormHeader.SalesDistrict__c = String.valueOf(objMap.get('SalesDistrict__c'));
+                    // mRequestFormHeader.DeliveryPriority__c = String.valueOf(objMap.get('DeliveryPriority__c'));
+                    // mRequestFormHeader.ShippingCondition__c = String.valueOf(objMap.get('ShippingConditions__c'));
+                    // mRequestFormHeader.DeliveryPlant__c = String.valueOf(objMap.get('DeliveryPlant__c'));
+                    // mRequestFormHeader.MaxPartialDeliveries__c = String.valueOf(objMap.get('MaxPartialDeliveries__c')) != null ? String.valueOf(objMap.get('MaxPartialDeliveries__c')) : null;
+                    // mRequestFormHeader.PartialDeliveriesperitem__c = String.valueOf(objMap.get('PartialDeliveriesperitem__c'));
+                    // mRequestFormHeader.UnderdeliveryTolerance__c = Decimal.valueOf(String.valueOf(objMap.get('UnderdeliveryTolerance__c')));
+                    // mRequestFormHeader.OverdeliveryTolerance__c = Decimal.valueOf(String.valueOf(objMap.get('OverdeliveryTolerance__c')));
+                    // mRequestFormHeader.AccountAssignmentGroup__c = String.valueOf(objMap.get('AccountAssignmentGroup__c'));
+                    // mRequestFormHeader.InternalEditField__c = objMap.get('ItemInternalEditField') != null ? String.valueOf(objMap.get('ItemInternalEditField')) : null; 
                 
                     // CTRRequestFormItem__c mRequestFormItem = new CTRRequestFormItem__c();
                     // mRequestFormItem.CTRRequestFormHeader__c = mRequestFormHeader.Id;
@@ -292,12 +405,24 @@ public with sharing class CTRRequestShipToController {
                     mRequestFormItem.DeliveryPriority__c = String.valueOf(objMap.get('DeliveryPriority__c'));
                     mRequestFormItem.ShippingConditions__c = String.valueOf(objMap.get('ShippingConditions__c'));
                     mRequestFormItem.DeliveryPlant__c = String.valueOf(objMap.get('DeliveryPlant__c'));
-                    mRequestFormItem.MaxPartialDeliveries__c = Decimal.valueOf(String.valueOf(objMap.get('MaxPartialDeliveries__c'))) != null ? Decimal.valueOf(String.valueOf(objMap.get('MaxPartialDeliveries__c'))) : null;
+                    mRequestFormItem.MaxPartialDeliveries__c = objMap.get('MaxPartialDeliveries__c') != null ? Decimal.valueOf(String.valueOf(objMap.get('MaxPartialDeliveries__c'))) : null;
                     mRequestFormItem.PartialDeliveriesperitem__c = String.valueOf(objMap.get('PartialDeliveriesperitem__c'));
                     mRequestFormItem.UnderdeliveryTolerance__c = Decimal.valueOf(String.valueOf(objMap.get('UnderdeliveryTolerance__c')));
                     mRequestFormItem.OverdeliveryTolerance__c = Decimal.valueOf(String.valueOf(objMap.get('OverdeliveryTolerance__c')));
                     mRequestFormItem.AccountAssignmentGroup__c = String.valueOf(objMap.get('AccountAssignmentGroup__c'));
                     mRequestFormItem.InternalEditField__c = objMap.get('ItemInternalEditField') != null ? String.valueOf(objMap.get('ItemInternalEditField')) : null; 
+                    mRequestFormItem.CheckSensitiveField__c = true;
+                    // Map<String, User> actorUserMap = getActorUserMap(mRequestFormItem.SubBU__c);
+                    // System.debug(actorUserMap);
+                    // if(actorUserMap.containsKey('sectionHead')) {
+                    //     mRequestFormItem.OwnersSectionHead__c = actorUserMap.get('sectionHead').Id;
+                    // }
+                    // if(actorUserMap.containsKey('mdc')) {
+                    //     mRequestFormItem.MDCName__c = actorUserMap.get('mdc').Id;
+                    // }
+                    // if(actorUserMap.containsKey('mdcMng')) {
+                    //     mRequestFormItem.MDCMngName__c = actorUserMap.get('mdcMng').Id;
+                    // }
 
                     update mRequestFormHeader;
                     update mRequestFormItem;

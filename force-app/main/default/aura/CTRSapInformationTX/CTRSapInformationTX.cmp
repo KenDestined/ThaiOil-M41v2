@@ -874,95 +874,99 @@
                                             </h3>
                                             <div class="slds-section__content" id="informationDetail">
                                                 <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                                    <!-- Sales Organization -->
-                                                    <!-- <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Sales Organization
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField fieldName="SalesOrganizationTX__c" variant="label-hidden" 
-                                                        id="Sales Organization" onchange="{!c.handleAddJsonItem}"
-                                                        required="true" value="{!v.requestFormItemObj.SalesOrganizationTX__c}" 
-                                                        disabled="true"/>
-                                                    </div> -->
-                                                    <!-- Type of Bussiness (Branch) -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Type of Bussiness (Branch)
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:select 
-                                                                name="TypeOfBusinessBranch__c" 
-                                                                label="Type of Bussiness (Branch)" 
-                                                                variant="label-hidden"
-                                                                onchange="{!c.handleAddJsonHeader}"
-                                                                disabled="{!v.SentGeneralView}"
-                                                                value="{!v.requestFormHeaderObj.TypeOfBusinessBranch__c}">
-                                                                <option value="">Please select Type Of Business
-                                                                </option>
-                                                                <aura:iteration items="{!v.TypeOfBusinessList}"
-                                                                    var="TypeOfBusinessVar">
-                                                                    <option value="{!TypeOfBusinessVar.value}">
-                                                                        {!TypeOfBusinessVar.label}
-                                                                    </option>
-                                                                </aura:iteration>
-                                                            </lightning:select>
 
-                                                        <!-- <lightning:input name="TypeOfBusinessBranch__c" 
-                                                            value="{!v.requestFormHeaderObj.TypeOfBusinessBranch__c}"
-                                                            id="v.requestFormHeaderObj.TypeOfBusinessBranch__c" disabled="{!v.SentGeneralView}"/> -->
-                                                        <!-- <lightning:inputField fieldName="TypeOfBusinessBranch__c"
-                                                        variant="label-hidden" required="true" value="{!v.requestFormHeaderObj.TypeofBusinessBranch__c}" disabled="{!v.SentGeneralView}"/> -->
-                                                    </div>
-                                                    <!-- TAX Number -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                    <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                    
+                                                        <!-- Sales Organization -->
+                                                        <!-- <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Sales Organization
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField fieldName="SalesOrganizationTX__c" variant="label-hidden" 
+                                                            id="Sales Organization" onchange="{!c.handleAddJsonItem}"
+                                                            required="true" value="{!v.requestFormItemObj.SalesOrganizationTX__c}" 
+                                                            disabled="true"/>
+                                                        </div> -->
+                                                        <!-- Type of Bussiness (Branch) -->
                                                         <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>TAX Number
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Type of Bussiness (Branch)
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:input 
-                                                        name="TaxCode1__c" 
-                                                        variant="label-hidden"
-                                                        label="TAX Number" 
-                                                        onchange="{!c.handleAddJsonHeader}" 
-                                                        value="{!v.requestFormHeaderObj.TaxCode1__c}"
-                                                        id="v.requestFormHeaderObj.TaxCode1__c" 
-                                                        disabled="true"/>
-                                                        <!-- <lightning:inputField fieldName="TaxCode1__c"
-                                                        variant="label-hidden" required="true" value="{!v.requestFormHeaderObj.TaxCode1__c}" disabled="{!v.SentGeneralView}"/> -->
-                                                    </div>
-                                                    <!-- Radio Data not correct TAX Number-->
-                                                    <div class="slds-col slds-size_1-of-6">
-                                                        <div class="slds-form-element__control"
-                                                        style="margin-top: 5px;
-                                                        padding-left: 24px;">
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:select 
+                                                                    name="TypeOfBusinessBranch__c" 
+                                                                    label="Type of Bussiness (Branch)" 
+                                                                    variant="label-hidden"
+                                                                    onchange="{!c.handleAddJsonHeader}"
+                                                                    disabled="{!v.SentGeneralView}"
+                                                                    value="{!v.requestFormHeaderObj.TypeOfBusinessBranch__c}">
+                                                                    <option value="">Please select Type Of Business
+                                                                    </option>
+                                                                    <aura:iteration items="{!v.TypeOfBusinessList}"
+                                                                        var="TypeOfBusinessVar">
+                                                                        <option value="{!TypeOfBusinessVar.value}">
+                                                                            {!TypeOfBusinessVar.label}
+                                                                        </option>
+                                                                    </aura:iteration>
+                                                                </lightning:select>
+
+                                                            <!-- <lightning:input name="TypeOfBusinessBranch__c" 
+                                                                value="{!v.requestFormHeaderObj.TypeOfBusinessBranch__c}"
+                                                                id="v.requestFormHeaderObj.TypeOfBusinessBranch__c" disabled="{!v.SentGeneralView}"/> -->
+                                                            <!-- <lightning:inputField fieldName="TypeOfBusinessBranch__c"
+                                                            variant="label-hidden" required="true" value="{!v.requestFormHeaderObj.TypeofBusinessBranch__c}" disabled="{!v.SentGeneralView}"/> -->
+                                                        </div>
+                                                        <!-- TAX Number -->
+                                                        <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>TAX Number
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
                                                             <lightning:input 
-                                                            type="checkbox" name="options" 
-                                                            label="Data not correct"
-                                                            checked="{!v.requestFormHeaderObj.TAXNumberDatanotcorrect__c}"
-                                                            onchange="{!c.handleCheckboxChange}"
-                                                            disabled="{!v.SentGeneralView}"
-                                                            id="v.requestFormHeaderObj.TAXNumberDatanotcorrect__c" />
+                                                            name="TaxCode1__c" 
+                                                            variant="label-hidden"
+                                                            label="TAX Number" 
+                                                            onchange="{!c.handleAddJsonHeader}" 
+                                                            value="{!v.requestFormHeaderObj.TaxCode1__c}"
+                                                            id="v.requestFormHeaderObj.TaxCode1__c" 
+                                                            disabled="true"/>
+                                                            <!-- <lightning:inputField fieldName="TaxCode1__c"
+                                                            variant="label-hidden" required="true" value="{!v.requestFormHeaderObj.TaxCode1__c}" disabled="{!v.SentGeneralView}"/> -->
                                                         </div>
-                                                    </div>
+                                                        <!-- Radio Data not correct TAX Number-->
+                                                        <div class="slds-col slds-size_1-of-6">
+                                                            <div class="slds-form-element__control"
+                                                            style="margin-top: 5px;
+                                                            padding-left: 24px;">
+                                                                <lightning:input 
+                                                                type="checkbox" name="options" 
+                                                                label="Data not correct"
+                                                                checked="{!v.requestFormHeaderObj.TAXNumberDatanotcorrect__c}"
+                                                                onchange="{!c.handleCheckboxChange}"
+                                                                disabled="{!v.SentGeneralView}"
+                                                                id="v.requestFormHeaderObj.TAXNumberDatanotcorrect__c" />
+                                                            </div>
+                                                        </div>
+                                                    </aura:if>
                                                     <!-- Tax Classification -->
-                                                    <div
-                                                    class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium"> 
+                                                <div class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium"> 
                                                     <div
                                                         style="text-align: left; padding-left: 50px; display: flex;">
                                                         <p style="color: red;">* &nbsp;</p>Tax Classification
                                                         
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
                                                     <lightning:select 
                                                         name="TaxClassification__c"    
@@ -1009,96 +1013,98 @@
                                                         <!-- <lightning:inputField fieldName="AccountGroup__c"
                                                         variant="label-hidden" required="true"  value="{!v.requestFormItemObj.AccountGroup__c}"  disabled="{!v.SentGeneralView}"/> -->
                                                     </div>
-                                                    <!-- Trading Partner -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                    <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                        <!-- Trading Partner -->
                                                         <div
-                                                            style="text-align: left; padding-left: 62px; display: flex;">
-                                                            Trading Partner
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 62px; display: flex;">
+                                                                Trading Partner
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <c:CTRCustomLookupSearch aura:id="TradingPartner__c" objectAPIName="Master_Map__c" 
-                                                                IconName="standard:product_item" whereCondition="" disabled="{!v.SentGeneralView}"
-                                                                label="Trading Partner" displaylabel = "false" FieldName ="TradingPartner__c"
-                                                                selectedRecordId="{!v.requestFormHeaderObj.TradingPartner__c}" />
-                                                        <!-- <lightning:select name="TradingPartner__c" 
-                                                        label="Trading Partner" variant="label-hidden"
-                                                        onchange="{!c.handleAddJsonHeader}" 
-                                                        disabled="{!v.SentGeneralView}"
-                                                        value="{!v.requestFormHeaderObj.TradingPartner__c}">
-                                                        <option value="">Please select Trading Partner
-                                                        </option>
-                                                        <aura:iteration items="{!v.TradingPartnerList}"
-                                                            var="TradingPartnerVar">
-                                                            <option value="{!TradingPartnerVar.value}">
-                                                                {!TradingPartnerVar.label}
-                                                            </option>
-                                                        </aura:iteration>
-                                                    </lightning:select> -->
-                                                    </div>
-                                                    <!-- Region -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 62px; display: flex;">
-                                                            Region
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:select name="RegionSAP__c" 
-                                                                label="Region" variant="label-hidden"
-                                                                onchange="{!c.handleAddJsonHeader}" 
-                                                                disabled="{!v.SentGeneralView}"
-                                                                value="{!v.requestFormHeaderObj.RegionSAP__c}">
-                                                                <option value="">Please select Region
-                                                                </option>
-                                                                <aura:iteration items="{!v.RegionList}"
-                                                                    var="RegionVar">
-                                                                    <option value="{!RegionVar.value}">
-                                                                        {!RegionVar.label}
-                                                                    </option>
-                                                                </aura:iteration>
-                                                            </lightning:select>
-                                                        <lightning:inputField fieldName="RegionSAP__c" variant="label-hidden" 
-                                                            id="Region" onchange="{!c.handleAddJsonItem}"
-                                                            value="{!v.requestFormItemObj.RegionSAP__c}" 
-                                                            disabled="{!v.SentGeneralView}"/>
-                                                    </div>
-                                                    <!-- Distribution Channel -->
-                                                    <!-- <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Distribution Channel
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                            fieldName="DistributionChannel__c" variant="label-hidden" 
-                                                            id="Distribution Channel" onchange="{!c.handleAddJsonItem}"
-                                                            required="true"  value="{!v.requestFormItemObj.DistributionChannel__c}" disabled="{!v.SentGeneralView}"
-                                                        />
-                                                        
-                                                    </div> -->
-                                                    <!-- Division -->
-                                                    <!-- <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Division
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                            fieldName="Division__c"
-                                                            variant="label-hidden" 
-                                                            id="Division" 
-                                                            onchange="{!c.handleAddJsonItem}"
-                                                            required="true"  value="{!v.requestFormItemObj.Division__c}" 
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <c:CTRCustomLookupSearch aura:id="TradingPartner__c" objectAPIName="Master_Map__c" 
+                                                                    IconName="standard:product_item" whereCondition="" disabled="{!v.SentGeneralView}"
+                                                                    label="Trading Partner" displaylabel = "false" FieldName ="TradingPartner__c"
+                                                                    selectedRecordId="{!v.requestFormHeaderObj.TradingPartner__c}" />
+                                                            <!-- <lightning:select name="TradingPartner__c" 
+                                                            label="Trading Partner" variant="label-hidden"
+                                                            onchange="{!c.handleAddJsonHeader}" 
                                                             disabled="{!v.SentGeneralView}"
-                                                        />
-                                                    </div> -->
+                                                            value="{!v.requestFormHeaderObj.TradingPartner__c}">
+                                                            <option value="">Please select Trading Partner
+                                                            </option>
+                                                            <aura:iteration items="{!v.TradingPartnerList}"
+                                                                var="TradingPartnerVar">
+                                                                <option value="{!TradingPartnerVar.value}">
+                                                                    {!TradingPartnerVar.label}
+                                                                </option>
+                                                            </aura:iteration>
+                                                        </lightning:select> -->
+                                                        </div>
+                                                        <!-- Region -->
+                                                        <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 62px; display: flex;">
+                                                                Region
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:select name="RegionSAP__c" 
+                                                                    label="Region" variant="label-hidden"
+                                                                    onchange="{!c.handleAddJsonHeader}" 
+                                                                    disabled="{!v.SentGeneralView}"
+                                                                    value="{!v.requestFormHeaderObj.RegionSAP__c}">
+                                                                    <option value="">Please select Region
+                                                                    </option>
+                                                                    <aura:iteration items="{!v.RegionList}"
+                                                                        var="RegionVar">
+                                                                        <option value="{!RegionVar.value}">
+                                                                            {!RegionVar.label}
+                                                                        </option>
+                                                                    </aura:iteration>
+                                                                </lightning:select>
+                                                            <lightning:inputField fieldName="RegionSAP__c" variant="label-hidden" 
+                                                                id="Region" onchange="{!c.handleAddJsonItem}"
+                                                                value="{!v.requestFormItemObj.RegionSAP__c}" 
+                                                                disabled="{!v.SentGeneralView}"/>
+                                                        </div>
+                                                        <!-- Distribution Channel -->
+                                                        <!-- <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Distribution Channel
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                                fieldName="DistributionChannel__c" variant="label-hidden" 
+                                                                id="Distribution Channel" onchange="{!c.handleAddJsonItem}"
+                                                                required="true"  value="{!v.requestFormItemObj.DistributionChannel__c}" disabled="{!v.SentGeneralView}"
+                                                            />
+                                                            
+                                                        </div> -->
+                                                        <!-- Division -->
+                                                        <!-- <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Division
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                                fieldName="Division__c"
+                                                                variant="label-hidden" 
+                                                                id="Division" 
+                                                                onchange="{!c.handleAddJsonItem}"
+                                                                required="true"  value="{!v.requestFormItemObj.Division__c}" 
+                                                                disabled="{!v.SentGeneralView}"
+                                                            />
+                                                        </div> -->
+                                                    </aura:if>
                                                     <!-- Transportation zone -->
                                                     <div
                                                         class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
@@ -1120,146 +1126,148 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Additional Information Section -->
-                                    <div class="slds-col slds-size_1-of-1">
-                                        <div class="slds-section slds-is-open" aura:id="additionalInformartionSection">
-                                            <h3 class="slds-section__title">
-                                                <button type="button" aria-controls="additionalInformartionDetail" aria-expanded="true"
-                                                    class="slds-button slds-section__title-action" data-auraid="additionalInformartionSection"
-                                                    onclick="{!c.handleToggleSection}">
-                                                    <lightning:icon iconName="utility:switch" alternativeText="switch" title="" size="x-small"
-                                                        class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" />
-                                                    <span class="slds-truncate" title="Additional Information">Additional Information</span>
-                                                </button>
-                                            </h3>
-                                            <div class="slds-section__content"
-                                                id="additionalInformartionDetail">
-                                                <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                                    <!-- Customer Type -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                    <aura:if isTrue="{!v.isNotShipTo == True}">
+                                        <!-- Additional Information Section -->
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div class="slds-section slds-is-open" aura:id="additionalInformartionSection">
+                                                <h3 class="slds-section__title">
+                                                    <button type="button" aria-controls="additionalInformartionDetail" aria-expanded="true"
+                                                        class="slds-button slds-section__title-action" data-auraid="additionalInformartionSection"
+                                                        onclick="{!c.handleToggleSection}">
+                                                        <lightning:icon iconName="utility:switch" alternativeText="switch" title="" size="x-small"
+                                                            class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" />
+                                                        <span class="slds-truncate" title="Additional Information">Additional Information</span>
+                                                    </button>
+                                                </h3>
+                                                <div class="slds-section__content"
+                                                    id="additionalInformartionDetail">
+                                                    <div class="slds-grid slds-wrap slds-var-p-around_large">
+                                                        <!-- Customer Type -->
                                                         <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Customer Type
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Customer Type
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <!-- <c:CTRCustomLookupSearch aura:id="CustomerType__c" objectAPIName="CTRMasterData__c" 
-                                                            IconName="standard:product_item" whereCondition="" 
-                                                            selectedRecordId="{!v.requestFormItemObj.CustomerType__c}" label="" disabled="{!v.SentGeneralView}"/> -->
-                                                        <lightning:inputField 
-                                                        fieldName="CustomerType__c"
-                                                        variant="label-hidden"
-                                                        id="Customer Type" 
-                                                        disabled="{!v.PendingApproval}"
-                                                        onchange="{!c.handleAddJsonItem}"
-                                                        required="true"  
-                                                        value="{!v.requestFormItemObj.CustomerType__c}" 
-                                                        />
-                                                    </div>
-                                                    <!-- Customer Group -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Customer Group
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <!-- <c:CTRCustomLookupSearch aura:id="CustomerGroup__c" objectAPIName="CTRMasterData__c" 
-                                                            IconName="standard:product_item" whereCondition="" 
-                                                            selectedRecordId="{!v.requestFormItemObj.CustomerGroup__c}" label="" disabled="{!v.SentGeneralView}"/> -->
-                                                        <lightning:inputField 
-                                                        fieldName="CustomerGroup__c"
-                                                        variant="label-hidden"
-                                                        id="Customer Group" 
-                                                        onchange="{!c.handleAddJsonItem}"
-                                                        required="true" 
-                                                        disabled="{!v.PendingApproval}"
-                                                        value="{!v.requestFormItemObj.CustomerGroup__c}" 
-                                                        />
-                                                    </div>
-                                                    <!-- Industry -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Industry
-                                                        </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <!-- <c:CTRCustomLookupSearch aura:id="Industry__c" objectAPIName="CTRMasterData__c" 
-                                                            IconName="standard:product_item" whereCondition="" 
-                                                            selectedRecordId="{!v.requestFormItemObj.Industry__c}" label="" disabled="{!v.SentGeneralView}"/> -->
-                                                        <lightning:inputField 
-                                                            fieldName="Industry__c"
-                                                            variant="label-hidden" 
-                                                            id="Industry" 
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <!-- <c:CTRCustomLookupSearch aura:id="CustomerType__c" objectAPIName="CTRMasterData__c" 
+                                                                IconName="standard:product_item" whereCondition="" 
+                                                                selectedRecordId="{!v.requestFormItemObj.CustomerType__c}" label="" disabled="{!v.SentGeneralView}"/> -->
+                                                            <lightning:inputField 
+                                                            fieldName="CustomerType__c"
+                                                            variant="label-hidden"
+                                                            id="Customer Type" 
                                                             disabled="{!v.PendingApproval}"
                                                             onchange="{!c.handleAddJsonItem}"
-                                                            required="true" value="{!v.requestFormItemObj.Industry__c}" 
-                                                        />
-                                                    </div>
-                                                    <!-- Sub-Industry -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <p style="text-align: left; padding-left: 50px;">
-                                                            <span style="color: red;">* &nbsp;</span>Sub-Industry
-                                                        </p>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                            fieldName="SubIndustry__c"
-                                                            name="mockindustry" 
-                                                            variant="label-hidden" 
-                                                            id="Sub-Industry" 
-                                                            disabled="{!v.PendingApproval}"
+                                                            required="true"  
+                                                            value="{!v.requestFormItemObj.CustomerType__c}" 
+                                                            />
+                                                        </div>
+                                                        <!-- Customer Group -->
+                                                        <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Customer Group
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <!-- <c:CTRCustomLookupSearch aura:id="CustomerGroup__c" objectAPIName="CTRMasterData__c" 
+                                                                IconName="standard:product_item" whereCondition="" 
+                                                                selectedRecordId="{!v.requestFormItemObj.CustomerGroup__c}" label="" disabled="{!v.SentGeneralView}"/> -->
+                                                            <lightning:inputField 
+                                                            fieldName="CustomerGroup__c"
+                                                            variant="label-hidden"
+                                                            id="Customer Group" 
                                                             onchange="{!c.handleAddJsonItem}"
-                                                            value="{!v.requestFormItemObj.SubIndustry__c}"
-                                                        />
-                                                        <!-- <lightning:inputField fieldName="SubIndustry__c"
-                                                        variant="label-hidden" value="{!v.requestFormItemObj.SubIndustry__c}" disabled="{!v.SentGeneralView}"/> -->
-                                                    </div>
-                                                    <!-- Application* -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Application
+                                                            required="true" 
+                                                            disabled="{!v.PendingApproval}"
+                                                            value="{!v.requestFormItemObj.CustomerGroup__c}" 
+                                                            />
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                        fieldName="Application__c" 
-                                                        variant="label-hidden"
-                                                        id="Application" 
-                                                        disabled="{!v.PendingApproval}"
-                                                        onchange="{!c.handleAddJsonItem}"  
-                                                        required="true" 
-                                                        value="{!v.requestFormItemObj.Application__c}"/>
-                                                    </div>
-                                                    <!-- Inter Group -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <!-- Industry -->
                                                         <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Inter Group
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Industry
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                        fieldName="InterGroup__c" 
-                                                        variant="label-hidden"
-                                                        id="Inter Group" 
-                                                        disabled="{!v.PendingApproval}"
-                                                        onchange="{!c.handleAddJsonItem}"   
-                                                        value="{!v.requestFormItemObj.InterGroup__c}" 
-                                                        required="true"/>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <!-- <c:CTRCustomLookupSearch aura:id="Industry__c" objectAPIName="CTRMasterData__c" 
+                                                                IconName="standard:product_item" whereCondition="" 
+                                                                selectedRecordId="{!v.requestFormItemObj.Industry__c}" label="" disabled="{!v.SentGeneralView}"/> -->
+                                                            <lightning:inputField 
+                                                                fieldName="Industry__c"
+                                                                variant="label-hidden" 
+                                                                id="Industry" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                onchange="{!c.handleAddJsonItem}"
+                                                                required="true" value="{!v.requestFormItemObj.Industry__c}" 
+                                                            />
+                                                        </div>
+                                                        <!-- Sub-Industry -->
+                                                        <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <p style="text-align: left; padding-left: 50px;">
+                                                                <span style="color: red;">* &nbsp;</span>Sub-Industry
+                                                            </p>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                                fieldName="SubIndustry__c"
+                                                                name="mockindustry" 
+                                                                variant="label-hidden" 
+                                                                id="Sub-Industry" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                onchange="{!c.handleAddJsonItem}"
+                                                                value="{!v.requestFormItemObj.SubIndustry__c}"
+                                                            />
+                                                            <!-- <lightning:inputField fieldName="SubIndustry__c"
+                                                            variant="label-hidden" value="{!v.requestFormItemObj.SubIndustry__c}" disabled="{!v.SentGeneralView}"/> -->
+                                                        </div>
+                                                        <!-- Application* -->
+                                                        <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Application
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                            fieldName="Application__c" 
+                                                            variant="label-hidden"
+                                                            id="Application" 
+                                                            disabled="{!v.PendingApproval}"
+                                                            onchange="{!c.handleAddJsonItem}"  
+                                                            required="true" 
+                                                            value="{!v.requestFormItemObj.Application__c}"/>
+                                                        </div>
+                                                        <!-- Inter Group -->
+                                                        <div
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Inter Group
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                            fieldName="InterGroup__c" 
+                                                            variant="label-hidden"
+                                                            id="Inter Group" 
+                                                            disabled="{!v.PendingApproval}"
+                                                            onchange="{!c.handleAddJsonItem}"   
+                                                            value="{!v.requestFormItemObj.InterGroup__c}" 
+                                                            required="true"/>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </aura:if>
                                 </aura:if>
 
                                 <!-- Check RecordType contains Supplier -->
@@ -1479,164 +1487,167 @@
                                                                 disabled="true"
                                                             />
                                                         </div>
-                                                        <!-- Sales District* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                            <!-- Sales District* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Sales District
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Sales District
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="SalesDistrict__c" 
-                                                            variant="label-hidden"
-                                                            id="Sales District" 
-                                                            disabled="{!v.PendingApproval}"
-                                                            onchange="{!c.handleAddJsonItem}"  
-                                                            value="{!v.requestFormItemObj.SalesDistrict__c}"/>
-                                                        </div>
-                                                        <!-- Sales Office* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="SalesDistrict__c" 
+                                                                variant="label-hidden"
+                                                                id="Sales District" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                onchange="{!c.handleAddJsonItem}"  
+                                                                value="{!v.requestFormItemObj.SalesDistrict__c}"/>
+                                                            </div>
+                                                            <!-- Sales Office* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Sales Office
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Sales Office
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
 
-                                                            <lightning:inputField 
-                                                            fieldName="SalesOffice__c" 
-                                                            variant="label-hidden"
-                                                            id="Sales Office" 
-                                                            onchange="{!c.handleAddJsonItem}"  
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.SalesOffice__c}"/>
-                                                        </div>
-                                                        <!-- Sales Group* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <lightning:inputField 
+                                                                fieldName="SalesOffice__c" 
+                                                                variant="label-hidden"
+                                                                id="Sales Office" 
+                                                                onchange="{!c.handleAddJsonItem}"  
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.SalesOffice__c}"/>
+                                                            </div>
+                                                            <!-- Sales Group* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Sales Group
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Sales Group
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="SalesGroup__c" 
-                                                            variant="label-hidden"
-                                                            id="Sales Group" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.SalesGroup__c}"/>
-                                                            
-                                                        </div>
-                                                        <!-- Currency* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="SalesGroup__c" 
+                                                                variant="label-hidden"
+                                                                id="Sales Group" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.SalesGroup__c}"/>
+                                                                
+                                                            </div>
+                                                            <!-- Currency* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Currency
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Currency
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="Currency__c"  
-                                                            variant="label-hidden"
-                                                            id="Currency" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            disabled="true"  
-                                                            value="{!v.requestFormItemObj.Currency__c}"/>
-                                                        </div>
-                                                        <!-- Radio Data not correct Currency -->
-                                                        <div class="slds-col slds-size_1-of-6">
-                                                            <div class="slds-form-element__control"
-                                                                style="margin-top: 5px;
-                                                                padding-left: 24px">
-                                                                <lightning:input type="checkbox" name="options"
-                                                                    label="Data not correct"
-                                                                    checked="{!v.requestFormItemObj.CurrencyDatanotcorrect__c}"
-                                                                    onchange="{!c.handleCheckboxChange}"
-                                                                    disabled="{!v.PendingApproval}"
-                                                                    id="v.requestFormHeaderObj.CurrencyDatanotcorrect__c" />
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="Currency__c"  
+                                                                variant="label-hidden"
+                                                                id="Currency" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                disabled="true"  
+                                                                value="{!v.requestFormItemObj.Currency__c}"/>
                                                             </div>
-                                                        </div>
-                                                        <!-- Order probab* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <!-- Radio Data not correct Currency -->
+                                                            <div class="slds-col slds-size_1-of-6">
+                                                                <div class="slds-form-element__control"
+                                                                    style="margin-top: 5px;
+                                                                    padding-left: 24px">
+                                                                    <lightning:input type="checkbox" name="options"
+                                                                        label="Data not correct"
+                                                                        checked="{!v.requestFormItemObj.CurrencyDatanotcorrect__c}"
+                                                                        onchange="{!c.handleCheckboxChange}"
+                                                                        disabled="{!v.PendingApproval}"
+                                                                        id="v.requestFormHeaderObj.CurrencyDatanotcorrect__c" />
+                                                                </div>
+                                                            </div>
+                                                            <!-- Order probab* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Order probab.
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Order probab.
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="OrderProbability__c"  
-                                                            variant="label-hidden"
-                                                            id="Order probab." 
-                                                            onchange="{!c.handleAddJsonItem}"  
-                                                            required="true"
-                                                            disabled="true"
-                                                            value="{!v.requestFormItemObj.OrderProbability__c}"/>
-                                                        </div>
-                                                        <!-- Exch. Rate type* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="OrderProbability__c"  
+                                                                variant="label-hidden"
+                                                                id="Order probab." 
+                                                                onchange="{!c.handleAddJsonItem}"  
+                                                                required="true"
+                                                                disabled="true"
+                                                                value="{!v.requestFormItemObj.OrderProbability__c}"/>
+                                                            </div>
+                                                            <!-- Exch. Rate type* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Exch. Rate Type
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Exch. Rate Type
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="ExchangeRateType__c"  
-                                                            variant="label-hidden"
-                                                            id="Exch. Rate Type" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            disabled="{!v.PendingApproval}"
-                                                            required="true"  
-                                                            value="{!v.requestFormItemObj.ExchangeRateType__c}"/>
-                                                        </div>
-                                                        <!-- Cust pice.proc.* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="ExchangeRateType__c"  
+                                                                variant="label-hidden"
+                                                                id="Exch. Rate Type" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                required="true"  
+                                                                value="{!v.requestFormItemObj.ExchangeRateType__c}"/>
+                                                            </div>
+                                                            <!-- Cust pice.proc.* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>
-                                                                Cust.pice.proc
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>
+                                                                    Cust.pice.proc
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="CustPriceProc__c"  
-                                                            variant="label-hidden"
-                                                            id="Cust.pice.proc" 
-                                                            onchange="{!c.handleAddJsonItem}"
-                                                            disabled="{!v.PendingApproval}"
-                                                            required="true"  
-                                                            value="{!v.requestFormItemObj.CustPriceProc__c}"/>
-                                                        </div>
-                                                        <!-- Cust Stats.Grp.* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="CustPriceProc__c"  
+                                                                variant="label-hidden"
+                                                                id="Cust.pice.proc" 
+                                                                onchange="{!c.handleAddJsonItem}"
+                                                                disabled="{!v.PendingApproval}"
+                                                                required="true"  
+                                                                value="{!v.requestFormItemObj.CustPriceProc__c}"/>
+                                                            </div>
+                                                            <!-- Cust Stats.Grp.* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Cust Stats.Grp
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Cust Stats.Grp
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="CustStatGroup__c"  
-                                                            variant="label-hidden"
-                                                            id="Cust Stats.Grp" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            disabled="{!v.PendingApproval}"
-                                                            required="true"  
-                                                            value="{!v.requestFormItemObj.CustStatGroup__c}"/>
-                                                        </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="CustStatGroup__c"  
+                                                                variant="label-hidden"
+                                                                id="Cust Stats.Grp" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                required="true"  
+                                                                value="{!v.requestFormItemObj.CustStatGroup__c}"/>
+                                                            </div>
+                                                        </aura:if>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -1655,41 +1666,42 @@
                                                 </h3>
                                                 <div class="slds-section__content" id="shippingDetail">
                                                     <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                                        <!-- Order Combination* -->
-                                                        <!-- <div class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                            <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                Order Combination
+                                                        <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                            <!-- Order Combination* -->
+                                                            <!-- <div class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    Order Combination
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium" style="padding-bottom: 16px; text-align: start;">
-                                                                <lightning:input type="checkbox" name="options"
-                                                                    label=""
-                                                                    checked="{!v.requestFormItemObj.OrderCombination__c}"
-                                                                    onchange="{!c.handleCheckboxChange}"
-                                                                    disabled="true"
-                                                                    id="v.requestFormItemObj.OrderCombination__c" />
-                                                        </div> -->
-
-                                                    
-                                                        <!-- Delivery Priority* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium" style="padding-bottom: 16px; text-align: start;">
+                                                                    <lightning:input type="checkbox" name="options"
+                                                                        label=""
+                                                                        checked="{!v.requestFormItemObj.OrderCombination__c}"
+                                                                        onchange="{!c.handleCheckboxChange}"
+                                                                        disabled="true"
+                                                                        id="v.requestFormItemObj.OrderCombination__c" />
+                                                            </div> -->
+                                                        
+                                                            <!-- Delivery Priority* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Delivery Priority
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Delivery Priority
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="DeliveryPriority__c"  
-                                                            variant="label-hidden"
-                                                            id="Delivery Priority" 
-                                                            onchange="{!c.handleAddJsonItem}"
-                                                            disabled="{!v.PendingApproval}"
-                                                            required="true"  
-                                                            value="{!v.requestFormItemObj.DeliveryPriority__c}"/>
-                                                        </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="DeliveryPriority__c"  
+                                                                variant="label-hidden"
+                                                                id="Delivery Priority" 
+                                                                onchange="{!c.handleAddJsonItem}"
+                                                                disabled="{!v.PendingApproval}"
+                                                                required="true"  
+                                                                value="{!v.requestFormItemObj.DeliveryPriority__c}"/>
+                                                            </div>
+                                                        </aura:if>  
                                                         <!-- Shipping Condition* -->
                                                         <div
                                                             class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
@@ -1708,111 +1720,113 @@
                                                             required="true"  
                                                             value="{!v.requestFormItemObj.ShippingConditions__c}"/>
                                                         </div>
-                                                        <!-- Delivery Plant* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                            <!-- Delivery Plant* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Delivery Plant
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Delivery Plant
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="DeliveryPlant__c"  
-                                                            variant="label-hidden"
-                                                            id="Delivery Plant" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            disabled="{!v.PendingApproval}" 
-                                                            required="true"  
-                                                            value="{!v.requestFormItemObj.DeliveryPlant__c}"/>
-                                                        </div>
-                                                        <!-- Transportation Zone* -->
-                                                        <!-- <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="DeliveryPlant__c"  
+                                                                variant="label-hidden"
+                                                                id="Delivery Plant" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                disabled="{!v.PendingApproval}" 
+                                                                required="true"  
+                                                                value="{!v.requestFormItemObj.DeliveryPlant__c}"/>
+                                                            </div>
+                                                            <!-- Transportation Zone* -->
+                                                            <!-- <div
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>
+                                                                    Transportation Zone
+                                                                </div>
+                                                            </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField fieldName="TransportationZone__c"
+                                                                variant="label-hidden" required="true"  value="{!v.requestFormItemObj.TransportationZone__c}"/>
+                                                            </div> -->
+                                                            <!-- Partail delivery per item* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>
-                                                                Transportation Zone
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <!-- <p style="color: red;">* &nbsp;</p> -->
+                                                                    Partial delivery per item
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField fieldName="TransportationZone__c"
-                                                            variant="label-hidden" required="true"  value="{!v.requestFormItemObj.TransportationZone__c}"/>
-                                                        </div> -->
-                                                        <!-- Partail delivery per item* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="PartialDeliveriesperitem__c"  
+                                                                variant="label-hidden"
+                                                                id="Partial delivery per item" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                
+                                                                value="{!v.requestFormItemObj.PartialDeliveriesperitem__c}"/>
+                                                            </div>
+                                                            <!-- Max partential del* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <!-- <p style="color: red;">* &nbsp;</p> -->
-                                                                Partial delivery per item
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Max partial deliveries
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="PartialDeliveriesperitem__c"  
-                                                            variant="label-hidden"
-                                                            id="Partial delivery per item" 
-                                                            disabled="{!v.PendingApproval}"
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            
-                                                            value="{!v.requestFormItemObj.PartialDeliveriesperitem__c}"/>
-                                                        </div>
-                                                        <!-- Max partential del* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                            <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Max partial deliveries
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="MaxPartialDeliveries__c"  
+                                                                variant="label-hidden"
+                                                                id="Max partial deliveries" 
+                                                                onchange="{!c.handleAddJsonItem}"
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.MaxPartialDeliveries__c}"/>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="MaxPartialDeliveries__c"  
-                                                            variant="label-hidden"
-                                                            id="Max partial deliveries" 
-                                                            onchange="{!c.handleAddJsonItem}"
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.MaxPartialDeliveries__c}"/>
-                                                        </div>
 
-                                                        <!-- Underdol tolerance* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <!-- Underdol tolerance* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Underdel tolerance
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Underdel tolerance
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="UnderdeliveryTolerance__c"  
-                                                            variant="label-hidden"
-                                                            id="Underdel tolerance" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.UnderdeliveryTolerance__c}"/>
-                                                        </div>
-                                                        <!-- Overdeliv tolerance* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="UnderdeliveryTolerance__c"  
+                                                                variant="label-hidden"
+                                                                id="Underdel tolerance" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.UnderdeliveryTolerance__c}"/>
+                                                            </div>
+                                                            <!-- Overdeliv tolerance* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Overdeliv. tolerance
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Overdeliv. tolerance
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="OverdeliveryTolerance__c"  
-                                                            variant="label-hidden"
-                                                            id="Overdeliv. tolerance" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.OverdeliveryTolerance__c}"/>
-                                                        </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="OverdeliveryTolerance__c"  
+                                                                variant="label-hidden"
+                                                                id="Overdeliv. tolerance" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.OverdeliveryTolerance__c}"/>
+                                                            </div>
+                                                        </aura:if>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1831,77 +1845,80 @@
                                                 </h3>
                                                 <div class="slds-section__content" id="billingDocumentDetail">
                                                     <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                                        <!-- Rebate* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                            <!-- Rebate* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Rebate
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Rebate
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium" style="padding-bottom: 16px; text-align: start;">
-                                                                <lightning:input type="checkbox" name="options"
-                                                                    label="Rebate"
-                                                                    value="{!v.requestFormItemObj.Rebate__c}"
-                                                                    checked="{!v.requestFormItemObj.Rebate__c}"
-                                                                    onchange="{!c.handleCheckboxChange}"
-                                                                    disabled="true"
-                                                                    id="v.requestFormItemObj.Rebate__c" /> 
-                                                            
-                                                        </div>
-                                                        <!-- Price determin* -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium" style="padding-bottom: 16px; text-align: start;">
+                                                                    <lightning:input type="checkbox" name="options"
+                                                                        label="Rebate"
+                                                                        value="{!v.requestFormItemObj.Rebate__c}"
+                                                                        checked="{!v.requestFormItemObj.Rebate__c}"
+                                                                        onchange="{!c.handleCheckboxChange}"
+                                                                        disabled="true"
+                                                                        id="v.requestFormItemObj.Rebate__c" /> 
+                                                                
+                                                            </div>
+                                                            <!-- Price determin* -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Price determin
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Price determin
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium"  style="padding-bottom: 16px; text-align: start;">
-                                                                <lightning:input type="checkbox" name="options"
-                                                                    label="Price determin"
-                                                                    checked="{!v.requestFormItemObj.IsPriceDetermin__c}"
-                                                                    onchange="{!c.handleCheckboxChange}"
-                                                                    disabled="true"
-                                                                    id="v.requestFormItemObj.IsPriceDetermin__c" />
-                                                            
-                                                        </div>
-                                                        <!-- Incoterms -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium"  style="padding-bottom: 16px; text-align: start;">
+                                                                    <lightning:input type="checkbox" name="options"
+                                                                        label="Price determin"
+                                                                        checked="{!v.requestFormItemObj.IsPriceDetermin__c}"
+                                                                        onchange="{!c.handleCheckboxChange}"
+                                                                        disabled="true"
+                                                                        id="v.requestFormItemObj.IsPriceDetermin__c" />
+                                                                
+                                                            </div>
+                                                            <!-- Incoterms -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Incoterms
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Incoterms
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6"  style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="Incoterms__c"  
-                                                            variant="label-hidden"
-                                                            id="Incoterms" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true" 
-                                                            disabled="{!v.PendingApproval}"
-                                                            value = "{!v.requestFormItemObj.Incoterms__c}"/>
-                                                        </div>
-                                                        <!-- Incoterms 2 -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6"  style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="Incoterms__c"  
+                                                                variant="label-hidden"
+                                                                id="Incoterms" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true" 
+                                                                disabled="{!v.PendingApproval}"
+                                                                value = "{!v.requestFormItemObj.Incoterms__c}"/>
+                                                            </div>
+                                                            <!-- Incoterms 2 -->
                                                             <div
-                                                                style="text-align: left; padding-left: 62px; display: flex;">
-                                                                Incoterms 2
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 62px; display: flex;">
+                                                                    Incoterms 2
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="Incoterms2__c"  
-                                                            variant="label-hidden"
-                                                            id="Incoterms 2" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.Incoterms2__c}"/>
-                                                        </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="Incoterms2__c"  
+                                                                variant="label-hidden"
+                                                                id="Incoterms 2" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.Incoterms2__c}"/>
+                                                            </div>
+                                                        </aura:if>
+
                                                         <!-- Credit Control Area -->
                                                         <div class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
                                                             <div
@@ -1919,42 +1936,46 @@
                                                             disabled="{!v.PendingApproval}"
                                                             value="{!v.requestFormItemObj.CreditControlArea__c}"/>
                                                         </div>
-                                                        <!-- Term of payment -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+
+                                                        <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                            <!-- Term of payment -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Term of payment
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Term of payment
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="TermOfPayment__c"  
-                                                            variant="label-hidden"
-                                                            id="Term of payment" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true"  
-                                                            disabled="true"
-                                                            value="{!v.requestFormItemObj.TermOfPayment__c}"/>
-                                                        </div>
-                                                        <!-- Payment Guarantee Procedure -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="TermOfPayment__c"  
+                                                                variant="label-hidden"
+                                                                id="Term of payment" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true"  
+                                                                disabled="true"
+                                                                value="{!v.requestFormItemObj.TermOfPayment__c}"/>
+                                                            </div>
+                                                            <!-- Payment Guarantee Procedure -->
                                                             <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Payment Guarantee Procedure
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Payment Guarantee Procedure
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="PaymentGuaranteeProcedure__c"   
-                                                            variant="label-hidden"
-                                                            id="Payment Guarantee Procedure" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            required="true"  
-                                                            disabled="{!v.PendingApproval}"
-                                                            value="{!v.requestFormItemObj.PaymentGuaranteeProcedure__c}"/>
-                                                        </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="PaymentGuaranteeProcedure__c"   
+                                                                variant="label-hidden"
+                                                                id="Payment Guarantee Procedure" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                required="true"  
+                                                                disabled="{!v.PendingApproval}"
+                                                                value="{!v.requestFormItemObj.PaymentGuaranteeProcedure__c}"/>
+                                                            </div>
+                                                        </aura:if>
+                                                        
                                                         <!-- Account Assignment Group -->
                                                         <div
                                                             class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium"> 
@@ -1974,215 +1995,219 @@
                                                             value="{!v.requestFormItemObj.AccountAssignmentGroup__c}"/>
                                                         </div>
 
-                                                        <!-- Tax Classification -->
-                                                        <!-- <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium"> 
-                                                            <div
-                                                                style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Tax Classification
-                                                                
+                                                        <aura:if isTrue="{!v.isNotShipTo == True}">
+                                                            <!-- Tax Classification -->
+                                                            <!-- <div
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium"> 
+                                                                <div
+                                                                    style="text-align: left; padding-left: 50px; display: flex;">
+                                                                    <p style="color: red;">* &nbsp;</p>Tax Classification
+                                                                    
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:select 
-                                                                name="TaxClassification__c"    
-                                                                variant="label-hidden"
-                                                                label="Tax Classification" 
-                                                                onchange="{!c.handleAddJsonHeader}"
-                                                                disabled="{!v.SentGeneralView}"
-                                                                value="{!v.requestFormHeaderObj.TAXClassification__c}">
-                                                                <option value="">Please select Tax Classification
-                                                                </option>
-                                                                <aura:iteration
-                                                                    items="{!v.TaxClassificationList}"
-                                                                    var="TaxClassificationVar">
-                                                                    <option
-                                                                        value="{!TaxClassificationVar.value}">
-                                                                        {!TaxClassificationVar.label}
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:select 
+                                                                    name="TaxClassification__c"    
+                                                                    variant="label-hidden"
+                                                                    label="Tax Classification" 
+                                                                    onchange="{!c.handleAddJsonHeader}"
+                                                                    disabled="{!v.SentGeneralView}"
+                                                                    value="{!v.requestFormHeaderObj.TAXClassification__c}">
+                                                                    <option value="">Please select Tax Classification
                                                                     </option>
-                                                                </aura:iteration>
-                                                            </lightning:select>
-                                                        </div> -->
+                                                                    <aura:iteration
+                                                                        items="{!v.TaxClassificationList}"
+                                                                        var="TaxClassificationVar">
+                                                                        <option
+                                                                            value="{!TaxClassificationVar.value}">
+                                                                            {!TaxClassificationVar.label}
+                                                                        </option>
+                                                                    </aura:iteration>
+                                                                </lightning:select>
+                                                            </div> -->
 
-                                                        
-                                                        <!-- Risk Category -->
-                                                        <div
-                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            
+                                                            <!-- Risk Category -->
                                                             <div
-                                                                style="text-align: left; padding-left: 62px; display: flex;">
-                                                                Risk Category
+                                                                class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                                <div
+                                                                    style="text-align: left; padding-left: 62px; display: flex;">
+                                                                    Risk Category
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                            <lightning:inputField 
-                                                            fieldName="RiskCategory__c"    
-                                                            variant="label-hidden"
-                                                            id="Risk Category" 
-                                                            onchange="{!c.handleAddJsonItem}" 
-                                                            disabled="true"
-                                                            value="{!v.requestFormItemObj.RiskCategory__c}"/>
-                                                        </div>
+                                                            <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                                <lightning:inputField 
+                                                                fieldName="RiskCategory__c"    
+                                                                variant="label-hidden"
+                                                                id="Risk Category" 
+                                                                onchange="{!c.handleAddJsonItem}" 
+                                                                disabled="true"
+                                                                value="{!v.requestFormItemObj.RiskCategory__c}"/>
+                                                            </div>
+                                                        </aura:if>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </lightning:tab>
-                            <!-- Tab Financial View -->
-                            <lightning:tab label="Financial View" id="financialView">
-                                <div class="slds-grid slds-wrap">
-                                    <!-- Accounting Management -->
-                                    <div class="slds-col slds-size_1-of-1">
-                                        <div class="slds-section slds-is-open" aura:id="accountingManagementSection">
-                                            <h3 class="slds-section__title">
-                                                <button type="button" aria-controls="accountingManagementDetail" aria-expanded="true"
-                                                    class="slds-button slds-section__title-action" data-auraid="accountingManagementSection"
-                                                    onclick="{!c.handleToggleSection}">
-                                                    <lightning:icon iconName="utility:switch" alternativeText="switch" title="" size="x-small"
-                                                        class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" />
-                                                    <span class="slds-truncate" title="Accounting Management">Accounting Management</span>
-                                                </button>
-                                            </h3>
-                                            <div class="slds-section__content" id="accountingManagementDetail">
-                                                <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                                    <!-- Recon Account -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                            <aura:if isTrue="{!v.isNotShipTo == True}">
+                                <!-- Tab Financial View -->
+                                <lightning:tab label="Financial View" id="financialView">
+                                    <div class="slds-grid slds-wrap">
+                                        <!-- Accounting Management -->
+                                        <div class="slds-col slds-size_1-of-1">
+                                            <div class="slds-section slds-is-open" aura:id="accountingManagementSection">
+                                                <h3 class="slds-section__title">
+                                                    <button type="button" aria-controls="accountingManagementDetail" aria-expanded="true"
+                                                        class="slds-button slds-section__title-action" data-auraid="accountingManagementSection"
+                                                        onclick="{!c.handleToggleSection}">
+                                                        <lightning:icon iconName="utility:switch" alternativeText="switch" title="" size="x-small"
+                                                            class="slds-section__title-action-icon slds-button__icon slds-button__icon_left" />
+                                                        <span class="slds-truncate" title="Accounting Management">Accounting Management</span>
+                                                    </button>
+                                                </h3>
+                                                <div class="slds-section__content" id="accountingManagementDetail">
+                                                    <div class="slds-grid slds-wrap slds-var-p-around_large">
+                                                        <!-- Recon Account -->
                                                         <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Recon. Account
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Recon. Account
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        
-                                                        <lightning:inputField 
-                                                        fieldName="ReconAccount__c"    
-                                                        variant="label-hidden"
-                                                        id="Recon. Account" 
-                                                        onchange="{!c.handleAddJsonItem}"  
-                                                        disabled="true" 
-                                                        value="{!v.requestFormItemObj.ReconAccount__c}"/>
-                                                    </div>
-                                                    <!-- Radio Data not correct Recon. Account -->
-                                                    <div class="slds-col slds-size_1-of-6" style="padding-bottom: 16px;">
-                                                        <div class="slds-form-element__control"
-                                                                style="margin-top: 4px;
-                                                                padding-left: 24px;">
-                                                            <lightning:input type="checkbox" name="options"
-                                                                label="Data not correct"
-                                                                checked="{!v.requestFormHeaderObj.ReconAccountDatanotcorrect__c}"
-                                                                onchange="{!c.handleCheckboxChange}"
-                                                                disabled="{!v.PendingApproval}"
-                                                                id="v.requestFormItemObj.ReconAccountDatanotcorrect__c" />
-                                                                
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            
+                                                            <lightning:inputField 
+                                                            fieldName="ReconAccount__c"    
+                                                            variant="label-hidden"
+                                                            id="Recon. Account" 
+                                                            onchange="{!c.handleAddJsonItem}"  
+                                                            disabled="true" 
+                                                            value="{!v.requestFormItemObj.ReconAccount__c}"/>
                                                         </div>
-                                                    </div>
-                                                    <!-- Sort Key -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <!-- Radio Data not correct Recon. Account -->
+                                                        <div class="slds-col slds-size_1-of-6" style="padding-bottom: 16px;">
+                                                            <div class="slds-form-element__control"
+                                                                    style="margin-top: 4px;
+                                                                    padding-left: 24px;">
+                                                                <lightning:input type="checkbox" name="options"
+                                                                    label="Data not correct"
+                                                                    checked="{!v.requestFormHeaderObj.ReconAccountDatanotcorrect__c}"
+                                                                    onchange="{!c.handleCheckboxChange}"
+                                                                    disabled="{!v.PendingApproval}"
+                                                                    id="v.requestFormItemObj.ReconAccountDatanotcorrect__c" />
+                                                                    
+                                                            </div>
+                                                        </div>
+                                                        <!-- Sort Key -->
                                                         <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Sort Key
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Sort Key
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                        fieldName="SortKey__c"    
-                                                        variant="label-hidden"
-                                                        id="Sort Key" 
-                                                        onchange="{!c.handleAddJsonItem}" 
-                                                        disabled="true" 
-                                                        value="{!v.requestFormItemObj.SortKey__c}"/>
-                                                    </div>
-                                                    <!-- Radio Data not correct Sort Key -->
-                                                    <div class="slds-col slds-size_1-of-6" style="padding-bottom: 16px;">
-                                                        <div class="slds-form-element__control"
-                                                                style="margin-top: 4px;
-                                                                padding-left: 24px;">
-                                                            <lightning:input type="checkbox" name="options"
-                                                                label="Data not correct"
-                                                                checked="{!v.requestFormItemObj.SortKeyDatanotcorrect__c}"
-                                                                onchange="{!c.handleCheckboxChange}"
-                                                                disabled="{!v.PendingApproval}"
-                                                                id="v.requestFormItemObj.SortKeyDatanotcorrect__c" />
-                                                                <!-- <lightning:inputField fieldName="" value=""
-                                                        variant="label-hidden" />z -->
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                            fieldName="SortKey__c"    
+                                                            variant="label-hidden"
+                                                            id="Sort Key" 
+                                                            onchange="{!c.handleAddJsonItem}" 
+                                                            disabled="true" 
+                                                            value="{!v.requestFormItemObj.SortKey__c}"/>
                                                         </div>
-                                                    </div>
-                                                    <!-- Cash Mgmnt Group -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <!-- Radio Data not correct Sort Key -->
+                                                        <div class="slds-col slds-size_1-of-6" style="padding-bottom: 16px;">
+                                                            <div class="slds-form-element__control"
+                                                                    style="margin-top: 4px;
+                                                                    padding-left: 24px;">
+                                                                <lightning:input type="checkbox" name="options"
+                                                                    label="Data not correct"
+                                                                    checked="{!v.requestFormItemObj.SortKeyDatanotcorrect__c}"
+                                                                    onchange="{!c.handleCheckboxChange}"
+                                                                    disabled="{!v.PendingApproval}"
+                                                                    id="v.requestFormItemObj.SortKeyDatanotcorrect__c" />
+                                                                    <!-- <lightning:inputField fieldName="" value=""
+                                                            variant="label-hidden" />z -->
+                                                            </div>
+                                                        </div>
+                                                        <!-- Cash Mgmnt Group -->
                                                         <div
-                                                            style="text-align: left; padding-left: 50px; display: flex;">
-                                                            <p style="color: red;">* &nbsp;</p>Cash Mgmnt Group
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 50px; display: flex;">
+                                                                <p style="color: red;">* &nbsp;</p>Cash Mgmnt Group
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                        fieldName="CashManagementGroup__c"    
-                                                        variant="label-hidden"
-                                                        id="Cash Mgmnt Group" 
-                                                        onchange="{!c.handleAddJsonItem}" 
-                                                        disabled="true"  
-                                                        value="{!v.requestFormItemObj.CashManagementGroup__c}"/>
-                                                    </div>
-                                                    <!-- Radio Data not correct Cash Mgmnt Group -->
-                                                    <div class="slds-col slds-size_1-of-6" style="padding-bottom: 16px;">
-                                                        <div class="slds-form-element__control"
-                                                                style="margin-top: 4px;
-                                                                padding-left: 24px;">
-                                                            <lightning:input type="checkbox" name="options"
-                                                                label="Data not correct"
-                                                                checked="{!v.requestFormItemObj.CashMgmntGroupDatanotcorrect__c}"
-                                                                onchange="{!c.handleCheckboxChange}"
-                                                                disabled="{!v.PendingApproval}"
-                                                                id="v.requestFormItemObj.CashMgmntGroupDatanotcorrect__c" />
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                            fieldName="CashManagementGroup__c"    
+                                                            variant="label-hidden"
+                                                            id="Cash Mgmnt Group" 
+                                                            onchange="{!c.handleAddJsonItem}" 
+                                                            disabled="true"  
+                                                            value="{!v.requestFormItemObj.CashManagementGroup__c}"/>
                                                         </div>
-                                                    </div>
-                                                    <!-- Authorization -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <!-- Radio Data not correct Cash Mgmnt Group -->
+                                                        <div class="slds-col slds-size_1-of-6" style="padding-bottom: 16px;">
+                                                            <div class="slds-form-element__control"
+                                                                    style="margin-top: 4px;
+                                                                    padding-left: 24px;">
+                                                                <lightning:input type="checkbox" name="options"
+                                                                    label="Data not correct"
+                                                                    checked="{!v.requestFormItemObj.CashMgmntGroupDatanotcorrect__c}"
+                                                                    onchange="{!c.handleCheckboxChange}"
+                                                                    disabled="{!v.PendingApproval}"
+                                                                    id="v.requestFormItemObj.CashMgmntGroupDatanotcorrect__c" />
+                                                            </div>
+                                                        </div>
+                                                        <!-- Authorization -->
                                                         <div
-                                                            style="text-align: left; padding-left: 62px; display: flex;">
-                                                            Authorization
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 62px; display: flex;">
+                                                                Authorization
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField 
-                                                        fieldName="Authorization__c"    
-                                                        variant="label-hidden"
-                                                        id="Authorization" 
-                                                        onchange="{!c.handleAddJsonItem}" 
-                                                        maxlength="4"
-                                                        disabled="{!v.PendingApproval}"
-                                                        value="{!v.requestFormItemObj.Authorization__c}" />
-                                                    </div>
-                                                    <!-- Payment History Record -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <div class="slds-col slds-size_3-of-6" style="padding-bottom: 16px; text-align: start;">
+                                                            <lightning:inputField 
+                                                            fieldName="Authorization__c"    
+                                                            variant="label-hidden"
+                                                            id="Authorization" 
+                                                            onchange="{!c.handleAddJsonItem}" 
+                                                            maxlength="4"
+                                                            disabled="{!v.PendingApproval}"
+                                                            value="{!v.requestFormItemObj.Authorization__c}" />
+                                                        </div>
+                                                        <!-- Payment History Record -->
                                                         <div
-                                                            style="text-align: left; padding-left: 62px; display: flex;">
-                                                            Payment History Record
+                                                            class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div
+                                                                style="text-align: left; padding-left: 62px; display: flex;">
+                                                                Payment History Record
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div
-                                                        class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <div class="slds-checkbox" style="display: flex; padding-bottom: 16px; text-align: start;">
-                                                            <lightning:input type="checkbox" name="PaymentHistoryRecord__c"
-                                                                label="Payment History Record"
-                                                                variant="label-hidden"
-                                                                disabled="{!v.PendingApproval}"
-                                                                checked="{!v.requestFormItemObj.PaymentHistoryRecord__c}"
-                                                                value="{!v.requestFormItemObj.PaymentHistoryRecord__c}"
-                                                                onchange="{!c.handleAddJsonItem}"/>
+                                                        <div
+                                                            class="slds-col slds-size_3-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                            <div class="slds-checkbox" style="display: flex; padding-bottom: 16px; text-align: start;">
+                                                                <lightning:input type="checkbox" name="PaymentHistoryRecord__c"
+                                                                    label="Payment History Record"
+                                                                    variant="label-hidden"
+                                                                    disabled="{!v.PendingApproval}"
+                                                                    checked="{!v.requestFormItemObj.PaymentHistoryRecord__c}"
+                                                                    value="{!v.requestFormItemObj.PaymentHistoryRecord__c}"
+                                                                    onchange="{!c.handleAddJsonItem}"/>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </lightning:tab>
+                                </lightning:tab> 
+                            </aura:if>
                         </aura:if>
 
                         <!-- Check RecordType contains Supplier -->

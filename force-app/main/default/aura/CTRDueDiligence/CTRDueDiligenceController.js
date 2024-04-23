@@ -251,21 +251,29 @@
         }
 
         console.log('[handleRecordUpdated] isHighHighRisk -----', component.get('v.isHighHighRisk'));
-        if(component.get('v.isHighHighRisk')) {
-            helper.sectionForHighHighRisk(component);
-        } else {
-            helper.sectionForLowRisk(component);
-        }
+        
+        // const sectionLabelMap = component.get('v.sectionLabelMap');
+		// console.log('sectionLabelMap -----', Object.assign({}, sectionLabelMap));
+        // if(helper.validateSection(sectionLabelMap, 'cmReview')) {
+        //     if(component.get('v.isHighHighRisk')) {
+        //         helper.sectionForHighHighRisk(component);
+        //     } else {
+        //         helper.sectionForLowRisk(component);
+        //     }
+        // } else if(helper.validateSection(sectionLabelMap, 'traderReview')) {
+        //     component.set('v.displayTraderReview', true);
+        //     component.set('v.isTraderReview', true);
+        // }
 
-        console.log('[handleRecordUpdated] sectionToDisplay -----', 'displayCMReview:' + component.get('v.displayCMReview') + 
-                                                                    '/displayEnhanceDueDiligence:' + component.get('v.displayEnhanceDueDiligence') + 
-                                                                    '/displayComplianceAdvice:' + component.get('v.displayComplianceAdvice') + 
-                                                                    '/displayCPXXReview:' + component.get('v.displayCPXXReview') + 
-                                                                    'displayCMVPReview:' + component.get('v.displayCMVPReview') + 
-                                                                    '/displayEVPCReview:' + component.get('v.displayEVPCReview') + 
-                                                                    '/displayEndorseDueDiligence:' + component.get('v.displayEndorseDueDiligence') + 
-                                                                    '/displayApproveDueDiligence:' + component.get('v.displayApproveDueDiligence'));
-        helper.setupSection(component);
+        // console.log('[handleRecordUpdated] sectionToDisplay -----', 'displayCMReview:' + component.get('v.displayCMReview') + 
+        //                                                             '/displayEnhanceDueDiligence:' + component.get('v.displayEnhanceDueDiligence') + 
+        //                                                             '/displayComplianceAdvice:' + component.get('v.displayComplianceAdvice') + 
+        //                                                             '/displayCPXXReview:' + component.get('v.displayCPXXReview') + 
+        //                                                             'displayCMVPReview:' + component.get('v.displayCMVPReview') + 
+        //                                                             '/displayEVPCReview:' + component.get('v.displayEVPCReview') + 
+        //                                                             '/displayEndorseDueDiligence:' + component.get('v.displayEndorseDueDiligence') + 
+        //                                                             '/displayApproveDueDiligence:' + component.get('v.displayApproveDueDiligence'));
+        // helper.setupSection(component);
         component.set("v.isLoaded", true);
     },
 })

@@ -183,7 +183,7 @@
 
         if (showAlert) {
             // Display alert when showAlert is true
-            component.set("v.alertMessage", "Saved changes! Do you want to request more document?");
+            component.set("v.alertMessage", "Do you require additional documents?");
         } else {
             // Hide alert when showAlert is false
             component.set("v.alertMessage", "");

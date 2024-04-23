@@ -3,8 +3,8 @@
     <actionCalls>
         <name>FATXSendEmail</name>
         <label>FATXSendEmail</label>
-        <locationX>4494</locationX>
-        <locationY>3791</locationY>
+        <locationX>5550</locationX>
+        <locationY>3899</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -71,8 +71,8 @@
     <actionCalls>
         <name>FATXSendNoti</name>
         <label>FATXSendNoti</label>
-        <locationX>4494</locationX>
-        <locationY>3899</locationY>
+        <locationX>5550</locationX>
+        <locationY>4007</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -112,10 +112,13 @@
     <actionCalls>
         <name>SendEmailToCustomer</name>
         <label>SendEmailToCustomer</label>
-        <locationX>3218</locationX>
+        <locationX>4274</locationX>
         <locationY>2135</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>updateRequestForm_InExCustomer</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
@@ -177,10 +180,13 @@
     <actionCalls>
         <name>SendEmailToSupplier</name>
         <label>SendEmailToSupplier</label>
-        <locationX>4186</locationX>
+        <locationX>5242</locationX>
         <locationY>2135</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>updateRequestForm_InExSupplier</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
@@ -242,7 +248,7 @@
     <actionCalls>
         <name>SendEmailTXToCustomer</name>
         <label>SendEmailTXToCustomer</label>
-        <locationX>3482</locationX>
+        <locationX>4538</locationX>
         <locationY>2135</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -310,7 +316,7 @@
     <actionCalls>
         <name>SendEmailTXToSupplier</name>
         <label>SendEmailTXToSupplier</label>
-        <locationX>4450</locationX>
+        <locationX>5506</locationX>
         <locationY>2135</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -378,7 +384,7 @@
     <actionCalls>
         <name>SHPreScreenCusNoti</name>
         <label>SHPreScreenCusNoti</label>
-        <locationX>1106</locationX>
+        <locationX>1634</locationX>
         <locationY>1835</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -419,8 +425,8 @@
     <actionCalls>
         <name>SHPreScreenCusNoti_0</name>
         <label>SHPreScreenCusNoti</label>
-        <locationX>2162</locationX>
-        <locationY>1619</locationY>
+        <locationX>2690</locationX>
+        <locationY>1727</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -460,7 +466,7 @@
     <actionCalls>
         <name>SHPreScreenCusSendEmail</name>
         <label>SHPreScreenCusSendEmail</label>
-        <locationX>1106</locationX>
+        <locationX>1634</locationX>
         <locationY>1619</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -528,7 +534,7 @@
     <actionCalls>
         <name>SHPreScreenSupNoti</name>
         <label>SHPreScreenSupNoti</label>
-        <locationX>1370</locationX>
+        <locationX>1898</locationX>
         <locationY>1835</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -569,8 +575,8 @@
     <actionCalls>
         <name>SHPreScreenSupNoti_0</name>
         <label>SHPreScreenSupNoti</label>
-        <locationX>2426</locationX>
-        <locationY>1619</locationY>
+        <locationX>2954</locationX>
+        <locationY>1727</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -610,7 +616,7 @@
     <actionCalls>
         <name>SHPreScreenSupSendEmail</name>
         <label>SHPreScreenSupSendEmail</label>
-        <locationX>1370</locationX>
+        <locationX>1898</locationX>
         <locationY>1619</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -678,8 +684,8 @@
     <actionCalls>
         <name>SHPreScreentoTraderSendEmail_CustomerNotPassed</name>
         <label>SHPreScreentoTraderSendEmail</label>
-        <locationX>2162</locationX>
-        <locationY>1511</locationY>
+        <locationX>2690</locationX>
+        <locationY>1619</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -746,7 +752,7 @@
     <actionCalls>
         <name>SHPreScreentoTraderSendEmail_CustomerPassed</name>
         <label>SHPreScreentoTraderSendEmail</label>
-        <locationX>1106</locationX>
+        <locationX>1634</locationX>
         <locationY>1727</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -814,8 +820,8 @@
     <actionCalls>
         <name>SHPreScreentoTraderSendEmail_SupplierNotPassed</name>
         <label>SHPreScreentoTraderSendEmail</label>
-        <locationX>2426</locationX>
-        <locationY>1511</locationY>
+        <locationX>2954</locationX>
+        <locationY>1619</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -882,7 +888,7 @@
     <actionCalls>
         <name>SHPreScreentoTraderSendEmail_SupplierPassed</name>
         <label>SHPreScreentoTraderSendEmail</label>
-        <locationX>1370</locationX>
+        <locationX>1898</locationX>
         <locationY>1727</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -951,6 +957,47 @@
         <name>TraderPreScreenCusNoti</name>
         <label>TraderPreScreenCusNoti</label>
         <locationX>50</locationX>
+        <locationY>1619</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>SHRecipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>TraderPreScreenNotifyTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>TraderPreScreenNotifyBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>TraderPreScreenCusNoti_0</name>
+        <label>TraderPreScreenCusNoti</label>
+        <locationX>842</locationX>
         <locationY>1511</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -992,7 +1039,7 @@
         <name>TraderPreScreenCusSendEmail</name>
         <label>TraderPreScreenCusSendEmail</label>
         <locationX>50</locationX>
-        <locationY>1403</locationY>
+        <locationY>1511</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -1060,7 +1107,7 @@
         <name>TraderPreScreenSupNoti</name>
         <label>TraderPreScreenSupNoti</label>
         <locationX>314</locationX>
-        <locationY>1511</locationY>
+        <locationY>1619</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -1101,7 +1148,7 @@
         <name>TraderPreScreenSupSendEmail</name>
         <label>TraderPreScreenSupSendEmail</label>
         <locationX>314</locationX>
-        <locationY>1403</locationY>
+        <locationY>1511</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -1166,10 +1213,187 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>TXSHPreScreenSupNoti_0_0</name>
+        <label>TXSHPreScreenSupNoti</label>
+        <locationX>3482</locationX>
+        <locationY>1619</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>recipientIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>SHPreScreentoTraderNotifyTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>SHPreScreentoTraderNotifyBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>TXSHPreScreentoTraderSendEmail_SupplierNotPassed_0</name>
+        <label>TXSHPreScreentoTraderSendEmail</label>
+        <locationX>3482</locationX>
+        <locationY>1511</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>TXSHPreScreenSupNoti_0_0</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddressesArray</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>getOrgWide.OrgWideEmailAddress__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>TXSHPreScreentoTraderEmailSubject_NotPassed</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>TXSHPreScreentoTraderEmailBody_NotPassed</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>useLineBreaks</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>TXTraderPreScreenCusSendEmail_0</name>
+        <label>TXTraderPreScreenCusSendEmail</label>
+        <locationX>842</locationX>
+        <locationY>1403</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>TraderPreScreenCusNoti_0</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddressesArray</name>
+            <value>
+                <elementReference>SHRecipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>getOrgWide.OrgWideEmailAddress__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>TXTraderPreScreenEmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>TXTraderPreScreenCusEmailBody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>useLineBreaks</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <description>Sending email to recipient(s)</description>
         <name>VPPreScreenNotPassCusSendEmail</name>
         <label>VPPreScreenNotPassCusSendEmail</label>
-        <locationX>5682</locationX>
+        <locationX>6738</locationX>
         <locationY>1811</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -1238,7 +1462,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>VPPreScreenNotPassCusSendNotification</name>
         <label>VPPreScreenNotPassCusSendNotification</label>
-        <locationX>5682</locationX>
+        <locationX>6738</locationX>
         <locationY>1919</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -1280,7 +1504,7 @@
         <description>Sending email to recipient(s)</description>
         <name>VPPreScreenNotPassSupSendEmail</name>
         <label>VPPreScreenNotPassSupSendEmail</label>
-        <locationX>5946</locationX>
+        <locationX>7002</locationX>
         <locationY>1811</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -1349,7 +1573,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>VPPreScreenNotPassSupSendNotification</name>
         <label>VPPreScreenNotPassSupSendNotification</label>
-        <locationX>5946</locationX>
+        <locationX>7002</locationX>
         <locationY>1919</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -1391,7 +1615,7 @@
         <description>Sending email to recipient(s)</description>
         <name>VPPreScreenPassCusSendEmail</name>
         <label>VPPreScreenPassCusSendEmail</label>
-        <locationX>3702</locationX>
+        <locationX>4758</locationX>
         <locationY>1811</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -1460,7 +1684,7 @@
         <description>Sending email to recipient(s)</description>
         <name>VPPreScreenPassSupSendEmail</name>
         <label>VPPreScreenPassSupSendEmail</label>
-        <locationX>4670</locationX>
+        <locationX>5726</locationX>
         <locationY>1811</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -1529,8 +1753,8 @@
     <assignments>
         <name>addFATX</name>
         <label>addFATX</label>
-        <locationX>4494</locationX>
-        <locationY>3683</locationY>
+        <locationX>5550</locationX>
+        <locationY>3791</locationY>
         <assignmentItems>
             <assignToReference>FARecipientIds</assignToReference>
             <operator>Add</operator>
@@ -1552,7 +1776,7 @@
     <assignments>
         <name>assignEmailRecipients</name>
         <label>assignEmailRecipients</label>
-        <locationX>5698</locationX>
+        <locationX>6754</locationX>
         <locationY>1079</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1575,7 +1799,7 @@
     <assignments>
         <name>assignSectionHead</name>
         <label>assignSectionHead</label>
-        <locationX>5566</locationX>
+        <locationX>6622</locationX>
         <locationY>1295</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1591,7 +1815,7 @@
     <assignments>
         <name>assignSectionHead_0</name>
         <label>assignSectionHead</label>
-        <locationX>314</locationX>
+        <locationX>710</locationX>
         <locationY>1187</locationY>
         <assignmentItems>
             <assignToReference>SHRecipientIds</assignToReference>
@@ -1608,14 +1832,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>CheckRecordType</targetReference>
+            <targetReference>Check_BU</targetReference>
         </connector>
     </assignments>
     <assignments>
         <description>Assign target record to variable as hyperlink</description>
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
-        <locationX>3790</locationX>
+        <locationX>4549</locationX>
         <locationY>647</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
@@ -1631,7 +1855,7 @@
     <assignments>
         <name>assignTrader</name>
         <label>assignTrader</label>
-        <locationX>3790</locationX>
+        <locationX>4549</locationX>
         <locationY>755</locationY>
         <assignmentItems>
             <assignToReference>TraderRecipientIds</assignToReference>
@@ -1654,7 +1878,7 @@
     <assignments>
         <name>assignTrader_1</name>
         <label>assignTrader</label>
-        <locationX>2426</locationX>
+        <locationX>3350</locationX>
         <locationY>1295</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1671,13 +1895,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>CheckRecordType_0_0</targetReference>
+            <targetReference>Check_BU_0</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>SHPreScreenAssignment</name>
         <label>SHPreScreenAssignment</label>
-        <locationX>1370</locationX>
+        <locationX>1898</locationX>
         <locationY>1403</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1698,9 +1922,83 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Check_BU</name>
+        <label>CheckBU</label>
+        <locationX>710</locationX>
+        <locationY>1295</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>TOP_LABIX</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CheckRecordType</targetReference>
+            </connector>
+            <label>TOP/LABIX</label>
+        </rules>
+        <rules>
+            <name>TX</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>TXTraderPreScreenCusSendEmail_0</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_BU_0</name>
+        <label>CheckBU</label>
+        <locationX>3350</locationX>
+        <locationY>1403</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>TOP_LABIX_0</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CheckRecordType_0_0</targetReference>
+            </connector>
+            <label>TOP/LABIX</label>
+        </rules>
+        <rules>
+            <name>TX_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>TXSHPreScreentoTraderSendEmail_SupplierNotPassed_0</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>CheckBU</name>
         <label>CheckBU</label>
-        <locationX>3482</locationX>
+        <locationX>4538</locationX>
         <locationY>2027</locationY>
         <defaultConnector>
             <targetReference>getMDC</targetReference>
@@ -1747,7 +2045,7 @@
     <decisions>
         <name>CheckBU_0</name>
         <label>CheckBU</label>
-        <locationX>4450</locationX>
+        <locationX>5506</locationX>
         <locationY>2027</locationY>
         <defaultConnector>
             <targetReference>getMDC</targetReference>
@@ -1794,7 +2092,7 @@
     <decisions>
         <name>CheckCMVP</name>
         <label>CheckCMVP</label>
-        <locationX>1634</locationX>
+        <locationX>2162</locationX>
         <locationY>1295</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1816,7 +2114,7 @@
     <decisions>
         <name>CheckCustomerEmail</name>
         <label>CheckCustomerEmail</label>
-        <locationX>3702</locationX>
+        <locationX>4758</locationX>
         <locationY>1919</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1838,8 +2136,8 @@
     <decisions>
         <name>checkEditRecordType</name>
         <label>checkEditRecordType</label>
-        <locationX>4428</locationX>
-        <locationY>3143</locationY>
+        <locationX>5484</locationX>
+        <locationY>3251</locationY>
         <defaultConnector>
             <targetReference>VPPassUpdateRecord</targetReference>
         </defaultConnector>
@@ -1867,7 +2165,7 @@
     <decisions>
         <name>CheckRecipient</name>
         <label>CheckRecipient</label>
-        <locationX>4923</locationX>
+        <locationX>5979</locationX>
         <locationY>1595</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1896,8 +2194,8 @@
     <decisions>
         <name>checkRecipient_1</name>
         <label>checkRecipient</label>
-        <locationX>4626</locationX>
-        <locationY>3575</locationY>
+        <locationX>5682</locationX>
+        <locationY>3683</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>HaveFATX</name>
@@ -1926,7 +2224,7 @@
         <name>CheckRecordType</name>
         <label>CheckRecordType</label>
         <locationX>314</locationX>
-        <locationY>1295</locationY>
+        <locationY>1403</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Customer</name>
@@ -1990,7 +2288,7 @@
     <decisions>
         <name>CheckRecordType_0</name>
         <label>CheckRecordType</label>
-        <locationX>1370</locationX>
+        <locationX>1898</locationX>
         <locationY>1511</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2055,8 +2353,8 @@
     <decisions>
         <name>CheckRecordType_0_0</name>
         <label>CheckRecordType</label>
-        <locationX>2426</locationX>
-        <locationY>1403</locationY>
+        <locationX>2954</locationX>
+        <locationY>1511</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Customer_0_0</name>
@@ -2120,7 +2418,7 @@
     <decisions>
         <name>CheckSH</name>
         <label>CheckSH</label>
-        <locationX>578</locationX>
+        <locationX>1040</locationX>
         <locationY>1079</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2142,7 +2440,7 @@
     <decisions>
         <name>CheckSH_0</name>
         <label>CheckSH</label>
-        <locationX>5698</locationX>
+        <locationX>6754</locationX>
         <locationY>1187</locationY>
         <defaultConnector>
             <targetReference>CheckVPPreScreen</targetReference>
@@ -2167,7 +2465,7 @@
     <decisions>
         <name>CheckSHPreScreen</name>
         <label>CheckSHPreScreen</label>
-        <locationX>4516</locationX>
+        <locationX>5440</locationX>
         <locationY>971</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2232,7 +2530,7 @@
     <decisions>
         <name>CheckSupplierEmail</name>
         <label>CheckSupplierEmail</label>
-        <locationX>4670</locationX>
+        <locationX>5726</locationX>
         <locationY>1919</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2254,7 +2552,7 @@
     <decisions>
         <name>CheckTraderPreScreen</name>
         <label>CheckTraderPreScreen</label>
-        <locationX>3790</locationX>
+        <locationX>4549</locationX>
         <locationY>863</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2319,7 +2617,7 @@
     <decisions>
         <name>CheckVPPreScreen</name>
         <label>CheckVPPreScreen</label>
-        <locationX>5698</locationX>
+        <locationX>6754</locationX>
         <locationY>1487</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2356,7 +2654,7 @@
     <decisions>
         <name>Record_Type</name>
         <label>Record Type</label>
-        <locationX>4428</locationX>
+        <locationX>5484</locationX>
         <locationY>1703</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2421,7 +2719,7 @@
     <decisions>
         <name>Record_Type_0</name>
         <label>Record Type</label>
-        <locationX>5946</locationX>
+        <locationX>7002</locationX>
         <locationY>1703</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2486,7 +2784,7 @@
     <decisions>
         <name>SHPreScreenResult</name>
         <label>SHPreScreenResult</label>
-        <locationX>2294</locationX>
+        <locationX>3086</locationX>
         <locationY>1079</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2534,7 +2832,7 @@
             <label>NotPass</label>
         </rules>
     </decisions>
-    <description>[04 Apr 2024] Move update status and approval step after TXMD approved and update criteria</description>
+    <description>18/04/2024 Add update element after VP pre-screen pass in other outcome.</description>
     <environments>Default</environments>
     <formulas>
         <name>FAEmailSubject</name>
@@ -2565,6 +2863,11 @@
         <name>FATXNotiTitle</name>
         <dataType>String</dataType>
         <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Pre-Screen Result from&quot; &amp; {!$Record.fmlPositionNameOfVP__c}</expression>
+    </formulas>
+    <formulas>
+        <name>fmlAccountType</name>
+        <dataType>String</dataType>
+        <expression>CASE({!$Record.fmlAccountTypeName__c}, &quot;Customer&quot;, &quot;Trader&quot;, &quot;Supplier&quot;, &quot;Requester&quot;, &quot;&quot;)</expression>
     </formulas>
     <formulas>
         <name>fmlCMVPEndorseorRejectSentence</name>
@@ -2657,6 +2960,16 @@
         <expression>{!$Record.Customer__r.Name} &amp; &quot; Pre-Screen Requires Your Review&quot;</expression>
     </formulas>
     <formulas>
+        <name>TXSHPreScreentoTraderEmailSubject_NotPassed</name>
+        <dataType>String</dataType>
+        <expression>&quot;[FYI] Initial: &quot;+{!$Record.Customer__r.Name}+ &quot; Pre-Screen Result from &quot;+ {!$Record.CreditOwnerSectionHead__r.FirstName}+&quot; &quot;+{!$Record.CreditOwnerSectionHead__r.LastName}+&quot; is not pass.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>TXTraderPreScreenEmailSubject</name>
+        <dataType>String</dataType>
+        <expression>&quot;[FYA] Initial: &quot;+ {!$Record.Customer__r.Name} + &quot; Pre-Screen Requires Your Review.&quot;</expression>
+    </formulas>
+    <formulas>
         <name>TXVPPreScreenEmailSubjectToExternal</name>
         <dataType>String</dataType>
         <expression>&quot;[FYI]: Your Registration is in Progress&quot;</expression>
@@ -2711,8 +3024,8 @@
     <recordLookups>
         <name>getCreditTeam</name>
         <label>getCreditTeam</label>
-        <locationX>4626</locationX>
-        <locationY>3359</locationY>
+        <locationX>5682</locationX>
+        <locationY>3467</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findFATX</targetReference>
@@ -2761,7 +3074,7 @@
         <description>Get custom notification ID (API: CTRNotification)</description>
         <name>getCustomNotification</name>
         <label>getCustomNotification</label>
-        <locationX>3790</locationX>
+        <locationX>4549</locationX>
         <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2782,8 +3095,8 @@
     <recordLookups>
         <name>getMDC</name>
         <label>getMDC</label>
-        <locationX>4428</locationX>
-        <locationY>2603</locationY>
+        <locationX>5484</locationX>
+        <locationY>2711</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getMDCUser</targetReference>
@@ -2833,8 +3146,8 @@
     <recordLookups>
         <name>getMDCMgr</name>
         <label>getMDCMgr</label>
-        <locationX>4428</locationX>
-        <locationY>2819</locationY>
+        <locationX>5484</locationX>
+        <locationY>2927</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getMDCMgrUser</targetReference>
@@ -2884,8 +3197,8 @@
     <recordLookups>
         <name>getMDCMgrUser</name>
         <label>getMDCMgrUser</label>
-        <locationX>4428</locationX>
-        <locationY>2927</locationY>
+        <locationX>5484</locationX>
+        <locationY>3035</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>updateMDCandMgr</targetReference>
@@ -2915,8 +3228,8 @@
     <recordLookups>
         <name>getMDCUser</name>
         <label>getMDCUser</label>
-        <locationX>4428</locationX>
-        <locationY>2711</locationY>
+        <locationX>5484</locationX>
+        <locationY>2819</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getMDCMgr</targetReference>
@@ -2946,7 +3259,7 @@
     <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>3790</locationX>
+        <locationX>4549</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2969,7 +3282,7 @@
     <recordLookups>
         <name>getRequestItemRecord</name>
         <label>getRequestItemRecord</label>
-        <locationX>3790</locationX>
+        <locationX>4549</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2990,8 +3303,8 @@
     <recordUpdates>
         <name>updateMDCandMgr</name>
         <label>updateMDCandMgr</label>
-        <locationX>4428</locationX>
-        <locationY>3035</locationY>
+        <locationX>5484</locationX>
+        <locationY>3143</locationY>
         <connector>
             <targetReference>checkEditRecordType</targetReference>
         </connector>
@@ -3012,7 +3325,7 @@
     <recordUpdates>
         <name>UpdateNotPassRecord</name>
         <label>UpdateNotPassRecord</label>
-        <locationX>2426</locationX>
+        <locationX>3350</locationX>
         <locationY>1187</locationY>
         <connector>
             <targetReference>assignTrader_1</targetReference>
@@ -3037,7 +3350,7 @@
     <recordUpdates>
         <name>UpdatePassRecord</name>
         <label>UpdatePassRecord</label>
-        <locationX>1634</locationX>
+        <locationX>2162</locationX>
         <locationY>1187</locationY>
         <connector>
             <targetReference>CheckCMVP</targetReference>
@@ -3057,9 +3370,35 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>updateRequestForm_InExCustomer</name>
+        <label>updateRequestForm</label>
+        <locationX>4274</locationX>
+        <locationY>2243</locationY>
+        <inputAssignments>
+            <field>Approval_Step__c</field>
+            <value>
+                <stringValue>Verify Documents</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>updateRequestForm_InExSupplier</name>
+        <label>updateRequestForm</label>
+        <locationX>5242</locationX>
+        <locationY>2243</locationY>
+        <inputAssignments>
+            <field>Approval_Step__c</field>
+            <value>
+                <stringValue>Verify Documents</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>UpdateTraderRecord</name>
         <label>UpdateTraderRecord</label>
-        <locationX>578</locationX>
+        <locationX>1040</locationX>
         <locationY>971</locationY>
         <connector>
             <targetReference>CheckSH</targetReference>
@@ -3081,7 +3420,7 @@
     <recordUpdates>
         <name>VPNotPassUpdateRecord</name>
         <label>VPNotPassUpdateRecord</label>
-        <locationX>5946</locationX>
+        <locationX>7002</locationX>
         <locationY>1595</locationY>
         <connector>
             <targetReference>Record_Type_0</targetReference>
@@ -3103,8 +3442,8 @@
     <recordUpdates>
         <name>VPPassUpdateRecord</name>
         <label>VPPassUpdateRecord</label>
-        <locationX>4626</locationX>
-        <locationY>3251</locationY>
+        <locationX>5682</locationX>
+        <locationY>3359</locationY>
         <connector>
             <targetReference>getCreditTeam</targetReference>
         </connector>
@@ -3135,7 +3474,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>3664</locationX>
+        <locationX>4423</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getRequestItemRecord</targetReference>
@@ -3226,8 +3565,8 @@
     <subflows>
         <name>findFATX</name>
         <label>findFATX</label>
-        <locationX>4626</locationX>
-        <locationY>3467</locationY>
+        <locationX>5682</locationX>
+        <locationY>3575</locationY>
         <connector>
             <targetReference>checkRecipient_1</targetReference>
         </connector>
@@ -3274,6 +3613,41 @@
         <name>TraderPreScreenSupEmailBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Dear {!$Record.OwnersSectionHead__r.FirstName} {!$Record.OwnersSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;Customer registration pre-screen of {!$Record.CTRRequestFormHeader__r.Customer__r.Name} has been done by Trader.&lt;br&gt;&lt;br&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Company Name:&amp;nbsp;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Responsible Trader Name: {!$Record.Owner:User.FirstName} {!$Record.Owner:User.LastName}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Request Number: {!$Record.Name}&lt;/p&gt;&lt;br&gt;Please review and proceed via &lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;this link&lt;/a&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;. &lt;/strong&gt;&lt;br&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatically generated email. Please do not reply to this address.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>TXSHPreScreentoTraderEmailBody_NotPassed</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;span style=&quot;font-size: 12px; font-family: docs-Tahoma; color: rgb(0, 0, 0);&quot;&gt;Dear&lt;/span&gt;&lt;em style=&quot;font-size: 12px; font-family: docs-Tahoma; color: rgb(0, 0, 0);&quot;&gt; &lt;/em&gt;{!$Record.Owner:User.FirstName} {!$Record.Owner:User.LastName}&lt;span style=&quot;font-size: 12px; font-family: docs-Tahoma; color: rgb(0, 0, 0);&quot;&gt;,&lt;/span&gt; &lt;br&gt;&lt;br&gt; 
+We regret to inform you that the pre-screen of {!$Record.Customer__r.Name} has been rejected by {!$Record.SHPreScreenBy__r.FirstName} &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!$Record.SHPreScreenBy__r.LastName}&lt;/span&gt;. &lt;br&gt;
+Here are the details of the pre-screen:&lt;br&gt;&lt;br&gt;
+•Company Name: {!$Record.Customer__r.Name} &lt;br&gt;
+&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; •&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;Interested to be: {!$Record.fmlAccountTypeName__c}: &lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/span&gt;&lt;em style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/em&gt;{!$Record.InterestedProductTypeAsCustomer__c}{!$Record.InterestedProductTypeAsSupplier__c}&lt;br&gt;
+&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; •&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt;Responsible &lt;/span&gt;{!fmlAccountType}&lt;span style=&quot;font-size: 12px; font-family: docs-Tahoma; color: rgb(0, 0, 0);&quot;&gt; Name: &lt;/span&gt;{!$Record.Owner:User.FirstName} {!$Record.Owner:User.LastName}&lt;br&gt;
+&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; •&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;Request Number:&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/span&gt;&lt;em style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/em&gt;{!$Record.Name}&lt;br&gt;
+&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; •&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;Pre-screen Result by Section Head: &lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/span&gt;&lt;em style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/em&gt;&lt;em style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt; {!$Record.SHPrescreenDecision__c}&lt;/em&gt;&lt;br&gt;
+&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; •&lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;Pre-screen Result by TXMD: &lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px; font-family: docs-Tahoma;&quot;&gt; &lt;/span&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt; &lt;/span&gt;&lt;em style=&quot;color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;{!$Record.CMVPPreScreenDecision__c}&lt;/em&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;span style=&quot;font-size: 12px; font-family: docs-Tahoma; color: rgb(0, 0, 0);&quot;&gt; &lt;/span&gt;&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Please review and Resubmit/reject by proceeding via &lt;/span&gt;&lt;a href=&quot;{!RecordLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;
+&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt; *In case of pre-screen result is not pass, please inform to your customer.&lt;/span&gt;&lt;br&gt;&lt;br&gt;
+&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Best Regards,&lt;/span&gt;&lt;br&gt;&lt;br&gt;
+&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Counterparties Registration Automated System&lt;/span&gt;&lt;br&gt;
+&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;This is an automatic generated email. Please do not reply to this address&lt;/span&gt;&lt;br&gt;
+&lt;span style=&quot;font-size: 12px; font-family: docs-Tahoma; color: rgb(0, 0, 0);&quot;&gt;.&lt;/span&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>TXTraderPreScreenCusEmailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>Dear {!$Record.CreditOwnerSectionHead__r.FirstName} {!$Record.CreditOwnerSectionHead__r.LastName}, &lt;br&gt;&lt;br&gt;    
+We are writing to inform you that {!$Record.Customer__r.Name} has been pre-screened by {!$Record.Owner:User.FirstName} {!$Record.Owner:User.LastName}. You are requested to review and approve or reject their application by clicking on &lt;a href=&quot;{!varTargetRecord}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt;. &lt;br&gt;&lt;br&gt;
+•Company Name: {!$Record.Customer__r.Name}&lt;br&gt;
+•Interested to be: {!$Record.fmlAccountTypeName__c}: {!$Record.InterestedProductTypeAsCustomer__c}{!$Record.InterestedProductTypeAsSupplier__c}&lt;br&gt;
+•Responsible {!fmlAccountType} Name: {!$Record.Owner:User.FirstName} {!$Record.Owner:User.LastName}&lt;br&gt;
+•Request Number: {!$Record.Name}&lt;br&gt;
+•Pre-screen Result: {!$Record.TraderPreScreenDecision__c}&lt;br&gt;&lt;br&gt;
+   Thank you for your cooperation and prompt response.&lt;br&gt;&lt;br&gt;
+Best Regards,&lt;br&gt;&lt;br&gt;
+Counterparties Registration Automated System&lt;br&gt;
+This is an automatically generated email. Please do not reply to this address.</text>
     </textTemplates>
     <textTemplates>
         <name>VPPreScreenCusEmailBody</name>

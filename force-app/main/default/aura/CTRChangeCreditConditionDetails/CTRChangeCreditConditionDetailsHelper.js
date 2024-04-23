@@ -12,7 +12,7 @@
                 try
                 {
                     var requestList = response.getReturnValue();
-                    console.log('---requestList---'+requestList);
+                    console.log('---requestList---'+JSON.stringify(requestList));
                     if(requestList != null)
                     {	
                         console.log('---Get BU Name---');
@@ -30,22 +30,21 @@
                                 //component.set("v.BUInfo.BusinessUnit__c",'TOP');
                                 //BUName = 'TOP';
                                 //console.log('---BUName-2--'+BUName);
-                                
                                 var recordtypeName = requestList[0].RecordTypeName__c;
                                 var ExcelTemplate = requestList[0].ExcelTemplate__c;
                                 var ImportExcelSummary = requestList[0].ImportExcelSummary__c;
-                                var InternalCreditRating = requestList[0].ChangeCreditInternalCreditRating__c;
+                                var InternalCreditRating = requestList[0].FinIntCrRating__c;
                                 var RequestToChangeCredit =  requestList[0].RequestToChangeCredit__c;
         						var SubTypeCondition = requestList[0].SubTypeCondition__c;
         						var SubTypeCondition2 = requestList[0].SubTypeCondition2__c;
                                 var ChangeCreditAmount = requestList[0].ChangeCreditAmount__c;
                                 var EffectiveDateForm = requestList[0].EffectiveDateForm__c;
                                 var EffectiveDateTo = requestList[0].EffectiveDateTo__c;
-                                var CreditCondition = requestList[0].ChangeCreditCreditCondition__c;
-                                var CreditLimit = requestList[0].ChangeCreditCreditLimit__c;
-                                var CreditLimitCurrency = requestList[0].ChangeCreditCreditLimitCurrency__c;
-                                var TradeCreditInsurance = requestList[0].ChangeCreditTradeCreditInsurance__c;
-                                var TradeCreditInsuranceCurrency = requestList[0].ChangeCreditTradeCreditInsuranceCurrency__c;
+                                var CreditCondition = requestList[0].FinCrCond__c;
+                                var CreditLimit = requestList[0].FinCrLimit__c;
+                                var CreditLimitCurrency = requestList[0].FinCrLimitCur__c;
+                                var TradeCreditInsurance = requestList[0].FinTradeCrIns__c;
+                                var TradeCreditInsuranceCurrency = requestList[0].FinTradeCrInsCu__c;
                                 var email = requestList[0].CTRRequestFormHeader__r.Email__c;
                                 var fname = requestList[0].CTRRequestFormHeader__r.FirstName__c;
                                 var lname = requestList[0].CTRRequestFormHeader__r.LastName__c;
@@ -55,9 +54,26 @@
                                 var isTRCR = requestList[0].isTRCR__c;
                                 var accountId = requestList[0].Customer__c;
                                 var finKey = requestList[0].FinancialKey__c;
+                                var Total =	requestList[0].TotalSecuredAmount__c;
+                                var status =	requestList[0].Status__c;
+                                var FCreditCondition = requestList[0].FinancialInformation__c ? requestList[0].FinancialInformation__r.Credit_Condition__c : null;
+                                var FCreditLimit = requestList[0].FinancialInformation__c ? requestList[0].FinancialInformation__r.CreditLimit__c : null;
+                                var FInternalCreditRating = requestList[0].FinancialInformation__c ? requestList[0].FinancialInformation__r.InternalCreditRating__c : null;
+                                console.log('Checkpoint after setting variable')
+                                if(FCreditCondition != undefined && FCreditCondition != '')
+                                {
+                                    component.set('v.CreditCondition',FCreditCondition);
+                                }
+                                if(FCreditLimit != undefined && FCreditLimit != '')
+                                {
+                                    component.set('v.CreditLimit',FCreditLimit);
+                                }
+                                if(FInternalCreditRating != undefined && FInternalCreditRating != '')
+                                {
+                                    component.set('v.InternalCreditRating',FInternalCreditRating);
+                                }
                                 
-                                
-                                /*if(TRCR != null && TRCR != '')
+                                if(TRCR != null && TRCR != '')
                                 {
                                     console.log('---1--');
                                     component.set("v.CreditOwnerId",TRCR); 
@@ -76,7 +92,7 @@
                                     
                                 }
                                 console.log('---CurrentStepUserId--'+TRCR);
-                                component.set('v.CurrentStepUserId',TRCR); */
+                                component.set('v.CurrentStepUserId',TRCR);
                                 
                                 /*
                                 var CashOnDelivery = requestList[0].CashOnDelivery__c;
@@ -84,7 +100,6 @@
                                 var BuyTradeEndorsement = requestList[0].BuyTradeEndorsement__c;
                                 var BuyTradeDCLCondition = requestList[0].BuyTradeDCLCondition__c;
                                 var HavingOpenedCredit = requestList[0].HavingOpenedCredit__c;
-                                var Total =	requestList[0].TotalSecuredAmount__c;
                                 var isTRCR = requestList[0].isTRCR__c;
                                 var WaiveRequest = requestList[0].WaiveRequest__c;
                                 var TypeOfBusiness = requestList[0].TypeOfBusiness__c;
@@ -134,6 +149,7 @@
                                 component.set("v.ContactStr",fname+' '+lname); 
                                 component.set("v.TelephoneStr",mobile); 
                                 component.set('v.ApprovalStep',approvalStep);
+                                component.set('v.Status',status);
                                 
                                 
                                 //assign approver step
@@ -145,16 +161,21 @@
                                 
                                 
                                 //Default value
-                                /*if(BUName == "TX")
+                                if(BUName == "TX")
                                 { 
-                                    console.log('---TXTXTXTXTXTXTX---'+BUName);
+                                    console.log('---Total---'+Total);
                                     //set number format
-                                    var parts = Total.toFixed(2).split(".");
-                                    var num = parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + (parts[1] ? "." + parts[1] : "");
-                                
+                                    if(Total != '' && Total >0){
+                                       	var parts = Total.toFixed(2).split(".");
+                                    	var num = parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + (parts[1] ? "." + parts[1] : "");
+ 
+                                    }else{
+                                       num = 0; 
+                                    }                         
                                     component.set("v.TotalAmount",num);
-                                    component.set("v.CurrencyDisable",true);
-                                }*/
+                                    component.set("v.CurrencyDisable",true); //FATIS-CHACRE-01-947
+                                }
+                                console.log('Before setting sharepoint link ',ImportExcelSummary,requestList[0].ImportExcelSummary__c)
                                 component.set("v.SharePointLink",ImportExcelSummary);
                                 component.set("v.RecordTypeName",recordtypeName);
                                 //component.set("v.ApproverStepVal",ApproverStep);
@@ -174,6 +195,7 @@
                                     TradeCreditInsuranceCurrency = 'THB';
                                 
                                 //Render picklist
+                                component.find("RequestToChangeCredit").set("v.value",RequestToChangeCredit);
                                 component.find("SubTypeCondition").set("v.value",SubTypeCondition);
                                 component.find("SubTypeCondition2").set("v.value",SubTypeCondition2);
                                 component.find("ChangeCreditAmount").set("v.value",ChangeCreditAmount);
@@ -183,9 +205,12 @@
                                 component.find("ChangeCreditInternalCreditRating").set("v.value",InternalCreditRating);
                                 component.find("ChangeCreditCreditLimitCurrency").set("v.value",CreditLimitCurrency);
                                 component.find("ChangeCreditTradeCreditInsuranceCurrency").set("v.value",TradeCreditInsuranceCurrency);
-                                var action = component.get('c.handleRenderCreditConditionFields');
-                                $A.enqueueAction(action);
+                                var action2 = component.get('c.handleRenderCreditConditionFields');
+                                $A.enqueueAction(action2);
+                                //var actioncalTotalAmont = component.get('c.calTotalAmont');
+                                //$A.enqueueAction(actioncalTotalAmont);
                                 
+                                /*
                                 
                                 //Set value in Exising section
                                 var actionExsiting = component.get("c.getExtingFinancialInfo");
@@ -199,28 +224,35 @@
                                     {
                                         try
                                         {
+                                            console.log('---finKey---'+finKey);
+                                            console.log('---accountId---'+accountId);
                                             var finList = responseExisting.getReturnValue();
-                                            var CreditCondition = finList[0].Credit_Condition__c;
-                                            var CreditLimit = finList[0].CreditLimit__c;
-                                            var IntenalCreditRating = finList[0].InternalCreditRating__c;
-                                            var PaymentCondition = finList[0].PaymentCondition__c;
+                                            console.log('---finList---'+finList);
+                                            if(finList != undefined && finList != '' && finList != null)
+                                            {
+                                                var CreditCondition = finList[0].Credit_Condition__c;
+                                                var CreditLimit = finList[0].CreditLimit__c;
+                                                var InternalCreditRating = finList[0].InternalCreditRating__c;
+                                                var PaymentCondition = finList[0].PaymentCondition__c;
+                                                
+                                                if(CreditCondition != undefined && CreditCondition != '')
+                                                {
+                                                    component.set('v.CreditCondition',CreditCondition);
+                                                }
+                                                if(CreditLimit != undefined && CreditLimit != '')
+                                                {
+                                                    component.set('v.CreditLimit',CreditLimit);
+                                                }
+                                                if(InternalCreditRating != undefined && InternalCreditRating != '')
+                                                {
+                                                    component.set('v.InternalCreditRating',InternalCreditRating);
+                                                }
+                                                if(PaymentCondition != undefined && PaymentCondition != '')
+                                                {
+                                                    component.set('v.PaymentCondition',PaymentCondition);
+                                                }
+                                            }
                                             
-                                            if(CreditCondition != undefined && CreditCondition != '')
-                                            {
-                                                component.set('v.CreditCondition',CreditCondition);
-                                            }
-                                            if(CreditLimit != undefined && CreditLimit != '')
-                                            {
-                                                component.set('v.CreditLimit',CreditLimit);
-                                            }
-                                            if(IntenalCreditRating != undefined && IntenalCreditRating != '')
-                                            {
-                                                component.set('v.IntenalCreditRating',IntenalCreditRating);
-                                            }
-                                            if(PaymentCondition != undefined && PaymentCondition != '')
-                                            {
-                                                component.set('v.PaymentCondition',PaymentCondition);
-                                            }
                                         }
                                         catch(ex2)
                                         {
@@ -229,7 +261,7 @@
                                         
                                     }
                                 });
-                            	$A.enqueueAction(actionExsiting);
+                            	$A.enqueueAction(actionExsiting);*/
                                 
                                 console.log('---Done---');
                         }
@@ -270,8 +302,6 @@
                     console.log('---v.LogInUserId---'+component.get('v.LogInUserId'));
                     this.getRequestItems(component,event, recordId);
                 }
-                
-                
             }
                               );
             $A.enqueueAction(action);

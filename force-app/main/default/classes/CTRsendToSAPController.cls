@@ -23,7 +23,7 @@ public with sharing class CTRsendToSAPController
         public List<String> emailTo { get; set; }
         public List<String> emailCC { get; set; }
     }
-    public static List<CTRRequestFormItem__c> getRequestItemForSendToSAP(Set<Id> mSetId)
+    public Static List<CTRRequestFormItem__c> getRequestItemForSendToSAP(Set<Id> mSetId)
     {
         List<String> mRequestItemFields = new List<String>(CTRRequestFormItem__c.SObjectType.getDescribe().fields.getMap().keySet());
             String soqlItem = ''
@@ -43,12 +43,13 @@ public with sharing class CTRsendToSAPController
             return mRequestItemList;
     }
 
-    public static List<CTRRequestFormHeader__c> getRequestHeaderForSendToSAP(Set<Id> mSetId)
+    public Static List<CTRRequestFormHeader__c> getRequestHeaderForSendToSAP(Set<Id> mSetId)
     {
         List<String> mRequestHeaderFields = new List<String>(CTRRequestFormHeader__c.SObjectType.getDescribe().fields.getMap().keySet());            
                 String soqlHeader = ''
                     + ' SELECT ' + String.join(mRequestHeaderFields, ',')
                     + ' ,Country__r.Code__c'
+                    + ' ,TransportationZone__r.Code__c'
                     + ' ,TradingPartner__r.Code__c'
                     + ' ,CityStateLocal__r.Description__c'
                     + ' ,Customer__r.AccountNumber__c'
@@ -61,7 +62,7 @@ public with sharing class CTRsendToSAPController
     }
 
     @AuraEnabled 
-    public static wrapperResultData getDefaultData2(String recordId)
+    public Static wrapperResultData getDefaultData2(String recordId)
     {
         try
         {
@@ -72,7 +73,7 @@ public with sharing class CTRsendToSAPController
 
             //Ship to process and populate required data 
             User mUser = [SELECT Id, Name, Email FROM User WHERE ID = :UserInfo.getUserId() LIMIT 1];
-            mRequestItem = [SELECT Id, Name, RecordTypeId, RecordType.DeveloperName, CTRRequestFormHeader__c, CTRRequestFormHeader__r.Name ,CTRRequestFormHeader__r.CompanyNameENF__c, 
+            mRequestItem = [SELECT Id, Name, RecordTypeId, RecordType.DeveloperName, CTRRequestFormHeader__c, CTRRequestFormHeader__r.Name ,CTRRequestFormHeader__r.CompanyNameENF__c, BusinessUnit__c,
                                     Customer__c, Customer__r.AccountNumber__c, Customer__r.SupplierNumber__c, Partner__c  FROM CTRRequestFormItem__c WHERE Id =: recordId];
             CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(id= recordId);
             if(mRequestItem.RecordType.DeveloperName == 'ShipToCreate')
@@ -115,33 +116,45 @@ public with sharing class CTRsendToSAPController
                     Map<String, String> mCounterPartyFieldListMap = CTRRequestEditLogFieldController.getMetadataFieldListFromSource('Counter party');
                     Map<String, String> mSAPInfoFieldListMap = CTRRequestEditLogFieldController.getMetadataFieldListFromSource('SAP Information');
     
-                    if(mCounterPartyFieldListMap.size()>0)
+                    // if(mCounterPartyFieldListMap.size()>0)
+                    // {
+                    //     //Account To Json
+                    //     String mAccountObjName = 'Account';
+                    //     List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName,'');
+                    //     if(mAccountFieldList.size()>0)
+                    //     {
+                    //         mAccountJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
+                    //     }
+                    // }
+                    
+                    Map<String, String> mGeneralChangedFieldMap = new Map<String, String>();
+                    String mHeaderObjName = 'CTRRequestFormHeader__c';
+                    String mBu = (mRequestItem.BusinessUnit__c == 'TX')?'TX':'TOP';
+                    String mRecordType = (mRequestItem.RecordType.DeveloperName.contains('Supplier'))?'Supplier':'Customer';
+                    String mBuType = mBu+mRecordType;
+
+                    if(mSAPInfoFieldListMap.size()>0)
                     {
-                        //Account To Json
                         String mAccountObjName = 'Account';
-                        List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName);
+                        List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mAccountObjName), mAccountObjName,'');
                         if(mAccountFieldList.size()>0)
                         {
                             mAccountJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
                         }
-                    }
-                    
-                    Map<String, String> mGeneralChangedFieldMap = new Map<String, String>();
-    
-                    if(mSAPInfoFieldListMap.size()>0)
-                    {
-                        String mHeaderObjName = 'CTRRequestFormHeader__c';
-                        List<String> mHeaderFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName);
+
+                        List<String> mHeaderFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
                         if(mHeaderFieldList.size()>0)
                         {
                             mHeaderJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mHeaderFieldList, mHeaderObjName, mHeaderSetId);
                         }
+                        System.debug('mAccountFieldList: '+mAccountFieldList.size());
+                        System.debug('mHeaderFieldList: '+mHeaderFieldList.size());
                     }
                     System.debug('mAccountJsonMapResult: '+mAccountJsonMapResult.get(mRequestItem.Customer__c));
                     System.debug('mHeaderJsonMapResult: '+mHeaderJsonMapResult.get(mRequestItem.CTRRequestFormHeader__c));
     
-    
-                    mDiffGeneralJson = CTRRequestEditLogFieldController.filteredCompareAccountAndHeaderJson(recordId,mAccountJsonMapResult.get(mRequestItem.Customer__c), mHeaderJsonMapResult.get(mRequestItem.CTRRequestFormHeader__c));
+                    Map<String, Object> mHeaderFieldDataMap = CTRRequestEditLogFieldController.getFieldMapFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
+                    mDiffGeneralJson = CTRRequestEditLogFieldController.filteredCompareAccountAndHeaderJson(recordId,mAccountJsonMapResult.get(mRequestItem.Customer__c), mHeaderJsonMapResult.get(mRequestItem.CTRRequestFormHeader__c), mHeaderFieldDataMap, mBuType);
                 }
             }
             mRequestItemUpdate.InternalGeneralChangedField__c = mDiffGeneralJson;
@@ -161,8 +174,12 @@ public with sharing class CTRsendToSAPController
                     List<CTRRequestFormItem__c> mRelatedItemList = [SELECT Id, SalesOrganization__c, Customer__c, Customer__r.AccountNumber__c FROM CTRRequestFormItem__c 
                                                                     WHERE Customer__c =: mRequestItem.Customer__c AND SalesOrganization__c = :mRequestItem.SalesOrganization__c 
                                                                     AND (SAPStatus__c = 'Pending CCA' OR (SAPStatus__c = 'Queue CCA' AND SAPSubmitTime__c != null))];
+
+                    if(mRequestItem.SAPStatus__c == 'SAP Confirmed General View')
+                    {
+                        mQueue = mRelatedItemList.size();
+                    }
                     
-                    //mQueue = mRelatedItemList.size();
                 }
 
                 if(mRequestItem.CTRRequestFormHeader__c != null)
@@ -187,7 +204,7 @@ public with sharing class CTRsendToSAPController
     }
    
 
-   public static wrapperResultData ManageReturnResultData(Id nRecordId, CTRRequestFormHeader__c mRequestHeader, CTRRequestFormItem__c mRequestItem, Integer mQueue, String mResult)//, String mToken, String mResult)
+   public Static wrapperResultData ManageReturnResultData(Id nRecordId, CTRRequestFormHeader__c mRequestHeader, CTRRequestFormItem__c mRequestItem, Integer mQueue, String mResult)//, String mToken, String mResult)
    {
        wrapperResultData mResultData = new wrapperResultData();
        mResultData.mRecordId = nRecordId;
@@ -204,7 +221,7 @@ public with sharing class CTRsendToSAPController
 
        //Onload Table
        @AuraEnabled
-       public static CTRRequestEditLogFieldController.editLevelWrapper onloadTable(CTRRequestFormItem__c mItem)
+       public Static CTRRequestEditLogFieldController.editLevelWrapper onloadTable(CTRRequestFormItem__c mItem)
        {
            try
            {
@@ -212,9 +229,10 @@ public with sharing class CTRsendToSAPController
                List<CTRRequestEditLogFieldController.editChangeFieldWrapper> mEditHeaderList = new List<CTRRequestEditLogFieldController.editChangeFieldWrapper>();
                List<CTRRequestEditLogFieldController.editChangeFieldWrapper> mAllDataList = new List<CTRRequestEditLogFieldController.editChangeFieldWrapper>();
                
-               String mAccountOriginalValue = '[]';
+                String mAccountOriginalValue = '[]';
 
-                    Boolean mEnabledNewFunction = false;
+                Boolean mEnabledNewFunction = false;
+
                     if(mItem.Customer__r.AccountNumber__c != null || mItem.Customer__r.SupplierNumber__c != null)
                     {
                         mEnabledNewFunction = true;
@@ -231,7 +249,7 @@ public with sharing class CTRsendToSAPController
                            {
                                //Account To Json
                                String mAccountObjName = 'Account';
-                               List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJson(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName);
+                               List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mCounterPartyFieldListMap.get(mAccountObjName), mAccountObjName,'');
                                if(mAccountFieldList.size()>0)
                                {
                                    mAccountJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
@@ -295,20 +313,501 @@ public with sharing class CTRsendToSAPController
        }
 
    @AuraEnabled 
-   public static void SubmitToSAP(Id mRecordId)
+   public Static String SubmitToSAP(CTRRequestFormHeader__c mRequestHeader, CTRRequestFormItem__c mRequestItem, Id mRecordId, Boolean isIncludeGeneral)
    {
         try
         {
+            C360Integration__c mSetting = C360Integration__c.getInstance();
+            String mResult = '';
+            String mEndPoint = mSetting.HerokuIntegrationDomain__c;
+            String mPath = '';
+            Id mOwnerId = mRequestItem.OwnerId;
+            CTRBuProfile__mdt mBuProfile = CTRBuProfileController.checkBusinessUnitFromProfile(mOwnerId, mRequestItem.Id);
+            String mBusinessUnit = mBuProfile.BusinessUnit__c;
 
+            // CTRHerokuController.TokenResultWrapper mTokenResult = CTRHerokuController.getToken();
+            CTRIntegraionList__mdt mIntegrationInitialCustomer = CTRIntegraionList__mdt.getInstance('CTRCustomer');
+            CTRIntegraionList__mdt mIntegrationInintialSupplier = CTRIntegraionList__mdt.getInstance('CTRSupplier');
+            CTRIntegraionList__mdt mIntegrationAdditionalInfo = CTRIntegraionList__mdt.getInstance('CTRCustomerAdditionalInfo');
+
+            String mDataTypeGeneralView = '';
+            String mDataTypeSalesPurchaseView = '';
+            System.debug('add:'+mIntegrationAdditionalInfo);
+
+            Boolean mProcessCCA =false;
+            Boolean mProcessQueueCCA =false;
+            if(mIntegrationInitialCustomer != null || mIntegrationInintialSupplier != null || mIntegrationAdditionalInfo != null)
+            {
+                String mToken = (mIntegrationInitialCustomer!= null)?mIntegrationInitialCustomer.Token__c: mIntegrationInintialSupplier.Token__c;
+                String mIntegrationName = '';
+                String mGatewayId = (mRequestItem.GatewayId__c != null)?mRequestItem.GatewayId__c: Uuid.randomUUID();
+                String mRecordTypeName = (mRequestItem.RecordType.DeveloperName.contains('Supplier'))?'Supplier':'Customer';
+                if(mRequestItem.RecordType.DeveloperName.contains('ShipTo'))
+                {
+                    mRecordTypeName = 'ShipTo';
+                }
+                CTRCustomerRequestFormItemModelData mCustomerData = new CTRCustomerRequestFormItemModelData();
+                CTRSupplierRequestFormItemModelData mSupplierData = new CTRSupplierRequestFormItemModelData();
+                CTRShipToRequestFormItemModelData mShipToData = new CTRShipToRequestFormItemModelData();
+                CTRBlockRequestFormItemModelData mBlockData = new CTRBlockRequestFormItemModelData();
+                CTRBlockSupplierRequestFormItemModelData mBlockSupplier = new CTRBlockSupplierRequestFormItemModelData();
+
+                CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
+
+                List<CTRIntegrationMapping__mdt> mAllMappingList = [SELECT Id, BusinessUnit__c, IntegrationType__c, JsonMapping__c, RecordType__c, ViewName__c,SupportIntegrationType__c FROM CTRIntegrationMapping__mdt];
+
+                String jsonInput = '';
+                String mSendType = '';
+                if(mRequestItem.RecordType.DeveloperName.contains('Customer'))
+                {
+                    mPath = mIntegrationInitialCustomer.Path__c;
+                    if(mRequestItem.RecordType.DeveloperName.contains('Initial') || mRequestItem.RecordType.DeveloperName.contains('Extend'))
+                    {
+                        System.debug('mRequestItem.RecordType.DeveloperName'+mRequestItem.RecordType.DeveloperName);
+                        
+                        if(mRequestItem.Customer__r.AccountNumber__c != null)
+                        {
+                            System.debug('accnum found');
+                            // has customer number waiting for mapping cca
+                            if(mRequestItem.SAPCCAMapped__c == false)
+                            {
+                                System.debug('not mapping cca yet');
+                                if(isIncludeGeneral)
+                                {
+                                    System.debug('Dynamic general');
+                                    mDataTypeGeneralView = 'Dynamic';
+                                    mDataTypeSalesPurchaseView = '';
+                                    mSendType = 'General';
+                                    mIntegrationName = 'Initial Customer General View';
+                                }
+                                else
+                                {
+                                    System.debug('no Dynamic general');
+                                    //has customer number & cca not mapped -> send mail noti for CCA
+                                    List<CTRRequestFormItem__c> mRelatedItemList = [SELECT Id FROM CTRRequestFormItem__c 
+                                    WHERE Customer__c =:mRequestItem.Customer__c AND SAPStatus__c = 'Pending CCA' AND SalesOrganization__c = :mRequestItem.SalesOrganization__c];
+
+                                    if(mRelatedItemList.size() == 0)
+                                    {
+                                        System.debug('cca found');
+                                        // Set<Id> mUserSetId = new Set<Id>();
+                                        // mUserSetId.add(UserInfo.getUserId());
+                                        List<CTRRequestFormItem__c> mRequestItemList = new List<CTRRequestFormItem__c>();
+                                        mRequestItemList.add(mRequestItem);
+                                        EmailInformCCA(mRequestItemList);
+                                        mProcessCCA = true;
+                                    }
+                                    else
+                                    {
+                                        CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRequestItem.Id);
+                                        mRequestItemUpdate.SAPStatus__c = 'Queue CCA';
+                                        mRequestItemUpdate.SAPSubmitTime__c = DateTime.Now();                
+                                        update mRequestItemUpdate;
+                                        mProcessQueueCCA = true;
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                if(mRequestItem.SAPStatus__c == '' || 
+                                mRequestItem.SAPStatus__c == 'Unsuccessful Send General view to SAP' ||
+                                mRequestItem.SAPStatus__c == 'SAP Confirmed General View')
+                                {
+                                    System.debug('Change General view');
+                                        mDataTypeGeneralView = 'Dynamic';
+                                        mDataTypeSalesPurchaseView = '';
+                                        mSendType = 'General';
+                                        mIntegrationName = 'Initial Customer General View';
+                                }
+                                else if(mRequestItem.SAPStatus__c == 'Unsuccessful Send Sales/Purchasing view to SAP')
+                                {
+                                    System.debug('Sales view unsuccess after mapping cca ');
+                                        mDataTypeGeneralView = '';
+                                        mDataTypeSalesPurchaseView = 'Static';
+                                        mSendType = 'Sales';
+                                        mIntegrationName = 'Initial Customer Sales View';
+                                }
+                                // else
+                                // {
+                                //     System.debug('general view after mapping cca ');
+                                //     //has customer number & cca mapped -> Dynamic general + Static sales view(Manual if unsuccess)
+                                //     if(isIncludeGeneral) {
+                                //         mDataTypeGeneralView = 'Dynamic';
+                                //     }
+                                //     mDataTypeSalesPurchaseView = '';
+                                //     mSendType = 'General';
+                                //     mIntegrationName = 'Initial Customer General View';
+                                // }
+                            }
+                        }
+                        else
+                        {
+                           //if(mRequestItem.RecordType.DeveloperName.contains('Initial')) {
+                                //Initial: no customer number -> Static general + Static Sales view all(Auto)
+                                mDataTypeGeneralView = 'Static';
+                                mDataTypeSalesPurchaseView = '';
+                            //}
+                            //Extend: no customer number -> code เก่า
+                            mSendType = 'General';
+                            mIntegrationName = 'Initial Customer General View';
+                        }
+
+                        if(mRequestItem.SAPStatus__c != 'SAP Confirmed Sales/Purchasing View')
+                        {
+                            if(mIntegrationInitialCustomer != null && mSendType != '')
+                            {
+                                if(mDataTypeGeneralView != null || mDataTypeSalesPurchaseView != null) 
+                                {
+                                    // use new function
+                                    mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, mDataTypeGeneralView, mDataTypeSalesPurchaseView ,'',  true);
+                                } 
+                                else {
+                                    // code เก่า
+                                    mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, mDataTypeGeneralView, mDataTypeSalesPurchaseView ,'',  true);
+                                    //mCustomerData = CTRCustomerRequestFormItemModelData.SetupJsonForCustomerDataModel(mRequestHeader,mRequestItem, mSendType, mBusinessUnit, mGatewayId);
+                                }   
+                                
+                                mEndPoint += mIntegrationInitialCustomer.Path__c != null ? mIntegrationInitialCustomer.Path__c : '';
+                                jsonInput = JSON.serialize(mEditData);
+                                //mGatewayId = mCustomerData.input.input.GatewayId;
+                            }             
+                        }
+                        else 
+                        {
+                            if (mRequestItem.LatestIntegrationName__c == 'Initial Customer Additional Information' && mRequestItem.IntegrationStatus__c == 'Fail')
+                            {
+                                mIntegrationName= 'Initial Customer Additional Information';
+                                CTRAdditionalInfoModelData mAdditionalData = CTRAdditionalInfoModelData.SetupJsonForAdditionalInfoDataModel(mRequestHeader, mRequestItem, mSendType, mBusinessUnit, mGatewayId);
+                                mPath = mIntegrationAdditionalInfo.Path__c;
+                                mEndPoint += mIntegrationAdditionalInfo.Path__c != null ? mIntegrationAdditionalInfo.Path__c : '';
+                                jsonInput = JSON.serialize(mAdditionalData);
+                                //mGatewayId = mAdditionalData.input.input.GatewayId;
+                            }
+                        }
+                    } 
+                    else if(mRequestItem.RecordType.DeveloperName.contains('Edit')) 
+                    {
+                        if(mRequestItem.Customer__r.AccountNumber__c != null)
+                        {
+                            // has customer number -> Dynamic general + Dynamic sales view
+                            mDataTypeGeneralView = 'Dynamic';
+                            mDataTypeSalesPurchaseView = 'Dynamic';
+                         	if(mRequestItem.SAPStatus__c != 'SAP Confirmed Sales/Purchasing View')
+                            {
+								mIntegrationName= 'Edit Customer General+Sales View';
+                                mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  true);
+                            	//mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'Customer', mBusinessUnit, mGatewayId);
+                                mEndPoint += mIntegrationInitialCustomer.Path__c != null ? mIntegrationInitialCustomer.Path__c : '';
+                            	jsonInput = JSON.serialize(mEditData);
+                            }
+                            else if(mRequestItem.SAPStatus__c == 'SAP Confirmed Sales/Purchasing View' && 
+                                mRequestItem.LatestIntegrationName__c == 'Initial Customer Additional Information' &&
+                                mRequestItem.IntegrationStatus__c == 'Fail')
+                            {
+                                mIntegrationName= 'Initial Customer Additional Information';
+                                CTRAdditionalInfoModelData mAdditionalData = CTRAdditionalInfoModelData.SetupJsonForAdditionalInfoDataModel(mRequestHeader, mRequestItem, 'AdditionalInfo', mBusinessUnit, mGatewayId);
+                                mEndPoint += mIntegrationAdditionalInfo.Path__c != null ? mIntegrationAdditionalInfo.Path__c : '';
+                                jsonInput = JSON.serialize(mAdditionalData);
+                                mGatewayId = mAdditionalData.input.input.GatewayId;
+                            }
+
+                            //mGatewayId = mEditData.input.input.get('GatewayId');
+                        }
+                    } else if(mRequestItem.RecordType.DeveloperName.contains('Block')) {
+                    } 
+                } 
+                else if(mRequestItem.RecordType.DeveloperName.contains('Supplier'))
+                {
+                    mPath = mIntegrationInintialSupplier.Path__c;
+                    if(mRequestItem.RecordType.DeveloperName.contains('Initial') || mRequestItem.RecordType.DeveloperName.contains('Extend')) 
+                    {
+                        if(mRequestItem.BusinessUnit__c == 'TOP' || mRequestItem.BusinessUnit__c == 'LABIX') 
+                        {
+                            System.debug('Supplier TOP LABIX');
+                            // special case for 1100 supplier TOP
+                            String mKey = mRequestItem.SAPNumber__c+mRequestItem.PurchasingOrganizationTOP__c;
+                            List<CTRPurchasingView__c> checkPurchasingView = [SELECT Id FROM CTRPurchasingView__c WHERE Account__c =: mRequestItem.Customer__c AND Key__c =: mKey LIMIT 1];
+                            if(mRequestItem.Customer__r.SupplierNumber__c != null) 
+                            {
+                                if(checkPurchasingView.size() > 0) 
+                                {
+                                    System.debug('Supplier number = '+mRequestItem.Customer__r.SupplierNumber__c);
+
+                                    // has purchasing view & has supplier number -> Dynamic general + Dynamic Purchasing view
+                                    mDataTypeGeneralView = 'Dynamic';
+                                    mDataTypeSalesPurchaseView = 'Dynamic';
+                                    mIntegrationName = 'Initial Supplier General+Purchasing View';
+                                    mSendType = 'General';
+                                    System.debug('Purchasing view duplicate General = '+mDataTypeGeneralView+' || view = '+mDataTypeSalesPurchaseView);
+                                }
+                                else 
+                                {
+                                    // no purchasing view & has supplier number -> Dynamic general + All Purchasing view
+                                    mIntegrationName = 'Initial Supplier Only Purchasing View';
+                                    mDataTypeSalesPurchaseView = 'Static';
+
+                                    if(isIncludeGeneral)
+                                    {
+                                        mDataTypeGeneralView = 'Dynamic';
+                                        mIntegrationName = 'Initial Supplier General+Purchasing View';
+                                    }
+                                    System.debug('No Purchasing view dup General = '+mDataTypeGeneralView+' || view = '+mDataTypeSalesPurchaseView);
+                                    mSendType = 'General';
+                                }
+                            } 
+                            else 
+                            {
+                                
+                                    // no purchasing view & no supplier number -> code เก่า
+                                    mIntegrationName = 'Initial Supplier General+Purchasing View';
+                                    mDataTypeGeneralView = 'Static';
+                                    mDataTypeSalesPurchaseView = 'Static';
+                                    mSendType = 'General';
+                                    System.debug(' none Supplier number General = '+mDataTypeGeneralView+' || view = '+mDataTypeSalesPurchaseView);
+                                
+                            }
+                        } 
+                        else 
+                        {
+                            // for other BU
+                            System.debug('Supplier TX');
+                            if(mRequestItem.Customer__r.SupplierNumber__c != null)
+                            {
+                                // has supplier number -> Dynamic general + All Purchasing view
+                                mIntegrationName = 'Initial Supplier Only Purchasing View';
+                                mDataTypeSalesPurchaseView = 'Static';
+                                if(isIncludeGeneral) 
+                                {
+                                    mDataTypeGeneralView = 'Dynamic';
+                                    mIntegrationName = 'Initial Supplier General+Purchasing View';
+                                    mSendType = 'General';
+                                }
+                                System.debug('Supplier number General = '+mDataTypeGeneralView+' || view = '+mDataTypeSalesPurchaseView);
+                            }
+                            else
+                            {
+                                // no supplier number -> code เก่า
+                                mIntegrationName = 'Initial Supplier General+Purchasing View';
+                                mDataTypeGeneralView = 'Static';
+                                mDataTypeSalesPurchaseView = 'Static';
+                                mSendType = 'General';
+                                System.debug('no Supplier number General = '+mDataTypeGeneralView+' || view = '+mDataTypeSalesPurchaseView);
+                            }
+                        }
+
+                        if(mIntegrationInintialSupplier != null)
+                        {
+                            if(mDataTypeGeneralView != null || mDataTypeSalesPurchaseView != null) 
+                            {
+                                // use new function
+                                mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, mDataTypeGeneralView, mDataTypeSalesPurchaseView ,'',  true);
+                            } 
+                            else 
+                            {
+                                // code เก่า
+                                mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, mDataTypeGeneralView, mDataTypeSalesPurchaseView ,'',  true);
+                                //mSupplierData = CTRSupplierRequestFormItemModelData.SetupJsonForSupplierDataModel(mRequestHeader,mRequestItem, mSendType, mBusinessUnit, mGatewayId);
+                            }
+                            mEndPoint += mIntegrationInintialSupplier.Path__c != null ? mIntegrationInintialSupplier.Path__c : '';
+                            jsonInput = JSON.serialize(mEditData); 
+                            //mGatewayId = mSupplierData.input.input.GatewayId;
+                        }
+                    } else if(mRequestItem.RecordType.DeveloperName.contains('Edit')) {
+                        if(mRequestItem.Customer__r.SupplierNumber__c != null)
+                        {
+                            // has supplier number -> Dynamic general + Dynamic Purchasing view
+                            mIntegrationName= 'Edit Supplier General+Purchasing View';
+                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  true);
+                            //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'Supplier', mBusinessUnit, mGatewayId);
+                            mEndPoint += mIntegrationInintialSupplier.Path__c != null ? mIntegrationInintialSupplier.Path__c : '';
+                            jsonInput = JSON.serialize(mEditData);
+                            //mGatewayId = mEditData.input.input.get('GatewayId');
+                        }
+                    } else if(mRequestItem.RecordType.DeveloperName.contains('Block')) {
+
+                    }
+                } 
+                else if(mRequestItem.RecordType.DeveloperName == 'ShipToEdit')
+                {
+                    mPath = mIntegrationInitialCustomer.Path__c;
+                    if(mRequestItem.Customer__r.AccountNumber__c != null)
+                    {
+                        if(mRequestItem.SAPStatus__c != 'SAP Confirmed Sales/Purchasing View')
+                        {
+                            mIntegrationName= 'Edit Ship to General+Sales View';
+                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'ShipTo', mBusinessUnit, mGatewayId);
+                            mEndPoint += mIntegrationInitialCustomer.Path__c != null ? mIntegrationInitialCustomer.Path__c : '';
+                            jsonInput = JSON.serialize(mEditData);
+                        }
+                    }  
+                } 
+                else if(mRequestItem.RecordType.DeveloperName == 'ShipToCreate')
+                {
+                    mPath = mIntegrationInitialCustomer.Path__c;
+                    if(mIntegrationInitialCustomer != null)
+                    {
+                        mIntegrationName= 'Create Ship to General+Sales View';
+                        // use new function for Dynamic data
+                        mShipToData = CTRShipToRequestFormItemModelData.SetupJsonForShipToDataModel(mRequestHeader,mRequestItem, '', mBusinessUnit, mGatewayId);
+                        mEndPoint += mIntegrationInitialCustomer.Path__c != null ? mIntegrationInitialCustomer.Path__c : '';
+                        jsonInput = JSON.serialize(mShipToData);
+                        mGatewayId = mShipToData.input.input.GatewayId;
+                    }
+                }
+
+                jsonInput = jsonInput.replace('null', '""');
+                System.debug('mDataTypeGeneralView: '+mDataTypeGeneralView);
+                System.debug('mDataTypeSalesPurchaseView: '+mDataTypeSalesPurchaseView);
+
+                System.debug('mPath:'+mPath);
+                System.debug('mEndPoint:'+mEndPoint);
+
+                System.debug('Result:'+jsonInput);
+
+                if(String.isNotBlank(mPath) && String.isNotBlank(mEndPoint))
+                {
+                    System.debug('Send callout to sap mock');
+                    
+                    CTRRequestFormItem__c mItemUpdate = new CTRRequestFormItem__c(Id = mRecordId);
+                    mItemUpdate.EmailHTML__c = jsonInput;
+                    //update mItemUpdate;
+                    mResult = handleCallout(mRequestItem, mIntegrationName, jsonInput, mPath, mEndPoint, mGatewayId, mToken);
+                    mResult = 'Success';
+                } 
+                else 
+                {
+                    if(!mProcessCCA && !mProcessQueueCCA)
+                    {
+                        mResult = 'Error: Endpoint is not found';
+                    }
+                    else if(mProcessCCA)
+                    {
+                        mResult = 'Request Success: Inform CCA';
+                    }
+                    else if(mProcessQueueCCA)
+                    {
+                        mResult = 'Request Success: Queue CCA';
+                    }
+                }
+            } 
+            else {
+                mResult = 'Error: Couldn\'t found custom metadata';
+            }
+            return mResult;
         }
         catch(exception e)
         {
-            system.debug('');
+            // Exception handling
+            System.debug('Exception: ' + 'Apex Error: SubmitToSAP Error line:'+e.getLineNumber()+' Message: '+ e.getMessage());
+            return 'Apex Error: SubmitToSAP Error line:'+e.getLineNumber()+' Message: '+ e.getMessage();
         }
    }
 
+   public Static HttpRequest PostRequestSetup(String mJson, String mEndPoint)
+    {
+        HttpRequest request = new HttpRequest();
+        request.setMethod('POST');  
+        request.setHeader('Content-Type', 'application/json');
+        request.setBody(mJson);
+        request.setEndpoint(mEndPoint);
+        return request;
+    }
+
+   private Static String handleCallout(CTRRequestFormItem__c mRequestItem, String mIntegrationName, String jsonInput, String mPath, String mEndPoint, String mGatewayId, String mToken) {
+        String mResult = '';
+        jsonInput = jsonInput.replace('null', '""');
+        System.debug('Test JSON:::'+jsonInput);
+
+        HttpRequest request = PostRequestSetup(jsonInput, mEndPoint);
+        request.setHeader('Authorization', 'Bearer ' + mToken);
+
+        // Make the HTTP request
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+
+        // Parse and handle the response
+        if (response.getStatusCode() == 200) 
+        {
+            CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRequestItem.Id);
+            mRequestItemUpdate.IntegrationStatus__c = 'In Progress';
+
+            // Successful response
+            String SAPStatus = mRequestItem.SAPStatus__c;
+            if(mIntegrationName == 'Initial Customer General View')
+            {
+                SAPStatus = 'Send General View To SAP';
+                mRequestItemUpdate.SAPGeneralSent__c = true;
+            }
+            else if (mIntegrationName == 'Initial Customer Sales View' || 
+                mIntegrationName== 'Create Ship to General+Sales View' || 
+                mIntegrationName== 'Edit Ship to General+Sales View' || 
+                mIntegrationName == 'Block Purchasing View' || 
+                mIntegrationName == 'Block Sales View' || 
+                mIntegrationName == 'Edit Supplier General+Purchasing View' ||
+                mIntegrationName == 'Edit Customer General+Purchasing View')
+            {
+                SAPStatus = 'Send Sales/Purchasing View To SAP';
+            }
+            else if(mIntegrationName.contains('Initial Supplier'))
+            {
+                SAPStatus = 'Send Sales/Purchasing View To SAP';
+                mRequestItemUpdate.SAPGeneralSent__c = true;
+            }
+
+            System.debug('Success Response: ' + response.getBody());
+            mResult = 'Request Success: Sending Data to SAP';
+            
+            mRequestItemUpdate.SAPStatus__c = SAPStatus;
+            mRequestItemUpdate.GatewayId__c = mGatewayId;
+            mRequestItemUpdate.SAPSubmitTime__c = DateTime.Now();
+            mRequestItemUpdate.LatestIntegrationName__c = mIntegrationName;
+            
+            update mRequestItemUpdate;
+            System.debug('SAPStatus : ' + SAPStatus);
+            System.debug('mGatewayId : ' + mGatewayId);
+            System.debug('mIntegrationName : ' + mIntegrationName);
+
+        } 
+        else 
+        {
+            // Error handling
+            String SAPStatus = mRequestItem.SAPStatus__c;
+            if(mIntegrationName == 'Initial Customer General View')
+            {
+                SAPStatus = 'Unsuccessful Send General view to SAP';
+            }
+            else if(mIntegrationName.contains('Initial Supplier'))
+            {
+                SAPStatus = 'Unsuccessful Send Sales/Purchasing view to SAP';
+            }
+            else if (mIntegrationName == 'Initial Customer Sales View' || 
+                mIntegrationName == 'Create Ship to General+Sales View' || 
+                mIntegrationName == 'Edit Ship to General+Sales View' || 
+                mIntegrationName == 'Block Purchasing View' || 
+                mIntegrationName == 'Block Sales View' || 
+                mIntegrationName == 'Edit Supplier General+Purchasing View' ||
+                mIntegrationName == 'Edit Customer General+Purchasing View')
+            {
+                SAPStatus= 'Unsuccessful Send Sales/Purchasing view to SAP';
+            }
+            CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRequestItem.Id);
+            mRequestItemUpdate.SAPStatus__c = SAPStatus;
+            mRequestItemUpdate.GatewayId__c = mGatewayId;
+            mRequestItemUpdate.LatestIntegrationName__c = mIntegrationName;
+            mRequestItemUpdate.SAPSubmitTime__c = DateTime.Now();
+            mRequestItemUpdate.IntegrationStatus__c = 'Fail';
+
+            update mRequestItemUpdate;
+            System.debug('HTTP error: ' + response.getStatusCode() + ' ' + response.getBody());
+            mResult = 'Request Error: Request Status = '+response.getStatusCode()+' ';
+            
+        }
+        return mResult;
+   }
+
    //CCA Function
-   public static void EmailInformCCA(List<CTRRequestFormItem__c> mRequestItemList)
+   public Static void EmailInformCCA(List<CTRRequestFormItem__c> mRequestItemList)
    {
        try
        {
@@ -365,7 +864,7 @@ public with sharing class CTRsendToSAPController
        }
    }
 
-   public static Messaging.SingleEmailMessage setupCCAEmail (wrapperCCAEmailData CCAEmailData)
+   public Static Messaging.SingleEmailMessage setupCCAEmail (wrapperCCAEmailData CCAEmailData)
    {
        // List<EmailTemplate> mEmailTemplateList = [SELECT Id,Subject,Description,HtmlValue,DeveloperName,Body FROM EmailTemplate WHERE DeveloperName = 'CTR_Initial_customer_Inform_SAP_to_Mapping_CCA' LIMIT 1]; 
        // Contact mContact = [SELECT ID FROM Contact LIMIT 1];
@@ -398,7 +897,7 @@ public with sharing class CTRsendToSAPController
         return mail;
    }
 
-   public static Map<Id,wrapperCCAEmailData> getCCAEmailData(List<CTRRequestFormItem__c> mRequestItemList) 
+   public Static Map<Id,wrapperCCAEmailData> getCCAEmailData(List<CTRRequestFormItem__c> mRequestItemList) 
    {
     Map<Id,wrapperCCAEmailData> mapCCAEmailData = new Map<Id,wrapperCCAEmailData>();
 

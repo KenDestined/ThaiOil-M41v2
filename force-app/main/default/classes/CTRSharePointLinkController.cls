@@ -19,12 +19,28 @@ public class CTRSharePointLinkController
         @AuraEnabled public String Type { get; set; }
         //@AuraEnabled public List<String> Users { get; set; }
         //@AuraEnabled public String Role { get; set; }
+        //@AuraEnabled public mUpdateFieldToSharePoint fieldsUpdate { get; set; }
+    }
+
+    public class mUpdateFieldToSharePoint
+    {
+        @AuraEnabled public String AccountName { get; set; }
+        @AuraEnabled public String CustomerCode { get; set; }
+        @AuraEnabled public String SupplierCode { get; set; }
+        @AuraEnabled public String SalesforceCode { get; set; }
     }
 
     public static String manageWrapperToCreateFolder(String mMainFolder, String mAccFolder, String mSubFolder, String mType, List<String> mUserList, String mRole)
+                                                    //,Account mAccount)
     {
         try
         {
+            mUpdateFieldToSharePoint mUpdateField = new mUpdateFieldToSharePoint();
+            mUpdateField.AccountName = ''; //mAccount.Name;
+            mUpdateField.CustomerCode = '';//mAccount.AccountNumber__c;
+            mUpdateField.SupplierCode = '';//mAccount.SupplierNumber;
+            mUpdateField.SalesforceCode = '';//mAccount.SFCode__c;
+
             mCreateFolderWrapper mCreateFolder = new mCreateFolderWrapper();
             mCreateFolder.MainFolder = mMainFolder;
             mCreateFolder.AccFolder = mAccFolder;
@@ -32,6 +48,7 @@ public class CTRSharePointLinkController
             mCreateFolder.Type = mType;
             //mCreateFolder.Users = (mUserList.size()>0)?mUserList: new List<String>();
             //mCreateFolder.Role = mRole;
+            //mCreateFolder.fieldsUpdate = mUpdateField;
             String mJson = JSON.serialize(mCreateFolder);
             mJson = mJson.replace('null', '""');
             System.debug('Create folder json '+mJson);

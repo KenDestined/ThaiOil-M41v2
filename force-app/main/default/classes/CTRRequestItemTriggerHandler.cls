@@ -19,21 +19,25 @@ public with sharing class CTRRequestItemTriggerHandler implements ITriggerHandle
     public void afterInsert(Map<Id, SObject> newItems) {
         // CTRCalloutComXCtrl.organizeData((Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.CreateFolderSharePointAfterCreate((List<CTRRequestFormItem__c>) newItems.values());
-
         CTRRequestItemHandler.createDestinationCountryAfterInsert((List<CTRRequestFormItem__c>)newItems.values());
         CTRRequestItemHandler.savepointOriginalValueForEditTypeAfterInsert((List<CTRRequestFormItem__c>)newItems.values());
+        CTRRequestItemHandler.checkEditSensitiveFieldAfterUpdate(null, (Map<Id,CTRRequestFormItem__c>)newItems);
+
     }
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) 
     {
         CTRRequestItemHandler.CreateSharePointForInitialAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
-        CTRRequestItemHandler.checkEditSensitiveFieldAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.AddNewOwnerPermissionToSharePointAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.savepointCounterPartyJsonInitialAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.setQueueToPendingCcaAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
+        CTRRequestItemHandler.updateHeaderToAccountAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
+        CTRRequestItemHandler.checkEditSensitiveFieldAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         //CTRRequestItemHandler.onChangeJsonForEditAfterUpdate((Map<Id, CTRRequestFormItem__c>) oldItems, (Map<Id, CTRRequestFormItem__c>) newItems); 
         CTRRequestItemHandler.SendSalesView_AfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.SendAdditionalInfo_AfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.CalloutCDDAndNewsAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
+        CTRRequestItemHandler.approvedEditRecordAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
+        CTRRequestItemHandler.IntegrationToMaintenDataToSAPAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRCalloutComXCtrl.pickOutData((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
     }
     public void afterDelete(Map<Id, SObject> oldItems) {

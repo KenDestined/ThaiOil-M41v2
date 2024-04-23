@@ -27,13 +27,13 @@ public class CTRFlowEmailReminder {
         system.debug('emailTemplate : '+emailTemplate);
         CTRRequestFormItem__c rqForm = [SELECT Id, SubBU__c, EmailUrgent__c, EmailTo__c, EmailCC__c, AmountOpenedCredit__c, AmountDCLCondition__c, AmountBuyTrade__c, AmountCreditTerm__c,
                 Subject__c, Message__c, Owner__c, Owner__r.Name, CommitteeName__c, RecordType.Name, CommitteeReassign__c,
-                CommitteeEmail__c, CommitteeAttachment__c, BuyTradeDCLCondition__c, Name, AmountBankGuarantee__c,
+                CommitteeEmail__c, CommitteeAttachment__c, BuyTradeDCLCondition__c, Name, AmountBankGuarantee__c, TotalSecuredAmount__c, TotalSecuredCurrency__c,
                 BuyTradeEndorsement__c, HavingCollateral__c, CashOnDelivery__c, HavingOpenedCredit__c, Currency__c, OtherCondition__c,
                 Product__c, InternalCreditRating__c, InternalCreditRatingTOP__c, InterestedProductTypeAsCustomer__c, InterestedProductTypeAsSupplier__c,
                 InterestedProductTypeAsCustomerTOP__c, InterestedProductTypeAsSupplierTOP__c, InterestedProductTypeAsCustomerTX__c, InterestedProductTypeAsSupplierTX__c,
                 PurchasingOrganizationTX__c, SalesOrganizationTX__c, CTRRequestFormHeader__r.Customer__r.Name, CTRRequestFormHeader__r.Customer__c,
                 CommitteeStatus__c, Status__c, Approval_Step__c, CMVPPreScreenDecision__c, OwnersCMVP__c, Country__r.Code__c,
-                FinCrCond__c, FinPaymentCond__c, FinIntCrRating__c, FinOtherCondition__c, ApprovalTrader_CreditRating__c, TraderWaive__c, Approval_SHAgree__c, Approval_VPAgree__c,
+                FinCrCond__c, FinRiskCategory__c, FinPaymentCond__c, FinCrLimit__c, FinIntCrRating__c, FinOtherCondition__c, ApprovalTrader_CreditRating__c, TraderWaive__c, Approval_SHAgree__c, Approval_VPAgree__c,
                 CTRRequestFormHeader__r.FirstName__c, CTRRequestFormHeader__r.LastName__c, CTRRequestFormHeader__r.Email__c, CTRRequestFormHeader__r.MobilePhone__c,BusinessUnit__c, TermOfPayment__c, TermOfPayment__r.Name
                 FROM CTRRequestFormItem__c WHERE Id = :recordId];
         List<CTRCommitteeApproval__c> newCommApprsList = [SELECT Id, ApproverName__r.Name, ApproverName__r.Email, CTRRequestFormItem__c FROM CTRCommitteeApproval__c WHERE Id IN :newCommApprs];
@@ -125,6 +125,14 @@ public class CTRFlowEmailReminder {
                     .replace('{$OrgDomainURL$}', System.URL.getOrgDomainURL().toExternalForm().replace('salesforce', 'salesforce-sites'))
                     .replace('{$FinalPaymentCondition$}', (rqForm?.FinPaymentCond__c != null) ? rqForm?.FinPaymentCond__c : '')
                     .replace('{$FinalCondition$}', finalCondition)
+                    .replace('{$FinalCreditLimit$}', String.valueOf(rqForm.FinCrLimit__c?.format()))
+                    .replace('{$CashOnDelivery$}', (rqForm.CashOnDelivery__c != null) ? String.valueOf(rqForm.CashOnDelivery__c) : '')
+                    .replace('{$HavingCollateral$}', (rqForm.HavingCollateral__c != null) ? String.valueOf(rqForm.HavingCollateral__c) : '')
+                    .replace('{$BuyTradeEndorsement$}', (rqForm.BuyTradeEndorsement__c != null) ? String.valueOf(rqForm.BuyTradeEndorsement__c) : '')
+                    .replace('{$TotalSecuredAmount$}', (rqForm.TotalSecuredAmount__c != null) ? String.valueOf(rqForm.TotalSecuredAmount__c.format()) : '')
+                    .replace('{$CreditLimitCurrency$}', (rqForm.TotalSecuredCurrency__c != null) ? rqForm.TotalSecuredCurrency__c : '')
+                    .replace('{$FinRiskCategory$}', rqForm.FinRiskCategory__c)
+                    .replace('{$FinalInternalCreditRating$}', rqForm.FinIntCrRating__c)
                     .replace('{$TermOfPayment$}', (rqForm?.TermOfPayment__c != null) ? rqForm.TermOfPayment__r.Name : '');
                 //email.setToAddresses(new String[]{toAddresses[i]});
                 email.setToAddresses(new String[]{newCommApprsList[i].ApproverName__r.Email});

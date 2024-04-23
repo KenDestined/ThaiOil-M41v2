@@ -12,6 +12,7 @@
     <aura:attribute name="selectedRequest" type="Map" />
     <aura:attribute name="itemRecordId" type="Id" />
     <aura:attribute name="counterPartyType" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <aura:html tag="style">
         .slds-modal__container {
@@ -38,7 +39,7 @@
     <aura:if isTrue="{!v.showSpinner}">
         <lightning:spinner alternativeText="Loading" size="medium" />
     </aura:if>
-    <lightning:recordEditForm aura:id="recordEditForm" recordId="{!v.itemRecordId}"
+    <lightning:recordEditForm aura:id="recordEditForm" recordId="{!v.itemRecordId}" recordTypeId="{!v.recordTypeId}"
         objectApiName="CTRRequestFormItem__c" onsubmit="{!c.handleSubmit}" onsuccess="{!c.handleSuccess}"
         onload="{!c.handleLoad}">
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
@@ -196,8 +197,8 @@
                                             class="slds-p-right_medium slds-p-left_medium slds-col slds-size_2-of-4 slds-p-bottom_x-small">
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label" for="OrderBlock__c">
-                                                    Order Block by Selected Area</label>
-                                                <lightning:inputField variant="label-hidden" id="OrderBlock__c"
+                                                    <abbr class="slds-required" title="required">* </abbr>Order Block by Selected Area</label>
+                                                <lightning:inputField variant="label-hidden" id="OrderBlock__c" required="true"
                                                     fieldName="OrderBlock__c" name="OrderBlock__c" />
                                             </div>
                                         </div>
@@ -237,7 +238,7 @@
                 </div>
 
                 <footer class="slds-modal__footer slds-text-align_center">
-                    <lightning:button type="cancel" variant="brand-outline" label="Cancel" title="Cancel"
+                    <lightning:button variant="brand-outline" label="Cancel" title="Cancel"
                         onclick="{!c.closeModal}" />
                     <lightning:button type="submit" variant="brand" label="Save" title="Save" />
                 </footer>

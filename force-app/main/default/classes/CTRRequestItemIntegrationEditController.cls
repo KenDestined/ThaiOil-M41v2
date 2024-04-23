@@ -423,37 +423,48 @@ public with sharing class CTRRequestItemIntegrationEditController
     {
         mapLv1 ctrData = new mapLv1();
         //mSendType = 'Customer'; //Mock
+        
+        if(mBusinessUnit == 'LABIX')
+        {
+            mBusinessUnit = 'TOP';
+        }
 
-        String mChangeFieldHeader = (String.isNotBlank(mRequestHeader.InternalEditField__c))?mRequestHeader.InternalEditField__c:'[]';
+        String mChangeFieldHeader = (String.isNotBlank(mRequestItem.InternalGeneralChangedField__c))?mRequestItem.InternalGeneralChangedField__c:'[]';
         String mChangeFieldItem = (String.isNotBlank(mRequestItem.InternalEditField__c))?mRequestItem.InternalEditField__c:'[]';
-
+        Boolean isDynamic = (mGeneralIntegrationType == 'Dynamic' || mViewIntegrationType == 'Dynamic')?true:false;
+        
         //List<CTRIntegrationMapping__mdt> mAllMappingList = [SELECT Id, BusinessUnit__c, IntegrationType__c, JsonMapping__c, RecordType__c, ViewName__c, SupportIntegrationType__c FROM CTRIntegrationMapping__mdt];
         Map<String,List<changedFieldWrapper>> mMapingChangeFieldMap = new Map<String, List<changedFieldWrapper>>(); 
-        for(CTRIntegrationMapping__mdt mMap :mAllMappingList)
+        if(isDynamic)
         {
-            if(mMap.BusinessUnit__c == mBusinessUnit && mMap.RecordType__c == RecordTypeShort && mMap.SupportIntegrationType__c.contains(IntegrationType))
+            for(CTRIntegrationMapping__mdt mMap :mAllMappingList)
             {
-                //List<changedFieldWrapper> mIntegrationFieldList = convertJsonToObj(mMap.JsonMapping__c,'IntegrationField');
-                List<changedFieldWrapper> mChangeFieldList = new List<changedFieldWrapper>();
-                List<Object> mFieldList = (List<Object>)JSON.deserializeUntyped(mMap.JsonMapping__c);
-
-                for(Object mFieldData : mFieldList)
-                {    
-                    Map<String,Object> mField = (Map<String,Object>)mFieldData;
-                    changedFieldWrapper mChangeField = new changedFieldWrapper();
-                    mChangeField.mLevel = (String)mField.get('Level');
-                    mChangeField.mLabel = (String)mField.get('Label');
-                    mChangeField.mApi = (String)mField.get('Api');
-                    mChangeFieldList.add(mChangeField);
+                if(mMap.BusinessUnit__c == mBusinessUnit && mMap.RecordType__c == RecordTypeShort && mMap.SupportIntegrationType__c.contains('Edit'))
+                {
+                    //List<changedFieldWrapper> mIntegrationFieldList = convertJsonToObj(mMap.JsonMapping__c,'IntegrationField');
+                    List<changedFieldWrapper> mChangeFieldList = new List<changedFieldWrapper>();
+                    List<Object> mFieldList = (List<Object>)JSON.deserializeUntyped(mMap.JsonMapping__c);
+    
+                    for(Object mFieldData : mFieldList)
+                    {    
+                        Map<String,Object> mField = (Map<String,Object>)mFieldData;
+                        changedFieldWrapper mChangeField = new changedFieldWrapper();
+                        mChangeField.mLevel = (String)mField.get('Level');
+                        mChangeField.mLabel = (String)mField.get('Label');
+                        mChangeField.mApi = (String)mField.get('Api');
+                        mChangeFieldList.add(mChangeField);
+                    }
+                    mMapingChangeFieldMap.put(mMap.ViewName__c, mChangeFieldList);
                 }
-                mMapingChangeFieldMap.put(mMap.ViewName__c, mChangeFieldList);
             }
         }
+
         String mMainFlag = 'U';
 
         //Header Json converted to Obj
         List<changedFieldWrapper> mHeaderChangeFieldList = new List<changedFieldWrapper>();
-        if(mViewIntegrationType == 'Extend' && ((RecordTypeShort == 'Customer' && mRequestItem.Customer__r.AccountNumber__c == null) || 
+        if((mRequestItem.RecordType.DeveloperName.contains('Initial') || mRequestItem.RecordType.DeveloperName.contains('Extend')) && 
+            ((RecordTypeShort == 'Customer' && mRequestItem.Customer__r.AccountNumber__c == null) || 
             (RecordTypeShort == 'Supplier' && mRequestItem.Customer__r.SupplierNumber__c == null)))
         {
             mMainFlag = 'I';
@@ -462,7 +473,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                 mMainFlag = 'U';
             }
         }
-        else if(mViewIntegrationType == '')
+        else if(mRequestItem.RecordType.DeveloperName.contains('Edit'))
         {
             mMainFlag = 'U';
         }
@@ -506,7 +517,7 @@ public with sharing class CTRRequestItemIntegrationEditController
             String DistributionChannel = mRequestItem.DistributionChannel__c !=null ? mRequestItem.DistributionChannel__c: '';
             String Division = mRequestItem.Division__c !=null ? mRequestItem.Division__c: '';
             String mCountry = mRequestHeader.Country__r.Code__c!=null? mRequestHeader.Country__r.Code__c:'';
-
+            
             if(RecordTypeShort == 'Supplier')
             {
                 SalesOrganization = (mBusinessUnit == 'TX')? mRequestItem.CompanyCodeTX__c: mRequestItem.CompanyCodeTOP__c;
@@ -522,6 +533,12 @@ public with sharing class CTRRequestItemIntegrationEditController
                 {
                     SalesOrganization = (mBusinessUnit == 'TX')? mRequestItem.CompanyCodeTX__c: mRequestItem.CompanyCodeTOP__c;
                 }
+            }
+            if(mRequestItem.RecordType.DeveloperName.contains('Customer')  && mRequestItem.Customer__r.AccountNumber__c == null)
+            {
+                SalesOrganization = '';
+                DistributionChannel = '';
+                Division = '';
             }
     
             mapLv2 inputModel = new mapLv2();
@@ -597,6 +614,15 @@ public with sharing class CTRRequestItemIntegrationEditController
                 centralDataModel.put('CustomerType', mRequestHeader.CustomerTypeSAP__c !=null ? mRequestHeader.CustomerTypeSAP__c: '');
                 centralDataModelList.add(centralDataModel);
 
+                String mSearchTermLocal = mRequestHeader.CustomerSearchTermLocal__c !=null ? mRequestHeader.CustomerSearchTermLocal__c:'';
+                String mSearchTermEN = mRequestHeader.CustomerSearchTermEN__c !=null ? mRequestHeader.CustomerSearchTermEN__c:'';
+
+                if(mRequestItem.RecordType.DeveloperName.contains('Supplier'))
+                {
+                    mSearchTermLocal = mRequestHeader.SupplierSearchTermLocal__c !=null ? mRequestHeader.SupplierSearchTermLocal__c:'';
+                    mSearchTermEN = mRequestHeader.SupplierSearchTermEN__c !=null ? mRequestHeader.SupplierSearchTermEN__c:'';
+                }
+
                 //Address Gen
                 addressGenModel.put('Type','I');
                 addressGenModel.put('CoName',mRequestHeader.CoName__c !=null ? mRequestHeader.CoName__c: '');
@@ -621,8 +647,8 @@ public with sharing class CTRRequestItemIntegrationEditController
                 addressGenModel.put('Language',mRequestHeader.Language__c !=null ? mRequestHeader.Language__c: '');
                 addressGenModel.put('Region',mRequestHeader.RegionSAP__c !=null ? mRequestHeader.RegionSAP__c: '');
                 addressGenModel.put('TimeZone',mRequestHeader.TimeZone__c !=null ? mRequestHeader.TimeZone__c: '');
-                addressGenModel.put('SearchTerm',mRequestHeader.CustomerSearchTermLocal__c !=null ? mRequestHeader.CustomerSearchTermLocal__c: '');
-                addressGenModel.put('SearchTermEN',mRequestHeader.CustomerSearchTermEN__c !=null ? mRequestHeader.CustomerSearchTermEN__c: '');
+                addressGenModel.put('SearchTerm',mSearchTermLocal !=null ? mSearchTermLocal: '');
+                addressGenModel.put('SearchTermEN',mSearchTermEN !=null ? mSearchTermEN: '');
                 addressGenModel.put('TransportationZone',mRequestHeader.TransportationZone__r.Code__c !=null ? mRequestHeader.TransportationZone__r.Code__c: '');
                 addressGenModel.put('PhoneCountryCode',mRequestHeader.PhoneCountryCode__c !=null ? mRequestHeader.PhoneCountryCode__c: '');
                 addressGenModel.put('Phone',mRequestHeader.Phone__c !=null ? mRequestHeader.Phone__c: '');
@@ -641,9 +667,10 @@ public with sharing class CTRRequestItemIntegrationEditController
                 for(String typeAddressInt: typeListAddressInt)
                 {
                     Map<String,String> addressIntModel = new Map<String,String>();
-                    addressIntModel.put('Type','I');
+                    
                     if(typeAddressInt == 'I')
                     {
+                        addressIntModel.put('Type','I');
                         addressIntModel.put('CoName',mRequestHeader.CoName__c !=null ? mRequestHeader.CoName__c: '');
                         addressIntModel.put('CustomerName1',mRequestHeader.CustomerNameEN1__c !=null ? mRequestHeader.CustomerNameEN1__c: '');
                         addressIntModel.put('CustomerName2',mRequestHeader.CustomerNameEN2__c !=null ? mRequestHeader.CustomerNameEN2__c: '');
@@ -667,6 +694,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                     }
                     else if(typeAddressInt == 'T')
                     {
+                        addressIntModel.put('Type','T');
                         addressIntModel.put('CoName',mRequestHeader.CoName__c !=null ? mRequestHeader.CoName__c: '');
                         addressIntModel.put('CustomerName1',mRequestHeader.CustomerNameLocal1__c !=null ? mRequestHeader.CustomerNameLocal1__c: '');
                         addressIntModel.put('CustomerName2',mRequestHeader.CustomerNameLocal2__c !=null ? mRequestHeader.CustomerNameLocal2__c: '');
@@ -700,8 +728,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                 taxClassificationModelList.add(taxClassificationModel);
             }
 
-            if(isMain)
-            {
+
                 if(RecordTypeShort == 'Customer' || RecordTypeShort == 'ShipTo')
                 {
                     if(mViewIntegrationType == 'Dynamic')
@@ -771,13 +798,13 @@ public with sharing class CTRRequestItemIntegrationEditController
                         {
                             // CompanyCodeViewModel
                             companyCodeViewModel.put('Task', 'I');
-                            companyCodeViewModel.put('SortKey', mRequestHeader.SortKey__c !=null ? mRequestHeader.SortKey__c: '');
-                            companyCodeViewModel.put('ReconciliationAccount', mRequestHeader.ReconAccount__c !=null ? mRequestHeader.ReconAccount__c: '');
+                            companyCodeViewModel.put('SortKey', mRequestItem.SortKey__c !=null ? mRequestItem.SortKey__c: '');
+                            companyCodeViewModel.put('ReconciliationAccount', mRequestItem.ReconAccount__c !=null ? mRequestItem.ReconAccount__c: '');
                             //companyCodeViewModel.put('PaymentMethods', 'I'); // ยังต้องส่งนะ
                             companyCodeViewModel.put('TermofPayment', mRequestItem.TermofPayment__r.Code__c !=null ? mRequestItem.TermofPayment__r.Code__c: '');
-                            companyCodeViewModel.put('PlanningGroup', mRequestHeader.CashManagementGroup__c !=null ? mRequestHeader.CashManagementGroup__c: '');
+                            companyCodeViewModel.put('PlanningGroup', mRequestItem.CashManagementGroup__c !=null ? mRequestItem.CashManagementGroup__c: '');
                             companyCodeViewModel.put('PaymentHistoryRecord', mRequestItem.PaymentHistoryRecord__c == true ? 'X':'');
-                            //companyCodeViewModel.put('AuthorizationGroup', mRequestHeader.Authorization__c !=null ? mRequestHeader.Authorization__c: '');
+                            //companyCodeViewModel.put('AuthorizationGroup', mRequestItem.Authorization__c !=null ? mRequestItem.Authorization__c: '');
                             companyCodeViewModelList.add(companyCodeViewModel);
                         }
                     }
@@ -901,13 +928,13 @@ public with sharing class CTRRequestItemIntegrationEditController
                             // CompanyCodeViewModel
                             companyCodeViewModel.put('Task', 'I');
                             companyCodeViewModel.put('CompanyCode', mRequestItem.CompanyCodeTX__c !=null ? mRequestItem.CompanyCodeTX__c: '');
-                            companyCodeViewModel.put('ReconciliationAccount', mRequestHeader.ReconAccount__c !=null ? mRequestHeader.ReconAccount__c: '');
+                            companyCodeViewModel.put('ReconciliationAccount', mRequestItem.ReconAccount__c !=null ? mRequestItem.ReconAccount__c: '');
                             companyCodeViewModel.put('PaymentMethods', mRequestItem.PaymentMethod__c !=null ? mRequestItem.PaymentMethod__c: ''); //TODO ในชีส ไม่มี field map
                             companyCodeViewModel.put('TermofPayment', mRequestItem.TermOfPayment__r.Code__c !=null ? mRequestItem.TermOfPayment__r.Code__c: ''); //อยู่บน Sales
                             companyCodeViewModel.put('AccountClerk', mRequestItem.AccigClerk__c !=null ? mRequestItem.AccigClerk__c: '');
                             companyCodeViewModel.put('CashManagementGroup', mRequestItem.CashManagementGroup__c !=null ? mRequestItem.CashManagementGroup__c: '');
-                            companyCodeViewModel.put('SortKey', mRequestHeader.SortKey__c !=null ? mRequestHeader.SortKey__c: '');
-                            companyCodeViewModel.put('WithHoldingCountry', (mCountry == 'TH') !=null ? mCountry: '');
+                            companyCodeViewModel.put('SortKey', mRequestItem.SortKey__c !=null ? mRequestItem.SortKey__c: '');
+                            companyCodeViewModel.put('WithHoldingCountry', (mCountry == 'TH') ? mCountry: '');
                             companyCodeViewModel.put('CheckDoubleInv', mRequestItem.Chkdoubleinv__c == true ? 'X':'');
                             companyCodeViewModelList.add(companyCodeViewModel);
                             
@@ -919,19 +946,19 @@ public with sharing class CTRRequestItemIntegrationEditController
                                 withHoldingTax1ViewModel.put('TaxType','J1');
                                 withHoldingTax1ViewModel.put('Subject','X');
                                 withHoldingTax1ViewModel.put('TypeOfRecipient','53');
-                                withHoldingTax1ViewModel.put('Task','U');
+                                withHoldingTax1ViewModel.put('Task','I');
                                 withHoldingTaxViewModelList.add(withHoldingTax1ViewModel);
 
                                 withHoldingTax2ViewModel.put('TaxType','J2');
                                 withHoldingTax2ViewModel.put('Subject','X');
                                 withHoldingTax2ViewModel.put('TypeOfRecipient','53');
-                                withHoldingTax2ViewModel.put('Task','U');
+                                withHoldingTax2ViewModel.put('Task','I');
                                 withHoldingTaxViewModelList.add(withHoldingTax2ViewModel);
                             }
                         }
                     }
                 }
-            }
+            
             String mAccountId = mRequestItem.Customer__c !=null ? mRequestItem.Customer__c: '';
             String mRecordType = (mRequestItem.RecordType.DeveloperName.contains('ShipTo'))?'ShipTo':'SoldTo';
             String mSAPCode = mRequestItem.Customer__r.AccountNumber__c !=null ? mRequestItem.Customer__r.AccountNumber__c: '';

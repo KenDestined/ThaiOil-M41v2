@@ -40,18 +40,35 @@
 
                     component.set('v.isSupplierType', true);
                 }
+                console.log('item.Status__c:'+item.Status__c);
+                console.log('item.isOwner__c:'+item.isOwner__c);
+                console.log('item.RecordType.DeveloperName:'+item.RecordType.DeveloperName);
+                console.log('item.Approval_Step__c:'+item.Approval_Step__c);
                 if(item.RecordType.DeveloperName.includes('Initial') || item.RecordType.DeveloperName.includes('Extend'))
                 {
                     if(component.get('v.currentUserProfileName') == 'System Administrator')
                     {
                         component.set('v.DisplayEditButton', true);
                     }
-                    else if((item.Status__c == 'New' && item.isOwner__c == true) ||
+                    else if((item.Status__c == 'New' && item.IsOwner__c == true) ||
                     (item.Status__c == 'In Review' && item.Approval_Step__c == 'Verify Documents' && item.ApprovedChangeCounterparty__c != 'Submitted' && (item.IsCreditOwner__c == true || item.DocumentChecklistButton__c == true)))
                     {
                         component.set('v.DisplayEditButton', true);
                     }
                 }
+                else if(item.RecordType.DeveloperName.includes('Edit'))
+                {
+                    if(component.get('v.currentUserProfileName') == 'System Administrator')
+                    {
+                        component.set('v.DisplayEditButton', true);
+                    }
+                    else if((item.Status__c == 'New' && component.get('v.currentUserProfileName').includes('Sales Rep')) ||
+                    (item.Status__c == 'In Review' && item.Approval_Step__c == 'Verify Documents' && item.ApprovedChangeCounterparty__c != 'Submitted' && (item.IsCreditOwner__c == true || item.DocumentChecklistButton__c == true)))
+                    {
+                        component.set('v.DisplayEditButton', true);
+                    }
+                }
+                
                 //var recordTypeName = item.RecordType.DeveloperName;
                 //console.log('recordTypeNamec--'+recordTypeName);
                 //
@@ -136,6 +153,7 @@
 					{
 						component.set('v.isTOP', true);
 					}
+                    
                 }
                 
                 
@@ -185,7 +203,11 @@
                 //     toastEvent.fire();
 				// 	$A.get("e.force:closeQuickAction").fire();
                 // }
-
+                if(itemInfo.isTRCR__c == 'true')
+                {
+                    component.set('v.isTRCR', true);
+                }
+                console.log('isTRCR:'+component.get('v.isTRCR'));
                 // else
                 // {
                     if(itemInfo.Status__c == 'In Review')  

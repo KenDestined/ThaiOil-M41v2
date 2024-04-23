@@ -29,8 +29,10 @@ public class CTRAccountHandler
                         }
                     }
                 }
-
             }
+            System.debug('mAccountReNameFolderList:'+mAccountReNameFolderList.size());
+            System.debug('mAccountCreateFolderList:'+mAccountCreateFolderList.size());
+
             if(mAccountReNameFolderList.size()>0 || mAccountCreateFolderList.size()>0)
             {
                 C360Integration__c mSetting = C360Integration__c.getInstance();
@@ -105,11 +107,13 @@ public class CTRAccountHandler
                     }
 
                 }
+                
                 if(mDataToSendMap.size()>0)
                 {
                     for(Map<String, String> mDataToSend: mSendDataList)
                     {
-                        system.enqueuejob(new CTRTriggerWebServiceQueueable(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mAccountId'), mDataToSend.get('mGatewayId')));
+                        CTRTriggerWebServiceQueueable.sendServiceToHeroku(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mAccountId'), mDataToSend.get('mGatewayId'));
+                        //system.enqueuejob(new CTRTriggerWebServiceQueueable(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mAccountId'), mDataToSend.get('mGatewayId')));
                     }
                 }
             }
@@ -119,6 +123,7 @@ public class CTRAccountHandler
             System.debug('Error from CTRAccountHandler.CreateFolderSharePointAfterCreate Line: '+e.getLineNumber()+' || Message: '+e.getMessage());
         }
     } 
+
 
     public static void createRequestFolderAfterSharepointFolderReady(Map<Id, Account> mAccountOldMap, Map<Id, Account> mAccountNewMap)
     {
@@ -144,6 +149,91 @@ public class CTRAccountHandler
         catch(exception e)
         {
             System.debug('Error from CTRAccountHandler.CreateFolderSharePointAfterCreate Line: '+e.getLineNumber()+' || Message: '+e.getMessage());
+        }
+    }
+
+    public static void upsertPartnerFunctionShipToAfterUpdate(Map<Id, Account> mAccountOldMap, Map<Id, Account> mAccountNewMap)
+    {
+        try
+        {
+            Id mShipToRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('ShipTo').getRecordTypeId();
+            Set<Id> mShipToAccountSetId = new set<Id>();
+            for(Account mAccount: mAccountNewMap.values())
+            {
+                if(mAccount.RecordTypeId == mShipToRecordTypeId)
+                {
+                    System.debug('ShipTo');
+                    if(mAccount.CustomerPartner__c != null)
+                    {
+                        if(mAccount.AccountNumber__c != null && mAccount.AccountNumber__c != mAccountOldMap.get(mAccount.Id).AccountNumber__c)
+                        {
+                            mShipToAccountSetId.add(mAccount.Id);
+                        }
+                    }
+                }
+            }
+            if(mShipToAccountSetId.size()>0)
+            {
+                //List<C360_Relationship__c> mPartnerFunctionList = [SELECT FROM C360_Relationship__c];
+                List <Account> mAccountShipToList = [SELECT Id, AccountNumber__c, CustomerPartner__c, CustomerPartner__r.AccountNumber__c  FROM Account WHERE Id IN: mShipToAccountSetId];
+                List<C360_Relationship__c> mPartnerFunctionUpdateList = new List<C360_Relationship__c>();
+                Set<String>mKeySet = new Set<String>();
+                
+                for(Account mAccount: mAccountShipToList)
+                {
+                    if(mAccount.AccountNumber__c != null && mAccount.CustomerPartner__r.AccountNumber__c != null)
+                    {
+                        mKeySet.add(mAccount.AccountNumber__c+'WE-RE'+mAccount.CustomerPartner__r.AccountNumber__c);
+                        mKeySet.add(mAccount.CustomerPartner__r.AccountNumber__c+'WE'+mAccount.AccountNumber__c);
+                    }
+                }
+                System.debug('ShipTo: '+mAccountShipToList);
+                Map<String, C360_Relationship__c> mPartnerKeyMap = new Map<String, C360_Relationship__c>();
+                List<C360_Relationship__c> mPartnerFunctionList = [SELECT Id, Key__c FROM C360_Relationship__c WHERE Key__c IN: mKeySet];
+
+                for(C360_Relationship__c mPartner: mPartnerFunctionList)
+                {
+                    mPartnerKeyMap.put(mPartner.Key__c, mPartner);
+                }
+                System.debug('mPartnerKeyMap: '+mPartnerKeyMap);
+
+                for(Account mAccount: mAccountShipToList)
+                {
+                    if(mAccount.AccountNumber__c != null && mAccount.CustomerPartner__r.AccountNumber__c != null)
+                    {
+                        System.debug('mAccount: '+mAccount.AccountNumber__c);
+                        String mKeyMainShipTo = mAccount.AccountNumber__c+'WE-RE'+mAccount.CustomerPartner__r.AccountNumber__c;
+                        String mKeyMainSoldTo = mAccount.CustomerPartner__r.AccountNumber__c+'WE'+mAccount.AccountNumber__c;
+
+                        if(mPartnerKeyMap.get(mKeyMainSoldTo) == null)
+                        {
+                            C360_Relationship__c mPartner = new C360_Relationship__c();
+                            mPartner.Account__c = mAccount.CustomerPartner__c;
+                            mPartner.ReverseAccount__c = mAccount.Id;
+                            mPartner.RelationshipType__c = 'WE';
+                            mPartner.Key__c = mKeyMainSoldTo;
+                            mPartnerFunctionUpdateList.add(mPartner);
+                        }
+                        if(mPartnerKeyMap.get(mKeyMainShipTo) == null)
+                        {
+                            C360_Relationship__c mPartner = new C360_Relationship__c();
+                            mPartner.Account__c = mAccount.Id;
+                            mPartner.ReverseAccount__c = mAccount.CustomerPartner__c;
+                            mPartner.RelationshipType__c = 'WE-RE';
+                            mPartner.Key__c = mKeyMainShipTo;
+                            mPartnerFunctionUpdateList.add(mPartner);
+                        }
+                    }
+                }
+                if(mPartnerFunctionUpdateList.size()>0)
+                {
+                    insert mPartnerFunctionUpdateList;
+                }
+            }
+        }
+        catch(exception e)
+        {
+            System.debug('Error from CTRAccountHandler.upsertPartnerFunctionShipToAfterUpdate Line: '+e.getLineNumber()+' || Message: '+e.getMessage());
         }
     }
 

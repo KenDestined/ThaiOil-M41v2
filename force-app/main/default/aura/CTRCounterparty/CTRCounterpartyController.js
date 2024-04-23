@@ -1,7 +1,7 @@
 ({
     doInit : function(component, event, helper) {
-        helper.getReqItemInfo(component);
         helper.getUserName(component);
+        helper.getReqItemInfo(component);
         helper.validateUserProfile(component);
 
     },

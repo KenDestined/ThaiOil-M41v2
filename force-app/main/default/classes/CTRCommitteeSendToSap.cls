@@ -82,9 +82,10 @@ public with sharing class CTRCommitteeSendToSap
                         Id mShipToRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('ShipTo').getRecordTypeId();
                         Account mAccount = new Account();
                         mAccount.RecordTypeId = mShipToRecordTypeId;
-                        mAccount.Name = mRequestItem.CTRRequestFormHeader__r.Name;
+                        mAccount.Name = mRequestItem.CTRRequestFormHeader__r.CompanyNameENF__c;
                         mAccount.OriginalShipToRequestNumber__c = mRequestItem.Name;
                         mAccount.CustomerPartner__c = mOrinalAccountId;
+                        //mAccount.StatusDeletionIndicator__c = 'New';
                         insert mAccount;
 
                         mHeader = new CTRRequestFormHeader__c(Id = mRequestItem.CTRRequestFormHeader__c);

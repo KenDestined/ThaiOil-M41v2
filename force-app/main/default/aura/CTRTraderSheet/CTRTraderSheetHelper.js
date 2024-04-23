@@ -35,6 +35,7 @@
                     var ctruser = requestList[0].CTRRequestFormHeader__r.Customer__r.CTRUser__c;
                     var ApprovalStep = requestList[0].Approval_Step__c;
                     var PositionNameOfVP = requestList[0].fmlPositionNameOfVP__c;
+                    var BU = requestList[0].BusinessUnit__c;
                     console.log('---ctruser---'+ctruser);
                     console.log('---ApprovalStep---'+ApprovalStep);
                     console.log('---PositionNameOfVP---'+PositionNameOfVP);
@@ -46,6 +47,7 @@
                 console.log('---OwnerId---'+component.get('v.StatusPass'));
                     console.log('---OwnerId---'+requestList[0].OwnerId);
                     //set value
+                    component.set('v.BU',BU);
                     component.set('v.TypeOfBusinessEva',TypeOfBusinessEva);
                     component.set('v.CurrentApprover',CurrentApprover);
                     component.set('v.TraderApproved',TraderApproved);
@@ -61,7 +63,8 @@
                     {
                         component.set('v.RecordTypeName','Supplier');
                     }
-                    
+                    console.log('---RecordTypeName---'+RecordTypeName);
+                    console.log('---RecordTypeName-2--'+component.get('v.RecordTypeName'));
                     component.set('v.CustomerPurchaseProductFrom',CustomerPurchaseProductFrom);
                     component.set('v.LegalEntity',LegalEntity);
                     component.set('v.ReputationMarket',Thelevelofreputation);  

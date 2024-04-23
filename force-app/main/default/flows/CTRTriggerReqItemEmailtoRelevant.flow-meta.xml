@@ -3,10 +3,13 @@
     <actionCalls>
         <name>SendEmailAction</name>
         <label>Send Email Action</label>
-        <locationX>50</locationX>
-        <locationY>5075</locationY>
+        <locationX>244</locationX>
+        <locationY>5207</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
+        <connector>
+            <targetReference>checkEmailCustomerIsNull</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>mEmailToList</name>
@@ -30,10 +33,68 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>SendEmailAction_0</name>
+        <label>Send Email Action</label>
+        <locationX>50</locationX>
+        <locationY>5697</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientCustomerEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getCusEmailTemplate_0.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmailAction_0_0</name>
+        <label>Send Email Action</label>
+        <locationX>410</locationX>
+        <locationY>5677</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientCustomerEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getSupEmailTemplate.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>SendShiptoEmail</name>
         <label>SendShiptoEmail</label>
-        <locationX>578</locationX>
-        <locationY>2171</locationY>
+        <locationX>1020</locationX>
+        <locationY>2219</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -62,8 +123,8 @@
     <assignments>
         <name>assignMasterDataControllerEmail</name>
         <label>assignMasterDataControllerEmail</label>
-        <locationX>875</locationX>
-        <locationY>731</locationY>
+        <locationX>1317</locationX>
+        <locationY>779</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -78,8 +139,8 @@
     <assignments>
         <name>assignMasterDataControllerManagerEmail</name>
         <label>assignMasterDataControllerManagerEmail</label>
-        <locationX>875</locationX>
-        <locationY>1031</locationY>
+        <locationX>1317</locationX>
+        <locationY>1079</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -94,13 +155,20 @@
     <assignments>
         <name>assignRecipientEmails</name>
         <label>assignRecipientEmails</label>
-        <locationX>50</locationX>
-        <locationY>4751</locationY>
+        <locationX>246</locationX>
+        <locationY>4694</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
             <value>
                 <elementReference>$User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientCustomerEmail</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Customer__r.Email__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -110,8 +178,8 @@
     <assignments>
         <name>assignRecipientEmails_0_0_0</name>
         <label>assignRecipientEmails</label>
-        <locationX>875</locationX>
-        <locationY>431</locationY>
+        <locationX>1317</locationX>
+        <locationY>479</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -126,8 +194,8 @@
     <assignments>
         <name>assignRecipientIds</name>
         <label>assignRecipientIds</label>
-        <locationX>50</locationX>
-        <locationY>4859</locationY>
+        <locationX>246</locationX>
+        <locationY>4851</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -142,8 +210,8 @@
     <assignments>
         <name>assignTSJSKemRecipients</name>
         <label>assignTSJSKemRecipients</label>
-        <locationX>50</locationX>
-        <locationY>2903</locationY>
+        <locationX>492</locationX>
+        <locationY>2951</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -165,8 +233,8 @@
     <assignments>
         <name>assignTSRSalesRepRecipients</name>
         <label>assignTSRSalesRepRecipients</label>
-        <locationX>50</locationX>
-        <locationY>3419</locationY>
+        <locationX>492</locationX>
+        <locationY>3467</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -188,8 +256,8 @@
     <assignments>
         <name>assignTSTHSalesRepRecipients</name>
         <label>assignTSTHSalesRepRecipients</label>
-        <locationX>50</locationX>
-        <locationY>3935</locationY>
+        <locationX>492</locationX>
+        <locationY>3983</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -211,8 +279,8 @@
     <assignments>
         <name>assignTSVSalesRepRecipients</name>
         <label>assignTSVSalesRepRecipients</label>
-        <locationX>50</locationX>
-        <locationY>4451</locationY>
+        <locationX>492</locationX>
+        <locationY>4499</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -234,8 +302,8 @@
     <assignments>
         <name>assignTXFARecipients</name>
         <label>assignTXFARecipients</label>
-        <locationX>512</locationX>
-        <locationY>1655</locationY>
+        <locationX>954</locationX>
+        <locationY>1703</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -250,8 +318,8 @@
     <assignments>
         <name>assignTXINRecipients</name>
         <label>assignTXINRecipients</label>
-        <locationX>50</locationX>
-        <locationY>2387</locationY>
+        <locationX>492</locationX>
+        <locationY>2435</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -273,8 +341,8 @@
     <decisions>
         <name>CheckBU</name>
         <label>CheckBU</label>
-        <locationX>1007</locationX>
-        <locationY>1223</locationY>
+        <locationX>1449</locationX>
+        <locationY>1271</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>TX</name>
@@ -293,10 +361,32 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkEmailCustomerIsNull</name>
+        <label>checkEmailCustomerIsNull</label>
+        <locationX>237</locationX>
+        <locationY>5347</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Email_Customer_Not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Customer__r.Email__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CheckRecordType_0_0</targetReference>
+            </connector>
+            <label>Email Customer Not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkMasterDataController</name>
         <label>checkMasterDataController</label>
-        <locationX>1007</locationX>
-        <locationY>623</locationY>
+        <locationX>1449</locationX>
+        <locationY>671</locationY>
         <defaultConnector>
             <targetReference>checkMasterDataControllerManager</targetReference>
         </defaultConnector>
@@ -320,8 +410,8 @@
     <decisions>
         <name>checkMasterDataControllerManager</name>
         <label>checkMasterDataControllerManager</label>
-        <locationX>1007</locationX>
-        <locationY>923</locationY>
+        <locationX>1449</locationX>
+        <locationY>971</locationY>
         <defaultConnector>
             <targetReference>CheckBU</targetReference>
         </defaultConnector>
@@ -345,8 +435,8 @@
     <decisions>
         <name>CheckRecipients_CustomerandSupplier</name>
         <label>CheckRecipients</label>
-        <locationX>182</locationX>
-        <locationY>4643</locationY>
+        <locationX>624</locationX>
+        <locationY>4691</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>RecipientsNotNull_CustomerandSupplier</name>
@@ -375,8 +465,8 @@
     <decisions>
         <name>checkRecipients_ShipTo</name>
         <label>checkRecipients</label>
-        <locationX>710</locationX>
-        <locationY>1955</locationY>
+        <locationX>1152</locationX>
+        <locationY>2003</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>RecipientsNotNull_ShipTo</name>
@@ -404,8 +494,8 @@
     <decisions>
         <name>CheckRecordType</name>
         <label>CheckRecordType</label>
-        <locationX>644</locationX>
-        <locationY>1847</locationY>
+        <locationX>1086</locationX>
+        <locationY>1895</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>CustomerAndSupplier</name>
@@ -453,10 +543,47 @@
         </rules>
     </decisions>
     <decisions>
+        <name>CheckRecordType_0_0</name>
+        <label>CheckRecordType</label>
+        <locationX>238</locationX>
+        <locationY>5525</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Supplier</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Supplier</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendEmailAction_0_0</targetReference>
+            </connector>
+            <label>Supplier</label>
+        </rules>
+        <rules>
+            <name>Customer</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Customer</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendEmailAction_0</targetReference>
+            </connector>
+            <label>Customer</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkSectionHead</name>
         <label>checkSectionHead</label>
-        <locationX>1007</locationX>
-        <locationY>323</locationY>
+        <locationX>1449</locationX>
+        <locationY>371</locationY>
         <defaultConnector>
             <targetReference>checkMasterDataController</targetReference>
         </defaultConnector>
@@ -480,8 +607,8 @@
     <decisions>
         <name>checkTSJSKemSalesRepRecipients</name>
         <label>checkTSJSKemSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>2795</locationY>
+        <locationX>624</locationX>
+        <locationY>2843</locationY>
         <defaultConnector>
             <targetReference>getTSRSalesRepRecipients</targetReference>
         </defaultConnector>
@@ -512,8 +639,8 @@
     <decisions>
         <name>checkTSRSalesRepRecipients</name>
         <label>checkTSRSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>3311</locationY>
+        <locationX>624</locationX>
+        <locationY>3359</locationY>
         <defaultConnector>
             <targetReference>getTSTHSalesRepRecipients</targetReference>
         </defaultConnector>
@@ -544,8 +671,8 @@
     <decisions>
         <name>checkTSTHSalesRepRecipients</name>
         <label>checkTSTHSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>3827</locationY>
+        <locationX>623</locationX>
+        <locationY>3874</locationY>
         <defaultConnector>
             <targetReference>getTSVSalesRepRecipients</targetReference>
         </defaultConnector>
@@ -576,8 +703,8 @@
     <decisions>
         <name>checkTSVSalesRepRecipients</name>
         <label>checkTSVSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>4343</locationY>
+        <locationX>624</locationX>
+        <locationY>4391</locationY>
         <defaultConnector>
             <targetReference>CheckRecipients_CustomerandSupplier</targetReference>
         </defaultConnector>
@@ -608,8 +735,8 @@
     <decisions>
         <name>checkTXFARecipients</name>
         <label>checkTXFARecipients</label>
-        <locationX>644</locationX>
-        <locationY>1547</locationY>
+        <locationX>1086</locationX>
+        <locationY>1595</locationY>
         <defaultConnector>
             <targetReference>CheckRecordType</targetReference>
         </defaultConnector>
@@ -633,8 +760,8 @@
     <decisions>
         <name>checkTXINSalesRepRecipients</name>
         <label>checkTXINSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>2279</locationY>
+        <locationX>624</locationX>
+        <locationY>2327</locationY>
         <defaultConnector>
             <targetReference>getTSJSKemSalesRepRecipients</targetReference>
         </defaultConnector>
@@ -689,7 +816,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -700,13 +827,34 @@
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
-        <name>getEmailTemplate</name>
-        <label>getEmailTemplate</label>
-        <locationX>50</locationX>
-        <locationY>4967</locationY>
+        <name>getCusEmailTemplate_0</name>
+        <label>getCusEmailTemplate</label>
+        <locationX>245</locationX>
+        <locationY>5077</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>SendEmailAction</targetReference>
+            <targetReference>getSupEmailTemplate</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRSendToCustomerAfterGetSAPCode</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailTemplate</name>
+        <label>getEmailTemplate</label>
+        <locationX>246</locationX>
+        <locationY>4959</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getCusEmailTemplate_0</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -723,8 +871,8 @@
     <recordLookups>
         <name>getInitialCustomNotification</name>
         <label>getInitalCustomNotification</label>
-        <locationX>182</locationX>
-        <locationY>1955</locationY>
+        <locationX>624</locationX>
+        <locationY>2003</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getTXINSalesRepRecipients</targetReference>
@@ -744,8 +892,8 @@
     <recordLookups>
         <name>getShiptoEmailTemplate</name>
         <label>getShiptoEmailTemplate</label>
-        <locationX>578</locationX>
-        <locationY>2063</locationY>
+        <locationX>1020</locationX>
+        <locationY>2111</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>SendShiptoEmail</targetReference>
@@ -763,10 +911,31 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getSupEmailTemplate</name>
+        <label>getSupEmailTemplate</label>
+        <locationX>410</locationX>
+        <locationY>5085</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>SendEmailAction</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRSendToSupplierAfterGetSAPCode</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getTSJSKemSalesRepRecipients</name>
         <label>getTSJSKemSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>2579</locationY>
+        <locationX>624</locationX>
+        <locationY>2627</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findTSJSKemSalesRepRecipients</targetReference>
@@ -822,8 +991,8 @@
     <recordLookups>
         <name>getTSRSalesRepRecipients</name>
         <label>getTSRSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>3095</locationY>
+        <locationX>626</locationX>
+        <locationY>3031</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findTSRSalesRepRecipients</targetReference>
@@ -879,8 +1048,8 @@
     <recordLookups>
         <name>getTSTHSalesRepRecipients</name>
         <label>getTSTHSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>3611</locationY>
+        <locationX>624</locationX>
+        <locationY>3659</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findTSTHSalesRepRecipients</targetReference>
@@ -936,8 +1105,8 @@
     <recordLookups>
         <name>getTSVSalesRepRecipients</name>
         <label>getTSVSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>4127</locationY>
+        <locationX>624</locationX>
+        <locationY>4175</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findTSVSalesRepRecipients</targetReference>
@@ -993,8 +1162,8 @@
     <recordLookups>
         <name>getTXFARecipients</name>
         <label>getTXFARecipients</label>
-        <locationX>644</locationX>
-        <locationY>1331</locationY>
+        <locationX>1093</locationX>
+        <locationY>1380</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findTXFARecipients</targetReference>
@@ -1050,8 +1219,8 @@
     <recordLookups>
         <name>getTXINSalesRepRecipients</name>
         <label>getTXINSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>2063</locationY>
+        <locationX>624</locationX>
+        <locationY>2111</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findTXINSalesRepRecipients</targetReference>
@@ -1105,8 +1274,8 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>881</locationX>
-        <locationY>0</locationY>
+        <locationX>1323</locationX>
+        <locationY>48</locationY>
         <connector>
             <targetReference>checkSectionHead</targetReference>
         </connector>
@@ -1136,12 +1305,12 @@
         <recordTriggerType>Update</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <subflows>
         <name>findTSJSKemSalesRepRecipients</name>
         <label>findTSJSKemSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>2687</locationY>
+        <locationX>624</locationX>
+        <locationY>2735</locationY>
         <connector>
             <targetReference>checkTSJSKemSalesRepRecipients</targetReference>
         </connector>
@@ -1157,8 +1326,8 @@
     <subflows>
         <name>findTSRSalesRepRecipients</name>
         <label>findTSRSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>3203</locationY>
+        <locationX>624</locationX>
+        <locationY>3251</locationY>
         <connector>
             <targetReference>checkTSRSalesRepRecipients</targetReference>
         </connector>
@@ -1174,8 +1343,8 @@
     <subflows>
         <name>findTSTHSalesRepRecipients</name>
         <label>findTSTHSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>3719</locationY>
+        <locationX>624</locationX>
+        <locationY>3767</locationY>
         <connector>
             <targetReference>checkTSTHSalesRepRecipients</targetReference>
         </connector>
@@ -1191,8 +1360,8 @@
     <subflows>
         <name>findTSVSalesRepRecipients</name>
         <label>findTSVSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>4235</locationY>
+        <locationX>624</locationX>
+        <locationY>4283</locationY>
         <connector>
             <targetReference>checkTSVSalesRepRecipients</targetReference>
         </connector>
@@ -1208,8 +1377,8 @@
     <subflows>
         <name>findTXFARecipients</name>
         <label>findTXFARecipients</label>
-        <locationX>644</locationX>
-        <locationY>1439</locationY>
+        <locationX>1093</locationX>
+        <locationY>1488</locationY>
         <connector>
             <targetReference>checkTXFARecipients</targetReference>
         </connector>
@@ -1225,8 +1394,8 @@
     <subflows>
         <name>findTXINSalesRepRecipients</name>
         <label>findTXINSalesRepRecipients</label>
-        <locationX>182</locationX>
-        <locationY>2171</locationY>
+        <locationX>624</locationX>
+        <locationY>2219</locationY>
         <connector>
             <targetReference>checkTXINSalesRepRecipients</targetReference>
         </connector>
@@ -1239,6 +1408,13 @@
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
+    <variables>
+        <name>recipientCustomerEmail</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
     <variables>
         <name>recipientEmails</name>
         <dataType>String</dataType>

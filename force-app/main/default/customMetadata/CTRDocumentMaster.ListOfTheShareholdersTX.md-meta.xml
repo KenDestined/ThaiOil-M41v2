@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Question__c</field>
-        <value xsi:type="xsd:string">Has List of the Shareholders (บจอ.5)</value>
+        <value xsi:type="xsd:string">Has List of the Shareholders (บอจ.5)</value>
     </values>
     <values>
         <field>SortOrder__c</field>

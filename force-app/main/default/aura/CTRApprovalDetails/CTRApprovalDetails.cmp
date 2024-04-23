@@ -106,6 +106,8 @@
     <aura:attribute name="IsShowPage" type="Boolean" default="false"/>
     <aura:attribute name="NotShowText" type="String"/>
     
+    <aura:attribute name="IsPaymentRequried" type="Boolean" default="true"/>
+    
     
     <aura:renderIf isTrue="{!!v.IsShowPage}">
         <br /><br />
@@ -154,8 +156,8 @@
         </aura:If>
         
         <!-- Admin test
-        <lightning:button variant="brand-outline" label="{!v.ButtonName}" title="{!v.ButtonName}" onclick="{! c.handleClick }" /> 
-        -->
+        <lightning:button variant="brand-outline" label="{!v.ButtonName}" title="{!v.ButtonName}" onclick="{! c.handleClick }" /> -->
+        
             <!-- Start Section-->
         <lightning:recordEditForm aura:id="recordEditForm" objectApiName="CTRRequestFormItem__c" recordId="{!v.recordId}" onsubmit="{!c.handleSubmit}" onsuccess="{!c.handleSuccess}">
             <aura:if isTrue="{!v.showLoading}">
@@ -262,12 +264,14 @@
                              <lightning:layoutItem padding="around-small">
                                 <div class="slds-grid slds-wrap flexibility:auto">
                                     <div class="slds-size_1-of-7">
-                                        <p><span style="color:red; font-style: italic;" >* </span>Type of Business:</p>
+                                        <p>Type of Business:</p>
                                     </div>
                                     <div class="slds-size_2-of-7">
+                                        {!v.TypeOfBusiness}
+                                        <!--
                                         <lightning:inputField aura:id="TypeOfBusiness" fieldName="TypeOfBusiness__c" id="TypeOfBusiness"
                                                               variant="label-hidden" disabled="{!v.IsPageDisable}" required="true"
-                                                              onchange="{!c.handleTypeOfBusiness}"/>
+                                                              onchange="{!c.handleTypeOfBusiness}"/>-->
                                     </div>
                                     <div class="slds-size_1-of-7" />
                                     <div class="slds-size_1-of-7">
@@ -527,7 +531,9 @@
                                             <p style="text-align: right;"> Total Secured Amount:<span class="slds-p-left_medium"></span></p>
                                         </div>
                                         <div class="slds-form_horizontal slds-col slds-size_2-of-7" >
-                                            <lightning:input type="text" id="Amount6" aura:id="Amount6" value="{!v.TotalAmount}" disabled="{!v.IsDisable}" ></lightning:input>
+                                            <lightning:input type="text" id="Amount6" aura:id="Amount6" 
+                                                             value="{!v.TotalAmount}" 
+                                                             disabled="{!v.IsDisable}" ></lightning:input>
                                         </div>
                                         
                                         <!--Row7-->
@@ -553,8 +559,29 @@
                                     
                                    <!--aura:renderIf isTrue="{!v.RecordTypeName != 'Supplier'}"-->
                                        <!--aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TOP'}"-->
-                                   <!--aura:renderIf isTrue="{!OR(v.RecordTypeName == 'Customer',(AND(v.RecordTypeName == 'Supplier',v.BUInfo.BusinessUnit__c != 'TOP')))}"-->
-                                            <div class="slds-grid slds-wrap slds-size_1-of-1">
+                                    <!--aura:renderIf isTrue="{!OR(v.RecordTypeName == 'Customer',(AND(v.RecordTypeName == 'Supplier',v.BUInfo.BusinessUnit__c != 'TOP')))}"-->
+                                    <aura:renderIf isTrue="{!OR(v.BUInfo.BusinessUnit__c == 'TOP',v.BUInfo.BusinessUnit__c == 'LABIX')}">
+                                        <div class="slds-grid slds-form_horizontal slds-size_1-of-1">
+                                            <div class="slds-col slds-size_1-of-7">
+                                                <p>
+                                                    <span style="color:red; font-style: italic;" >* </span>
+                                                    Internal Credit Rating: <span class="slds-p-left_medium"></span>
+                                                </p>
+                                            </div>
+                                            
+                                            <!-- Radio -->
+                                            <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="InternalCreditRatingTOP" 
+                                                                      fieldName="InternalCreditRatingTOP__c" 
+                                                                      variant="label-hidden" 
+                                                                      disabled="{!v.IsPageDisable}"
+                                                                      required="true"/>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </aura:renderIf>
+                                    <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                 <div class="slds-col slds-size_1-of-7">
                                                     <p>
                                                         <span style="color:red; font-style: italic;" >* </span>
@@ -666,55 +693,51 @@
                                                     
                                                     </aura:renderIf>
                                                 <!--/aura:renderIf-->
-                                                <div class="slds-grid slds-form_horizontal slds-size_1-of-1">
-                                                    <div class="slds-col slds-size_1-of-7">
-                                                        <p>
-                                                            <span style="color:red; font-style: italic;" >* </span>
-                                                            Internal Credit Rating: <span class="slds-p-left_medium"></span>
-                                                        </p>
-                                                    </div>
-                                                        
-                                                        <!-- Radio -->
-                                                        <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
-                                                            <aura:renderIf isTrue="{!OR(v.BUInfo.BusinessUnit__c == 'TOP',v.BUInfo.BusinessUnit__c == 'LABIX')}">
-                                                                <lightning:inputField aura:id="InternalCreditRatingTOP" 
-                                                                                      fieldName="InternalCreditRatingTOP__c" 
-                                                                                      variant="label-hidden" 
-                                                                                      disabled="{!v.IsPageDisable}"
-                                                                                      required="true"/>
-                                                            </aura:renderIf>
-                                                            <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
-                                                                <lightning:inputField aura:id="InternalCreditRating" 
-                                                                                      fieldName="InternalCreditRating__c" 
-                                                                                      variant="label-hidden"
-                                                                                      disabled="{!v.IsPageDisable}"
-                                                                                      required="true"/>
-                                                            </aura:renderIf>
-                                                            
-                                                        </div>
-                                                    
-                                                </div>
-                                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
-                                                    <div class="slds-grid slds-form_horizontal slds-size_1-of-1">
-                                                        <div class="slds-col slds-size_1-of-7">
-                                                            <p>
-                                                                <span style="color:red; font-style: italic;" >* </span>
-                                                                Other Condition: <span class="slds-p-left_medium"></span>
-                                                            </p>
-                                                        </div>
-                                                            <!-- Radio -->
-                                                            <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
-                                                                <lightning:inputField aura:id="OtherCondition" 
-                                                                                          fieldName="OtherCondition__c" 
-                                                                                          variant="label-hidden"
-                                                                                          disabled="{!v.IsPageDisable}"
-                                                                                          required="true"/>
-                                                            </div>
-                                                        
-                                                    </div>
-                                                </aura:renderIf>
-                                                <br/><br/>
+                                    <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
+                                        <div class="slds-grid slds-form_horizontal slds-size_1-of-1">
+                                            <div class="slds-col slds-size_1-of-7">
+                                                <p>
+                                                    <span style="color:red; font-style: italic;" >* </span>
+                                                    Internal Credit Rating: <span class="slds-p-left_medium"></span>
+                                                </p>
+                                            </div>
+                                            
+                                            <!-- Radio -->
+                                            <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
                                                 
+                                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
+                                                    <lightning:inputField aura:id="InternalCreditRating" 
+                                                                          fieldName="InternalCreditRating__c" 
+                                                                          variant="label-hidden"
+                                                                          disabled="{!v.IsPageDisable}"
+                                                                          required="true"/>
+                                                </aura:renderIf>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        
+                                        <div class="slds-grid slds-form_horizontal slds-size_1-of-1">
+                                            <div class="slds-col slds-size_1-of-7">
+                                                <p>
+                                                    <span style="color:red; font-style: italic;" >* </span>
+                                                    Other Condition: <span class="slds-p-left_medium"></span>
+                                                </p>
+                                            </div>
+                                            <!-- Radio -->
+                                            <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
+                                                <lightning:inputField aura:id="OtherCondition" 
+                                                                      fieldName="OtherCondition__c" 
+                                                                      variant="label-hidden"
+                                                                      disabled="{!v.IsPageDisable}"
+                                                                      required="true"/>
+                                            </div>
+                                            
+                                        </div>
+                                    </aura:renderIf>
+                                    <br/><br/>
+                                    
                                                 <aura:renderIf isTrue="{!OR(v.BUInfo.BusinessUnit__c == 'TOP',v.BUInfo.BusinessUnit__c == 'LABIX')}">
                                                     <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                         <div class="slds-col slds-size_1-of-7">
@@ -730,16 +753,23 @@
                                                         </div>
                                                     </div>
                                                     <div class="slds-grid slds-wrap slds-size_1-of-1">
+                                                        <aura:renderIf isTrue="{!v.IsPaymentRequried}">
                                                         <div class="slds-col slds-size_1-of-7">
                                                             <p> <span style="color:red; font-style: italic;" >* </span>
                                                                 Payment Condition: </p>
                                                         </div>
+                                                        </aura:renderIf>
+                                                        <aura:renderIf isTrue="{!!v.IsPaymentRequried}">
+                                                        <div class="slds-col slds-size_1-of-7">
+                                                            <p> Payment Condition: </p>
+                                                        </div>
+                                                        </aura:renderIf>
                                                         <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
                                                             <lightning:inputField aura:id="PaymentCondition" 
                                                                               fieldName="PaymentCondition__c" 
                                                                               variant="label-hidden"
                                                                               disabled="{!v.IsPageDisable}"
-                                                                              required="true"/>
+                                                                              required="{!v.IsPaymentRequried}"/>
                                                         </div>
                                                     </div>
                                                 </aura:renderIf>
@@ -1030,14 +1060,14 @@
                                                             <aura:renderIf isTrue="{!OR(v.BUInfo.BusinessUnit__c == 'TOP',v.BUInfo.BusinessUnit__c == 'LABIX')}">
                                                                 <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                                     <div class="slds-col slds-size_1-of-7">
-                                                                        <p>Trader Remark: </p>
+                                                                        <p><span style="color:red; font-style: italic;" >* </span>Trader Remark: </p>
                                                                     </div>
                                                                 </div>
                                                                 <div class="slds-size_1-of-1">
                                                                     <lightning:inputField aura:id="ApprovalTrader_Remark__c"   class="textAreaClass"
                                                                                           fieldName="ApprovalTrader_Remark__c" 
                                                                                           variant="label-hidden"
-                                                                                          disabled="{!v.IsTDFieldsDisable}"/>
+                                                                                          disabled="{!v.IsTDFieldsDisable}" required="true"/>
                                                                 </div>
                                                             </aura:renderIf>
                                                         <!--/aura:renderIf-->

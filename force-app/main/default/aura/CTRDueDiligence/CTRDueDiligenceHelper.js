@@ -14,6 +14,17 @@
 					var resultJSON = JSON.parse(result);
                     component.set('v.sectionLabelMap', resultJSON.sectionMap);
 					component.set('v.isTX', resultJSON.isTX); // 26/03/2024
+					if(this.validateSection(component.get('v.sectionLabelMap'), 'cmReview')) {
+						if(component.get('v.isHighHighRisk')) {
+							this.sectionForHighHighRisk(component);
+						} else {
+							this.sectionForLowRisk(component);
+						}
+					} else if(this.validateSection(component.get('v.sectionLabelMap'), 'traderReview')) {
+						component.set('v.displayTraderReview', true);
+						component.set('v.isTraderReview', true);
+					}
+					this.setupSection(component);
                 } else {
 					console.log('[retrieveDueDiligenceReviewSection] result -----', result);
                     this.showToast('Warning', 'warning', 'Label not found');
@@ -143,64 +154,87 @@
 				component.set('v.displayCMReview', true);
 				component.set('v.displayCMReviewButton', true);
 			}
-        } else {
-            component.set('v.displayCMReview', true);
-            if(component.get("v.recordObject.EnhanceDueDiligenceProceedByTrader__c") != 'Not Proceed') {
-                if($A.util.isEmpty(component.get("v.recordObject.EnhanceDueDiligenceBy__c"))) {
-                    component.set('v.displayEnhanceDueDiligence', true);
-                    component.set('v.displayEnhanceDueDiligenceButton', true);
-                } else {
-                    component.set('v.displayEnhanceDueDiligence', true);
-                    if($A.util.isEmpty(component.get("v.recordObject.ComplianceAdviceBy__c"))) {
-                        component.set('v.displayComplianceAdvice', true);
-                        component.set('v.displayComplianceAdviceButton', true);
-                    } else {
-                        component.set('v.displayComplianceAdvice', true);
-                        if(component.get("v.recordObject.ComplianceAdviceResult__c") != 'Yes') {
-                            if($A.util.isEmpty(component.get("v.recordObject.CPXXReviewDueDiligenceBy__c"))) {
-                                component.set('v.displayCPXXReview', true);
-                                component.set('v.displayCPXXReviewButton', true);
-                            } else {
-                                component.set('v.displayCPXXReview', true);
-                                if($A.util.isEmpty(component.get("v.recordObject.CMVPReviewDueDiligenceBy__c"))) {
-                                    component.set('v.displayCMVPReview', true);
-                                    component.set('v.displayCMVPReviewButton', true);
-                                } else {
-                                    component.set('v.displayCMVPReview', true);
-                                    if($A.util.isEmpty(component.get("v.recordObject.EVPCReviewEDDBy__c"))) {
-                                        component.set('v.displayEVPCReview', true);
-                                        component.set('v.displayEVPCReviewButton', true);
-                                    } else {
-                                        component.set('v.displayEVPCReview', true);
-                                        if(component.get("v.recordObject.EVPCReviewEDDResult__c") != 'Rejected') {
-                                            if(/*component.get("v.recordObject.CPXXReviewDueDiligenceResult__c") == 'Proceed' &&*/ component.get("v.recordObject.CMVPReviewDueDiligenceResult__c") == 'Proceed') {
-                                                if($A.util.isEmpty(component.get("v.recordObject.EndorseDueDiligenceBy__c"))) {
-                                                    component.set('v.displayEndorseDueDiligence', true);
-                                                    component.set('v.displayEndorseDueDiligenceButton', true);
-                                                } else {
-                                                    component.set('v.displayEndorseDueDiligence', true);
-                                                    if($A.util.isEmpty(component.get("v.recordObject.ApproveDueDiligenceBy__c"))) {
-                                                        component.set('v.displayApproveDueDiligence', true);
-                                                        component.set('v.displayApproveDueDiligenceButton', true);
-                                                    } else {
-                                                        component.set('v.displayApproveDueDiligence', true);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            component.set("v.isRejected", true);
-                        }
-                    }
-                }
-            }
-        }
+		} else {
+			component.set('v.displayCMReview', true);
+			if(component.get("v.recordObject.EnhanceDueDiligenceProceedByTrader__c") != 'Not Proceed') {
+				if($A.util.isEmpty(component.get("v.recordObject.EnhanceDueDiligenceBy__c"))) {
+					component.set('v.displayEnhanceDueDiligence', true);
+					component.set('v.displayEnhanceDueDiligenceButton', true);
+				} else {
+					component.set('v.displayEnhanceDueDiligence', true);
+					if($A.util.isEmpty(component.get("v.recordObject.ComplianceAdviceBy__c"))) {
+						component.set('v.displayComplianceAdvice', true);
+						component.set('v.displayComplianceAdviceButton', true);
+					} else {
+						component.set('v.displayComplianceAdvice', true);
+						if(component.get("v.recordObject.ComplianceAdviceResult__c") != 'Yes') {
+							if($A.util.isEmpty(component.get("v.recordObject.CPXXReviewDueDiligenceBy__c"))) {
+								component.set('v.displayCPXXReview', true);
+								component.set('v.displayCPXXReviewButton', true);
+							} else {
+								component.set('v.displayCPXXReview', true);
+								if($A.util.isEmpty(component.get("v.recordObject.CMVPReviewDueDiligenceBy__c"))) {
+									component.set('v.displayCMVPReview', true);
+									component.set('v.displayCMVPReviewButton', true);
+								} else {
+									component.set('v.displayCMVPReview', true);
+									if($A.util.isEmpty(component.get("v.recordObject.EVPCReviewEDDBy__c"))) {
+										component.set('v.displayEVPCReview', true);
+										component.set('v.displayEVPCReviewButton', true);
+									} else {
+										component.set('v.displayEVPCReview', true);
+										if(component.get("v.recordObject.EVPCReviewEDDResult__c") != 'Rejected') {
+											if(/*component.get("v.recordObject.CPXXReviewDueDiligenceResult__c") == 'Proceed' &&*/ component.get("v.recordObject.CMVPReviewDueDiligenceResult__c") == 'Proceed') {
+												if($A.util.isEmpty(component.get("v.recordObject.EndorseDueDiligenceBy__c"))) {
+													component.set('v.displayEndorseDueDiligence', true);
+													component.set('v.displayEndorseDueDiligenceButton', true);
+												} else {
+													component.set('v.displayEndorseDueDiligence', true);
+													if($A.util.isEmpty(component.get("v.recordObject.ApproveDueDiligenceBy__c"))) {
+														component.set('v.displayApproveDueDiligence', true);
+														component.set('v.displayApproveDueDiligenceButton', true);
+													} else {
+														component.set('v.displayApproveDueDiligence', true);
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						} else {
+							component.set("v.isRejected", true);
+						}
+					}
+				}
+			}
+		}
+	},
+
+	validateSection : function(sectionLabelMap, sectionName) {
+		var isValid = false;
+		for(const key of Object.keys(sectionLabelMap)) {
+			console.log('[validateSection] ' + key + ' -----');
+			if(key == sectionName) {
+				isValid = true;
+				break;
+			}
+		}
+		console.log('isValid -----', isValid);
+		return isValid;
 	},
 
 	setupSection : function(component) {
+		console.log('[handleRecordUpdated] sectionToDisplay -----', 'displayCMReview:' + component.get('v.displayCMReview') + 
+                                                                    '/displayEnhanceDueDiligence:' + component.get('v.displayEnhanceDueDiligence') + 
+                                                                    '/displayComplianceAdvice:' + component.get('v.displayComplianceAdvice') + 
+                                                                    '/displayCPXXReview:' + component.get('v.displayCPXXReview') + 
+                                                                    'displayCMVPReview:' + component.get('v.displayCMVPReview') + 
+                                                                    '/displayEVPCReview:' + component.get('v.displayEVPCReview') + 
+                                                                    '/displayEndorseDueDiligence:' + component.get('v.displayEndorseDueDiligence') + 
+                                                                    '/displayApproveDueDiligence:' + component.get('v.displayApproveDueDiligence') +
+																	'/displayTraderReview:' + component.get('v.displayTraderReview'));
+
 		component.set('v.displayCMReviewSection', (component.get('v.displayCMReview') && component.get('v.isCMReview')) || 
 			(component.get('v.displayCMReview') && !component.get('v.isCMReview') && !$A.util.isEmpty(component.get("v.recordObject.TraderEnhanceDueDiligenceBy__c"))));
 		component.set('v.displayEnhanceDueDiligenceSection', (component.get('v.displayEnhanceDueDiligence') && component.get('v.isEnhanceDueDiligence')) || 
@@ -217,6 +251,8 @@
 			(component.get('v.displayEndorseDueDiligence') && !component.get('v.isEndorseDueDiligence') && !$A.util.isEmpty(component.get("v.recordObject.EndorseDueDiligenceBy__c"))));
 		component.set('v.displayApproveDueDiligenceSection', (component.get('v.displayApproveDueDiligence') && component.get('v.isApproveDueDiligence')) || 
 			(component.get('v.displayApproveDueDiligence') && !component.get('v.isApproveDueDiligence') && !$A.util.isEmpty(component.get("v.recordObject.ApproveDueDiligenceBy__c"))));
+		component.set('v.displayTraderReviewSection', (component.get('v.displayTraderReview') && component.get('v.isTraderReview')) || 
+			(component.get('v.displayTraderReview') && !component.get('v.isTraderReview') && !$A.util.isEmpty(component.get("v.recordObject.TraderEnhanceDueDiligenceBy__c"))));
 	},
 
 	hideAllButtons : function(component) {

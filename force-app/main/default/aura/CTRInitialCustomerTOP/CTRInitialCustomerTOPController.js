@@ -23,6 +23,7 @@
             helper.getFacilityTankAndStorage(component, event);
 
             console.log('isInitial-2-' + component.get("v.isInitial"));
+            component.set('v.isDisplay', true);
             component.set('v.isLoaded', true);
 
             //}

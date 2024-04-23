@@ -73,9 +73,27 @@
                     console.log('defaultdata 2: ' + result.mBusinessUnit);
                     console.log('defaultdata 3: ' + result.mRecordTypeName);
 
+                    console.log('result.mCurrentUserName'+result.mCurrentUserName);
+                    component.set('v.currentUserName', result.mCurrentUserName);
+                    component.set('v.recordTypeNameCustomer', result.mRecordTypeName.includes('Customer'));
+                    console.log('defaultdata 4: ' + result.mRecordTypeName.includes('Customer'));
+
                     //component.set('v.BussinessUnit','TOP');
                     //component.set('v.isTX', true);
                     component.set('v.BussinessUnit', result.mBusinessUnit);
+                    if ((result.mRequestItem.Customer__r.AccountNumber__c || result.mRequestItem.Customer__r.SupplierNumber__c) && !result.mRecordTypeName.includes('Edit')) {
+                        component.set('v.SentGeneralView', true);
+                    }
+                    if(result.mRecordTypeName.includes('ShipTo'))
+                    {
+                        component.set('v.recordTypeNameCustomer', result.mRecordTypeName.includes('ShipTo'));
+                        if(result.mRecordTypeName.includes('Create'))
+                        {
+                            component.set('v.SentGeneralView', false);
+                        }
+                        component.set('v.isNotShipTo', false);
+                    }
+                    
                     if (component.get('v.BussinessUnit') == 'TX') 
                     {
                         component.set('v.isTX', true);
@@ -101,17 +119,11 @@
                             }
                         }
                     }
-                    console.log('result.mCurrentUserName'+result.mCurrentUserName);
-                    component.set('v.currentUserName', result.mCurrentUserName);
-                    component.set('v.recordTypeNameCustomer', result.mRecordTypeName.includes('Customer'));
-                    console.log('defaultdata 4: ' + result.mRecordTypeName.includes('Customer'));
-                    if(result.mRecordTypeName.includes('ShipTo'))
-                    {
-                        component.set('v.isNotShipTo', false);
-                    }
-                    if ((result.mRequestItem.Customer__r.AccountNumber__c || result.mRequestItem.Customer__r.SupplierNumber__c) && !result.mRecordTypeName.includes('Edit')) {
-                        component.set('v.SentGeneralView', true);
-                    }
+                    
+                    
+                    
+                    
+                    
 
                     component.set('v.recordTypeName', result.mRecordTypeName);
                     console.log('recordTypeNameCustomer:' + component.get('v.recordTypeNameCustomer'));
@@ -201,6 +213,7 @@
                 if (!requestFormHeaderObj.TransportationZone__c) { ValidateMessageList.push('Transportation Zone ') }
 
                 // sales tab Item 
+                
                 if (!requestFormItemObj.SalesDistrict__c) { ValidateMessageList.push('Sales District ') }
                 if (!requestFormItemObj.SalesOffice__c) { ValidateMessageList.push('Sales Office ') }
                 if (!requestFormItemObj.SalesGroup__c) { ValidateMessageList.push('Sales Group ') }
@@ -211,7 +224,9 @@
                 if (!requestFormItemObj.CustStatGroup__c) { ValidateMessageList.push('Cust Stats.Grp ') }
                 if (!requestFormItemObj.OrderCombination__c) { ValidateMessageList.push('Order Combination ') }
                 if (!requestFormItemObj.DeliveryPriority__c) { ValidateMessageList.push('Delivery Priority ') }
+
                 if (!requestFormItemObj.ShippingConditions__c) { ValidateMessageList.push('Shipping Conditions ') }
+
                 if (!requestFormItemObj.DeliveryPlant__c) { ValidateMessageList.push('Delivery Plant ') }
                 if (!requestFormItemObj.PartialDeliveriesperitem__c) { ValidateMessageList.push('Partail delivery per item ') }
                 if (!requestFormItemObj.MaxPartialDeliveries__c) { ValidateMessageList.push('Max Partail delivery') }
@@ -221,11 +236,15 @@
                 if (!requestFormItemObj.IsPriceDetermin__c) { ValidateMessageList.push('Price determin ') }
                 if (!requestFormItemObj.Incoterms__c) { ValidateMessageList.push('Incoterms ') }
                 if (!requestFormItemObj.Incoterms2__c) { ValidateMessageList.push('Incoterms2 ') }
+
                 if (!requestFormItemObj.CreditControlArea__c) { ValidateMessageList.push('Credit Control Area ') }
+                
                 if (!requestFormItemObj.TermOfPayment__c) { ValidateMessageList.push('PaymentTerm ') }
                 if (!requestFormItemObj.PaymentGuaranteeProcedure__c) { ValidateMessageList.push('Payment Guarantee Procedure ') }
                 if (!requestFormItemObj.TaxClassification__c) { ValidateMessageList.push('Tax Classification ') }
+
                 if (!requestFormItemObj.AccountAssignmentGroup__c) { ValidateMessageList.push('Account Assignment Group ') }
+
                 if (!requestFormItemObj.RiskCategory__c) { ValidateMessageList.push('Risk Category  ') }
 
 
@@ -340,60 +359,60 @@
                 if (!requestFormHeaderObj.PhoneCountryCode__c) { ValidateGeneralList.push('Phone (Country Code) ') }
                 if (!requestFormHeaderObj.Phone__c) { ValidateGeneralList.push('Phone ') }
 
-                // if (!requestFormItemObj.SalesOrganizationTX__c) { ValidateGeneralList.push('Sales Organization ') } // move to sales tab
-                if (!requestFormHeaderObj.TypeOfBusinessBranch__c) { ValidateGeneralList.push('Type Of Business (Branch) ') }
-                // if (!requestFormHeaderObj.TaxCode1__c) { ValidateGeneralList.push('TAX Number ') }
-                if (!requestFormHeaderObj.TAXClassification__c || requestFormHeaderObj.TAXClassification__c.length == 0) { ValidateGeneralList.push('Tax Classification ') }
-
-                // if (!requestFormHeaderObj.AccountGroup__c) { ValidateGeneralList.push('Account Group ') }
-                // if (!requestFormHeaderObj.RegionSAP__c) { ValidateGeneralList.push('Region ') }
-                if (!requestFormHeaderObj.TransportationZone__c) { ValidateGeneralList.push('Transportation Zone ') }
-                //if(!requestFormHeaderObj.TradingPartner__c){ ValidateGeneralList.push('TradingPartner ')}
-                // if (!requestFormItemObj.DistributionChannel__c) { ValidateGeneralList.push('Distribution Channel ') } // move to sales tab
-                // if (!requestFormItemObj.Division__c) { ValidateGeneralList.push('Division ') } // move to sales tab
-                if (!requestFormItemObj.CustomerType__c) { ValidateGeneralList.push('Customer Type ') }
-                if (!requestFormItemObj.CustomerGroup__c) { ValidateGeneralList.push('Customer Group ') }
-                if (!requestFormItemObj.Industry__c) { ValidateGeneralList.push('Industry ') }
-                if (!requestFormItemObj.SubIndustry__c) { ValidateGeneralList.push('Sub-Industry') }
-                if (!requestFormItemObj.Application__c) { ValidateGeneralList.push('Application ') }
-                if (!requestFormItemObj.InterGroup__c) { ValidateGeneralList.push('InterGroup ') }
-
-
-
-                // sales tab Item 
-                // if (!requestFormItemObj.SalesOrganizationTX__c) { ValidateSalesList.push('Sales Organization ') }
-                // if (!requestFormItemObj.DistributionChannel__c) { ValidateSalesList.push('Distribution Channel ') }
-                // if (!requestFormItemObj.Division__c) { ValidateSalesList.push('Division ') }
-                if (!requestFormItemObj.SalesDistrict__c) { ValidateSalesList.push('Sales District ') }
-                if (!requestFormItemObj.SalesOffice__c) { ValidateSalesList.push('Sales Office ') }
-                if (!requestFormItemObj.SalesGroup__c) { ValidateSalesList.push('Sales Group ') }
-                // if (!requestFormItemObj.Currency__c) { ValidateSalesList.push('Currency ') }
-                // if (!requestFormItemObj.OrderProbability__c) { ValidateSalesList.push('Order probab. ') }
-                if (!requestFormItemObj.ExchangeRateType__c) { ValidateSalesList.push('Exch. Rate Type ') }
-                if (!requestFormItemObj.CustPriceProc__c) { ValidateSalesList.push('Cust.pice.proc ') }
-                if (!requestFormItemObj.CustStatGroup__c) { ValidateSalesList.push('Cust Stats.Grp ') }
-
-                // if (!requestFormItemObj.OrderCombination__c) { ValidateSalesList.push('Order Combination ') }
-                if (!requestFormItemObj.DeliveryPriority__c) { ValidateSalesList.push('Delivery Priority ') }
-                if (!requestFormItemObj.ShippingConditions__c) { ValidateSalesList.push('Shipping Conditions ') }
-                if (!requestFormItemObj.DeliveryPlant__c) { ValidateSalesList.push('Delivery Plant ') }
-                //if (!requestFormItemObj.PartialDeliveriesperitem__c) { ValidateSalesList.push('Partial delivery per item ') }
-                if (!requestFormItemObj.MaxPartialDeliveries__c || requestFormItemObj.MaxPartialDeliveries__c.length == 0) { ValidateSalesList.push('Max Partail delivery') }
-                if (!requestFormItemObj.UnderdeliveryTolerance__c || requestFormItemObj.UnderdeliveryTolerance__c.length == 0) { ValidateSalesList.push('Underdel tolerance ') }
-                if (!requestFormItemObj.OverdeliveryTolerance__c || requestFormItemObj.OverdeliveryTolerance__c.length == 0) { ValidateSalesList.push('Overdeliv. tolerance ') }
-
-                // if (!requestFormItemObj.Rebate__c) { ValidateSalesList.push('Rebate ') }
-                // if (!requestFormItemObj.IsPriceDetermin__c) { ValidateSalesList.push('Price determin ') }
-                if (!requestFormItemObj.Incoterms__c) { ValidateSalesList.push('Incoterms ') }
-                // if (!requestFormItemObj.Incoterms2__c) { ValidateSalesList.push('Incoterms2 ') }
-                if (!requestFormItemObj.CreditControlArea__c) { ValidateSalesList.push('Credit Control Area ') }
-                // if (!requestFormItemObj.TermOfPayment__c) { ValidateSalesList.push('Term of payment ') }
-                if (!requestFormItemObj.PaymentGuaranteeProcedure__c) { ValidateSalesList.push('Payment Guarantee Procedure ') }
-                if (!requestFormItemObj.AccountAssignmentGroup__c) { ValidateSalesList.push('Account Assignment Group ') }
-                // if (!requestFormItemObj.RiskCategory__c) { ValidateSalesList.push('Risk Category  ') }
-
                 if(component.get('v.isNotShipTo'))
                 {
+                    // if (!requestFormItemObj.SalesOrganizationTX__c) { ValidateGeneralList.push('Sales Organization ') } // move to sales tab
+                    if (!requestFormHeaderObj.TypeOfBusinessBranch__c) { ValidateGeneralList.push('Type Of Business (Branch) ') }
+                    // if (!requestFormHeaderObj.TaxCode1__c) { ValidateGeneralList.push('TAX Number ') }
+                    if (!requestFormHeaderObj.TAXClassification__c || requestFormHeaderObj.TAXClassification__c.length == 0) { ValidateGeneralList.push('Tax Classification ') }
+
+                    // if (!requestFormHeaderObj.AccountGroup__c) { ValidateGeneralList.push('Account Group ') }
+                    // if (!requestFormHeaderObj.RegionSAP__c) { ValidateGeneralList.push('Region ') }
+                    //if (!requestFormHeaderObj.TransportationZone__c) { ValidateGeneralList.push('Transportation Zone ') }
+                    //if(!requestFormHeaderObj.TradingPartner__c){ ValidateGeneralList.push('TradingPartner ')}
+                    // if (!requestFormItemObj.DistributionChannel__c) { ValidateGeneralList.push('Distribution Channel ') } // move to sales tab
+                    // if (!requestFormItemObj.Division__c) { ValidateGeneralList.push('Division ') } // move to sales tab
+                
+                    //Additional info
+                    if (!requestFormItemObj.CustomerType__c || requestFormItemObj.CustomerType__c.length == 0) { ValidateGeneralList.push('Customer Type ') }
+                    if (!requestFormItemObj.CustomerGroup__c || requestFormItemObj.CustomerGroup__c.length == 0) { ValidateGeneralList.push('Customer Group ') }
+                    if (!requestFormItemObj.Industry__c || requestFormItemObj.Industry__c.length == 0) { ValidateGeneralList.push('Industry ') }
+                    if (!requestFormItemObj.SubIndustry__c || requestFormItemObj.SubIndustry__c.length == 0) { ValidateGeneralList.push('Sub-Industry') }
+                    if (!requestFormItemObj.Application__c || requestFormItemObj.Application__c.length == 0) { ValidateGeneralList.push('Application ') }
+                    if (!requestFormItemObj.InterGroup__c || requestFormItemObj.InterGroup__c.length == 0) { ValidateGeneralList.push('InterGroup ') }
+                
+                    // sales tab Item 
+                    // if (!requestFormItemObj.SalesOrganizationTX__c) { ValidateSalesList.push('Sales Organization ') }
+                    // if (!requestFormItemObj.DistributionChannel__c) { ValidateSalesList.push('Distribution Channel ') }
+                    // if (!requestFormItemObj.Division__c) { ValidateSalesList.push('Division ') }
+                    if (!requestFormItemObj.SalesDistrict__c) { ValidateSalesList.push('Sales District ') }
+                    if (!requestFormItemObj.SalesOffice__c) { ValidateSalesList.push('Sales Office ') }
+                    if (!requestFormItemObj.SalesGroup__c) { ValidateSalesList.push('Sales Group ') }
+                    // if (!requestFormItemObj.Currency__c) { ValidateSalesList.push('Currency ') }
+                    // if (!requestFormItemObj.OrderProbability__c) { ValidateSalesList.push('Order probab. ') }
+                    if (!requestFormItemObj.ExchangeRateType__c) { ValidateSalesList.push('Exch. Rate Type ') }
+                    if (!requestFormItemObj.CustPriceProc__c) { ValidateSalesList.push('Cust.pice.proc ') }
+                    if (!requestFormItemObj.CustStatGroup__c) { ValidateSalesList.push('Cust Stats.Grp ') }
+
+                    // if (!requestFormItemObj.OrderCombination__c) { ValidateSalesList.push('Order Combination ') }
+                    if (!requestFormItemObj.DeliveryPriority__c) { ValidateSalesList.push('Delivery Priority ') }
+                    if (!requestFormItemObj.ShippingConditions__c) { ValidateSalesList.push('Shipping Conditions ') }
+                    if (!requestFormItemObj.DeliveryPlant__c) { ValidateSalesList.push('Delivery Plant ') }
+                    //if (!requestFormItemObj.PartialDeliveriesperitem__c) { ValidateSalesList.push('Partial delivery per item ') }
+                    if (!requestFormItemObj.MaxPartialDeliveries__c || requestFormItemObj.MaxPartialDeliveries__c.length == 0) { ValidateSalesList.push('Max Partail delivery') }
+                    if (!requestFormItemObj.UnderdeliveryTolerance__c || requestFormItemObj.UnderdeliveryTolerance__c.length == 0) { ValidateSalesList.push('Underdel tolerance ') }
+                    if (!requestFormItemObj.OverdeliveryTolerance__c || requestFormItemObj.OverdeliveryTolerance__c.length == 0) { ValidateSalesList.push('Overdeliv. tolerance ') }
+
+                    // if (!requestFormItemObj.Rebate__c) { ValidateSalesList.push('Rebate ') }
+                    // if (!requestFormItemObj.IsPriceDetermin__c) { ValidateSalesList.push('Price determin ') }
+                    if (!requestFormItemObj.Incoterms__c) { ValidateSalesList.push('Incoterms ') }
+                    // if (!requestFormItemObj.Incoterms2__c) { ValidateSalesList.push('Incoterms2 ') }
+                    if (!requestFormItemObj.CreditControlArea__c) { ValidateSalesList.push('Credit Control Area ') }
+                    // if (!requestFormItemObj.TermOfPayment__c) { ValidateSalesList.push('Term of payment ') }
+                    if (!requestFormItemObj.PaymentGuaranteeProcedure__c) { ValidateSalesList.push('Payment Guarantee Procedure ') }
+                    if (!requestFormItemObj.AccountAssignmentGroup__c) { ValidateSalesList.push('Account Assignment Group ') }
+                    // if (!requestFormItemObj.RiskCategory__c) { ValidateSalesList.push('Risk Category  ') }
+                
                     //Company financial view tab
                     // if (!requestFormItemObj.ReconAccount__c) { ValidateFinancialList.push('Recon. Account ') }
                     // if (!requestFormItemObj.SortKey__c) { ValidateFinancialList.push('Sort Key ') }
@@ -402,7 +421,19 @@
                     // if (!requestFormItemObj.PaymentHistoryRecord__c) { ValidateFinancialList.push('Payment History Record ') }
                 }
 
+                //Ship to recordtype
+                if(!component.get('v.isNotShipTo'))
+                {
+                    //General view
+                    if (!requestFormHeaderObj.TAXClassification__c || requestFormHeaderObj.TAXClassification__c.length == 0) { ValidateGeneralList.push('Tax Classification ') }
+                    // if (!requestFormHeaderObj.AccountGroup__c) { ValidateGeneralList.push('Account Group ') }
+                    //if (!requestFormHeaderObj.TransportationZone__c) { ValidateGeneralList.push('Transportation Zone ') }
 
+                    //Sales view
+                    if (!requestFormItemObj.ShippingConditions__c) { ValidateSalesList.push('Shipping Conditions ') }
+                    if (!requestFormItemObj.CreditControlArea__c) { ValidateSalesList.push('Credit Control Area ') }
+                    if (!requestFormItemObj.AccountAssignmentGroup__c) { ValidateSalesList.push('Account Assignment Group ') }
+                }
 
             }
             // Check RecordType contains Supplier
@@ -592,7 +623,7 @@
             if (state === "SUCCESS") {
                 var returnvale = response.getReturnValue();
                 console.log('Debugresult val',returnvale)
-                this.toastEvent('Success', 'Sap information saved successfully', 'success');
+                this.toastEvent('Success', 'SAP information saved successfully', 'success');
                 console.log('Close modal',component)
                 this.closeModal(component);
                 // component.set('v.isModalOpen',false);

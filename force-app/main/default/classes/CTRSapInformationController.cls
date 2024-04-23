@@ -459,10 +459,10 @@ public with sharing class CTRSapInformationController
         Boolean hasPermission = false;
         if(mItem.BusinessUnit__c == 'TX') {
             String mType = mItem.CTRRequestFormHeader__r.Country__r.Code__c == 'TH' ? 'Domestic' : 'International';
-            String mRecordType = mItem.RecordType.DeveloperName.contains('Customer') ? 'Customer' : 'Supplier';
+            String mRecordType = (mItem.RecordType.DeveloperName.contains('ShipTo') || mItem.RecordType.DeveloperName.contains('Customer')) ? 'Customer' : 'Supplier';
             System.debug('Debug permission '+currentUser.Employee_Id__c+' : '+mItem.SubBU__c+' : '+mType+' : '+mRecordType);
             List<CTRActorInProcess__mdt> actorMdt = [SELECT ActorPosition__c, ActorTeam__c, EmployeeID__c, InterByTx__c, Process__c, Step__c, Type__c, SalesOrg__c, RecordType__c FROM CTRActorInProcess__mdt 
-            WHERE Step__c = 'TXMO' AND SalesOrg__c =: mItem.SubBU__c AND Type__c =: mType AND RecordType__c =: mRecordType AND InterByTx__c = 'No' AND EmployeeID__c =: currentUser.Employee_Id__c];
+            WHERE (Step__c = 'TXMO' OR Step__c = 'TXMOHead') AND SalesOrg__c =: mItem.SubBU__c AND Type__c =: mType AND RecordType__c =: mRecordType AND InterByTx__c = 'No' AND EmployeeID__c =: currentUser.Employee_Id__c];
 
             if(actorMdt.size() > 0) {
                 hasPermission = true;

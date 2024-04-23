@@ -10,13 +10,22 @@
             if(state === "SUCCESS") {
                 var result = response.getReturnValue();
                 console.log('[retrieveRiskLevel] result -----', result);
-                for(var i=0; i<result.length; i++) {
-                    if(!$A.util.isEmpty(result[i].disabled) && !result[i].disabled) {
-                        component.set('v.hasPermission', true);
-                        break;
+                component.set('v.displayReview', result.displayReviewOnCheckDue);
+                var riskLevelList = result.riskLevelList;
+                if(component.get('v.displayReview')) {
+                    var resultJSON = JSON.parse(result.dueDiligenceReviewSection);
+                    component.set('v.sectionLabelMap', resultJSON.sectionMap);
+                    console.log('sectionLabelMap -----', Object.assign({}, component.get('v.sectionLabelMap')));
+                    component.set('v.hasPermission', component.get('v.sectionLabelMap.traderReview.hasPermission'));
+                } else {
+                    for(var i=0; i<riskLevelList.length; i++) {
+                        if(!$A.util.isEmpty(riskLevelList[i].disabled) && !riskLevelList[i].disabled) {
+                            component.set('v.hasPermission', true);
+                            break;
+                        }
                     }
                 }
-                component.set('v.riskLevelList', result);
+                component.set('v.riskLevelList', riskLevelList);
                 if(!$A.util.isEmpty(component.get('v.riskLevelBySystem'))) {
                     var riskLevelBySystem = component.get('v.riskLevelBySystem');
                     this.updateRiskLevel(component, riskLevelBySystem.fieldName, riskLevelBySystem.value);
@@ -73,8 +82,40 @@
                 }
             }
             riskLevelInfo['Id'] = component.get('v.recordId');
+            if(component.get('v.displayReview')) {
+                var inputField = component.find("inputField"); // there's only one field
+                console.log('inputField -----', inputField);
+                if(inputField !== undefined) {
+                    console.log(inputField.get('v.fieldName') + ' -----', inputField.get('v.value'));
+                    if(inputField.get('v.required') !== undefined && inputField.get('v.required') == true) {
+                        if(!$A.util.isEmpty(inputField.get('v.value'))) {
+                            riskLevelInfo[inputField.get('v.fieldName')] = inputField.get('v.value');
+                            const reviewInfo = component.get('v.sectionLabelMap.traderReview.reviewInfo');
+                            for(const key of Object.keys(reviewInfo)) {
+                                console.log(key + ' -----');
+                                if(key != inputField.get('v.fieldName')) {
+                                    if(key.includes('DateTime')) {
+                                        riskLevelInfo[key] = new Date().toISOString();
+                                    } else {
+                                        riskLevelInfo[key] = $A.get("$SObjectType.CurrentUser.Id");
+                                    }
+                                }
+                            }
+                        } else {
+                            this.showToast('Warning', 'warning', 'Please complete all required fields.');
+                            component.set('v.isLoaded', true);
+                            return;
+                        }
+                    }
+                }
+            }
             if(type == 'submit') {
                 // update more fields
+                if(component.get('v.displayReview')) {
+                    riskLevelInfo['Status__c'] = 'New';
+                    riskLevelInfo['Approval_Step__c'] = 'Open';
+                    riskLevelInfo['SubmittedTrader__c'] = true;
+                }
             }
             console.log('[updateDueDiligence] riskLevelInfo -----', riskLevelInfo);
             var action = component.get("c.updateDueDiligence");

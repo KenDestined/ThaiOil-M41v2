@@ -119,13 +119,6 @@
                 <booleanValue>true</booleanValue>
             </value>
         </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.PartialDeliveriesperitem__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <stringValue>B</stringValue>
-            </value>
-        </assignmentItems>
     </assignments>
     <assignments>
         <name>Assign_Global_PurchaseOrg_TX</name>
@@ -727,7 +720,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Add_Default_Value_for_Status</targetReference>
+                <targetReference>Check_Sales_org_TOP_TX</targetReference>
             </connector>
             <label>Created</label>
         </rules>
@@ -895,5 +888,5 @@ IF(ISPICKVAL({!$Record.PurchasingOrganizationTX__c},&apos;N100&apos;), &apos;940
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
 </Flow>

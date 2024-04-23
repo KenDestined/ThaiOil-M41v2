@@ -186,5 +186,96 @@
     },
     handleSuccess: function(component, event, helper) {
         console.log('---handleSuccess--');
+    },
+
+    HideToolTip1 : function(c,e,h){
+
+        c.set("v.tooltip1" , false);
+
+    },
+    showToolTip1 : function(c, e, h) {
+
+        c.set("v.tooltip1" , true);
+
+        
+
+    },
+
+    HideToolTip2 : function(c,e,h){
+
+        c.set("v.tooltip2" , false);
+
+    },
+    showToolTip2 : function(c, e, h) {
+
+        c.set("v.tooltip2" , true);
+
+        
+
+    },
+
+    HideToolTip3 : function(c,e,h){
+
+        c.set("v.tooltip3" , false);
+
+    },
+    showToolTip3 : function(c, e, h) {
+
+        c.set("v.tooltip3" , true);
+
+        
+
+    },
+
+    HideToolTip4 : function(c,e,h){
+
+        c.set("v.tooltip4" , false);
+
+    },
+    showToolTip4 : function(c, e, h) {
+
+        c.set("v.tooltip4" , true);
+
+        
+
+    },
+
+    HideToolTip5 : function(c,e,h){
+
+        c.set("v.tooltip5" , false);
+
+    },
+    showToolTip5 : function(c, e, h) {
+
+        c.set("v.tooltip5" , true);
+
+        
+
+    },
+
+    HideToolTip6 : function(c,e,h){
+
+        c.set("v.tooltip6" , false);
+
+    },
+    showToolTip6 : function(c, e, h) {
+
+        c.set("v.tooltip6" , true);
+
+        
+
+    },
+
+    HideToolTip7 : function(c,e,h){
+
+        c.set("v.tooltip7" , false);
+
+    },
+    showToolTip7 : function(c, e, h) {
+
+        c.set("v.tooltip7" , true);
+
+        
+
     }
 })

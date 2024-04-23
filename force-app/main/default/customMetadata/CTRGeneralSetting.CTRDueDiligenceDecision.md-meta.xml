@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>CTRDueDiligenceDecision</label>
+    <protected>false</protected>
+    <values>
+        <field>Description__c</field>
+        <value xsi:type="xsd:string">Due Diligence Decision</value>
+    </values>
+    <values>
+        <field>LongValue__c</field>
+        <value xsi:type="xsd:string">{
+    &quot;CustomerInitial&quot;: {
+        &quot;riskLevel&quot;: &quot;CTRDueDiligenceRiskLevel&quot;,
+        &quot;resultReview&quot;: &quot;CTRDueDiligenceResultReview&quot;,
+        &quot;displayReviewOnCheckDue&quot;: false
+    },
+    &quot;SupplierInitial&quot;: {
+        &quot;riskLevel&quot;: &quot;CTRDueDiligenceRiskLevel&quot;,
+        &quot;resultReview&quot;: &quot;CTRDueDiligenceResultReview&quot;,
+        &quot;displayReviewOnCheckDue&quot;: false
+    },
+    &quot;CustomerExtend&quot;: {
+        &quot;riskLevel&quot;: &quot;CTRDueDiligenceRiskLevel&quot;,
+        &quot;resultReview&quot;: &quot;CTRDueDiligenceResultReview&quot;,
+        &quot;displayReviewOnCheckDue&quot;: false
+    },
+    &quot;SupplierExtend&quot;: {
+        &quot;riskLevel&quot;: &quot;CTRDueDiligenceRiskLevel&quot;,
+        &quot;resultReview&quot;: &quot;CTRDueDiligenceResultReview&quot;,
+        &quot;displayReviewOnCheckDue&quot;: false
+    },
+    &quot;ShipToCreate&quot;: {
+        &quot;riskLevel&quot;: &quot;CTRDueDiligenceRiskLevelForShipTo&quot;,
+        &quot;resultReview&quot;: &quot;CTRDueDiligenceResultReviewForShipTo&quot;,
+        &quot;displayReviewOnCheckDue&quot;: true
+    },
+    &quot;ShipToEdit&quot;: {
+        &quot;riskLevel&quot;: &quot;CTRDueDiligenceRiskLevelForShipTo&quot;,
+        &quot;resultReview&quot;: &quot;CTRDueDiligenceResultReviewForShipTo&quot;,
+        &quot;displayReviewOnCheckDue&quot;: true
+    }
+}</value>
+    </values>
+    <values>
+        <field>Value__c</field>
+        <value xsi:nil="true"/>
+    </values>
+</CustomMetadata>
