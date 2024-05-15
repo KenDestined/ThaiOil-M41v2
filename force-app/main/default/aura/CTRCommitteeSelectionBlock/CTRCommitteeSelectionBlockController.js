@@ -9,6 +9,7 @@
         const p3 = helper.onLoadedCommitteeInfo = Promise.all([p1, p2]).then($A.getCallback(function () {
             return helper.getCommitteeInfo(component);
         })).catch($A.getCallback(function (error) {
+            console.log('Debug Error#1',error.message)
             helper.showToast(error.message, 'error');
         }));
         const p4 = helper.onLoadedGroupedCommittees = helper.getGroupedCommittees();
@@ -21,6 +22,7 @@
 
             return helper.getTRCR(subBU, counterpartyType, type, hasCrude, interByTX);
         })).catch($A.getCallback((error) => {
+            console.log('Debug Error#2',error.message)
             helper.showToast(error.message, 'error');
         }));
         const p6 = p3.then($A.getCallback(() => {
@@ -32,19 +34,23 @@
 
             return helper.getTRCRSectionHead(subBU, counterpartyType, type, hasCrude, interByTX);
         })).catch($A.getCallback((error) => {
+            console.log('Debug Error#3',error.message)
             helper.showToast(error.message, 'error');
         }));
 
         Promise.all([p3, p4, p5, p6]).then($A.getCallback(function ([committeeInfo, groupedCommittee, trcrList, trcrHeadList]) {
+            console.log('Debug p3, p4, p5, p6')
             const subBU = helper.getSubBU();
 
             const lstCommittee = helper.convertGroupedCommitteesToList(groupedCommittee);
             const lstCompany = [subBU];
-
-            if (!committeeInfo.CommitteeName__c) {
-                helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
-            } else {
-                helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
+            console.log('Check committeeName__c ',committeeInfo)
+            if(committeeInfo) {
+                if (!committeeInfo.CommitteeName__c) {
+                    helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
+                } else {
+                    helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
+                }
             }
 
             // if (!committeeInfo.FinCrCond__c) {
@@ -56,8 +62,10 @@
             helper.canEdit(trcrList, trcrHeadList);
             helper.setCreditOwnerWhereCondition(trcrList);
         })).catch($A.getCallback(function (error) {
+            console.log('Debug Error#4',error.message)
             helper.showToast(error.message, 'error');
         })).finally($A.getCallback(function () {
+            console.log('Final setIsDataLoading=false');
             helper.setIsDataLoading(false);
         }));
     },

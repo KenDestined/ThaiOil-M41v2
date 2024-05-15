@@ -65,3 +65,10 @@
 .THIS .checkbox-style {
     display: flex;
 }
+
+.THIS .slds-hidden {
+    height: 0px;
+    width: 0px;
+    padding: 0px;
+    margin: 0px;
+}

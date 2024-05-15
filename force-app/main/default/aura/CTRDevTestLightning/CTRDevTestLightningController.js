@@ -8,23 +8,6 @@
         action.setParams({recordId: recordId});
         console.log('before apex');
 
-        // var testButton = [
-        //     {
-        //         label: 'Preview General Change',
-        //         action: 'previewTable'
-        //     },
-        //     {
-        //         label: 'Submit General and Inform CCA',
-        //         action: 'submitWithGeneral'
-        //     },
-        //     {
-        //         label: 'Inform CCA',
-        //         action: 'submitWithOutGeneral'
-        //     }
-        // ]
-        // component.set('v.loaded',true)
-        // component.set('v.buttonList',testButton);
-
         action.setCallback(this, function(response) 
         {
             var state = response.getState();
@@ -46,7 +29,7 @@
                     //component.set('v.mToken', mToken);
                     component.set('v.mRequestItem', mItem);
                     component.set('v.mRequestHeader', mHeader);
-
+                    component.set('v.picklistValues', result.mPicklist);
                     console.log('mRequestHeader:'+JSON.stringify(mHeader));
 
                     // helper.handleConditions(component,result)

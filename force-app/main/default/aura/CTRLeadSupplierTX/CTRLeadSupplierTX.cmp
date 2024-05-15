@@ -167,8 +167,15 @@
                                 <lightning:inputField aura:id="Company" fieldName="Company" variant="label-hidden"
                                     required="true" />
                             </div>
-                            <div class="slds-col slds-size_2-of-12" style="text-align: center; margin-top: 5px;"></div>
-                            <div class="slds-col slds-size_4-of-12"></div>
+                           <div class="slds-col slds-size_2-of-12" style="text-align: center; margin-top: 5px;">
+                                <label>
+                                    <!-- <span style="color:red; font-style: italic;">* </span> -->
+                                    Type of Business (Branch)
+                                </label>
+                            </div>
+                            <div class="slds-col slds-size_4-of-12">
+                                <lightning:inputField aura:id="TypeOfBusinessBranch__c" fieldName="TypeOfBusinessBranch__c" variant="label-hidden"/>
+                            </div>
                             <div class="slds-col slds-size_12-of-12" style="height: 16px;"></div>
 
                             <!-- row 2 -->
@@ -238,7 +245,19 @@
                                     />
                             </div>
                             <div class="slds-col slds-size_12-of-12" style="height: 16px;"></div>
+
+                            <!-- row 6 -->
+                        <div class="slds-col slds-size_2-of-12" style="text-align: center; margin-top: 5px;">
+                            <label>Account Group</label>
                         </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:inputField aura:id="AccountGroup__c" fieldName="AccountGroup__c" variant="label-hidden" />
+                        </div>
+                        <div class="slds-col slds-size_2-of-12" style="text-align: center; margin-top: 5px;"></div>
+                        <div class="slds-col slds-size_4-of-12"></div>
+                        <div class="slds-col slds-size_12-of-12" style="height: 16px;"></div>
+                        </div>
+
 
                     </div>
                 </div>

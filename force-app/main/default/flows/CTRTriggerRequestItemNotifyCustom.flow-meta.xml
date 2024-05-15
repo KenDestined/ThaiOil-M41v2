@@ -1,6 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
+        <name>emailCreditTeam_ApprovedEditCounterparty</name>
+        <label>emailCreditTeam</label>
+        <locationX>9048</locationX>
+        <locationY>2987</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>emailTraderTeam_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getCreditTeamEmailTemplate_ApprovedEditCounterparty.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>emailCreditTeam_RejectedEditCounterparty</name>
+        <label>emailCreditTeam</label>
+        <locationX>10500</locationX>
+        <locationY>1979</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getCreditTeamEmailTemplate_RejectedEditCounterparty.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>emailFA</name>
+        <label>emailFA</label>
+        <locationX>9378</locationX>
+        <locationY>2279</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>traderTXRecipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getFAEmailTemplate_ApprovedEditCounterparty.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>emailMDCCustomerSAPInfo</name>
         <label>emailMDCCustomerSAPInfo</label>
         <locationX>7266</locationX>
@@ -116,6 +212,164 @@
             </value>
         </inputParameters>
         <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>emailTraderTeam_ApprovedEditCounterparty</name>
+        <label>emailTraderTeam</label>
+        <locationX>9048</locationX>
+        <locationY>3095</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>traderrecipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getTraderTeamEmailTemplate_ApprovedEditCounterparty.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>emailTSR</name>
+        <label>emailTSR</label>
+        <locationX>11358</locationX>
+        <locationY>1679</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>traderrecipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getTSREmailTemplate_InformTSRUser.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>notifyCreditOwner_Approved</name>
+        <label>notifyCreditOwner</label>
+        <locationX>8916</locationX>
+        <locationY>971</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>checkTrader_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>recipientids</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>fmlEditCounterpartyNotifyTitle_Approved</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>fmlEditCounterpartyNotifyBody_Approved</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>notifyCreditOwner_Rejected</name>
+        <label>notifyCreditOwner</label>
+        <locationX>10368</locationX>
+        <locationY>971</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>checkBusinessUnit_RejectedEditCounterparty</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>getCustomNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>recipientids</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>fmlEditCounterpartyNotifyTitle_Rejected</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>fmlEditCounterpartyNotifyBody_Rejected</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>varTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
@@ -546,6 +800,93 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignCMVP_ApprovedEditCounterparty</name>
+        <label>assignCMVP</label>
+        <locationX>8916</locationX>
+        <locationY>1871</locationY>
+        <assignmentItems>
+            <assignToReference>traderrecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.OwnersCMVP__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkBusinessUnit_ApproveEditCounterparty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignCreditOwner_Approved</name>
+        <label>assignCreditOwner</label>
+        <locationX>8916</locationX>
+        <locationY>863</locationY>
+        <assignmentItems>
+            <assignToReference>recipientids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>notifyCreditOwner_Approved</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignCreditOwner_Rejected</name>
+        <label>assignCreditOwner</label>
+        <locationX>10368</locationX>
+        <locationY>863</locationY>
+        <assignmentItems>
+            <assignToReference>recipientids</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CreditOwner__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>notifyCreditOwner_Rejected</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFALBTeam_ApprovedEditCounterparty</name>
+        <label>assignFALBTeam</label>
+        <locationX>8850</locationX>
+        <locationY>2495</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findFALB_ApprovedEditCounterparty.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getCreditTeamEmailTemplate_ApprovedEditCounterparty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignFALBTeam_RejectedEditCounterparty</name>
+        <label>assignFALBTeam</label>
+        <locationX>10434</locationX>
+        <locationY>1595</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findFALB_RejectedEditCounterparty.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getCreditTeamEmailTemplate_RejectedEditCounterparty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignLABIXApproveComRecipientIds</name>
         <label>assignLABIXApproveComRecipientIds</label>
         <locationX>578</locationX>
@@ -575,6 +916,38 @@
         </assignmentItems>
         <connector>
             <targetReference>checkRecipient_0</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignMasterDataController_InformTSRUser</name>
+        <label>assignMasterDataController</label>
+        <locationX>11226</locationX>
+        <locationY>1079</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.MDCName__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkMasterDataControllerManager_InformTSRUser</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignMasterDataControllerManager_InformTSRUser</name>
+        <label>assignMasterDataControllerManager</label>
+        <locationX>11226</locationX>
+        <locationY>1379</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.MDCMngName__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getTSREmailTemplate_InformTSRUser</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -690,7 +1063,7 @@
     <assignments>
         <name>assignTargetRecord</name>
         <label>assign Target Record</label>
-        <locationX>4483</locationX>
+        <locationX>6287</locationX>
         <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
@@ -765,6 +1138,100 @@
         </assignmentItems>
         <connector>
             <targetReference>Check_Active</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTrader_ApprovedEditCounterparty</name>
+        <label>assignTrader</label>
+        <locationX>8916</locationX>
+        <locationY>1271</locationY>
+        <assignmentItems>
+            <assignToReference>traderrecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>traderTXRecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkTraderSH_ApprovedEditCounterparty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTrader_InformTSRUser</name>
+        <label>assignTrader</label>
+        <locationX>11358</locationX>
+        <locationY>863</locationY>
+        <assignmentItems>
+            <assignToReference>traderrecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkMasterDataController</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTraderSH_ApprovedEditCounterparty</name>
+        <label>assignTraderSH</label>
+        <locationX>8916</locationX>
+        <locationY>1571</locationY>
+        <assignmentItems>
+            <assignToReference>traderrecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.OwnersSectionHead__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>traderTXRecipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.OwnersSectionHead__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>checkCMVP_ApprovedEditCounterparty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRTeam_ApprovedEditCounterparty</name>
+        <label>assignTRCRTeam</label>
+        <locationX>8322</locationX>
+        <locationY>2495</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findTRCR_ApprovedEditCounterparty.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getCreditTeamEmailTemplate_ApprovedEditCounterparty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignTRCRTeam_RejectedEditCounterparty</name>
+        <label>assignTRCRTeam</label>
+        <locationX>9906</locationX>
+        <locationY>1595</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findTRCR_RejectedEditCounterparty.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getCreditTeamEmailTemplate_RejectedEditCounterparty</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1324,6 +1791,285 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkBusinessUnit_ApproveEditCounterparty</name>
+        <label>checkBusinessUnit</label>
+        <locationX>9048</locationX>
+        <locationY>2063</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>TOP_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getTRCRMetadata_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>TOP</label>
+        </rules>
+        <rules>
+            <name>LABIX_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getFALBMetadata_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>LABIX</label>
+        </rules>
+        <rules>
+            <name>TX_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getFAEmailTemplate_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkBusinessUnit_RejectedEditCounterparty</name>
+        <label>checkBusinessUnit</label>
+        <locationX>10500</locationX>
+        <locationY>1163</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>TOP_RejectedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getTRCRMetadata_RejectedEditCounterparty</targetReference>
+            </connector>
+            <label>TOP</label>
+        </rules>
+        <rules>
+            <name>LABIX_RejectedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getFALBMetadata_RejectedEditCounterparty</targetReference>
+            </connector>
+            <label>LABIX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkCMVP_ApprovedEditCounterparty</name>
+        <label>checkCMVP</label>
+        <locationX>9048</locationX>
+        <locationY>1763</locationY>
+        <defaultConnector>
+            <targetReference>checkBusinessUnit_ApproveEditCounterparty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>CMVP = Null</defaultConnectorLabel>
+        <rules>
+            <name>CMVPNotNull_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnersCMVP__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OwnersCMVP__r.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignCMVP_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>CMVP != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkCreditOwner_Approved</name>
+        <label>checkCreditOwner</label>
+        <locationX>9048</locationX>
+        <locationY>755</locationY>
+        <defaultConnector>
+            <targetReference>checkTrader_ApprovedEditCounterparty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Credit Owner = Null</defaultConnectorLabel>
+        <rules>
+            <name>CreditOwnerNotNull_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignCreditOwner_Approved</targetReference>
+            </connector>
+            <label>Credit Owner != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkCreditOwner_Rejected</name>
+        <label>checkCreditOwner</label>
+        <locationX>10500</locationX>
+        <locationY>755</locationY>
+        <defaultConnector>
+            <targetReference>checkBusinessUnit_RejectedEditCounterparty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Credit Owner = Null</defaultConnectorLabel>
+        <rules>
+            <name>CreditOwnerNotNull_Rejected</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CreditOwner__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignCreditOwner_Rejected</targetReference>
+            </connector>
+            <label>Credit Owner != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFALBTeam_ApprovedEditCounterparty</name>
+        <label>checkFALBTeam</label>
+        <locationX>8982</locationX>
+        <locationY>2387</locationY>
+        <defaultConnectorLabel>FALB = Null</defaultConnectorLabel>
+        <rules>
+            <name>FALBTeamNotNull_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findFALB_ApprovedEditCounterparty.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFALBTeam_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>FALB Team != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkFALBTeam_RejectedEditCounterparty</name>
+        <label>checkFALBTeam</label>
+        <locationX>10566</locationX>
+        <locationY>1487</locationY>
+        <defaultConnectorLabel>FALB = Null</defaultConnectorLabel>
+        <rules>
+            <name>FALBTeamNotNull_RejectedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findFALB_RejectedEditCounterparty.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignFALBTeam_RejectedEditCounterparty</targetReference>
+            </connector>
+            <label>FALB Team != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkMasterDataController</name>
+        <label>checkMasterDataController</label>
+        <locationX>11358</locationX>
+        <locationY>971</locationY>
+        <defaultConnector>
+            <targetReference>checkMasterDataControllerManager_InformTSRUser</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MasterDataControllerNotNull_InformTSRUser</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MDCName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.MDCName__r.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignMasterDataController_InformTSRUser</targetReference>
+            </connector>
+            <label>Master Data Controller != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkMasterDataControllerManager_InformTSRUser</name>
+        <label>checkMasterDataControllerManager</label>
+        <locationX>11358</locationX>
+        <locationY>1271</locationY>
+        <defaultConnector>
+            <targetReference>getTSREmailTemplate_InformTSRUser</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>MasterDataControllerManagerNotNull_InformTSRUser</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MDCMngName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.MDCMngName__r.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignMasterDataControllerManager_InformTSRUser</targetReference>
+            </connector>
+            <label>Master Data Controller Manager != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkMDCCustomer</name>
         <label>checkMDCCustomer</label>
         <locationX>7398</locationX>
@@ -1426,6 +2172,67 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkTrader</name>
+        <label>checkTrader</label>
+        <locationX>11512</locationX>
+        <locationY>755</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>TraderNotNull_InformTSRUser</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTrader_InformTSRUser</targetReference>
+            </connector>
+            <label>Trader != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTrader_ApprovedEditCounterparty</name>
+        <label>checkTrader</label>
+        <locationX>9048</locationX>
+        <locationY>1163</locationY>
+        <defaultConnector>
+            <targetReference>checkTraderSH_ApprovedEditCounterparty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Trader = Null</defaultConnectorLabel>
+        <rules>
+            <name>TraderNotNull_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnerId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTrader_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>Trader != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkTraderIsActive_SubmitSummaryReport</name>
         <label>checkTraderIsActive</label>
         <locationX>3988</locationX>
@@ -1448,6 +2255,82 @@
                 <targetReference>assignTrader</targetReference>
             </connector>
             <label>TraderIsActive</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTraderSH_ApprovedEditCounterparty</name>
+        <label>checkTraderSH</label>
+        <locationX>9048</locationX>
+        <locationY>1463</locationY>
+        <defaultConnector>
+            <targetReference>checkCMVP_ApprovedEditCounterparty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Trader SH = Null</defaultConnectorLabel>
+        <rules>
+            <name>TraderSHNotNull_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OwnersSectionHead__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OwnersSectionHead__r.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTraderSH_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>Trader SH != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRTeam_ApprovedEditCounterparty</name>
+        <label>checkTRCRTeam</label>
+        <locationX>8454</locationX>
+        <locationY>2387</locationY>
+        <defaultConnectorLabel>TRCR Team = Null</defaultConnectorLabel>
+        <rules>
+            <name>TRCRTeamNull_ApprovedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findTRCR_ApprovedEditCounterparty.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRTeam_ApprovedEditCounterparty</targetReference>
+            </connector>
+            <label>TRCR Team != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkTRCRTeam_RejectedEditCounterparty</name>
+        <label>checkTRCRTeam</label>
+        <locationX>10038</locationX>
+        <locationY>1487</locationY>
+        <defaultConnectorLabel>TRCR Team = Null</defaultConnectorLabel>
+        <rules>
+            <name>TRCRTeamNotNull_RejectedEditCounterparty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findTRCR_RejectedEditCounterparty.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignTRCRTeam_RejectedEditCounterparty</targetReference>
+            </connector>
+            <label>TRCR Team != Null</label>
         </rules>
     </decisions>
     <decisions>
@@ -1768,7 +2651,7 @@
     <decisions>
         <name>WhichNotifyType</name>
         <label>Which Notify Type</label>
-        <locationX>4483</locationX>
+        <locationX>6287</locationX>
         <locationY>647</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1933,6 +2816,79 @@
             </connector>
             <label>Emailed to Supplier</label>
         </rules>
+        <rules>
+            <name>ApproveEditCounterpartyNotification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.NotifyCustomAction__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approved Edit Change Counterparty</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>checkCreditOwner_Approved</targetReference>
+            </connector>
+            <label>Approve Edit Counterparty Notification</label>
+        </rules>
+        <rules>
+            <name>RejectedEditCounterpartyNotification</name>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.NotifyCustomAction__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Rejected Edit Change Counterparty</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TOP</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>LABIX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>checkCreditOwner_Rejected</targetReference>
+            </connector>
+            <label>Rejected Edit Counterparty Notification</label>
+        </rules>
+        <rules>
+            <name>InformTSRUser</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.SubBU__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TSR</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Approval_Step__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Summary Report</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>checkTrader</targetReference>
+            </connector>
+            <label>Inform TSR User</label>
+        </rules>
     </decisions>
     <decisions>
         <name>WhichOrg</name>
@@ -2016,12 +2972,32 @@
             <label>TXINDIA</label>
         </rules>
     </decisions>
-    <description>[10 Apr 2024] Add email and notification for MDC after emailed to customer</description>
+    <description>08-May-2024 Edit send email approved to FA and cc trader and trader s/h.</description>
     <environments>Default</environments>
     <formulas>
         <name>fmlCountry</name>
         <dataType>String</dataType>
         <expression>IF({!$Record.CTRRequestFormHeader__r.Country__r.Code__c}=&quot;TH&quot;, &quot;Domestic&quot;, &quot;International&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>fmlEditCounterpartyNotifyBody_Approved</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Customer__r.Name} &amp; &quot; Edit Counterparty Information has been approved by &quot; &amp; {!$Record.fmlPositionNameOfFinancial__c} &amp; &quot; Section Head. Please proceed next step.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>fmlEditCounterpartyNotifyBody_Rejected</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Customer__r.Name} &amp; &quot; Edit Counterparty Information has been rejected by &quot; &amp; {!$Record.fmlPositionNameOfFinancial__c} &amp; &quot; Section Head. Please revise and proceed next step.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>fmlEditCounterpartyNotifyTitle_Approved</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Customer__r.Name} &amp; &quot; Edit Counterparty Information is Approved.&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>fmlEditCounterpartyNotifyTitle_Rejected</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Customer__r.Name} &amp; &quot; Edit Counterparty Information is Rejected.&quot;</expression>
     </formulas>
     <formulas>
         <name>fmlMDCEmailSubject</name>
@@ -2206,9 +3182,51 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getCreditTeamEmailTemplate_ApprovedEditCounterparty</name>
+        <label>getCreditTeamEmailTemplate</label>
+        <locationX>9048</locationX>
+        <locationY>2771</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getTraderTeamEmailTemplate_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRApprovedEditCounterpartyEmailCreditTeam</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getCreditTeamEmailTemplate_RejectedEditCounterparty</name>
+        <label>getCreditTeamEmailTemplate</label>
+        <locationX>10500</locationX>
+        <locationY>1871</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>emailCreditTeam_RejectedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRRejectedEditCounterpartyEmailCreditTeam</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getCustomNotification</name>
         <label>getCustomNotification</label>
-        <locationX>4483</locationX>
+        <locationX>6287</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2291,6 +3309,27 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getFAEmailTemplate_ApprovedEditCounterparty</name>
+        <label>getFAEmailTemplate</label>
+        <locationX>9378</locationX>
+        <locationY>2171</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>emailFA</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRTXEditInfoApprovetoFA</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getFALBApproveCommittee_0</name>
         <label>getFALBApproveCommittee</label>
         <locationX>710</locationX>
@@ -2352,6 +3391,104 @@
         <queriedFields>SalesOrg__c</queriedFields>
         <queriedFields>Step__c</queriedFields>
         <queriedFields>Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getFALBMetadata_ApprovedEditCounterparty</name>
+        <label>getFALBMetadata</label>
+        <locationX>8982</locationX>
+        <locationY>2171</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findFALB_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>VerifyDocuments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getFALBMetadata_RejectedEditCounterparty</name>
+        <label>getFALBMetadata</label>
+        <locationX>10566</locationX>
+        <locationY>1271</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findFALB_RejectedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>VerifyDocuments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -2613,7 +3750,7 @@
     <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>4483</locationX>
+        <locationX>6287</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -2631,6 +3768,27 @@
         <object>CTRConfig__c</object>
         <queriedFields>Id</queriedFields>
         <queriedFields>OrgWideEmailAddress__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTraderTeamEmailTemplate_ApprovedEditCounterparty</name>
+        <label>getTraderTeamEmailTemplate</label>
+        <locationX>9048</locationX>
+        <locationY>2879</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>emailCreditTeam_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRTOPEditInfoApprovetoTrader</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -2695,6 +3853,104 @@
         <queriedFields>SalesOrg__c</queriedFields>
         <queriedFields>Step__c</queriedFields>
         <queriedFields>Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTRCRMetadata_ApprovedEditCounterparty</name>
+        <label>getTRCRMetadata</label>
+        <locationX>8454</locationX>
+        <locationY>2171</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findTRCR_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>VerifyDocuments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTRCRMetadata_RejectedEditCounterparty</name>
+        <label>getTRCRMetadata</label>
+        <locationX>10038</locationX>
+        <locationY>1271</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findTRCR_RejectedEditCounterparty</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>VerifyDocuments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -2823,6 +4079,27 @@
         <queriedFields>SalesOrg__c</queriedFields>
         <queriedFields>Step__c</queriedFields>
         <queriedFields>Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getTSREmailTemplate_InformTSRUser</name>
+        <label>getTSREmailTemplate</label>
+        <locationX>11358</locationX>
+        <locationY>1571</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>emailTSR</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>InformTSRtoCreateCustomerMaster</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -3082,7 +4359,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>4357</locationX>
+        <locationX>6161</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getCustomNotification</targetReference>
@@ -3127,6 +4404,40 @@
             <name>varMetaUsers</name>
             <value>
                 <elementReference>getCMVPSummaryReport</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findFALB_ApprovedEditCounterparty</name>
+        <label>findFALB</label>
+        <locationX>8982</locationX>
+        <locationY>2279</locationY>
+        <connector>
+            <targetReference>checkFALBTeam_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getFALBMetadata_ApprovedEditCounterparty</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findFALB_RejectedEditCounterparty</name>
+        <label>findFALB</label>
+        <locationX>10566</locationX>
+        <locationY>1379</locationY>
+        <connector>
+            <targetReference>checkFALBTeam_RejectedEditCounterparty</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getFALBMetadata_RejectedEditCounterparty</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -3212,6 +4523,40 @@
             <name>varMetaUsers</name>
             <value>
                 <elementReference>getLABIXMDSummaryReport</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findTRCR_ApprovedEditCounterparty</name>
+        <label>findTRCR</label>
+        <locationX>8454</locationX>
+        <locationY>2279</locationY>
+        <connector>
+            <targetReference>checkTRCRTeam_ApprovedEditCounterparty</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getTRCRMetadata_ApprovedEditCounterparty</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findTRCR_RejectedEditCounterparty</name>
+        <label>findTRCR</label>
+        <locationX>10038</locationX>
+        <locationY>1379</locationY>
+        <connector>
+            <targetReference>checkTRCRTeam_RejectedEditCounterparty</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getTRCRMetadata_RejectedEditCounterparty</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -3381,7 +4726,21 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>traderrecipientEmails</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>traderrecipientIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>traderTXRecipientEmails</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>

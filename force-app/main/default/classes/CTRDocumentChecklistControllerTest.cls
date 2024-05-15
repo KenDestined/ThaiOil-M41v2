@@ -147,7 +147,7 @@ public without sharing class CTRDocumentChecklistControllerTest {
     @isTest
     static void testSaveRequestDoc() {
         // Create test data
-        CTRRequestFormItem__c reqFormItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqFormItem = [SELECT ID,Name FROM CTRRequestFormItem__c LIMIT 1];
         reqFormItem.Name = 'Test Item';
         // Set other required fields as needed
 
@@ -264,16 +264,12 @@ public without sharing class CTRDocumentChecklistControllerTest {
 
     @isTest
     static void testGetBUInfo() {
-        CTRBuProfile__mdt buProfileRecord = new CTRBuProfile__mdt(
-            MasterLabel = 'Test BU Profile'
-        );
-
-        Id recordId = buProfileRecord.Id;
+        CTRRequestFormItem__c reqFormItem = [SELECT CustomerSubject__c, CustomerMessage__c, CustomerEmailTo__c, CustomerEmailCC__c FROM CTRRequestFormItem__c LIMIT 1];
 
         Test.startTest();
 
         try {
-            CTRBuProfile__mdt result = CTRDocumentChecklistController.getBUInfo(recordId);
+            CTRRequestFormItem__c result = CTRDocumentChecklistController.getBUInfo(reqFormItem.Id);
             System.assertNotEquals(null, result, 'Expected result to be not null');
 
             result = CTRDocumentChecklistController.getBUInfo(null);

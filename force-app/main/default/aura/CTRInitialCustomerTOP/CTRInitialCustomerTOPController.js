@@ -207,17 +207,20 @@
                         if (accInfo.Customer__r.AccountNumber__c || accInfo.Customer__r.SupplierNumber__c) {
                             component.set("v.SAPSync", true);
                             component.set('v.isSameAddress', true);
+                            component.set('v.GeneralWarning', true);
                             if (component.get("v.isCustomerType")) {
+                                component.set('v.isCustomerProductSelected', true);
                                 component.set('v.isNoCustomerProducts', false);
                                 component.set('v.isNoCustomerProductsSAPSync', false);
                             }
                         }
-                        // if (component.get("v.isSupplierType")) {
+                        if (component.get("v.isSupplierType")) {
+                            component.set('v.isNoCustomerProducts', true);
                         //     if (accInfo.Customer__r.SupplierNumber__c) {
                         //         component.set("v.SAPSync", true);
                         //         component.set('v.isSameAddress', true);
                         //     }
-                        // }
+                         }
                         if (accInfo.RecordType.DeveloperName.includes('Edit')) {
                             component.set("v.SAPSync", false);
 
@@ -400,6 +403,14 @@
         try {
             component.set('v.isLoaded', false);
             event.preventDefault();
+
+            // component.set('v.isCustomerProductSelected', false);
+            // component.set('v.isSupplierProductSelected', false);
+            // component.set('v.isOtherLegalEntity', false);
+            // component.set('v.isOtherTypeofBussiness', false);
+            // component.set('v.isOtherMainService', false);
+            // component.set('v.isOtherMainProduct', false);
+            // component.set('v.isRequired', false);
 
             const formData = event.getParam('fields');
             if (component.get('v.isNoCustomerProducts') == false) {
@@ -1020,6 +1031,6 @@
     closeModel: function (component, event, helper) {
         component.set("v.isModalSensitiveOpen", false);
         component.set('v.IsPageDisable', true);
-        window.location.reload();
+        //window.location.reload();
     },
 })

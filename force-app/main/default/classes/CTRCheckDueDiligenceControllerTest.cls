@@ -41,28 +41,48 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
         shareHolder.CTRRequestFormHeader__c = reqFormHeader.Id;
         insert shareHolder;
         
+        List<CTRRequestFormItem__c> reqList = new List<CTRRequestFormItem__c>();
  	    CTRRequestFormItem__c  reqFormItem = new CTRRequestFormItem__c();
         reqFormItem.Name ='Test';
         reqFormItem.CTRRequestFormHeader__c = reqFormHeader.Id;
-        insert reqFormItem;
-        
+        reqList.add(reqFormItem);
         
  	    CTRRequestFormItem__c  reqFormItem4 = new CTRRequestFormItem__c();
         reqFormItem4.Name ='Test4';
         reqFormItem4.CTRRequestFormHeader__c = reqFormHeader.Id;
-        insert reqFormItem4;
+        reqList.add(reqFormItem4);
         
+ 	    // CTRRequestFormItem__c  reqFormItem11 = new CTRRequestFormItem__c();
+        // reqFormItem11.Name ='Test11';
+        // reqFormItem11.CTRRequestFormHeader__c = reqFormHeader.Id;
+        // reqList.add(reqFormItem11);
         
- 	    CTRRequestFormItem__c  reqFormItem11 = new CTRRequestFormItem__c();
-        reqFormItem11.Name ='Test11';
-        reqFormItem11.CTRRequestFormHeader__c = reqFormHeader.Id;
-        insert reqFormItem11;
-        
-        
- 	    CTRRequestFormItem__c  reqFormItem5 = new CTRRequestFormItem__c();
-        reqFormItem5.Name ='Test5';
-        reqFormItem5.CTRRequestFormHeader__c = reqFormHeader.Id;
-        insert reqFormItem5;
+ 	    // CTRRequestFormItem__c  reqFormItem5 = new CTRRequestFormItem__c();
+        // reqFormItem5.Name ='Test5';
+        // reqFormItem5.CTRRequestFormHeader__c = reqFormHeader.Id;
+        // reqList.add(reqFormItem5);
+
+        CTRRequestFormItem__c  reqFormItem6 = new CTRRequestFormItem__c();
+        reqFormItem6.Name ='Test5';
+        reqFormItem6.CTRRequestFormHeader__c = reqFormHeader.Id;
+        reqFormItem6.RecordTypeId = Schema.SObjectType.CTRRequestFormItem__c.getRecordTypeInfosByDeveloperName().get('CustomerExtend').getRecordTypeId();
+        reqFormItem6.SalesOrganization__c = '1100';
+        reqFormItem6.RiskLevelbySystem__c = 'Low Risk';
+        reqFormItem6.RiskLevelbyTRCR__c = 'Medium Risk';
+        reqFormItem6.RiskLevelbyCPXX__c = 'Low Risk';
+        reqList.add(reqFormItem6);
+
+        CTRRequestFormItem__c  reqFormItem7 = new CTRRequestFormItem__c();
+        reqFormItem7.Name ='Test5';
+        reqFormItem7.CTRRequestFormHeader__c = reqFormHeader.Id;
+        reqFormItem7.RecordTypeId = Schema.SObjectType.CTRRequestFormItem__c.getRecordTypeInfosByDeveloperName().get('CustomerInitial').getRecordTypeId();
+        reqFormItem7.SalesOrganization__c = '1100';
+        reqFormItem7.RiskLevelbySystem__c = 'Low Risk';
+        reqFormItem7.RiskLevelbyTRCR__c = 'Medium Risk';
+        reqFormItem7.RiskLevelbyCPXX__c = 'Low Risk';
+        reqList.add(reqFormItem7);
+        insert reqList;
+
         
  	    CTR_RiskCountry__c  riskCountry = new CTR_RiskCountry__c();
         riskCountry.CountryCode__c ='TH';
@@ -81,6 +101,43 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
 			AnswerCode__c  = 'AC06'
 		);
         insert testDueDiligenceParent;
+
+                
+        CTRDueDiligenceTemplate__c testDueDiligenceChild = new CTRDueDiligenceTemplate__c(
+        	Name  = 'LEVEL3_2_2',
+			BusinessUnit__c  = 'TOP',
+			Level__c  = 3,
+			AnswerCode__c  = 'AC06',
+            RecordTypes__c = 'CustomerInitial;CustomerExtend',
+            Actor__c = 'NONE',
+            Active__c =  true,
+			Parent__c  = testDueDiligenceParent.Id
+		);
+        insert testDueDiligenceChild;
+
+        CTRDueDiligenceTemplate__c testDueDiligenceChild2 = new CTRDueDiligenceTemplate__c(
+        	Name  = 'LEVEL3_2_2',
+			BusinessUnit__c  = 'TOP',
+			Level__c  = 3,
+			AnswerCode__c  = 'AC06',
+            RecordTypes__c = 'CustomerInitial;CustomerExtend',
+            Actor__c = 'NONE',
+            Active__c =  true,
+			Parent__c  = testDueDiligenceParent.Id
+		);
+        insert testDueDiligenceChild2;
+
+        CTRDueDiligenceTemplate__c testDueDiligenceChild3 = new CTRDueDiligenceTemplate__c(
+        	Name  = 'LEVEL3_2_2',
+			BusinessUnit__c  = 'TOP',
+			Level__c  = 3,
+			AnswerCode__c  = 'AC06',
+            RecordTypes__c = 'CustomerExtend',
+            Actor__c = 'NONE',
+            Active__c =  true
+		);
+        insert testDueDiligenceChild3;
+        
 
         CTRDueDiligenceTemplate__c testDueDiligence6 = new CTRDueDiligenceTemplate__c(
 			Name  = 'LEVEL3_2_2.6',
@@ -267,26 +324,19 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
     
 	@isTest
     public static void testretrieveRiskLevel() {
-        RecordType recordType = [SELECT Id FROM RecordType WHERE Name = 'New Customer'];
 
-        CTRRequestFormItem__c testRecord = new CTRRequestFormItem__c(
-            SalesOrganization__c = '1100',
-            RecordTypeId = recordType.Id
-        );
-        insert testRecord;
+		List<CTRRequestFormItem__c> testRecord =  [SELECT Id FROM CTRRequestFormItem__c WHERE recordType.name = 'New Customer'];
     
 		Test.startTest();
-        CTRCheckDueDiligenceController.retrieveRiskLevel(testRecord.Id);
+        CTRCheckDueDiligenceController.retrieveRiskLevel(testRecord[0].Id);
         Test.stopTest();
     }
 	
 	@isTest
     public static void testretrieveDueDiligenceResult() {
 		List<CTRRequestFormItem__c> recIdRecord =  [SELECT Id FROM CTRRequestFormItem__c];
-		
-        Test.startTest();
 
- 	    CTR_RiskCountry__c  riskCountry = new CTR_RiskCountry__c();
+        CTR_RiskCountry__c  riskCountry = new CTR_RiskCountry__c();
         riskCountry.CountryCode__c ='TH';
         riskCountry.Version__c = 'Oct2566';
         riskCountry.CountryName__c = '';
@@ -307,10 +357,12 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
             TimeZoneSidKey = 'Asia/Bangkok',
             LocaleSidKey = 'en_US',
             EmailEncodingKey = 'UTF-8',
+            Employee_Id__c = '08000288',
             LanguageLocaleKey = 'en_US'
         );
         insert testUser;
 
+        Test.startTest();
         System.runAs(testUser) {
             for(CTRRequestFormItem__c eachItem : recIdRecord) {
                 CTRCheckDueDiligenceController.retrieveDueDiligenceResult(eachItem.Id, true);
@@ -342,13 +394,16 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
 	@isTest
     public static void testupdateDueDiligence() {
 		List<CTRRequestFormItem__c> recIdRecordList =  [SELECT Id FROM CTRRequestFormItem__c];
-        CTRRequestFormItem__c recIdRecord = recIdRecordList[0];
-        String riskLevelInfo = JSON.serialize(recIdRecord);
+
+        Map<String,Object> mapReqItem = new Map<String,Object>();
+        mapReqItem.put('Id',recIdRecordList[0].Id);
+        mapReqItem.put('Name','TestUpdate');
+
+        String riskLevelInfo = JSON.serialize(mapReqItem);
         System.Debug('riskLevelInfo ---->'+ riskLevelInfo);	
  		
 		Test.startTest();                                                               
-        recIdRecord.Name = 'TestUpdate';
-		String JsonString = Json.serialize(recIdRecord); 
+		String JsonString = riskLevelInfo;
         System.debug('reqItem2 -----' + JsonString);
         CTRCheckDueDiligenceController.updateDueDiligence(JsonString);
          Test.stopTest();
@@ -394,7 +449,8 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
             TimeZoneSidKey = 'Asia/Bangkok',
             LocaleSidKey = 'en_US',
             EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US'
+            LanguageLocaleKey = 'en_US',
+            Employee_Id__c = '08000288'
         );
         insert testUser;
 
@@ -446,14 +502,15 @@ public with sharing class CTRCheckDueDiligenceControllerTest {
             TimeZoneSidKey = 'Asia/Bangkok',
             LocaleSidKey = 'en_US',
             EmailEncodingKey = 'UTF-8',
-            LanguageLocaleKey = 'en_US'
+            LanguageLocaleKey = 'en_US',
+            Employee_Id__c = '08000288'
         );
         insert testUser;
 
         System.runAs(testUser) {
             for(CTRRequestFormItem__c eachItem : recIdRecord) {
                 CTRCheckDueDiligenceController.validateActor(eachItem.Id, 'Trader', testUser.Id,'SubmitRegistration');
-                CTRCheckDueDiligenceController.validateActor(eachItem.Id, '', testUser.Id,'SubmitRegistration');
+                CTRCheckDueDiligenceController.validateActor(eachItem.Id, 'Other', testUser.Id,'SubmitRegistration');
             }
         }
         Test.stopTest();

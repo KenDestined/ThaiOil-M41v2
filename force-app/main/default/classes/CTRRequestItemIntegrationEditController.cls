@@ -10,7 +10,7 @@ public with sharing class CTRRequestItemIntegrationEditController
         Map<String,Object> input{get; set;}
     }
 
-    public static mapLv1 SetupJsonForCTRDataModel (List<CTRIntegrationMapping__mdt> mAllMappingList, CTRRequestFormHeader__c mRequestHeader, CTRRequestFormItem__c mRequestItem, String mSendType, String mBusinessUnit, String mGatewayId)
+    /*public static mapLv1 SetupJsonForCTRDataModel (List<CTRIntegrationMapping__mdt> mAllMappingList, CTRRequestFormHeader__c mRequestHeader, CTRRequestFormItem__c mRequestItem, String mSendType, String mBusinessUnit, String mGatewayId)
     {
         mapLv1 ctrData = new mapLv1();
         //mSendType = 'Customer'; //Mock
@@ -407,7 +407,7 @@ public with sharing class CTRRequestItemIntegrationEditController
             ctrData.input = inputModel;
         }
         return ctrData;
-    }
+    }*/
 
     public class changedFieldWrapper
     {
@@ -431,6 +431,7 @@ public with sharing class CTRRequestItemIntegrationEditController
 
         String mChangeFieldHeader = (String.isNotBlank(mRequestItem.InternalGeneralChangedField__c))?mRequestItem.InternalGeneralChangedField__c:'[]';
         String mChangeFieldItem = (String.isNotBlank(mRequestItem.InternalEditField__c))?mRequestItem.InternalEditField__c:'[]';
+        System.debug('mChangeFieldItem:'+mChangeFieldItem);
         Boolean isDynamic = (mGeneralIntegrationType == 'Dynamic' || mViewIntegrationType == 'Dynamic')?true:false;
         
         //List<CTRIntegrationMapping__mdt> mAllMappingList = [SELECT Id, BusinessUnit__c, IntegrationType__c, JsonMapping__c, RecordType__c, ViewName__c, SupportIntegrationType__c FROM CTRIntegrationMapping__mdt];
@@ -458,6 +459,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                 }
             }
         }
+        System.debug('mMapingChangeFieldMap:'+mMapingChangeFieldMap);
 
         String mMainFlag = 'U';
 
@@ -509,7 +511,7 @@ public with sharing class CTRRequestItemIntegrationEditController
             }
             System.debug('mItemChangeFieldList:'+mItemChangeFieldList);
         }
-
+        System.debug('mItemChangeFieldList size:'+mItemChangeFieldList.size());
             String mRecordTypeName = mRequestItem.RecordType.DeveloperName;
             String uuid = mGatewayId;//(mRequestItem.GatewayId__c!= null)?mRequestItem.GatewayId__c:Uuid.randomUUID();
            
@@ -700,7 +702,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                         addressIntModel.put('CustomerName2',mRequestHeader.CustomerNameLocal2__c !=null ? mRequestHeader.CustomerNameLocal2__c: '');
                         addressIntModel.put('CustomerName3','');//No field in SF yet.
                         addressIntModel.put('CustomerName4','');//No field in SF yet.
-                        addressIntModel.put('CityStateText',mRequestHeader.CityStateLocal__r.Description__c != null?  mRequestHeader.CityStateLocal__r.Description__c: '');//TODO ใน google sheet มี 2 fields 2 values ให้เอา value ต่อกันเลยไหมครับ?
+                        addressIntModel.put('CityStateText',mRequestHeader.CityStateLocal__r.SearchTerm3__c != null?  mRequestHeader.CityStateLocal__r.SearchTerm3__c: '');//TODO ใน google sheet มี 2 fields 2 values ให้เอา value ต่อกันเลยไหมครับ?
                         //addressIntModel.put('SubDistrictText',mRequestHeader.SubDistrictLocalText__c != null?  mRequestHeader.SubDistrictLocalText__c: '');//TODO ในชีส ไม่มี field map
                         addressIntModel.put('DistrictText',mRequestHeader.DistrictLocalText__c != null?  mRequestHeader.DistrictLocalText__c: ''); //TODO ใน google sheet มี 2 fields 2 values ให้เอา value ต่อกันเลยไหมครับ?
                         addressIntModel.put('BuildingCode',mRequestHeader.BuildingCodeLocal__c !=null ? mRequestHeader.BuildingCodeLocal__c: '');
@@ -800,7 +802,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                             companyCodeViewModel.put('Task', 'I');
                             companyCodeViewModel.put('SortKey', mRequestItem.SortKey__c !=null ? mRequestItem.SortKey__c: '');
                             companyCodeViewModel.put('ReconciliationAccount', mRequestItem.ReconAccount__c !=null ? mRequestItem.ReconAccount__c: '');
-                            //companyCodeViewModel.put('PaymentMethods', 'I'); // ยังต้องส่งนะ
+                            companyCodeViewModel.put('PaymentMethods', mRequestItem.PaymentMethod__c !=null ? mRequestItem.PaymentMethod__c.replace(';',''): ''); // ยังต้องส่งนะ
                             companyCodeViewModel.put('TermofPayment', mRequestItem.TermofPayment__r.Code__c !=null ? mRequestItem.TermofPayment__r.Code__c: '');
                             companyCodeViewModel.put('PlanningGroup', mRequestItem.CashManagementGroup__c !=null ? mRequestItem.CashManagementGroup__c: '');
                             companyCodeViewModel.put('PaymentHistoryRecord', mRequestItem.PaymentHistoryRecord__c == true ? 'X':'');
@@ -836,6 +838,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                     {
                         //Purchasing view
                         salesDataModel = manageEditJsonMappingForIntegration(mItemChangeFieldList, mMapingChangeFieldMap, 'PurchasingView');
+                        System.debug(' purchasing salesDataModel:'+salesDataModel);
                         if(salesDataModel.size()>0)
                         {
                             salesDataModel.put('PurchasingOrg', mRequestItem.PurchasingOrganization__c);
@@ -851,7 +854,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                             if(companyCodeViewModel.size()>0)
                             {
                                 companyCodeViewModel.put('CompanyCode', SalesOrganization);
-                                if(mCountry == 'TH')
+                                if(mRequestItem.WHTaxCountry__c  == 'TH')
                                 {
                                     companyCodeViewModel.put('WithHoldingCountry', mCountry);
                                 }
@@ -860,7 +863,7 @@ public with sharing class CTRRequestItemIntegrationEditController
                                 companyCodeViewModelList.add(companyCodeViewModel);
                             }
 
-                            if(mCountry == 'TH')
+                            if(mRequestItem.WHTaxCountry__c  == 'TH')
                             {
                                 Map<String,String> withHoldingTax1ViewModel = new Map<String,String>();
                                 Map<String,String> withHoldingTax2ViewModel = new Map<String,String>();
@@ -929,29 +932,29 @@ public with sharing class CTRRequestItemIntegrationEditController
                             companyCodeViewModel.put('Task', 'I');
                             companyCodeViewModel.put('CompanyCode', mRequestItem.CompanyCodeTX__c !=null ? mRequestItem.CompanyCodeTX__c: '');
                             companyCodeViewModel.put('ReconciliationAccount', mRequestItem.ReconAccount__c !=null ? mRequestItem.ReconAccount__c: '');
-                            companyCodeViewModel.put('PaymentMethods', mRequestItem.PaymentMethod__c !=null ? mRequestItem.PaymentMethod__c: ''); //TODO ในชีส ไม่มี field map
+                            companyCodeViewModel.put('PaymentMethods', mRequestItem.PaymentMethod__c !=null ? mRequestItem.PaymentMethod__c.replace(';',''): ''); //TODO ในชีส ไม่มี field map
                             companyCodeViewModel.put('TermofPayment', mRequestItem.TermOfPayment__r.Code__c !=null ? mRequestItem.TermOfPayment__r.Code__c: ''); //อยู่บน Sales
                             companyCodeViewModel.put('AccountClerk', mRequestItem.AccigClerk__c !=null ? mRequestItem.AccigClerk__c: '');
                             companyCodeViewModel.put('CashManagementGroup', mRequestItem.CashManagementGroup__c !=null ? mRequestItem.CashManagementGroup__c: '');
                             companyCodeViewModel.put('SortKey', mRequestItem.SortKey__c !=null ? mRequestItem.SortKey__c: '');
-                            companyCodeViewModel.put('WithHoldingCountry', (mCountry == 'TH') ? mCountry: '');
+                            companyCodeViewModel.put('WithHoldingCountry', (mRequestItem.WHTaxCountry__c == 'TH') ? mRequestItem.WHTaxCountry__c: '');
                             companyCodeViewModel.put('CheckDoubleInv', mRequestItem.Chkdoubleinv__c == true ? 'X':'');
                             companyCodeViewModelList.add(companyCodeViewModel);
                             
-                            if(mCountry == 'TH')
+                            if(mRequestItem.WHTaxCountry__c == 'TH')
                             {
                                 //WithHolding Tax
                                 Map<String,String> withHoldingTax1ViewModel = new Map<String,String>();
                                 Map<String,String> withHoldingTax2ViewModel = new Map<String,String>();
                                 withHoldingTax1ViewModel.put('TaxType','J1');
                                 withHoldingTax1ViewModel.put('Subject','X');
-                                withHoldingTax1ViewModel.put('TypeOfRecipient','53');
+                                withHoldingTax1ViewModel.put('TypeOfRecipient', mRequestItem.Recty1__c);
                                 withHoldingTax1ViewModel.put('Task','I');
                                 withHoldingTaxViewModelList.add(withHoldingTax1ViewModel);
 
                                 withHoldingTax2ViewModel.put('TaxType','J2');
                                 withHoldingTax2ViewModel.put('Subject','X');
-                                withHoldingTax2ViewModel.put('TypeOfRecipient','53');
+                                withHoldingTax2ViewModel.put('TypeOfRecipient', mRequestItem.Recty2__c);
                                 withHoldingTax2ViewModel.put('Task','I');
                                 withHoldingTaxViewModelList.add(withHoldingTax2ViewModel);
                             }
@@ -968,7 +971,7 @@ public with sharing class CTRRequestItemIntegrationEditController
             }
     
             //Requeired Important
-            if(RecordTypeShort != 'Supplier')
+            if(RecordTypeShort != 'Supplier' && isMain)
             {
                 subInputModel.put('SalesOrganization',  SalesOrganization); 
                 subInputModel.put('CompanyCode',  SalesOrganization); 
@@ -1017,6 +1020,7 @@ public with sharing class CTRRequestItemIntegrationEditController
             for(changedFieldWrapper mChangeField: mChangedFieldList)
             {
                 List<changedFieldWrapper> mIntegrationFieldMappingList = mMapingChangeFieldMap.get(mIntegrationView);
+                System.debug('mIntegrationFieldMappingList: '+mIntegrationFieldMappingList);
                 if(mIntegrationFieldMappingList.size()>0)
                 {
                     for(changedFieldWrapper mIntegrationChange: mIntegrationFieldMappingList)

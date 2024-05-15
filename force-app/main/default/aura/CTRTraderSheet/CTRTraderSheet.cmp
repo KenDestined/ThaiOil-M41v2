@@ -47,6 +47,8 @@
     
     <aura:attribute name="BU" type="String" />
     <aura:attribute name="IsButtonClick" type="Boolean" default="false"/>
+
+    <aura:attribute name="counterPartyType" type="String"/>
     
     <aura:handler name="change" value="{!v.pageReference}" action="{!c.onPageReferenceChanged}" />
         <aura:If isTrue="{!and(v.CurrentApprover != 'Done',v.CurrentUserID == v.CurrentApproverId)}">
@@ -57,8 +59,8 @@
                 <!--lightning:button variant="brand-outline" label="EDIT" title="Fill in Trader Sheet" onclick="{! c.handleClick }" /-->
             </div><br/> <br/> 
         </aura:If>
-    <!--admin-->
-<lightning:button variant="brand-outline" label="Fill in Trader Sheet" title="Fill in Trader Sheet" onclick="{!c.handleClick }"/> 
+    <!--admin
+<lightning:button variant="brand-outline" label="Fill in Trader Sheet" title="Fill in Trader Sheet" onclick="{!c.handleClick }"/> -->
         <lightning:recordEditForm aura:id="recordEditForm" objectApiName="CTRRequestFormItem__c" recordId="{!v.recordId}" onsubmit="{!c.handleSubmit}" onsuccess="{!c.handleSuccess}">
             
             <div class="slds-section slds-is-open animate" aura:id="Summarized">
@@ -75,7 +77,7 @@
                             <div class="slds-grid slds-wrap flexibility:auto">
                                 <div class="slds-col slds-size_1-of-1 page-section">   <!-- ReputationInTheMarket__c -->
                                     <p>1. <b>Reputation in the market</b>: Company Limited or Partnership Limited in related business including domestic trading  
-                                    <lightning:helptext content="Note: Reputation in the market will be defaulted by system based on information from 'Business Type' and 'Legal Entity' filled by customer."></lightning:helptext></p>
+                                    <lightning:helptext content="{! ('Note: Reputation in the market will be defaulted by system based on information from \'Business Type\' and \'Legal Entity\' filled by '+ v.counterPartyType + '.') }"></lightning:helptext></p>
                                 </div>
                                 <div class="slds-col slds-size_2-of-7 page-section"> 
                                 	<p> &nbsp;&nbsp;&nbsp;&nbsp;Business Type: </p> 

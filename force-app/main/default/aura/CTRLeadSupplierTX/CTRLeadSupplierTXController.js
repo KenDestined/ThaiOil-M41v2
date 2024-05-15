@@ -111,6 +111,8 @@
         error.output.errors.forEach((err) => {
             if (err.errorCode === 'DUPLICATES_DETECTED') {
                 helper.showToast('Similar Records Exist', false);
+            } else if (err.errorCode === 'INSUFFICIENT_ACCESS_OR_READONLY') {
+                helper.showToast("You don't have permission to edit this record.", false);
             } else {
                 helper.showToast(err.message, false);
             }

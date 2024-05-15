@@ -26,4 +26,8 @@
         <field>SortOrder__c</field>
         <value xsi:type="xsd:double">5.0</value>
     </values>
+    <values>
+        <field>SubBu__c</field>
+        <value xsi:type="xsd:string">LABIX</value>
+    </values>
 </CustomMetadata>

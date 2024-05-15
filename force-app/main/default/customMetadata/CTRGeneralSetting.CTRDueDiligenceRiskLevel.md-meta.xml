@@ -25,7 +25,7 @@
             &quot;disabled&quot;: true
         },
         &quot;RiskLevelbyTRCR__c&quot;: {
-            &quot;label&quot;: &quot;Risk Level by TXFA&quot;,
+            &quot;label&quot;: &quot;Risk Level by FA&quot;,
             &quot;actorStep&quot;: &quot;Credit&quot;
         },
         &quot;RiskLevelbyCPXX__c&quot;: {

@@ -4,7 +4,8 @@
         var action = component.get('c.onloadCreatePage');
         action.setParams({
             "mAccountId": component.get('v.customerId'),
-            "RecordType": component.get('v.recordTypeId')
+            "RecordType": component.get('v.recordTypeId'),
+            "mBusinessUnit": component.get('v.bu'),
         });
         action.setCallback(this, function (response) {
             var state = response.getState();

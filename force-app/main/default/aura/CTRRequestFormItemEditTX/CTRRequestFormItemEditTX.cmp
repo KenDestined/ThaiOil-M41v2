@@ -25,6 +25,7 @@
     <aura:attribute name="Wth" type="Boolean" default="false" />
     <aura:attribute name="isEdit" type="Boolean" default="false" />
     <aura:attribute name="isExtend" type="Boolean" default="false" />
+    <aura:attribute name="isCreditActor" type="Boolean" default="false" />
 
     <aura:attribute name="ChangedFieldForEDITItem" type="List" default="[]" />
 
@@ -126,7 +127,7 @@
                             <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                 <div class="slds-form">
                                     <div class="slds-form-element">
-                                        <aura:renderIf isTrue="{!v.isCustomer}">
+                                        <aura:if isTrue="{!v.isCustomer}">
                                             <label class="slds-form-element__label">
                                                 <abbr class="slds-required" title="required">*</abbr>Interest Product
                                                 Type as Customer
@@ -142,16 +143,17 @@
                                                         <lightning:inputField aura:id="inputCustom"
                                                             variant="label-hidden"
                                                             fieldName="InterestedProductTypeAsCustomerTX__c"
+                                                            onchange="{!c.handleInterestProductCustomerChange}"
                                                             required="true" />
                                                         <!-- <lightning:combobox aura:id="inputCustom" variant="label-hidden" value="{!v.selectedProductType}" placeholder="-None-" options="{!v.productTypeOptions}" required="{!v.isCustomer}" name="interestProductTypeAsCustomer" /> -->
                                                     </aura:set>
                                                 </aura:if>
                                             </div>
-                                        </aura:renderIf>
-                                        <aura:renderIf isTrue="{!v.isCustomer}">
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.isCustomer}">
                                             <label class="slds-form-element__label" style="margin-top: 10px;">
-                                                <aura:renderIf isTrue="{!v.isOtherProductCustomer}"><span
-                                                        style="color:red; font-style: italic;">* </span></aura:renderIf>
+                                                <aura:if isTrue="{!v.isOtherProductCustomer}"><span
+                                                        style="color:red; font-style: italic;">* </span></aura:if>
                                                 (Customer) Other Products
                                             </label>
                                             <div class="slds-form-element__control">
@@ -159,7 +161,7 @@
                                                     fieldName="CustomerProductIdentification__c"
                                                     required="{!v.isOtherProductCustomer}" />
                                             </div>
-                                        </aura:renderIf>
+                                        </aura:if>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +169,7 @@
                                 <div class="slds-form">
                                     <div class="slds-form-element">
 
-                                        <aura:renderIf isTrue="{!v.isSupplier}">
+                                        <aura:if isTrue="{!v.isSupplier}">
                                             <label class="slds-form-element__label">
                                                 <abbr class="slds-required" title="required">*</abbr>Interest Product
                                                 Type as Supplier
@@ -178,21 +180,22 @@
                                                         value="{!v.selectedProductType}" placeholder="--None--"
                                                         options="{!v.productTypeOptions}" required="{!v.isCustomer}"
                                                         name="interestProductTypeAsSupplier"
-                                                        onchange="{!c.handleInterestProductCustomerChange}" />
+                                                        onchange="{!c.handleInterestProductSupplierChange}" />
                                                     <aura:set attribute="else">
                                                         <lightning:inputField aura:id="inputCustom"
                                                             variant="label-hidden"
                                                             fieldName="InterestedProductTypeAsSupplierTX__c"
+                                                            onchange="{!c.handleInterestProductSupplierChange}"
                                                             required="true" />
                                                     </aura:set>
                                                 </aura:if>
                                                 <!-- <lightning:combobox aura:id="inputCustom" variant="label-hidden" value="{!v.selectedProductType}" placeholder="-None-" options="{!v.productTypeOptions}" required="{!v.isSupplier}" name="interestProductTypeAsSupplier" /> -->
                                             </div>
-                                        </aura:renderIf>
-                                        <aura:renderIf isTrue="{!v.isSupplier}">
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.isSupplier}">
                                             <label class="slds-form-element__label">
-                                                <aura:renderIf isTrue="{!v.isOtherProductSupplier}"><span
-                                                        style="color:red; font-style: italic;">* </span></aura:renderIf>
+                                                <aura:if isTrue="{!v.isOtherProductSupplier}"><span
+                                                        style="color:red; font-style: italic;">* </span></aura:if>
                                                 (Supplier) Other Products
                                             </label>
                                             <div class="slds-form-element__control">
@@ -200,11 +203,11 @@
                                                     fieldName="SupplierProductIdentification__c"
                                                     required="{!v.isOtherProductSupplier}" />
                                             </div>
-                                        </aura:renderIf>
+                                        </aura:if>
                                     </div>
                                 </div>
                             </div>
-                            <aura:renderIf isTrue="{!v.isEdit}">
+                            <aura:if isTrue="{!v.isEdit}">
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -231,7 +234,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </aura:renderIf>
+                            </aura:if>
                             <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                 <div class="slds-form">
                                     <div class="slds-form-element">
@@ -268,7 +271,7 @@
                     </div>
                 </div>
 
-                <aura:renderIf isTrue="{!v.isExtend}">
+                <aura:if isTrue="{!v.isExtend}">
                     <div class="slds-section slds-is-open" aura:id="SectionContactPersonInformation">
                         <h3 class="slds-section__title">
                             <button aria-controls="SectionContactPersonInformation" aria-expanded="true"
@@ -440,9 +443,9 @@
                             <!-- </lightning:recordEditForm> -->
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:if>
 
-                <aura:renderIf isTrue="{!v.isCustomer}">
+                <aura:if isTrue="{!v.isCustomer}">
                     <div class="slds-section slds-is-open" aura:id="billingDocumentSection">
                         <h3 class="slds-section__title">
                             <button type="button" aria-controls="billingDocumentDetail" aria-expanded="true"
@@ -456,32 +459,34 @@
                         </h3>
                         <div class="slds-section__content" id="billingDocumentDetail">
                             <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <div class="slds-form-element__control checkbox-style">
-                                                <lightning:inputField aura:id="inputField" variant="label-hidden"
-                                                    fieldName="Rebate__c" disabled="true" />
-                                                <label class="slds-form-element__label">
-                                                    Rebate
-                                                </label>
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control checkbox-style">
+                                                    <lightning:inputField aura:id="inputField" variant="label-hidden"
+                                                        fieldName="Rebate__c" disabled="true" />
+                                                    <label class="slds-form-element__label">
+                                                        Rebate
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <div class="slds-form-element__control checkbox-style">
-                                                <lightning:inputField aura:id="inputField" variant="label-hidden"
-                                                    fieldName="IsPriceDetermin__c" disabled="true" />
-                                                <label class="slds-form-element__label">
-                                                    Price determin.
-                                                </label>
+                                    <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control checkbox-style">
+                                                    <lightning:inputField aura:id="inputField" variant="label-hidden"
+                                                        fieldName="IsPriceDetermin__c" disabled="true" />
+                                                    <label class="slds-form-element__label">
+                                                        Price determin.
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -628,7 +633,7 @@
                                         </div> 
                                     </div>
                                 </div> -->
-                                <aura:renderIf isTrue="{!v.isCustomer}">
+                                <aura:if isTrue="{!v.isCustomer}">
                                     <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                         <div class="slds-form">
                                             <div class="slds-form-element">
@@ -660,7 +665,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </aura:renderIf>
+                                </aura:if>
                             </div>
                         </div>
                     </div>
@@ -677,20 +682,23 @@
                         </h3>
                         <div class="slds-section__content" id="accountInfoDetail">
                             <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <div class="slds-form-element__control checkbox-style">
-                                                <lightning:inputField aura:id="inputField" id="Payment History Record"
-                                                    variant="label-hidden" fieldName="PaymentHistoryRecord__c"
-                                                    onchange="{!c.addJsonforEdit}" />
-                                                <label class="slds-form-element__label">
-                                                    Payment History Record
-                                                </label>
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control checkbox-style">
+                                                    <lightning:inputField aura:id="inputField"
+                                                        id="Payment History Record" variant="label-hidden"
+                                                        fieldName="PaymentHistoryRecord__c"
+                                                        onchange="{!c.addJsonforEdit}" />
+                                                    <label class="slds-form-element__label">
+                                                        Payment History Record
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -705,34 +713,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Sort key
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Sort key"
-                                                    variant="label-hidden" fieldName="SortKey__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr>Sort key
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Sort key"
+                                                        variant="label-hidden" fieldName="SortKey__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                Authorization
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Authorization"
-                                                    variant="label-hidden" fieldName="Authorization__c"
-                                                    onchange="{!c.addJsonforEdit}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -831,63 +827,65 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                Order Probab.
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Order Probab."
-                                                    variant="label-hidden" fieldName="OrderProbability__c"
-                                                    onchange="{!c.addJsonforEdit}" />
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    Order Probab.
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Order Probab."
+                                                        variant="label-hidden" fieldName="OrderProbability__c"
+                                                        onchange="{!c.addJsonforEdit}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Exchange Rate Type
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Exchange Rate Type"
-                                                    variant="label-hidden" fieldName="ExchangeRateType__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr>Exchange Rate
+                                                    Type
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Exchange Rate Type"
+                                                        variant="label-hidden" fieldName="ExchangeRateType__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Cust.Price.Proc
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Cust.Price.Proc"
-                                                    variant="label-hidden" fieldName="CustPriceProc__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr>Cust.Price.Proc
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Cust.Price.Proc"
+                                                        variant="label-hidden" fieldName="CustPriceProc__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Cust.Stat.Group
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Cust.Stat.Group"
-                                                    variant="label-hidden" fieldName="CustStatGroup__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr>Cust.Stat.Group
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Cust.Stat.Group"
+                                                        variant="label-hidden" fieldName="CustStatGroup__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2" />
                             </div>
                         </div>
@@ -905,33 +903,36 @@
                         </h3>
                         <div class="slds-section__content" id="shippingDetail">
                             <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                <!-- <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <div class="slds-form-element__control checkbox-style">
-                                                <lightning:inputField aura:id="inputField" variant="label-hidden" 
-                                                fieldName="OrderCombination__c" disabled="true"/>
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <!-- <div class="slds-col slds-size_1-of-1 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control checkbox-style">
+                                                    <lightning:inputField aura:id="inputField" variant="label-hidden"
+                                                        fieldName="OrderCombination__c" disabled="true" />
+                                                    <label class="slds-form-element__label">
+                                                        Order Combination
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
                                                 <label class="slds-form-element__label">
-                                                    Order Combination
+                                                    <abbr class="slds-required" title="required">*</abbr>Delivery
+                                                    Priority
                                                 </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Delivery Priority"
+                                                        variant="label-hidden" fieldName="DeliveryPriority__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> -->
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Delivery Priority
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Delivery Priority"
-                                                    variant="label-hidden" fieldName="DeliveryPriority__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -972,66 +973,71 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Max. partial
-                                                deliveries
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Max. partial deliveries"
-                                                    variant="label-hidden" fieldName="MaxPartialDeliveries__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr>Max. partial
+                                                    deliveries
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField"
+                                                        id="Max. partial deliveries" variant="label-hidden"
+                                                        fieldName="MaxPartialDeliveries__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <!-- <abbr class="slds-required" title="required">*</abbr> -->
-                                                Partial deliveries per item
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField"
-                                                    id="Partial deliveries per item" variant="label-hidden"
-                                                    fieldName="PartialDeliveriesperitem__c"
-                                                    onchange="{!c.addJsonforEdit}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <!-- <abbr class="slds-required" title="required">*</abbr> -->
+                                                    Partial deliveries per item
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField"
+                                                        id="Partial deliveries per item" variant="label-hidden"
+                                                        fieldName="PartialDeliveriesperitem__c"
+                                                        onchange="{!c.addJsonforEdit}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                Underdelivery Tolerance
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Underdelivery Tolerance"
-                                                    variant="label-hidden" fieldName="UnderdeliveryTolerance__c"
-                                                    onchange="{!c.addJsonforEdit}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    Underdelivery Tolerance
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField"
+                                                        id="Underdelivery Tolerance" variant="label-hidden"
+                                                        fieldName="UnderdeliveryTolerance__c"
+                                                        onchange="{!c.addJsonforEdit}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                Overdelivery Tolerance
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Overdelivery Tolerance"
-                                                    variant="label-hidden" fieldName="OverdeliveryTolerance__c"
-                                                    onchange="{!c.addJsonforEdit}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    Overdelivery Tolerance
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField"
+                                                        id="Overdelivery Tolerance" variant="label-hidden"
+                                                        fieldName="OverdeliveryTolerance__c"
+                                                        onchange="{!c.addJsonforEdit}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </aura:if>
                             </div>
                         </div>
                     </div>
@@ -1137,8 +1143,8 @@
                             </div>
                         </div>
                     </div>
-                </aura:renderIf>
-                <aura:renderIf isTrue="{!v.isSupplier}">
+                </aura:if>
+                <aura:if isTrue="{!v.isSupplier}">
                     <div class="slds-section slds-is-open" aura:id="purchasingAreaSection">
                         <h3 class="slds-section__title">
                             <button type="button" aria-controls="purchasingAreaDetail" aria-expanded="true"
@@ -1274,20 +1280,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <abbr class="slds-required" title="required">*</abbr>Sort Key
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Sort Key"
-                                                    variant="label-hidden" fieldName="SortKey__c"
-                                                    onchange="{!c.addJsonforEdit}" required="true" />
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <abbr class="slds-required" title="required">*</abbr>Sort Key
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Sort Key"
+                                                        variant="label-hidden" fieldName="SortKey__c"
+                                                        onchange="{!c.addJsonforEdit}" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -1330,151 +1338,154 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <aura:renderIf isTrue="{!v.Wth}">
-                                                    <span style="color:red; font-style: italic;">* </span>
-                                                </aura:renderIf>
-                                                WH Tax Country
-                                                <lightning:helptext style="position: relative; top: -4px;"
-                                                    content="WH Tax Country" />
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="WH Tax Country"
-                                                    variant="label-hidden" fieldName="WHTaxCountry__c"
-                                                    onchange="{!c.addJsonforEdit}" required="{!v.Wth}"
-                                                    disabled="true" />
+
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <aura:if isTrue="{!v.Wth}">
+                                                        <span style="color:red; font-style: italic;">* </span>
+                                                    </aura:if>
+                                                    WH Tax Country
+                                                    <lightning:helptext style="position: relative; top: -4px;"
+                                                        content="WH Tax Country" />
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="WH Tax Country"
+                                                        variant="label-hidden" fieldName="WHTaxCountry__c"
+                                                        onchange="{!c.addJsonforEdit}" required="{!v.Wth}"
+                                                        disabled="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <aura:renderIf isTrue="{!v.Wth}">
-                                                    <span style="color:red; font-style: italic;">* </span>
-                                                </aura:renderIf>
-                                                Wth.t.type. 1
-                                                <lightning:helptext style="position: relative; top: -4px;"
-                                                    content="Wth.t.type. 1" />
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Wth.t.type. 1"
-                                                    variant="label-hidden" fieldName="Wthttype1__c"
-                                                    onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
-                                                    required="{!v.Wth}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <aura:if isTrue="{!v.Wth}">
+                                                        <span style="color:red; font-style: italic;">* </span>
+                                                    </aura:if>
+                                                    Wth.t.type. 1
+                                                    <lightning:helptext style="position: relative; top: -4px;"
+                                                        content="Wth.t.type. 1" />
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Wth.t.type. 1"
+                                                        variant="label-hidden" fieldName="Wthttype1__c"
+                                                        onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
+                                                        required="{!v.Wth}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <aura:renderIf isTrue="{!v.Wth}">
-                                                    <span style="color:red; font-style: italic;">* </span>
-                                                </aura:renderIf>
-                                                Wth.t.type. 2
-                                                <lightning:helptext style="position: relative; top: -4px;"
-                                                    content="Wth.t.type. 2" />
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Wth.t.type. 2"
-                                                    variant="label-hidden" fieldName="Wthttype2__c"
-                                                    onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
-                                                    required="{!v.Wth}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <aura:if isTrue="{!v.Wth}">
+                                                        <span style="color:red; font-style: italic;">* </span>
+                                                    </aura:if>
+                                                    Wth.t.type. 2
+                                                    <lightning:helptext style="position: relative; top: -4px;"
+                                                        content="Wth.t.type. 2" />
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Wth.t.type. 2"
+                                                        variant="label-hidden" fieldName="Wthttype2__c"
+                                                        onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
+                                                        required="{!v.Wth}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <aura:renderIf isTrue="{!v.Wth}">
-                                                    <span style="color:red; font-style: italic;">* </span>
-                                                </aura:renderIf>
-                                                Rec.ty 1
-                                                <lightning:helptext style="position: relative; top: -4px;"
-                                                    content="Rec.ty 1" />
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Rec.ty 1"
-                                                    variant="label-hidden" fieldName="Recty1__c"
-                                                    onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
-                                                    required="{!v.Wth}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <aura:if isTrue="{!v.Wth}">
+                                                        <span style="color:red; font-style: italic;">* </span>
+                                                    </aura:if>
+                                                    Rec.ty 1
+                                                    <lightning:helptext style="position: relative; top: -4px;"
+                                                        content="Rec.ty 1" />
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Rec.ty 1"
+                                                        variant="label-hidden" fieldName="Recty1__c"
+                                                        onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
+                                                        required="{!v.Wth}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <aura:renderIf isTrue="{!v.Wth}">
-                                                    <span style="color:red; font-style: italic;">* </span>
-                                                </aura:renderIf>
-                                                Rec.ty 2
-                                                <lightning:helptext style="position: relative; top: -4px;"
-                                                    content="Rec.ty 2" />
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Rec.ty 2"
-                                                    variant="label-hidden" fieldName="Recty2__c"
-                                                    onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
-                                                    required="{!v.Wth}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_small">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <aura:if isTrue="{!v.Wth}">
+                                                        <span style="color:red; font-style: italic;">* </span>
+                                                    </aura:if>
+                                                    Rec.ty 2
+                                                    <lightning:helptext style="position: relative; top: -4px;"
+                                                        content="Rec.ty 2" />
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Rec.ty 2"
+                                                        variant="label-hidden" fieldName="Recty2__c"
+                                                        onchange="{!c.addJsonforEdit}" class="helptext-padding-top"
+                                                        required="{!v.Wth}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <!-- <aura:renderIf isTrue="{!v.Wth}"><span style="color:red; font-style: italic;">* </span></aura:renderIf> -->
-                                                Liable 1
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Liable 1"
-                                                    variant="label-hidden" fieldName="Liable1__c"
-                                                    onchange="{!c.addJsonforEdit}" required="{!v.Wth}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <!-- <aura:if isTrue="{!v.Wth}"><span style="color:red; font-style: italic;">* </span></aura:if> -->
+                                                    Liable 1
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Liable 1"
+                                                        variant="label-hidden" fieldName="Liable1__c"
+                                                        onchange="{!c.addJsonforEdit}" required="{!v.Wth}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <!-- <aura:renderIf isTrue="{!v.Wth}"><span style="color:red; font-style: italic;">* </span></aura:renderIf> -->
-                                                Liable 2
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Liable 2"
-                                                    variant="label-hidden" fieldName="Liable2__c"
-                                                    onchange="{!c.addJsonforEdit}" required="{!v.Wth}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <!-- <aura:if isTrue="{!v.Wth}"><span style="color:red; font-style: italic;">* </span></aura:if> -->
+                                                    Liable 2
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Liable 2"
+                                                        variant="label-hidden" fieldName="Liable2__c"
+                                                        onchange="{!c.addJsonforEdit}" required="{!v.Wth}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                <!-- <aura:renderIf isTrue="{!v.Wth}"><span style="color:red; font-style: italic;">* </span></aura:renderIf> -->
-                                                Chk double inv.
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Chk double inv."
-                                                    variant="label-hidden" fieldName="Chkdoubleinv__c" disabled="true"
-                                                    onchange="{!c.addJsonforEdit}" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    <!-- <aura:if isTrue="{!v.Wth}"><span style="color:red; font-style: italic;">* </span></aura:if> -->
+                                                    Chk double inv.
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="Chk double inv."
+                                                        variant="label-hidden" fieldName="Chkdoubleinv__c"
+                                                        disabled="true" onchange="{!c.addJsonforEdit}" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </aura:if>
                             </div>
                         </div>
                     </div>
@@ -1515,7 +1526,7 @@
                         </h3>
                         <div class="slds-section__content" id="conditionsDetail">
                             <div class="slds-grid slds-wrap slds-var-p-around_large">
-                                <aura:renderIf isTrue="{!v.isCustomer}">
+                                <aura:if isTrue="{!v.isCustomer}">
                                     <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                         <div class="slds-form">
                                             <div class="slds-form-element">
@@ -1530,7 +1541,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </aura:renderIf>
+                                </aura:if>
                                 <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
@@ -1615,34 +1626,37 @@
                                     </div>
                                 </div>
                                 <div class="slds-col slds-size_1-of-2" />
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                GR-Based Inv.Verif
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="GR-Based Inv.Verif"
-                                                    variant="label-hidden" fieldName="GRBasedInvVerif__c"
-                                                    onchange="{!c.addJsonforEdit}" disabled="true" />
+                                <aura:if isTrue="{!v.isCreditActor}">
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    GR-Based Inv.Verif
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField" id="GR-Based Inv.Verif"
+                                                        variant="label-hidden" fieldName="GRBasedInvVerif__c"
+                                                        onchange="{!c.addJsonforEdit}" disabled="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <label class="slds-form-element__label">
-                                                Automatic purchase order
-                                            </label>
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="inputField" id="Automatic purchase order"
-                                                    variant="label-hidden" fieldName="AutomaticPurchaseOrder__c"
-                                                    onchange="{!c.addJsonforEdit}" disabled="true" />
+                                    <div class="slds-col slds-size_1-of-2 slds-var-p-around_medium">
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <label class="slds-form-element__label">
+                                                    Automatic purchase order
+                                                </label>
+                                                <div class="slds-form-element__control">
+                                                    <lightning:inputField aura:id="inputField"
+                                                        id="Automatic purchase order" variant="label-hidden"
+                                                        fieldName="AutomaticPurchaseOrder__c"
+                                                        onchange="{!c.addJsonforEdit}" disabled="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </aura:if>
                             </div>
                         </div>
                     </div>
@@ -1678,7 +1692,7 @@
                             </div>
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:if>
                 <div class="slds-col slds-size_1-of-1 slds-hide">
                     <p>edit log field</p>
                     <lightning:inputField aura:id="InternalEditField__c" fieldName="InternalEditField__c"

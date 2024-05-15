@@ -8,6 +8,7 @@
     },
 
     setIsDataLoading: function (value) {
+        console.log('setIsDataLoading',value)
         this.component.set("v.isDataLoading", value);
     },
 
@@ -283,10 +284,12 @@
                 const state = response.getState();
                 if (state === "SUCCESS") {
                     const buProfile = response.getReturnValue();
+                    console.log('getCurrentUserBUProfile ',buProfile);
                     _THIS_.component.set("v.buProfile", buProfile);
                     _THIS_.component.set("v.bu", buProfile.BusinessUnit__c);
                     resolve(buProfile);
                 } else {
+                    console.log('Error getCurrentUserBUProfile: ',response.getError());
                     reject(response.getError());
                 }
             });
@@ -304,9 +307,11 @@
             action.setCallback(this, function (response) {
                 const state = response.getState();
                 if (state === "SUCCESS") {
+                    console.log('getRequestCounterpartyType ',response.getReturnValue())
                     _THIS_.component.set("v.counterpartyType", response.getReturnValue());
                     resolve(response.getReturnValue());
                 } else {
+                    console.log('Error getRequestCounterpartyType: ',response.getError());
                     reject(response.getError());
                 }
             });
@@ -394,6 +399,7 @@
                 if (state === "SUCCESS") {
                     
                     const committeeInfo = response.getReturnValue();
+                    console.log('Get committee info',committeeInfo);
                     if (committeeInfo) {
                         _THIS_.setCommitteeInfo(component, committeeInfo);
                         
@@ -421,6 +427,7 @@
                         }
                         
                     }
+                    console.log('After process committeeInfo')
                     resolve(committeeInfo);
                 } else {
                     console.log("get committee info error: " + JSON.stringify(response.getError()));
@@ -485,7 +492,6 @@
 
     setEmailInfo: function (component, committeeInfo) {
         try {
-            debugger
             if (!committeeInfo.Subject__c.includes("[RequestNo.:")) {
                 const part = committeeInfo.Subject__c.split(":");
                 if (part.length === 1) {

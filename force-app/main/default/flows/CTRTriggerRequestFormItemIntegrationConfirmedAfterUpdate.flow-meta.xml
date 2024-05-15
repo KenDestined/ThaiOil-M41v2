@@ -3,8 +3,8 @@
     <actionCalls>
         <name>Apex_Get_Attachments</name>
         <label>Apex Get Attachments</label>
-        <locationX>7709</locationX>
-        <locationY>2282</locationY>
+        <locationX>8093</locationX>
+        <locationY>2394</locationY>
         <actionName>CTRFlowEmailGetAttachment</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -28,12 +28,42 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>Apex_Get_Master_Attachments</name>
+        <label>Apex Get Master Attachments</label>
+        <locationX>8374</locationX>
+        <locationY>2395</locationY>
+        <actionName>CTRFlowEmailGetAttachment</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Loop_Master_Attachment</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mCustomerId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mFileName</name>
+            <value>
+                <elementReference>varFilenameList</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailGetAttachment</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>Send_General_only_email_action</name>
         <label>Send General only email action</label>
-        <locationX>9486</locationX>
+        <locationX>10228</locationX>
         <locationY>2457</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
+        <connector>
+            <targetReference>is_Document_Generate_0</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>mAttachmentIdList</name>
@@ -77,11 +107,20 @@
     <actionCalls>
         <name>Send_Success_email_action</name>
         <label>Send Success email action</label>
-        <locationX>9475</locationX>
+        <locationX>10218</locationX>
         <locationY>2716</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
+        <connector>
+            <targetReference>is_Document_Generate_0</targetReference>
+        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mAttachmentIdList</name>
+            <value>
+                <elementReference>varAttachmentIdCollection</elementReference>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>mBody</name>
             <value>
@@ -201,8 +240,8 @@
     <assignments>
         <name>Add_Filename_to_List</name>
         <label>Add Filename to List</label>
-        <locationX>7693</locationX>
-        <locationY>2595</locationY>
+        <locationX>7946</locationX>
+        <locationY>2393</locationY>
         <assignmentItems>
             <assignToReference>varFilenameList</assignToReference>
             <operator>Add</operator>
@@ -521,8 +560,8 @@
     <assignments>
         <name>Assign_AttachmentId_to_Collection</name>
         <label>Assign AttachmentId to Collection</label>
-        <locationX>7807</locationX>
-        <locationY>2591</locationY>
+        <locationX>8228</locationX>
+        <locationY>2395</locationY>
         <assignmentItems>
             <assignToReference>varAttachmentIdCollection</assignToReference>
             <operator>Assign</operator>
@@ -531,14 +570,30 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>is_TOP_TX_0_0_0_0_0_0_0_0_0</targetReference>
+            <targetReference>Apex_Get_Master_Attachments</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_AttachmentId_to_Collection_0</name>
+        <label>Assign AttachmentId to Collection</label>
+        <locationX>8531</locationX>
+        <locationY>2242</locationY>
+        <assignmentItems>
+            <assignToReference>varAttachmentIdCollection</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Master_Attachment</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Master_Attachment</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_CC_email_group</name>
         <label>Assign CC email group</label>
-        <locationX>8916</locationX>
-        <locationY>2443</locationY>
+        <locationX>9891</locationX>
+        <locationY>2258</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -553,8 +608,8 @@
     <assignments>
         <name>Assign_CC_email_group_0</name>
         <label>Assign CC email group</label>
-        <locationX>8677</locationX>
-        <locationY>2428</locationY>
+        <locationX>9652</locationX>
+        <locationY>2243</locationY>
         <assignmentItems>
             <assignToReference>varEmailToCollection</assignToReference>
             <operator>Add</operator>
@@ -601,8 +656,8 @@
     <assignments>
         <name>assign_CMVP_cc</name>
         <label>assign CMVP cc</label>
-        <locationX>8005</locationX>
-        <locationY>2410</locationY>
+        <locationX>9014</locationX>
+        <locationY>2240</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -633,8 +688,8 @@
     <assignments>
         <name>assign_credit_cc</name>
         <label>assign credit cc</label>
-        <locationX>8167</locationX>
-        <locationY>2413</locationY>
+        <locationX>9142</locationX>
+        <locationY>2228</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -665,8 +720,8 @@
     <assignments>
         <name>assign_credit_sectionhead_cc</name>
         <label>assign credit sectionhead cc</label>
-        <locationX>8323</locationX>
-        <locationY>2414</locationY>
+        <locationX>9298</locationX>
+        <locationY>2229</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -751,7 +806,7 @@
             <assignToReference>varAccountRecord.InterestedProductTypeAsCustomerTX__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.CTRRequestFormHeader__r.InterestedProductTypeAsSupplierTOP__c</elementReference>
+                <elementReference>$Record.CTRRequestFormHeader__r.InterestedProductTypeAsCustomerTX__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -761,8 +816,8 @@
     <assignments>
         <name>Assign_Email_subject_General</name>
         <label>Assign Email subject General</label>
-        <locationX>7481</locationX>
-        <locationY>2164</locationY>
+        <locationX>7686</locationX>
+        <locationY>2173</locationY>
         <assignmentItems>
             <assignToReference>varEmailSubject</assignToReference>
             <operator>Assign</operator>
@@ -771,14 +826,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Filename_to_List</targetReference>
+            <targetReference>Assign_Master_file_name</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Email_subject_General_0</name>
         <label>Assign Email subject General</label>
-        <locationX>7554</locationX>
-        <locationY>2593</locationY>
+        <locationX>7689</locationX>
+        <locationY>2598</locationY>
         <assignmentItems>
             <assignToReference>varEmailSubject</assignToReference>
             <operator>Assign</operator>
@@ -787,7 +842,7 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Add_Filename_to_List</targetReference>
+            <targetReference>Assign_Master_file_name</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1307,6 +1362,20 @@
                 <elementReference>$Record.PaymentCondition__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varFinancialview.CashManagementGroup__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CashManagementGroup__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varFinancialview.ReconAccount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.ReconAccount__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Get_Existing_Financial</targetReference>
         </connector>
@@ -1685,6 +1754,9 @@
         <assignmentItems>
             <assignToReference>varAccountRecord.TaxCode5__c</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.TaxCode1__c</elementReference>
+            </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>varAccountRecord.EnvironmentPolicy__c</assignToReference>
@@ -1984,7 +2056,35 @@
             <assignToReference>varAccountRecord.Street5EN__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.CTRRequestFormHeader__r.StreetEN__c</elementReference>
+                <elementReference>$Record.CTRRequestFormHeader__r.Street5EN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.TaxCode1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.TaxCode1__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.DistrictENText__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.DistrictENText__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>{!$Record.CTRRequestFormHeader__r.CustomerNameEN1__c} {!$Record.CTRRequestFormHeader__r.CustomerNameEN2__c}</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varAccountRecord.TypeOfBusinessCommercialEvaluation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -2005,6 +2105,22 @@
         </assignmentItems>
         <connector>
             <targetReference>update_Purchasing_view</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Master_file_name</name>
+        <label>Assign Master file name</label>
+        <locationX>7791</locationX>
+        <locationY>2392</locationY>
+        <assignmentItems>
+            <assignToReference>varFilenameList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <stringValue>{!$Record.Name} - {!fmlRequestType} Master Form</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Filename_to_List</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -2042,8 +2158,8 @@
     <assignments>
         <name>assign_MDC_email_0_0</name>
         <label>assign MDC email</label>
-        <locationX>8111</locationX>
-        <locationY>3315</locationY>
+        <locationX>9121</locationX>
+        <locationY>3139</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -2058,8 +2174,8 @@
     <assignments>
         <name>assign_MDC_email_0_0_0</name>
         <label>assign MDC email</label>
-        <locationX>8337</locationX>
-        <locationY>3261</locationY>
+        <locationX>9347</locationX>
+        <locationY>3085</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -2074,8 +2190,8 @@
     <assignments>
         <name>assign_MDC_email_0_0_0_0</name>
         <label>assign MDC email</label>
-        <locationX>7922</locationX>
-        <locationY>3217</locationY>
+        <locationX>8932</locationX>
+        <locationY>3041</locationY>
         <assignmentItems>
             <assignToReference>varEmailToCollection</assignToReference>
             <operator>Add</operator>
@@ -2138,8 +2254,8 @@
     <assignments>
         <name>assign_MDC_email_0_0_0_0_0_0_0_0</name>
         <label>assign submit user email</label>
-        <locationX>7910</locationX>
-        <locationY>2414</locationY>
+        <locationX>8919</locationX>
+        <locationY>2245</locationY>
         <assignmentItems>
             <assignToReference>varEmailccCollection</assignToReference>
             <operator>Add</operator>
@@ -2155,7 +2271,7 @@
         <name>Assign_Purchasing_view_record</name>
         <label>Assign Purchasing view record</label>
         <locationX>3253</locationX>
-        <locationY>2321</locationY>
+        <locationY>2320</locationY>
         <assignmentItems>
             <assignToReference>varPurchasingViewRecord.Account__c</assignToReference>
             <operator>Assign</operator>
@@ -2171,7 +2287,7 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>varPurchasingViewRecord.PurchasingOrganization__c</assignToReference>
+            <assignToReference>varPurchasingViewRecord.PurchasingOrg__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.PurchasingOrganization__c</elementReference>
@@ -2263,6 +2379,52 @@
         </assignmentItems>
         <connector>
             <targetReference>getExistingPurchasingView</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Request_to_Generate_Customer_Master</name>
+        <label>Assign Request to Generate Customer Master</label>
+        <locationX>6939</locationX>
+        <locationY>2388</locationY>
+        <assignmentItems>
+            <assignToReference>varRequestItemUpdate.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varRequestItemUpdate.MasterDocumentGenerateStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>To Generate Document</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_item</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Request_to_Generate_Customer_Master_0</name>
+        <label>Assign Request to Generate Customer Master</label>
+        <locationX>10596</locationX>
+        <locationY>2575</locationY>
+        <assignmentItems>
+            <assignToReference>varRequestItemUpdate.Id</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varRequestItemUpdate.MasterDocumentGenerateStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Email Sent</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_item_0</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -2572,8 +2734,8 @@
     <assignments>
         <name>General_TOP_Email_GroupName_assign</name>
         <label>General TOP Email GroupName assign</label>
-        <locationX>7221</locationX>
-        <locationY>1971</locationY>
+        <locationX>7240</locationX>
+        <locationY>1983</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2609,8 +2771,8 @@
     <assignments>
         <name>General_TOP_Email_GroupName_assign_0</name>
         <label>General TLB Email GroupName assign</label>
-        <locationX>7219</locationX>
-        <locationY>2087</locationY>
+        <locationX>7240</locationX>
+        <locationY>2090</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2625,8 +2787,8 @@
     <assignments>
         <name>General_TOP_Email_GroupName_assign_0_0</name>
         <label>General TPX Email GroupName assign</label>
-        <locationX>7224</locationX>
-        <locationY>2221</locationY>
+        <locationX>7245</locationX>
+        <locationY>2231</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2673,8 +2835,8 @@
     <assignments>
         <name>General_TOP_Email_GroupName_assign_0_0_0_0_0</name>
         <label>General TOP Email GroupName assign</label>
-        <locationX>7159</locationX>
-        <locationY>2519</locationY>
+        <locationX>7178</locationX>
+        <locationY>2478</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2710,8 +2872,8 @@
     <assignments>
         <name>General_TOP_Email_GroupName_assign_0_0_0_0_0_0</name>
         <label>General TLB Email GroupName assign</label>
-        <locationX>7157</locationX>
-        <locationY>2623</locationY>
+        <locationX>7177</locationX>
+        <locationY>2598</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2742,8 +2904,8 @@
     <assignments>
         <name>General_TPX_Email_GroupName_assign</name>
         <label>General TPX Email GroupName assign</label>
-        <locationX>7349</locationX>
-        <locationY>2163</locationY>
+        <locationX>7385</locationX>
+        <locationY>2172</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2802,8 +2964,8 @@
     <assignments>
         <name>General_TX_Email_GroupName_assign_0</name>
         <label>General TX Email GroupName assign</label>
-        <locationX>7237</locationX>
-        <locationY>2355</locationY>
+        <locationX>7242</locationX>
+        <locationY>2354</locationY>
         <assignmentItems>
             <assignToReference>varEmailGroupNameCollection</assignToReference>
             <operator>Add</operator>
@@ -2816,6 +2978,13 @@
             <operator>Add</operator>
             <value>
                 <stringValue>Master Data Controller Team</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varEmailSubject</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>[FYA] Maintain SAP Information for {!$Record.CTRRequestFormHeader__r.CompanyNameENF__c}</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -2959,7 +3128,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>is_TOP_TX_0</targetReference>
+                <targetReference>is_Document_Generate</targetReference>
             </connector>
             <label>Only General</label>
         </rules>
@@ -2996,7 +3165,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>is_TOP_TX_0_0_0_0_0_0_0_0_0_0_0_0</targetReference>
+                <targetReference>is_Document_Generate_0_0</targetReference>
             </connector>
             <label>Purchasing view</label>
         </rules>
@@ -3029,8 +3198,8 @@
     <decisions>
         <name>has_MDC_manager_0</name>
         <label>has MDC manager?</label>
-        <locationX>8034</locationX>
-        <locationY>3018</locationY>
+        <locationX>9044</locationX>
+        <locationY>2842</locationY>
         <defaultConnector>
             <targetReference>has_Trader_manager_0</targetReference>
         </defaultConnector>
@@ -3154,8 +3323,8 @@
     <decisions>
         <name>has_Trader_manager_0</name>
         <label>has Trader manager?</label>
-        <locationX>8334</locationX>
-        <locationY>3055</locationY>
+        <locationX>9344</locationX>
+        <locationY>2879</locationY>
         <defaultConnector>
             <targetReference>only_general_1_0</targetReference>
         </defaultConnector>
@@ -3286,8 +3455,8 @@
     <decisions>
         <name>is_CC</name>
         <label>is CC</label>
-        <locationX>8662</locationX>
-        <locationY>2237</locationY>
+        <locationX>9637</locationX>
+        <locationY>2052</locationY>
         <defaultConnector>
             <targetReference>Assign_CC_email_group_0</targetReference>
         </defaultConnector>
@@ -3655,8 +3824,8 @@
     <decisions>
         <name>is_CMVP_found</name>
         <label>is CMVP found?</label>
-        <locationX>7993</locationX>
-        <locationY>2601</locationY>
+        <locationX>9002</locationX>
+        <locationY>2432</locationY>
         <defaultConnector>
             <targetReference>is_Credit_owner_found</targetReference>
         </defaultConnector>
@@ -3719,8 +3888,8 @@
     <decisions>
         <name>is_CMVP_found_0_0</name>
         <label>is submit user found?</label>
-        <locationX>7883</locationX>
-        <locationY>2592</locationY>
+        <locationX>8892</locationX>
+        <locationY>2423</locationY>
         <defaultConnector>
             <targetReference>is_CMVP_found</targetReference>
         </defaultConnector>
@@ -3744,8 +3913,8 @@
     <decisions>
         <name>is_CMVP_found_0_0_0</name>
         <label>is submit user found?</label>
-        <locationX>7894</locationX>
-        <locationY>3018</locationY>
+        <locationX>8904</locationX>
+        <locationY>2842</locationY>
         <defaultConnector>
             <targetReference>has_MDC_manager_0</targetReference>
         </defaultConnector>
@@ -3769,8 +3938,8 @@
     <decisions>
         <name>is_Credit_owner_found</name>
         <label>is Credit owner found?</label>
-        <locationX>8153</locationX>
-        <locationY>2605</locationY>
+        <locationX>9128</locationX>
+        <locationY>2420</locationY>
         <defaultConnector>
             <targetReference>is_Credit_Section_header_found</targetReference>
         </defaultConnector>
@@ -3833,8 +4002,8 @@
     <decisions>
         <name>is_Credit_Section_header_found</name>
         <label>is Credit Section header found?</label>
-        <locationX>8306</locationX>
-        <locationY>2606</locationY>
+        <locationX>9281</locationX>
+        <locationY>2421</locationY>
         <defaultConnector>
             <targetReference>getEmailGroup</targetReference>
         </defaultConnector>
@@ -3895,10 +4064,106 @@
         </rules>
     </decisions>
     <decisions>
+        <name>is_Document_Generate</name>
+        <label>is Document Generate?</label>
+        <locationX>6793</locationX>
+        <locationY>2160</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>To_Gen_doc</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Request_to_Generate_Customer_Master</targetReference>
+            </connector>
+            <label>To Gen doc</label>
+        </rules>
+        <rules>
+            <name>Document_Generate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Document Generated</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>is_TOP_TX_0</targetReference>
+            </connector>
+            <label>Document Generate</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_Document_Generate_0</name>
+        <label>is Document Generate?</label>
+        <locationX>10399</locationX>
+        <locationY>2581</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Document_Generate_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Document Generated</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Request_to_Generate_Customer_Master_0</targetReference>
+            </connector>
+            <label>Document Generate</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_Document_Generate_0_0</name>
+        <label>is Document Generate?</label>
+        <locationX>6833</locationX>
+        <locationY>2540</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>To_Gen_doc_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Request_to_Generate_Customer_Master</targetReference>
+            </connector>
+            <label>To Gen doc</label>
+        </rules>
+        <rules>
+            <name>Document_Generate_0_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Document Generated</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>is_TOP_TX_0_0_0_0_0_0_0_0_0_0_0_0</targetReference>
+            </connector>
+            <label>Document Generate</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_Email_group_blank</name>
         <label>is Email group blank</label>
-        <locationX>8443</locationX>
-        <locationY>2444</locationY>
+        <locationX>9418</locationX>
+        <locationY>2259</locationY>
         <defaultConnector>
             <targetReference>LoopEmailGroup</targetReference>
         </defaultConnector>
@@ -3947,7 +4212,7 @@
     <decisions>
         <name>is_Email_to_found</name>
         <label>is Email to found</label>
-        <locationX>9000</locationX>
+        <locationX>9640</locationX>
         <locationY>2610</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -4043,6 +4308,9 @@
         <label>is General confirmed?</label>
         <locationX>3038</locationX>
         <locationY>2988</locationY>
+        <defaultConnector>
+            <targetReference>is_Generate_Document_master</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Initial_General</name>
@@ -4127,7 +4395,7 @@
     <decisions>
         <name>is_General_email</name>
         <label>is General email</label>
-        <locationX>9242</locationX>
+        <locationX>9984</locationX>
         <locationY>2604</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -4212,10 +4480,39 @@
         </rules>
     </decisions>
     <decisions>
+        <name>is_Generate_Document_master</name>
+        <label>is Generate Document master?</label>
+        <locationX>3036</locationX>
+        <locationY>3599</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Generated_MasterDoc</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.MasterDocumentGenerateStatus__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Document Generated</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Decision_for_Email_Deliver</targetReference>
+            </connector>
+            <label>Generated MasterDoc</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_Purchasing_confirmed</name>
         <label>is Purchasing confirmed?</label>
         <locationX>3043</locationX>
-        <locationY>2309</locationY>
+        <locationY>2306</locationY>
         <defaultConnector>
             <targetReference>is_General_confirmed</targetReference>
         </defaultConnector>
@@ -4937,8 +5234,8 @@
     <decisions>
         <name>is_TOP_TX_0_0_0_0_0_0_0_0_0</name>
         <label>is TOP/TX</label>
-        <locationX>7915</locationX>
-        <locationY>2852</locationY>
+        <locationX>8524</locationX>
+        <locationY>2613</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>is_TOP_0_0_0_0_0_0_0_0_0</name>
@@ -5071,7 +5368,7 @@
         <name>is_TOP_TX_0_0_0_0_0_0_0_0_0_0_0_0</name>
         <label>is TOP/TX</label>
         <locationX>6948</locationX>
-        <locationY>2594</locationY>
+        <locationY>2598</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>is_TOP_0_0_0_0_0_0_0_0_0_0_0_0</name>
@@ -5169,8 +5466,8 @@
     <decisions>
         <name>only_general_1_0</name>
         <label>only general?</label>
-        <locationX>8335</locationX>
-        <locationY>2923</locationY>
+        <locationX>9345</locationX>
+        <locationY>2747</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>yes_only_general_0</name>
@@ -5348,10 +5645,24 @@
         {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTRTriggerRequestFormItemIntegrationConfirmedAfterUpdate</label>
     <loops>
+        <name>Loop_Master_Attachment</name>
+        <label>Loop Master Attachment</label>
+        <locationX>8531</locationX>
+        <locationY>2395</locationY>
+        <collectionReference>Apex_Get_Master_Attachments.attachmentIds</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_AttachmentId_to_Collection_0</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>is_TOP_TX_0_0_0_0_0_0_0_0_0</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
         <name>LoopEmailGroup</name>
         <label>LoopEmailGroup</label>
-        <locationX>8677</locationX>
-        <locationY>2596</locationY>
+        <locationX>9652</locationX>
+        <locationY>2411</locationY>
         <collectionReference>getEmailGroup</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -5462,8 +5773,8 @@
     <recordLookups>
         <name>getEmailGroup</name>
         <label>getEmailGroup</label>
-        <locationX>8454</locationX>
-        <locationY>2608</locationY>
+        <locationX>9429</locationX>
+        <locationY>2423</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopEmailGroup</targetReference>
@@ -5615,6 +5926,20 @@
         <inputReference>varFinancialview</inputReference>
     </recordUpdates>
     <recordUpdates>
+        <name>Update_item</name>
+        <label>Update item</label>
+        <locationX>7057</locationX>
+        <locationY>2388</locationY>
+        <inputReference>varRequestItemUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_item_0</name>
+        <label>Update item</label>
+        <locationX>10758</locationX>
+        <locationY>2575</locationY>
+        <inputReference>varRequestItemUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>update_Purchasing_view</name>
         <label>update Purchasing view</label>
         <locationX>3820</locationX>
@@ -5740,7 +6065,7 @@
     <textTemplates>
         <name>TemplateCCA</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Dear All,&lt;/span&gt;&lt;/p&gt;&lt;br/&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Please be informed that the necessary data for Company Name has been already generated in the general view in SAP. Please maintain Recon.Account and Credit management.&lt;/span&gt;&lt;/p&gt;&lt;br/&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Company Name: {!$Record.CTRRequestFormHeader__r.CompanyNameENF__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Interested to be: {!fmlRequestType}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Product Name: {!$Record.Product__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Sales Organization: {!$Record.SalesOrganizationTOP__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Customer Code: {!fmlAccountNumber}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Trader: {!$Record.OwnerName__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Search Term: {!$Record.CTRRequestFormHeader__r.CustomerSearchTermEN__c}&lt;/span&gt;&lt;/p&gt;&lt;br/&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Best Regards,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;Conterparties Registration Automated System&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 9pt; font-family: Tahoma, Arial;&quot;&gt;This is an automatic generated email. Please do not reply to this address.&lt;/span&gt;&lt;/p&gt;</text>
+        <text>&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Dear All,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Please be informed that the necessary data for Company Name has been already generated in the general view in SAP. Please maintain Recon.Account and Credit management.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Company Name: {!$Record.CTRRequestFormHeader__r.CompanyNameENF__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Interested to be: {!fmlRequestType}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Product Name: {!$Record.ProductName__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Sales Organization: {!$Record.SalesOrganization__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Customer Code: {!fmlAccountNumber}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Trader: {!$Record.OwnerName__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Search Term: {!$Record.CTRRequestFormHeader__r.CustomerSearchTermEN__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Best Regards,&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;Conterparties Registration Automated System&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-family: Tahoma, Arial; font-size: 9pt; color: rgb(0, 0, 0);&quot;&gt;This is an automatic generated email. Please do not reply to this address.&lt;/span&gt;&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>TemplateErrorAddi</name>
@@ -5881,6 +6206,14 @@
     </variables>
     <variables>
         <name>varRequestItemRecordUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>CTRRequestFormItem__c</objectType>
+    </variables>
+    <variables>
+        <name>varRequestItemUpdate</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

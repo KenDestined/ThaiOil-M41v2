@@ -7,10 +7,12 @@ public with sharing class CTRScreenNewsControllerTest {
         insert reqFormHeader;
 
         // [Start]Have History Saved CTRNewsItem__c
+
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c  reqFormItem = new CTRRequestFormItem__c ();
         reqFormItem.Name ='Test';
         reqFormItem.CTRRequestFormHeader__c = reqFormHeader.Id;
-        insert reqFormItem;
+        reqItemList.add(reqFormItem);
 
         CTRNewsHeader__c newsHeader = new CTRNewsHeader__c();
         newsHeader.Keyword__c = 'Money Laundering';
@@ -22,7 +24,8 @@ public with sharing class CTRScreenNewsControllerTest {
         CTRRequestFormItem__c  reqFormItemFirstTime = new CTRRequestFormItem__c ();
         reqFormItemFirstTime.Name ='Test FirstTime';
         reqFormItemFirstTime.CTRRequestFormHeader__c = reqFormHeader.Id;
-        insert reqFormItemFirstTime;
+        reqItemList.add(reqFormItemFirstTime);
+        insert reqItemList;
 
         
 

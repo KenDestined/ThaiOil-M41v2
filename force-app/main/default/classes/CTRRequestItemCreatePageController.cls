@@ -37,6 +37,7 @@ public class CTRRequestItemCreatePageController {
                 Id userId = UserInfo.getUserId();
                 //List<RecordType>mRecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE sobjectType = 'CTRRequestFormItem__c' AND IsActive = true];
                 //System.debug('mRecordTypeList:'+mRecordTypeList);
+                selectedBU = selectedBU != null ? selectedBU.left(5) : selectedBU;
 
                 // retrieve config for recordtypes
                 List<String> recordTypes = new List<String>();

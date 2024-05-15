@@ -4,7 +4,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>AMMEDDSendNoti</name>
         <label>AMMEDDSendNoti</label>
-        <locationX>7024</locationX>
+        <locationX>7200</locationX>
         <locationY>3191</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -49,7 +49,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>AMMEDDtoCEOSendNoti</name>
         <label>AMMEDDtoCEOSendNoti</label>
-        <locationX>6760</locationX>
+        <locationX>6936</locationX>
         <locationY>3191</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -93,7 +93,7 @@
     <actionCalls>
         <name>AMMEDDtoCEOSentEmail</name>
         <label>AMMEDDtoCEOSentEmail</label>
-        <locationX>6760</locationX>
+        <locationX>6936</locationX>
         <locationY>3299</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -128,7 +128,7 @@
     <actionCalls>
         <name>AMMRejectSendEmail</name>
         <label>AMMRejectSendEmail</label>
-        <locationX>7024</locationX>
+        <locationX>7200</locationX>
         <locationY>3407</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -158,7 +158,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>CEOEDDSendNoti</name>
         <label>CEOEDDSendNoti</label>
-        <locationX>8718</locationX>
+        <locationX>8894</locationX>
         <locationY>3383</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -202,7 +202,7 @@
     <actionCalls>
         <name>CEORejectSendEmail</name>
         <label>CEORejectSendEmail</label>
-        <locationX>8718</locationX>
+        <locationX>8894</locationX>
         <locationY>3599</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -231,7 +231,7 @@
     <actionCalls>
         <name>CEOtoTRCRSendEmail</name>
         <label>CEOtoTRCRSendEmail</label>
-        <locationX>8454</locationX>
+        <locationX>8630</locationX>
         <locationY>3599</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -261,7 +261,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>CPCEEDDSendNoti</name>
         <label>CPCEEDDSendNoti</label>
-        <locationX>4626</locationX>
+        <locationX>4802</locationX>
         <locationY>2051</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -305,7 +305,7 @@
     <actionCalls>
         <name>CPCEtoVPSendEmail</name>
         <label>CPCEtoVPSendEmail</label>
-        <locationX>4626</locationX>
+        <locationX>4802</locationX>
         <locationY>2267</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -334,11 +334,17 @@
     <actionCalls>
         <name>EDDWTtoGLGCSendEmail</name>
         <label>EDDWTtoGLGCSendEmail</label>
-        <locationX>1282</locationX>
-        <locationY>2267</locationY>
+        <locationX>1414</locationX>
+        <locationY>2783</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>recipientCCEmails</elementReference>
+            </value>
+        </inputParameters>
         <inputParameters>
             <name>mEmailToList</name>
             <value>
@@ -363,8 +369,8 @@
     <actionCalls>
         <name>EDDWTtoGLGCSendNoti</name>
         <label>EDDWTtoGLGCSendNoti</label>
-        <locationX>1282</locationX>
-        <locationY>2051</locationY>
+        <locationX>1414</locationX>
+        <locationY>2567</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
@@ -408,7 +414,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>EVPCEDDRejectSendNoti</name>
         <label>EVPCEDDRejectSendNoti</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2567</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -453,7 +459,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>EVPCEDDSendNoti</name>
         <label>EVPCEDDSendNoti</label>
-        <locationX>5682</locationX>
+        <locationX>5858</locationX>
         <locationY>2567</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -497,7 +503,7 @@
     <actionCalls>
         <name>EVPCRejectSendEmail</name>
         <label>EVPCRejectSendEmail</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2783</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -526,7 +532,7 @@
     <actionCalls>
         <name>EVPCtoAMMSendEmail</name>
         <label>EVPCtoAMMSendEmail</label>
-        <locationX>5682</locationX>
+        <locationX>5858</locationX>
         <locationY>2783</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -556,7 +562,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>GLGCEDDSendNoti</name>
         <label>GLGCEDDSendNoti</label>
-        <locationX>3086</locationX>
+        <locationX>3262</locationX>
         <locationY>2843</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -600,7 +606,7 @@
     <actionCalls>
         <name>GLGCtoCPCESendEmail</name>
         <label>GLGCtoCPCESendEmail</label>
-        <locationX>3086</locationX>
+        <locationX>3262</locationX>
         <locationY>3059</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -629,7 +635,7 @@
     <actionCalls>
         <name>GLGCtoTRCRSendEmail</name>
         <label>GLGCtoTRCRSendEmail</label>
-        <locationX>2822</locationX>
+        <locationX>2998</locationX>
         <locationY>3059</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -658,7 +664,7 @@
     <actionCalls>
         <name>TOPSupplierSendEmail</name>
         <label>TOPSupplierSendEmail</label>
-        <locationX>1810</locationX>
+        <locationX>1986</locationX>
         <locationY>2051</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -726,7 +732,7 @@
     <actionCalls>
         <name>TOPSupplierSendEmail_0</name>
         <label>TOPSupplierSendEmail</label>
-        <locationX>7706</locationX>
+        <locationX>7882</locationX>
         <locationY>2591</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
@@ -794,7 +800,7 @@
     <actionCalls>
         <name>TopSupplierSendNoti</name>
         <label>TopSupplierSendNoti</label>
-        <locationX>1810</locationX>
+        <locationX>1986</locationX>
         <locationY>2159</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -835,7 +841,7 @@
     <actionCalls>
         <name>TopSupplierSendNoti_0</name>
         <label>TopSupplierSendNoti</label>
-        <locationX>7706</locationX>
+        <locationX>7882</locationX>
         <locationY>2699</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -1024,7 +1030,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>TRCRSendNoti_0</name>
         <label>TRCRSendNoti</label>
-        <locationX>8454</locationX>
+        <locationX>8630</locationX>
         <locationY>3383</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -1069,7 +1075,7 @@
         <description>Send Salesforce notification to recipient(s)</description>
         <name>TRCRSendNoti_1</name>
         <label>TRCRSendNoti</label>
-        <locationX>2822</locationX>
+        <locationX>2998</locationX>
         <locationY>2843</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -1113,7 +1119,7 @@
     <actionCalls>
         <name>VPtoEVPCSendEmail</name>
         <label>VPtoEVPCSendEmail</label>
-        <locationX>5154</locationX>
+        <locationX>5330</locationX>
         <locationY>2591</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
@@ -1142,7 +1148,7 @@
     <actionCalls>
         <name>VPtoEVPCSendNoti</name>
         <label>VPtoEVPCSendNoti</label>
-        <locationX>5154</locationX>
+        <locationX>5330</locationX>
         <locationY>2375</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
@@ -1187,7 +1193,7 @@
     <assignments>
         <name>addAMM_0</name>
         <label>addAMM</label>
-        <locationX>7002</locationX>
+        <locationX>7178</locationX>
         <locationY>2807</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1210,7 +1216,7 @@
     <assignments>
         <name>addCEO</name>
         <label>addCEO</label>
-        <locationX>6474</locationX>
+        <locationX>6650</locationX>
         <locationY>2699</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1233,7 +1239,7 @@
     <assignments>
         <name>addCPCE</name>
         <label>addCPCE</label>
-        <locationX>3922</locationX>
+        <locationX>4098</locationX>
         <locationY>2159</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1277,9 +1283,25 @@
         </connector>
     </assignments>
     <assignments>
+        <name>addEDDTeam_JustReviewEDD</name>
+        <label>addEDDTeam</label>
+        <locationX>1282</locationX>
+        <locationY>2375</locationY>
+        <assignmentItems>
+            <assignToReference>recipientCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>findEVPCTeam_JustReviewEDD.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>EDDWTtoGLGCSendNoti</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>addEVPCCPCEVP</name>
         <label>addEVPCCPCEVP</label>
-        <locationX>5154</locationX>
+        <locationX>5330</locationX>
         <locationY>2267</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1316,7 +1338,7 @@
     <assignments>
         <name>addFALB</name>
         <label>addFALB</label>
-        <locationX>3130</locationX>
+        <locationX>3306</locationX>
         <locationY>2375</locationY>
         <assignmentItems>
             <assignToReference>TRCRrecipientIds</assignToReference>
@@ -1339,7 +1361,7 @@
     <assignments>
         <name>addFALB_0</name>
         <label>addFALB</label>
-        <locationX>8850</locationX>
+        <locationX>9026</locationX>
         <locationY>2915</locationY>
         <assignmentItems>
             <assignToReference>TRCRrecipientIds</assignToReference>
@@ -1362,7 +1384,7 @@
     <assignments>
         <name>addFATX</name>
         <label>addFATX</label>
-        <locationX>2074</locationX>
+        <locationX>2250</locationX>
         <locationY>2375</locationY>
         <assignmentItems>
             <assignToReference>TRCRrecipientIds</assignToReference>
@@ -1385,7 +1407,7 @@
     <assignments>
         <name>addFATX_0</name>
         <label>addFATX</label>
-        <locationX>7970</locationX>
+        <locationX>8146</locationX>
         <locationY>2915</locationY>
         <assignmentItems>
             <assignToReference>TRCRrecipientIds</assignToReference>
@@ -1408,7 +1430,7 @@
     <assignments>
         <name>addGLGC</name>
         <label>addGLGC</label>
-        <locationX>1282</locationX>
+        <locationX>1414</locationX>
         <locationY>1943</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1425,13 +1447,13 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>EDDWTtoGLGCSendNoti</targetReference>
+            <targetReference>getEVPCTeamMeta_JustReviewEDD</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>addTRCR</name>
         <label>addTRCR</label>
-        <locationX>2602</locationX>
+        <locationX>2778</locationX>
         <locationY>2375</locationY>
         <assignmentItems>
             <assignToReference>TRCRrecipientIds</assignToReference>
@@ -1454,7 +1476,7 @@
     <assignments>
         <name>addTRCR_0</name>
         <label>addTRCR</label>
-        <locationX>8410</locationX>
+        <locationX>8586</locationX>
         <locationY>2915</locationY>
         <assignmentItems>
             <assignToReference>TRCRrecipientIds</assignToReference>
@@ -1501,7 +1523,7 @@
         <description>Assign target record to variable as hyperlink</description>
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>755</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
@@ -1517,7 +1539,7 @@
     <assignments>
         <name>assignTrader</name>
         <label>assignTrader</label>
-        <locationX>1810</locationX>
+        <locationX>1986</locationX>
         <locationY>1943</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1540,7 +1562,7 @@
     <assignments>
         <name>assignTrader_0</name>
         <label>assignTrader</label>
-        <locationX>7706</locationX>
+        <locationX>7882</locationX>
         <locationY>2483</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1563,7 +1585,7 @@
     <assignments>
         <name>assignTraderCPCEVP</name>
         <label>assignTraderCPCEVP</label>
-        <locationX>5682</locationX>
+        <locationX>5858</locationX>
         <locationY>2159</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1637,7 +1659,7 @@
     <assignments>
         <name>assignTraderCreditCPCE_0</name>
         <label>assignTraderCreditCPCE</label>
-        <locationX>6606</locationX>
+        <locationX>6782</locationX>
         <locationY>2267</locationY>
         <assignmentItems>
             <assignToReference>TraderRecipientEmails</assignToReference>
@@ -1667,7 +1689,7 @@
     <assignments>
         <name>assignTraderSHVPCreditCPCE</name>
         <label>assignTraderSHVPCreditCPCE</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2267</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1732,7 +1754,7 @@
     <assignments>
         <name>assignTraderSHVPCreditCPCE_0</name>
         <label>assignTraderSHVPCreditCPCE</label>
-        <locationX>7134</locationX>
+        <locationX>7310</locationX>
         <locationY>2375</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1783,7 +1805,7 @@
     <assignments>
         <name>assignTraderSHVPCreditCPCE_1</name>
         <label>assignTraderSHVPCreditCPCE</label>
-        <locationX>9466</locationX>
+        <locationX>9642</locationX>
         <locationY>2483</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
@@ -1871,7 +1893,7 @@
     <assignments>
         <name>assignVPCPCE</name>
         <label>assignVPCPCE</label>
-        <locationX>4626</locationX>
+        <locationX>4802</locationX>
         <locationY>1943</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
@@ -1901,7 +1923,7 @@
     <decisions>
         <name>CheckAMM</name>
         <label>CheckAMM</label>
-        <locationX>7134</locationX>
+        <locationX>7310</locationX>
         <locationY>2699</locationY>
         <defaultConnector>
             <targetReference>CheckRecipient_2</targetReference>
@@ -1933,7 +1955,7 @@
     <decisions>
         <name>CheckAMMEDDResult</name>
         <label>CheckAMMEDDResult</label>
-        <locationX>7024</locationX>
+        <locationX>7200</locationX>
         <locationY>2159</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1970,7 +1992,7 @@
     <decisions>
         <name>CheckCEO</name>
         <label>CheckCEO</label>
-        <locationX>6606</locationX>
+        <locationX>6782</locationX>
         <locationY>2591</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1999,7 +2021,7 @@
     <decisions>
         <name>CheckCEOEDDResult</name>
         <label>CheckCEOEDDResult</label>
-        <locationX>8718</locationX>
+        <locationX>8894</locationX>
         <locationY>2267</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2072,7 +2094,7 @@
     <decisions>
         <name>CheckCPCE</name>
         <label>CheckCPCE</label>
-        <locationX>4054</locationX>
+        <locationX>4230</locationX>
         <locationY>2051</locationY>
         <defaultConnector>
             <targetReference>CheckRecipient_0</targetReference>
@@ -2104,7 +2126,7 @@
     <decisions>
         <name>CheckEDDbyAMM</name>
         <label>CheckEDDbyAMM</label>
-        <locationX>8641</locationX>
+        <locationX>8817</locationX>
         <locationY>2051</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2162,7 +2184,7 @@
     <decisions>
         <name>CheckEDDbyCEO</name>
         <label>CheckEDDbyCEO</label>
-        <locationX>9356</locationX>
+        <locationX>9532</locationX>
         <locationY>2159</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2198,7 +2220,7 @@
     <decisions>
         <name>CheckEDDbyCPCE</name>
         <label>CheckEDDbyCPCE</label>
-        <locationX>7904</locationX>
+        <locationX>8080</locationX>
         <locationY>1727</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2256,7 +2278,7 @@
     <decisions>
         <name>CheckEDDbyEDDWorkingTeam</name>
         <label>CheckEDDbyEDDWorkingTeam</label>
-        <locationX>6496</locationX>
+        <locationX>6661</locationX>
         <locationY>1511</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2314,7 +2336,7 @@
     <decisions>
         <name>CheckEDDbyEVPC</name>
         <label>CheckEDDbyEVPC</label>
-        <locationX>8234</locationX>
+        <locationX>8410</locationX>
         <locationY>1943</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2372,7 +2394,7 @@
     <decisions>
         <name>CheckEDDbyGLGC</name>
         <label>CheckEDDbyGLGC</label>
-        <locationX>7200</locationX>
+        <locationX>7376</locationX>
         <locationY>1619</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2430,7 +2452,7 @@
     <decisions>
         <name>CheckEDDbyTrader</name>
         <label>CheckEDDbyTrader</label>
-        <locationX>6221</locationX>
+        <locationX>6309</locationX>
         <locationY>1403</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2488,7 +2510,7 @@
     <decisions>
         <name>CheckEDDbyVP</name>
         <label>CheckEDDbyVP</label>
-        <locationX>8036</locationX>
+        <locationX>8212</locationX>
         <locationY>1835</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2573,9 +2595,41 @@
         </rules>
     </decisions>
     <decisions>
+        <name>CheckEDDWorkingTeam_JustReviewEDD</name>
+        <label>CheckEDDWorkingTeam</label>
+        <locationX>1414</locationX>
+        <locationY>2267</locationY>
+        <defaultConnector>
+            <targetReference>EDDWTtoGLGCSendNoti</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>HaveEDDWorkingTeam_JustReviewEDD</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findEVPCTeam.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findEVPCTeam.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>addEDDTeam_JustReviewEDD</targetReference>
+            </connector>
+            <label>HaveEDDWorkingTeam</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>CheckEVPC</name>
         <label>CheckEVPC</label>
-        <locationX>5286</locationX>
+        <locationX>5462</locationX>
         <locationY>2159</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2604,7 +2658,7 @@
     <decisions>
         <name>CheckEVPCEDDResult</name>
         <label>CheckEVPCEDDResult</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2051</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2641,7 +2695,7 @@
     <decisions>
         <name>CheckFALB</name>
         <label>CheckFALB</label>
-        <locationX>3262</locationX>
+        <locationX>3438</locationX>
         <locationY>2267</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2670,7 +2724,7 @@
     <decisions>
         <name>CheckFALB_0</name>
         <label>CheckFALB</label>
-        <locationX>8982</locationX>
+        <locationX>9158</locationX>
         <locationY>2807</locationY>
         <defaultConnector>
             <targetReference>CheckRecipient_3</targetReference>
@@ -2702,7 +2756,7 @@
     <decisions>
         <name>CheckFinalRiskLevel</name>
         <label>CheckFinalRiskLevel</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>1295</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2724,7 +2778,7 @@
     <decisions>
         <name>CheckGLGC</name>
         <label>CheckGLGC</label>
-        <locationX>1414</locationX>
+        <locationX>1568</locationX>
         <locationY>1835</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2818,7 +2872,7 @@
     <decisions>
         <name>CheckRecipient_0</name>
         <label>CheckRecipient</label>
-        <locationX>3086</locationX>
+        <locationX>3262</locationX>
         <locationY>2735</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2883,7 +2937,7 @@
     <decisions>
         <name>CheckRecipient_1</name>
         <label>CheckRecipient</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2459</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2948,7 +3002,7 @@
     <decisions>
         <name>CheckRecipient_2</name>
         <label>CheckRecipient</label>
-        <locationX>7024</locationX>
+        <locationX>7200</locationX>
         <locationY>3083</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3013,7 +3067,7 @@
     <decisions>
         <name>CheckRecipient_3</name>
         <label>CheckRecipient</label>
-        <locationX>8718</locationX>
+        <locationX>8894</locationX>
         <locationY>3275</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3103,7 +3157,7 @@
     <decisions>
         <name>CheckTRCR</name>
         <label>CheckTRCR</label>
-        <locationX>2734</locationX>
+        <locationX>2910</locationX>
         <locationY>2267</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3132,7 +3186,7 @@
     <decisions>
         <name>CheckTRCR_0</name>
         <label>CheckTRCR</label>
-        <locationX>8542</locationX>
+        <locationX>8718</locationX>
         <locationY>2807</locationY>
         <defaultConnector>
             <targetReference>CheckRecipient_3</targetReference>
@@ -3164,7 +3218,7 @@
     <decisions>
         <name>CheckTXFA</name>
         <label>CheckTXFA</label>
-        <locationX>2206</locationX>
+        <locationX>2382</locationX>
         <locationY>2267</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3193,7 +3247,7 @@
     <decisions>
         <name>CheckTXFA_0</name>
         <label>CheckTXFA</label>
-        <locationX>8102</locationX>
+        <locationX>8278</locationX>
         <locationY>2807</locationY>
         <defaultConnector>
             <targetReference>CheckRecipient_3</targetReference>
@@ -3250,7 +3304,7 @@
     <decisions>
         <name>CheckVP_0</name>
         <label>CheckVP</label>
-        <locationX>4758</locationX>
+        <locationX>4934</locationX>
         <locationY>1835</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3272,7 +3326,7 @@
     <decisions>
         <name>ComplianceAdviceResult</name>
         <label>ComplianceAdviceResult</label>
-        <locationX>3086</locationX>
+        <locationX>3262</locationX>
         <locationY>1727</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3382,7 +3436,7 @@
     <decisions>
         <name>Which_BU</name>
         <label>Which BU</label>
-        <locationX>2932</locationX>
+        <locationX>3108</locationX>
         <locationY>1943</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -3434,7 +3488,7 @@
     <decisions>
         <name>Which_BU_0</name>
         <label>Which BU</label>
-        <locationX>8696</locationX>
+        <locationX>8872</locationX>
         <locationY>2483</locationY>
         <defaultConnector>
             <targetReference>CheckRecipient_3</targetReference>
@@ -3486,8 +3540,7 @@
             <label>LABIX</label>
         </rules>
     </decisions>
-    <description>31/03/2024: revise notification for EDD (FATIS-INICUS-01-562)
-02/04/2024 Add record type edit info</description>
+    <description>30/04/2024: update {!$Record.fmlAccountTypeName__c}</description>
     <environments>Default</environments>
     <formulas>
         <name>EDDAMMRejectEmailSubject</name>
@@ -3563,7 +3616,7 @@
     <formulas>
         <name>NotProceedNotifyTitle</name>
         <dataType>String</dataType>
-        <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Enhance Due Diligence Required for New Customer Registration is Not Proceed&quot;</expression>
+        <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Enhance Due Diligence Required for New &quot; &amp; {!$Record.fmlAccountTypeName__c} &amp; &quot; Registration is Not Proceed&quot;</expression>
     </formulas>
     <formulas>
         <name>RecordLinkFormula</name>
@@ -3578,7 +3631,7 @@
     <formulas>
         <name>RejectNotifyTitle</name>
         <dataType>String</dataType>
-        <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Enhance Due Diligence Required for New Customer Registration is rejected&quot;</expression>
+        <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Enhance Due Diligence Required for New &quot; &amp; {!$Record.fmlAccountTypeName__c} &amp; &quot; Registration is rejected&quot;</expression>
     </formulas>
     <formulas>
         <name>TOPSupplierApprovedEmailSubject</name>
@@ -3634,7 +3687,7 @@
     <recordLookups>
         <name>getAMMMeta_0</name>
         <label>getAMMMeta</label>
-        <locationX>7134</locationX>
+        <locationX>7310</locationX>
         <locationY>2483</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3691,7 +3744,7 @@
     <recordLookups>
         <name>getAMMRejectEmail</name>
         <label>getAMMRejectEmail</label>
-        <locationX>7024</locationX>
+        <locationX>7200</locationX>
         <locationY>3299</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3712,7 +3765,7 @@
     <recordLookups>
         <name>getCEOMeta</name>
         <label>getCEOMeta</label>
-        <locationX>6606</locationX>
+        <locationX>6782</locationX>
         <locationY>2375</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3769,7 +3822,7 @@
     <recordLookups>
         <name>getCEORejectEmail</name>
         <label>getCEORejectEmail</label>
-        <locationX>8718</locationX>
+        <locationX>8894</locationX>
         <locationY>3491</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3790,7 +3843,7 @@
     <recordLookups>
         <name>getCEOtoTRCREmail</name>
         <label>getCEOtoTRCREmail</label>
-        <locationX>8454</locationX>
+        <locationX>8630</locationX>
         <locationY>3491</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3811,7 +3864,7 @@
     <recordLookups>
         <name>getCPCEMeta</name>
         <label>getCPCEMeta</label>
-        <locationX>4054</locationX>
+        <locationX>4230</locationX>
         <locationY>1835</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3868,7 +3921,7 @@
     <recordLookups>
         <name>getCPCEMetaforCC</name>
         <label>getCPCEMetaforCC</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>863</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3925,7 +3978,7 @@
     <recordLookups>
         <name>getCPCEtoVPEmail</name>
         <label>getCPCEtoVPEmail</label>
-        <locationX>4626</locationX>
+        <locationX>4802</locationX>
         <locationY>2159</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -3946,7 +3999,7 @@
     <recordLookups>
         <name>getCreditMetaforCC</name>
         <label>getCreditMetaforCC</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>1079</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4004,7 +4057,7 @@
         <description>Get custom notification ID (API: CTRNotification)</description>
         <name>getCustomNotification</name>
         <label>getCustomNotification</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4025,8 +4078,8 @@
     <recordLookups>
         <name>getEDDWTtoGLGCEmail</name>
         <label>getEDDWTtoGLGCEmail</label>
-        <locationX>1282</locationX>
-        <locationY>2159</locationY>
+        <locationX>1414</locationX>
+        <locationY>2675</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>EDDWTtoGLGCSendEmail</targetReference>
@@ -4046,7 +4099,7 @@
     <recordLookups>
         <name>getEndorseEDD_VFEmailTemplate</name>
         <label>getEndorseEDD_VFEmailTemplate</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>647</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4067,7 +4120,7 @@
     <recordLookups>
         <name>getEVPCMeta</name>
         <label>getEVPCMeta</label>
-        <locationX>5286</locationX>
+        <locationX>5462</locationX>
         <locationY>1943</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4124,7 +4177,7 @@
     <recordLookups>
         <name>getEVPCRejectEmail</name>
         <label>getEVPCRejectEmail</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2675</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4200,9 +4253,66 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getEVPCTeamMeta_JustReviewEDD</name>
+        <label>getEVPCTeamMeta</label>
+        <locationX>1414</locationX>
+        <locationY>2051</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findEVPCTeam_JustReviewEDD</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>DueDiligence</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>EVPC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>EmployeeId__c</queriedFields>
+        <queriedFields>ActorTeam__c</queriedFields>
+        <queriedFields>ActorPosition__c</queriedFields>
+        <queriedFields>Process__c</queriedFields>
+        <queriedFields>SalesOrg__c</queriedFields>
+        <queriedFields>Step__c</queriedFields>
+        <queriedFields>Type__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getEVPCtoAMMEmail</name>
         <label>getEVPCtoAMMEmail</label>
-        <locationX>5682</locationX>
+        <locationX>5858</locationX>
         <locationY>2675</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4223,7 +4333,7 @@
     <recordLookups>
         <name>getFALBMeta</name>
         <label>getFALBMeta</label>
-        <locationX>3262</locationX>
+        <locationX>3438</locationX>
         <locationY>2051</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4280,7 +4390,7 @@
     <recordLookups>
         <name>getFALBMeta_0</name>
         <label>getFALBMeta</label>
-        <locationX>8982</locationX>
+        <locationX>9158</locationX>
         <locationY>2591</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4337,7 +4447,7 @@
     <recordLookups>
         <name>getFATXMeta</name>
         <label>getFATXMeta</label>
-        <locationX>2206</locationX>
+        <locationX>2382</locationX>
         <locationY>2051</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4394,7 +4504,7 @@
     <recordLookups>
         <name>getFATXMeta_0</name>
         <label>getFATXMeta</label>
-        <locationX>8102</locationX>
+        <locationX>8278</locationX>
         <locationY>2591</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4451,7 +4561,7 @@
     <recordLookups>
         <name>getGLGCMeta</name>
         <label>getGLGCMeta</label>
-        <locationX>1414</locationX>
+        <locationX>1568</locationX>
         <locationY>1619</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4508,7 +4618,7 @@
     <recordLookups>
         <name>getGLGCtoCPCEEmail</name>
         <label>getGLGCtoCPCEEmail</label>
-        <locationX>3086</locationX>
+        <locationX>3262</locationX>
         <locationY>2951</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4529,7 +4639,7 @@
     <recordLookups>
         <name>getGLGCtoTRCREmail</name>
         <label>getGLGCtoTRCREmail</label>
-        <locationX>2822</locationX>
+        <locationX>2998</locationX>
         <locationY>2951</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4550,7 +4660,7 @@
     <recordLookups>
         <name>getOrgWide</name>
         <label>getOrgWide</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4573,7 +4683,7 @@
     <recordLookups>
         <name>getRequestItemRecord</name>
         <label>getRequestItemRecord</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4636,7 +4746,7 @@
     <recordLookups>
         <name>getTRCRMeta</name>
         <label>getTRCRMeta</label>
-        <locationX>2734</locationX>
+        <locationX>2910</locationX>
         <locationY>2051</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4693,7 +4803,7 @@
     <recordLookups>
         <name>getTRCRMeta_0</name>
         <label>getTRCRMeta</label>
-        <locationX>8542</locationX>
+        <locationX>8718</locationX>
         <locationY>2591</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4750,7 +4860,7 @@
     <recordLookups>
         <name>getVPtoEVPCEmail</name>
         <label>getVPtoEVPCEmail</label>
-        <locationX>5154</locationX>
+        <locationX>5330</locationX>
         <locationY>2483</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -4771,7 +4881,7 @@
     <recordUpdates>
         <name>AMMEDDRejectedUpdateRecord</name>
         <label>AMMEDDRejectedUpdateRecord</label>
-        <locationX>7134</locationX>
+        <locationX>7310</locationX>
         <locationY>2267</locationY>
         <connector>
             <targetReference>assignTraderSHVPCreditCPCE_0</targetReference>
@@ -4793,7 +4903,7 @@
     <recordUpdates>
         <name>CEOEDDApproveTOPSupplierUpdateRecord</name>
         <label>CEOEDDApproveTOPSupplierUpdateRecord</label>
-        <locationX>7706</locationX>
+        <locationX>7882</locationX>
         <locationY>2375</locationY>
         <connector>
             <targetReference>assignTrader_0</targetReference>
@@ -4815,7 +4925,7 @@
     <recordUpdates>
         <name>CEOEDDApproveUpdateRecord</name>
         <label>CEOEDDApproveUpdateRecord</label>
-        <locationX>8696</locationX>
+        <locationX>8872</locationX>
         <locationY>2375</locationY>
         <connector>
             <targetReference>Which_BU_0</targetReference>
@@ -4831,7 +4941,7 @@
     <recordUpdates>
         <name>CEOEDDRejectUpdateRecord</name>
         <label>CEOEDDRejectUpdateRecord</label>
-        <locationX>9466</locationX>
+        <locationX>9642</locationX>
         <locationY>2375</locationY>
         <connector>
             <targetReference>assignTraderSHVPCreditCPCE_1</targetReference>
@@ -4853,7 +4963,7 @@
     <recordUpdates>
         <name>EVPCEDDRejectedUpdateRecord</name>
         <label>EVPCEDDRejectedUpdateRecord</label>
-        <locationX>5946</locationX>
+        <locationX>6122</locationX>
         <locationY>2159</locationY>
         <connector>
             <targetReference>assignTraderSHVPCreditCPCE</targetReference>
@@ -4875,7 +4985,7 @@
     <recordUpdates>
         <name>GLGCEDDTOPSupplierUpdateRecord</name>
         <label>GLGCEDDTOPSupplierUpdateRecord</label>
-        <locationX>1810</locationX>
+        <locationX>1986</locationX>
         <locationY>1835</locationY>
         <connector>
             <targetReference>assignTrader</targetReference>
@@ -4897,7 +5007,7 @@
     <recordUpdates>
         <name>GLGCUpdateRecordStatus</name>
         <label>GLGCUpdateRecordApprovalStep</label>
-        <locationX>2932</locationX>
+        <locationX>3108</locationX>
         <locationY>1835</locationY>
         <connector>
             <targetReference>Which_BU</targetReference>
@@ -4933,7 +5043,7 @@
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>9037</locationX>
+        <locationX>9169</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getRequestItemRecord</targetReference>
@@ -5003,7 +5113,7 @@
     <subflows>
         <name>findAMM_0</name>
         <label>findAMM</label>
-        <locationX>7134</locationX>
+        <locationX>7310</locationX>
         <locationY>2591</locationY>
         <connector>
             <targetReference>CheckAMM</targetReference>
@@ -5020,7 +5130,7 @@
     <subflows>
         <name>findCEO</name>
         <label>findCEO</label>
-        <locationX>6606</locationX>
+        <locationX>6782</locationX>
         <locationY>2483</locationY>
         <connector>
             <targetReference>CheckCEO</targetReference>
@@ -5037,7 +5147,7 @@
     <subflows>
         <name>findCPCE</name>
         <label>findCPCE</label>
-        <locationX>4054</locationX>
+        <locationX>4230</locationX>
         <locationY>1943</locationY>
         <connector>
             <targetReference>CheckCPCE</targetReference>
@@ -5054,7 +5164,7 @@
     <subflows>
         <name>findCPCEforCC</name>
         <label>findCPCEforCC</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>971</locationY>
         <connector>
             <targetReference>getCreditMetaforCC</targetReference>
@@ -5071,7 +5181,7 @@
     <subflows>
         <name>findCreditforCC</name>
         <label>findCreditforCC</label>
-        <locationX>9163</locationX>
+        <locationX>9295</locationX>
         <locationY>1187</locationY>
         <connector>
             <targetReference>CheckFinalRiskLevel</targetReference>
@@ -5088,7 +5198,7 @@
     <subflows>
         <name>findEVPC</name>
         <label>findEVPC</label>
-        <locationX>5286</locationX>
+        <locationX>5462</locationX>
         <locationY>2051</locationY>
         <connector>
             <targetReference>CheckEVPC</targetReference>
@@ -5120,9 +5230,26 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <name>findEVPCTeam_JustReviewEDD</name>
+        <label>findEVPCTeam</label>
+        <locationX>1414</locationX>
+        <locationY>2159</locationY>
+        <connector>
+            <targetReference>CheckEDDWorkingTeam_JustReviewEDD</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getEVPCTeamMeta_JustReviewEDD</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <name>findFALB</name>
         <label>findFALB</label>
-        <locationX>3262</locationX>
+        <locationX>3438</locationX>
         <locationY>2159</locationY>
         <connector>
             <targetReference>CheckFALB</targetReference>
@@ -5139,7 +5266,7 @@
     <subflows>
         <name>findFALB_0</name>
         <label>findFALB</label>
-        <locationX>8982</locationX>
+        <locationX>9158</locationX>
         <locationY>2699</locationY>
         <connector>
             <targetReference>CheckFALB_0</targetReference>
@@ -5156,7 +5283,7 @@
     <subflows>
         <name>findFATX</name>
         <label>findFATX</label>
-        <locationX>2206</locationX>
+        <locationX>2382</locationX>
         <locationY>2159</locationY>
         <connector>
             <targetReference>CheckTXFA</targetReference>
@@ -5173,7 +5300,7 @@
     <subflows>
         <name>findFATX_0</name>
         <label>findFATX</label>
-        <locationX>8102</locationX>
+        <locationX>8278</locationX>
         <locationY>2699</locationY>
         <connector>
             <targetReference>CheckTXFA_0</targetReference>
@@ -5190,7 +5317,7 @@
     <subflows>
         <name>findGLGC</name>
         <label>findGLGC</label>
-        <locationX>1414</locationX>
+        <locationX>1568</locationX>
         <locationY>1727</locationY>
         <connector>
             <targetReference>CheckGLGC</targetReference>
@@ -5207,7 +5334,7 @@
     <subflows>
         <name>findTRCR</name>
         <label>findTRCR</label>
-        <locationX>2734</locationX>
+        <locationX>2910</locationX>
         <locationY>2159</locationY>
         <connector>
             <targetReference>CheckTRCR</targetReference>
@@ -5224,7 +5351,7 @@
     <subflows>
         <name>findTRCR_0</name>
         <label>findTRCR</label>
-        <locationX>8542</locationX>
+        <locationX>8718</locationX>
         <locationY>2699</locationY>
         <connector>
             <targetReference>CheckTRCR_0</targetReference>
@@ -5325,6 +5452,13 @@
     </textTemplates>
     <variables>
         <name>CEORecipientEmails</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>recipientCCEmails</name>
         <dataType>String</dataType>
         <isCollection>true</isCollection>
         <isInput>false</isInput>

@@ -33,11 +33,23 @@ public with sharing class CTRRequestChangeCreditCondController {
             {
                 Set<String> setSalesOrg = new Set<String>();
                 if(mBusinessUnit == 'TOP') {
-                    setSalesOrg = new Set<String>{'1100','1300','1400'};
+                    setSalesOrg = new Set<String>{'1100'};
+                } else if(mBusinessUnit == 'TPX') {
+                    setSalesOrg = new Set<String>{'1300'};
+                } else if(mBusinessUnit == 'TLB') {
+                    setSalesOrg = new Set<String>{'1400'};
                 } else if(mBusinessUnit == 'LABIX') {
                     setSalesOrg = new Set<String>{'1700'};
-                } else if(mBusinessUnit == 'TX') {
-                    setSalesOrg = new Set<String>{'2000','9100','9200','9300','9400'};
+                } else if(mBusinessUnit == 'TXTH') {
+                    setSalesOrg = new Set<String>{'2000'};
+                } else if(mBusinessUnit == 'TSV') {
+                    setSalesOrg = new Set<String>{'9100'};
+                } else if(mBusinessUnit == 'TSR') {
+                    setSalesOrg = new Set<String>{'9200'};
+                } else if(mBusinessUnit == 'JSKem') {
+                    setSalesOrg = new Set<String>{'9300'};
+                } else if(mBusinessUnit == 'TXINDIA') {
+                    setSalesOrg = new Set<String>{'9400'};
                 }
 
                 List<C360_FinancialInfo__c> mFinancialInfoList = new List<C360_FinancialInfo__c>([SELECT CompanyCode__c, toLabel(CompanyCode__c) companyCodeLabel, Credit_Condition__c, CreditLimit__c, InternalCreditRating__c, CreditControlArea__c, toLabel(CreditControlArea__c) creditControlAreaLabel, Currency__c FROM C360_FinancialInfo__c WHERE CompanyName__c = :mAccountId AND CompanyCode__c IN :setSalesOrg]);
@@ -119,18 +131,21 @@ public with sharing class CTRRequestChangeCreditCondController {
                 itemToInsert.Approval_Step__c = 'Credit Rating';
                 itemToInsert.FinancialInformation__c = mRequestWrapper.mRecordId;
 
-                if (businessUnit == 'TX') {
+                List<String> topSubBU = new List<String>{'TOP','TLB','TPX'};
+                List<String> txSubBU = new List<String>{'TXTH','TSV','TSR','JSKem','TXINDIA'};
+
+                if (txSubBU.contains(businessUnit)) {
                     itemToInsert.SalesOrganizationTX__c = mRequestWrapper.mSalesOrg;
-                } else if (businessUnit == 'TOP')
+                } else if (topSubBU.contains(businessUnit))
                 {
                     itemToInsert.SalesOrganizationTOP__c = mRequestWrapper.mSalesOrg;
                 }
 
                 if (mItemList.size() > 0)
                 {
-                    if (businessUnit == 'TX') {
+                    if (txSubBU.contains(businessUnit)) {
                         itemToInsert.InterestedProductTypeAsCustomerTX__c = mItemList[0].InterestedProductTypeAsCustomerTX__c != null ? mItemList[0].InterestedProductTypeAsCustomerTX__c : '';
-                    } else if (businessUnit == 'TOP')
+                    } else if (topSubBU.contains(businessUnit))
                     {
                         itemToInsert.InterestedProductTypeAsCustomerTOP__c = mItemList[0].InterestedProductTypeAsCustomerTOP__c != null ? mItemList[0].InterestedProductTypeAsCustomerTOP__c : '';
                     }

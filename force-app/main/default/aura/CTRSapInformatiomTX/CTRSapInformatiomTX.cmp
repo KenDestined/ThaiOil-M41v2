@@ -526,11 +526,11 @@
                                                 <option value="+66 Thailand">+66 Thailand</option>
                                             </lightning:select>
                                         </div>
-                                        <!-- Type of Bussiness (Branch) -->
+                                        <!-- Type of Business (Branch) -->
                                         <div
                                             class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
                                             <p style="text-align: left; padding-left: 50px;">
-                                                Type of Bussiness (Branch)
+                                                Type of Business (Branch)
                                             </p>
                                         </div>
                                         <div class="slds-col slds-size_3-of-6">

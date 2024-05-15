@@ -632,11 +632,11 @@ public with sharing class CTRRequestHeaderHandler
                                                 {
                                                     if(mHeaderEdit.Api == 'CityStateLocal__c')
                                                     {
-                                                        mHeaderEdit.Value = (mChangeObj.get('Description__c') != null)?(String)mChangeObj.get('Description__c'): '';
+                                                        mHeaderEdit.Value = (mChangeObj.get('Description__c') != null)?(String)mChangeObj.get('SearchTerm3__c'): '';
                                                     }
                                                     else if(mHeaderEdit.Api == 'CityStateEN__c')
                                                     {
-                                                        mHeaderEdit.Value = (mChangeObj.get('Name') != null)?(String)mChangeObj.get('Name'): '';
+                                                        mHeaderEdit.Value = (mChangeObj.get('Name') != null)?(String)mChangeObj.get('Description__c'): '';
                                                     }
                                                     else
                                                     {

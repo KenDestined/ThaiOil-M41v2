@@ -21,7 +21,7 @@
     </values>
     <values>
         <field>Path__c</field>
-        <value xsi:type="xsd:string">06 Registration Issed by MoE</value>
+        <value xsi:type="xsd:string">06 Registration Issued by MoE</value>
     </values>
     <values>
         <field>Salesforce_Object_Name__c</field>

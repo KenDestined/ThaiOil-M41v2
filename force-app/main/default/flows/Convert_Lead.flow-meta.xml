@@ -62,29 +62,6 @@
     </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
-        <name>Copy_1_of_InputSeller</name>
-        <label>Copy 1 of InputSeller</label>
-        <locationX>578</locationX>
-        <locationY>566</locationY>
-        <assignmentItems>
-            <assignToReference>InputSeller</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Copy_1_of_ChooseSeller</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>InputBuyer</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>Copy_1_of_ChooseBuyer</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>UpdateRec</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>InputSeller1</name>
         <label>InputSeller</label>
         <locationX>314</locationX>
@@ -101,6 +78,57 @@
             <operator>Add</operator>
             <value>
                 <elementReference>ChooseBuyer</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InputTypeOfBusinessBranch</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Type_of_Business_Branch</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InputAccountGroup</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Account_Group</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UpdateRec</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>InputSeller_0</name>
+        <label>InputSeller</label>
+        <locationX>578</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>InputSeller</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Copy_1_of_ChooseSeller</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InputBuyer</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Copy_1_of_ChooseBuyer</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InputTypeOfBusinessBranch</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Type_Of_Business_Branch2</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>InputAccountGroup</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Account_Group2</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -124,6 +152,20 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>InputBuyer</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Lead.TypeOfBusinessBranch__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>InputTypeOfBusinessBranch</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Lead.AccountGroup__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>InputAccountGroup</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -202,11 +244,11 @@
         <locationX>446</locationX>
         <locationY>350</locationY>
         <defaultConnector>
-            <targetReference>Copy_1_of_Converted_Lead</targetReference>
+            <targetReference>Converted_Lead</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Copy_1_of_TH_VN_IDN_SGP_IND_HKG_ARE_KOR_MYS_CHN_JPN</name>
+            <name>TH_VN_IDN_SGP_IND_HKG_ARE_KOR_MYS_CHN_JPN</name>
             <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Lead.Country__r.Code__c</leftValueReference>
@@ -288,7 +330,7 @@
             <connector>
                 <targetReference>ConvertedLead3</targetReference>
             </connector>
-            <label>Copy 1 of TH VN IDN SGP IND HKG ARE KOR MYS CHN JPN</label>
+            <label>TH VN IDN SGP IND HKG ARE KOR MYS CHN JPN</label>
         </rules>
     </decisions>
     <decisions>
@@ -350,7 +392,22 @@
             <label>UnqualifiedLead</label>
         </rules>
     </decisions>
-    <description>21/03/2024 Change check condition with data from get element in &quot;checkCurrentUser&quot;.</description>
+    <description>3/05/2024 
+1. Adjust screen layout TOP, TXSup, TXCus
+2. Default Value
+- Type of Business (Branch)
+- Account Group
+
+15/5/2024
+1) Update Field &apos;Seller&apos; in Screen as Required Field</description>
+    <dynamicChoiceSets>
+        <name>AccountGroup</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>AccountGroup__c</picklistField>
+        <picklistObject>Lead</picklistObject>
+    </dynamicChoiceSets>
     <dynamicChoiceSets>
         <name>BuyerPicklist</name>
         <dataType>Picklist</dataType>
@@ -367,11 +424,29 @@
         <picklistField>Seller__c</picklistField>
         <picklistObject>Lead</picklistObject>
     </dynamicChoiceSets>
+    <dynamicChoiceSets>
+        <name>TypeOfBusinessBranchChoiceSet</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>TypeOfBusinessBranch__c</picklistField>
+        <picklistObject>Lead</picklistObject>
+    </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <name>fmlBuyer</name>
+        <dataType>String</dataType>
+        <expression>CASE({!Get_Lead.Buyer__c}, &quot;A000&quot;, &quot;A000 TX:Purchasing Organization&quot;, &quot;H100&quot;, &quot;H100 TSV:Purchasing Organization&quot;, &quot;I100&quot;, &quot;I100 TSR:Purchasing Organization&quot;, &quot;S100&quot;, &quot;S100 JSKem:Purchasing Organization&quot;, &quot;N100&quot;, &quot;N100 TX INDIA:Purchasing Organization&quot;, &quot;&quot;)</expression>
+    </formulas>
     <formulas>
         <name>fmlLeadType</name>
         <dataType>String</dataType>
         <expression>if({!recordId.RecordType.Name} = &quot;TxCustomer&quot;, &quot;customer&quot;, if({!recordId.RecordType.Name} = &quot;TxSupplier&quot;,&quot;supplier&quot;, &quot;customer/supplier&quot;))</expression>
+    </formulas>
+    <formulas>
+        <name>fmlSeller</name>
+        <dataType>String</dataType>
+        <expression>CASE({!Get_Lead.Seller__c}, &quot;2000&quot;, &quot;2000-TOP NEXT International Company Limited&quot;, &quot;9100&quot;, &quot;9100-TOP SOLVENT VIETNAM&quot;, &quot;9200&quot;, &quot;9200-PT.TIRTA SURYA RAYA&quot;, &quot;9300&quot;, &quot;9300-JSKem Pte Ltd&quot;, &quot;9400&quot;, &quot;9400-TSChem&quot;, &quot;&quot;)</expression>
     </formulas>
     <formulas>
         <name>OwnerId15Digits</name>
@@ -478,73 +553,8 @@
         <inputReference>Get_Lead</inputReference>
     </recordUpdates>
     <screens>
-        <name>ConvertedLead3</name>
+        <name>Converted_Lead</name>
         <label>Converted Lead</label>
-        <locationX>314</locationX>
-        <locationY>458</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>false</allowPause>
-        <backButtonLabel>Cancel</backButtonLabel>
-        <connector>
-            <targetReference>InputSeller1</targetReference>
-        </connector>
-        <fields>
-            <name>Copy_2_of_ConfirmConvert</name>
-            <fieldText>&lt;p&gt;Are you sure you want to convert this lead ?&lt;/p&gt;&lt;p&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-        </fields>
-        <fields>
-            <name>ChooseSeller</name>
-            <choiceReferences>SellerPicklist</choiceReferences>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>recordId.Seller__c</elementReference>
-            </defaultValue>
-            <fieldText>Seller</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>TxCustomer</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>ChooseBuyer</name>
-            <choiceReferences>BuyerPicklist</choiceReferences>
-            <dataType>String</dataType>
-            <defaultValue>
-                <elementReference>recordId.Buyer__c</elementReference>
-            </defaultValue>
-            <fieldText>Buyer</fieldText>
-            <fieldType>DropdownBox</fieldType>
-            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>TxSupplier</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <nextOrFinishButtonLabel>Convert</nextOrFinishButtonLabel>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>Copy_1_of_Converted_Lead</name>
-        <label>Copy 1 of Converted Lead</label>
         <locationX>578</locationX>
         <locationY>458</locationY>
         <allowBack>true</allowBack>
@@ -552,11 +562,11 @@
         <allowPause>false</allowPause>
         <backButtonLabel>Cancel</backButtonLabel>
         <connector>
-            <targetReference>Copy_1_of_InputSeller</targetReference>
+            <targetReference>InputSeller_0</targetReference>
         </connector>
         <fields>
-            <name>Copy_1_of_Copy_2_of_ConfirmConvert</name>
-            <fieldText>&lt;p&gt;Are you sure you want to convert this lead ?&lt;/p&gt;&lt;p&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
+            <name>ConfirmConvert</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Are you sure you want to convert this lead ?&lt;/p&gt;&lt;p&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
@@ -569,7 +579,7 @@
             <fieldText>Seller</fieldText>
             <fieldType>DropdownBox</fieldType>
             <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
-            <isRequired>false</isRequired>
+            <isRequired>true</isRequired>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
@@ -603,6 +613,187 @@
                 </conditions>
             </visibilityRule>
         </fields>
+        <fields>
+            <name>Type_Of_Business_Branch2</name>
+            <choiceReferences>TypeOfBusinessBranchChoiceSet</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId.TypeOfBusinessBranch__c</elementReference>
+            </defaultValue>
+            <fieldText>Type Of Business (Branch)</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxCustomer</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxSupplier</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Account_Group2</name>
+            <choiceReferences>AccountGroup</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId.AccountGroup__c</elementReference>
+            </defaultValue>
+            <fieldText>Account Group</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxCustomer</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxSupplier</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <nextOrFinishButtonLabel>Convert</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>ConvertedLead3</name>
+        <label>Converted Lead</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <backButtonLabel>Cancel</backButtonLabel>
+        <connector>
+            <targetReference>InputSeller1</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_2_of_ConfirmConvert</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Are you sure you want to convert this lead ?&lt;/p&gt;&lt;p&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <fields>
+            <name>ChooseSeller</name>
+            <choiceReferences>SellerPicklist</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId.Seller__c</elementReference>
+            </defaultValue>
+            <fieldText>Seller</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxCustomer</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ChooseBuyer</name>
+            <choiceReferences>BuyerPicklist</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId.Buyer__c</elementReference>
+            </defaultValue>
+            <fieldText>Buyer</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxSupplier</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Type_of_Business_Branch</name>
+            <choiceReferences>TypeOfBusinessBranchChoiceSet</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId.TypeOfBusinessBranch__c</elementReference>
+            </defaultValue>
+            <fieldText>Type of Business (Branch)</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxCustomer</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxSupplier</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>Account_Group</name>
+            <choiceReferences>AccountGroup</choiceReferences>
+            <dataType>String</dataType>
+            <defaultValue>
+                <elementReference>recordId.AccountGroup__c</elementReference>
+            </defaultValue>
+            <fieldText>Account Group</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxCustomer</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Lead.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TxSupplier</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
         <nextOrFinishButtonLabel>Convert</nextOrFinishButtonLabel>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -620,12 +811,12 @@
         </connector>
         <fields>
             <name>Copy_2_of_Display_Text_Converted</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;This company information is already in use with the existing {!fmlLeadType}.&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;This company information is already in use with the existing {!fmlLeadType}.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>Copy_1_of_DisplayExistingSeller</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Seller: {!Get_Lead.Seller__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Seller: {!fmlSeller}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -640,7 +831,7 @@
         </fields>
         <fields>
             <name>Copy_1_of_DisplayExistingBuyer</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Buyer: {!Get_Lead.Buyer__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Buyer: {!fmlBuyer}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -654,9 +845,19 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>Copy_1_of_DisplayExistingSalesOrg</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Sales Organization: &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!Get_Lead.Seller__c}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>DisplayTOP_1</name>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TOP</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>Copy_1_of_DisplayExistingTxt</name>
@@ -680,12 +881,12 @@
         </connector>
         <fields>
             <name>Display_Text_Converted_Successfully</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Your lead has been converted successfully.&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;Your lead has been converted successfully.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>DisplaySeller</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Seller: {!Get_Lead.Seller__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Seller: &lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!fmlSeller}&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -700,7 +901,7 @@
         </fields>
         <fields>
             <name>DisplayBuyer</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Buyer: {!recordId.Buyer__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Buyer: {!fmlBuyer}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -714,8 +915,23 @@
             </visibilityRule>
         </fields>
         <fields>
+            <name>DisplayTOP</name>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name: {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number: {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country: {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TOP</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>DisplayLink</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;You  can process the counterparty registration by clicking the&lt;/span&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(18, 47, 231);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!recNewAccountLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;background-color: rgb(255, 255, 255); color: rgb(18, 47, 231);&quot;&gt;link&lt;/a&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt; to navigate to customer record.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;You  can process the counterparty registration by clicking &apos;OK&apos; to navigate to customer record.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
@@ -735,12 +951,12 @@
         </connector>
         <fields>
             <name>Display_Text_Converted</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;This company information is already in use with the existing {!fmlLeadType}.&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px;&quot;&gt;This company information is already in use with the existing {!fmlLeadType}.&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <fields>
             <name>DisplayExistingSeller</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Seller: {!Get_Lead.Seller__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Seller: {!fmlSeller}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -755,7 +971,7 @@
         </fields>
         <fields>
             <name>DisplayExistingBuyer</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Buyer: {!Get_Lead.Buyer__c}&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Buyer: {!fmlBuyer}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -769,13 +985,23 @@
             </visibilityRule>
         </fields>
         <fields>
-            <name>DisplayExistingSalesOrg</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;Sales Organization: &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!Get_Lead.Seller__c}&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <name>DisplayTOP_0</name>
+            <fieldText>&lt;p class=&quot;ql-indent-8&quot;&gt;Company Name : {!Get_Lead.Company}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;TAX Number : {!Get_Lead.TAXNumber__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-8&quot;&gt;Country : {!Get_Lead.Country__r.Description__c}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>recordId.RecordType.DeveloperName</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>TOP</stringValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
         </fields>
         <fields>
             <name>DisplayExistingTxt</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;You can process the customer product extension by clicking the&lt;/span&gt;&lt;span style=&quot;color: rgb(42, 10, 253); background-color: rgb(255, 255, 255);&quot;&gt; &lt;/span&gt;&lt;a href=&quot;{!recNewReqLink}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(42, 10, 253); background-color: rgb(255, 255, 255);&quot;&gt;link&lt;/a&gt;&lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt; to navigate to extension request process&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;You can process the customer product extension by clicking &apos;OK&apos; to navigate to extension request process&lt;/span&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>OK</nextOrFinishButtonLabel>
@@ -839,6 +1065,13 @@
         <isOutput>true</isOutput>
     </variables>
     <variables>
+        <name>InputAccountGroup</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>InputBuyer</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -851,6 +1084,13 @@
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>InputTypeOfBusinessBranch</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>isExsitingAccount</name>

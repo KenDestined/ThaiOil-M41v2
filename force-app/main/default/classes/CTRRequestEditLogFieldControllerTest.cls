@@ -29,6 +29,7 @@ public class CTRRequestEditLogFieldControllerTest {
         newAcc.Name = 'Test Acc';
         newAcc.AccountNumber = '0001';
         newAcc.AccountNumber__c = '0001';
+        newAcc.SupplierNumber__c = '1100';
         newAcc.CompanyNameENF__c = 'Test Acc';
         insert newAcc;
 
@@ -44,7 +45,8 @@ public class CTRRequestEditLogFieldControllerTest {
             SummarizeReportMessage__c = 'message',
             SummarizeReportEmailTo__c = 'testuser@test.com',
             SummarizeReportEmailCC__c = 'testcc@test.com',
-            CTRRequestFormHeader__c = reqHeader.Id
+            CTRRequestFormHeader__c = reqHeader.Id ,
+            Customer__c = newAcc.Id
         );
         insert reqItem;
 
@@ -99,9 +101,9 @@ public class CTRRequestEditLogFieldControllerTest {
 
         Test.startTest();
         CTRRequestEditLogFieldController.editLevelWrapper result = new CTRRequestEditLogFieldController.editLevelWrapper();
-        result = CTRRequestEditLogFieldController.onloadv3(reqFromItem.Id,'Edit');
-        result = CTRRequestEditLogFieldController.onloadv3(reqFromItem.Id,'Shareholder');
-        result = CTRRequestEditLogFieldController.onloadv3(reqFromItem.Id,'DestinationCountry');
+        result = CTRRequestEditLogFieldController.onloadv4(reqFromItem.Id,'Edit');
+        result = CTRRequestEditLogFieldController.onloadv4(reqFromItem.Id,'Shareholder');
+        result = CTRRequestEditLogFieldController.onloadv4(reqFromItem.Id,'DestinationCountry');
 
         Map<String,String> result2 = CTRRequestEditLogFieldController.modifyChangeDataJsonIdToLabel(mChangeDataJsonMap,'CTRRequestFormHeader__c');
         Test.stopTest();

@@ -58,11 +58,13 @@
 
         if (allValid) {
             var fields = event.getParam('fields');
+            console.log('Debug fields',Object.assign({}, fields));
 
             fields[component.get('v.interestProductField')] = component.get('v.selectedProductType');
             var jsonChanged = JSON.stringify(component.get('v.ChangedFieldForEDITItem'));
                     fields.InternalEditField__c = jsonChanged;
             console.log('[handleSubmit] fields -----', Object.assign({}, fields));
+            debugger;
             component.find('recordEditForm').submit(fields);
         } else {
             component.set("v.isLoaded", true);
@@ -87,7 +89,11 @@
 
     handleInterestProductCustomerChange : function(component,event,helper) 
     {
+        if(!component.get('v.isExtend')) {
+            component.set('v.selectedProductType',String(event.getSource().get('v.value')))
+        }
         var custproduct = component.get('v.selectedProductType');
+        console.log('Cus product ',custproduct)
         
         if (custproduct.includes("Lube Base Products")) 
         {
@@ -143,7 +149,12 @@
     // },
     handleInterestProductSupplierChange : function(component,event,helper) 
     {
+        if(!component.get('v.isExtend')) {
+            component.set('v.selectedProductType',String(event.getSource().get('v.value')))
+        }
         var supplproduct = component.get('v.selectedProductType');
+        console.log('Supp product ',supplproduct);
+
         if(supplproduct)
         {
             

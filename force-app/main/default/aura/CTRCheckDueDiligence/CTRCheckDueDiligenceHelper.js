@@ -21,6 +21,14 @@
                     for(var i=0; i<riskLevelList.length; i++) {
                         if(!$A.util.isEmpty(riskLevelList[i].disabled) && !riskLevelList[i].disabled) {
                             component.set('v.hasPermission', true);
+                            switch(riskLevelList[i].actorStep) {
+                                case 'Credit':
+                                    component.set('v.isFASubmitted', true);
+                                    break;
+                                case 'CPCE':
+                                    component.set('v.isCPCESubmitted', true);
+                                    break;
+                            }
                             break;
                         }
                     }
@@ -116,6 +124,17 @@
                     riskLevelInfo['Approval_Step__c'] = 'Open';
                     riskLevelInfo['SubmittedTrader__c'] = true;
                 }
+
+                // - Actor = Credit --> CTRRequestFormItem__r.IsFASubmitted__c = TRUE
+                // - Actor = CPCE --> CTRRequestFormItem__r.IsCPCESubmitted__c = TRUE
+                // START UATIS-INICUS-01-932
+                if(component.get('v.isFASubmitted')) {
+                    riskLevelInfo['IsFASubmitted__c'] = true;
+                }
+                if(component.get('v.isCPCESubmitted')) {
+                    riskLevelInfo['IsCPCESubmitted__c'] = true;
+                }
+                // END UATIS-INICUS-01-932
             }
             console.log('[updateDueDiligence] riskLevelInfo -----', riskLevelInfo);
             var action = component.get("c.updateDueDiligence");

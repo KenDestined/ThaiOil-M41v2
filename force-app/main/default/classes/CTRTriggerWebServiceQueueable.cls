@@ -6,6 +6,7 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
     String mSendType;
     Id mRecordId;
     String mGatewayId;
+    String mockResponse;
 
 
     public CTRTriggerWebServiceQueueable(String mInputJson, String mCurrentToken, String mInputEndpoint, String mInputSendType, Id mInputItemId, String mInputGatewayId) 
@@ -18,13 +19,29 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
         this.mGatewayId = mInputGatewayId;
     }
 
+    public CTRTriggerWebServiceQueueable(String mInputJson, String mCurrentToken, String mInputEndpoint, String mInputSendType, Id mInputItemId, String mInputGatewayId, String mInputMockResponse) 
+    {
+        this.mJson = mInputJson;
+        this.mToken = mCurrentToken;
+        this.mEndPoint = mInputEndpoint;
+        this.mSendType = mInputSendType;
+        this.mRecordId = mInputItemId;
+        this.mGatewayId = mInputGatewayId;
+        this.mockResponse = mInputMockResponse;
+    }
+
     public void execute(QueueableContext context) 
     {
-        sendServiceToHeroku(mJson, mToken, mEndPoint,mSendType, mRecordId, mGatewayId);
+        sendServiceToHeroku(mJson, mToken, mEndPoint,mSendType, mRecordId, mGatewayId, mockResponse);
+    }
+
+    public static void sendServiceToHeroku(String mJson, String mToken, String mEndPoint, String mInputSendType, Id mRecordId, String mGatewayId)
+    {
+        sendServiceToHeroku(mJson, mToken, mEndPoint, mInputSendType, mRecordId, mGatewayId, '');
     }
 
     @future (callout = true)
-    public static void sendServiceToHeroku(String mJson, String mToken, String mEndPoint, String mInputSendType, Id mRecordId, String mGatewayId)
+    public static void sendServiceToHeroku(String mJson, String mToken, String mEndPoint, String mInputSendType, Id mRecordId, String mGatewayId, String mockResponse)
     {
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');  
@@ -36,10 +53,22 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
             
         // Make the HTTP request
         Http http = new Http();
-        HttpResponse response = http.send(request);
+        HttpResponse response = new HttpResponse();
+        if (!Test.isRunningTest()) {
+            response = http.send(request);
+        }else{
+            // mock data for testing
+            if(String.isNotBlank(mockResponse)){
+                Map<String,Object> mapResponse = (Map<String,Object>)JSON.deserializeUntyped(mockResponse);
+                if(mapResponse.size() > 0){
+                    response.setStatusCode(Integer.valueOf(mapResponse.get('status_code')));
+                    response.setBody(String.valueOf(mapResponse.get('body')));
+                }
+            }
+        }
 
         // Parse and handle the response
-        if(mRecordId!= null)
+        if(mRecordId!= null && response != null)
         {
             System.debug(response.getStatusCode());
             String sObjName = mRecordId.getSObjectType().getDescribe().getName();
@@ -120,16 +149,14 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
                 }
                 else if(sObjName == 'Account')
                 {
-                    Account mAccountQ = [SELECT Id,SubmitToSharepointDateTime__c FROM Account WHERE Id=:mRecordId];
-                    System.debug(mAccountQ);
+
                     if(mInputSendType.contains('Folder'))
                     {
                         Account mAccount = new Account(Id = mRecordId);
                         mAccount.SharePointFolderIsReady__c = true;
-                        if(mAccountQ.SubmitToSharepointDateTime__c == null)
-                        {
+
                             mAccount.SubmitToSharepointDateTime__c = System.now();
-                        }
+                        
                         update mAccount;
                         // List<CTRRequestFormItem__c> mItemList = [SELECT Id FROM CTRRequestFormItem__c WHERE Customer__c =: mRecordId];
                         // List<CTRRequestFormItem__c> mItemUpdateList = new List<CTRRequestFormItem__c>();
@@ -216,6 +243,16 @@ public with sharing class CTRTriggerWebServiceQueueable implements Queueable
                         Lead mLeadUpdate = new Lead(Id = mRecordId);
                         mLeadUpdate.GatewayId__c = mGatewayId;
                         //update mLeadUpdate;
+                    }
+                }
+                else if(sObjName == 'Account')
+                {
+
+                    if(mInputSendType.contains('Folder'))
+                    {
+                        Account mAccount = new Account(Id = mRecordId);
+                        mAccount.SubmitToCreateSharePointFolder__c = false;
+                        update mAccount;
                     }
                 }
                 // Error handling

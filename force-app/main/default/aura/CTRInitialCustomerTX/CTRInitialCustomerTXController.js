@@ -207,7 +207,7 @@
                         //     var SupplierTransportationValue = accInfo.SuppliersFacilityTransportation__c.split(";");
                         //     component.set("v.SupplierTransportationValue",SupplierTransportationValue);
                         // }
-                        console.log('AccountNumber : ' + accInfo.Customer__r.AccountNumber__c);
+                        console.log('SupplierNumber : ' + accInfo.Customer__r.SupplierNumber__c);
                         if (accInfo.SameRegisteredAddress__c) {
                             component.set('v.isSameAddress', true);
                         }
@@ -224,14 +224,21 @@
                         if (accInfo.InterestedProductTypeAsSupplierTX__c) {
                             component.set('v.isSupplierProductSelected', true);
                         }
+                        console.log('isCustomerType:'+component.get("v.isCustomerType"));
 
                         if (accInfo.Customer__r.AccountNumber__c || accInfo.Customer__r.SupplierNumber__c) {
                             component.set("v.SAPSync", true);
+                            component.set("v.SAPSyncDoNotChange", true);
+
+                            
                             component.set('v.isSameAddress', true);
+                            component.set('v.GeneralWarning', true);
                             if (component.get("v.isCustomerType")) 
                             {
-                                component.set('v.isNoCustomerProducts', true);
-                                component.set('v.isNoCustomerProductsSAPSync', true);
+                                component.set('v.isCustomerProductSelected', true);
+                                component.set('v.isNoCustomerProducts', false);
+                                component.set('v.isNoCustomerProductsSAPSync', false);
+                                
                                 if(accInfo.Customer__r.AccountNumber__c)
                                 {
                                     component.set("v.SAPSyncCustomer", true);
@@ -245,6 +252,13 @@
                                 }
                             }
                         }
+                        if (component.get("v.isSupplierType")) {
+                            component.set('v.isNoCustomerProducts', true);
+                        //     if (accInfo.Customer__r.SupplierNumber__c) {
+                        //         component.set("v.SAPSync", true);
+                        //         component.set('v.isSameAddress', true);
+                        //     }
+                         }
                         console.log(component.get("v.SAPSync"), accInfo.Customer__r.AccountNumber__c || accInfo.Customer__r.SupplierNumber__c);
 
                         // console.log('AccountNumber : ' + accInfo.Customer__r.AccountNumber__c);
@@ -448,6 +462,15 @@
         try {
             component.set('v.isLoaded', false);
             event.preventDefault();
+            
+            // component.set('v.isCustomerProductSelected', false);
+            // component.set('v.isSupplierProductSelected', false);
+            // component.set('v.isOtherLegalEntity', false);
+            // component.set('v.isOtherTypeofBussiness', false);
+            // component.set('v.isOtherMainService', false);
+            // component.set('v.isOtherMainProduct', false);
+            // component.set('v.isRequired', false);
+
             const formData = event.getParam('fields');
             if (component.get('v.isNoCustomerProducts') == false) {
                 var shippingList = component.get('v.shippingList');
@@ -1041,6 +1064,6 @@
     closeModel: function (component, event, helper) {
         component.set("v.isModalSensitiveOpen", false);
         component.set('v.IsPageDisable', true);
-        window.location.reload();
+        //window.location.reload();
     },
 })

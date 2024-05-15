@@ -18,7 +18,10 @@ public without sharing class CTRFlowEmailReminderTest {
             EmailTo__c = 'testuser@test.com',
             EmailCC__c = 'testuser@test.com',
             Subject__c = 'Test Subject',
-            Message__c = 'Test message'
+            Message__c = 'Test message',
+            FinCrLimit__c = 22222,
+            FinRiskCategory__c = 'B: Medium Risk',
+            FinIntCrRating__c = 'D'
         );
         
         insert reqItem;

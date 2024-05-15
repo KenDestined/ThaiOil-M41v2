@@ -6,13 +6,30 @@ public without sharing class CTRSummarizeReportController {
                                                  SummarizeReportEmailTo__c, SummarizeReportEmailCC__c, SummarizeReportAttachment__c, OwnersSectionHead__r.Email, OwnersCMVP__r.Email, 
                                                  OwnerId, Owner.Email, RecordType.Name, RecordType.DeveloperName, CommitteeOwner__c, CommitteeOwner__r.Email,CreditOwner__c, CreditOwner__r.Email,CreditOwnerSectionHead__c,IsTRCR__c, fmlAccountTypeName__c
                                                  ,FinCrCond__c,FinPaymentCond__c,InterestedProductTypeAsCustomerTOP__c,InterestedProductTypeAsCustomerTX__c,InterestedProductTypeAsSupplierTOP__c,InterestedProductTypeAsSupplierTX__c
-                                                 ,BusinessUnit__c,Customer__r.Name, fmlPositionNameOfVP__c
+                                                 ,BusinessUnit__c,Customer__r.Name, fmlPositionNameOfVP__c, CTRRequestFormHeader__r.Country__r.Code__c, SubBU__c
                                                  FROM CTRRequestFormItem__c WHERE Id = :recordId];
         try
         {
             String queryStr = 'SELECT Subject__c, HTMLBody__c, Type__c FROM CTREmailTemplateMaster__c WHERE Type__c = \'' + templateType + '\' LIMIT 1';
             CTREmailTemplateMaster__c emailTemplate = Database.query(queryStr);
-            
+            String RecordTypeName = reqFormItem.RecordType.Name.contains('Customer') ? 'Customer' : 'Supplier';
+
+            String mType = 'International';
+            if(reqFormItem.CTRRequestFormHeader__r.Country__r.Code__c == 'TH') {
+                mType = 'Domestic';
+            }
+            List<CTRActorInProcess__mdt> faMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'ApprovalDetail' AND Step__c = 'Credit' AND SalesOrg__c =: reqFormItem.SubBU__c AND Type__c =: mType AND RecordType__c =: RecordTypeName AND InterByTX__c = 'No'];
+            System.debug('Debug get actor '+reqFormItem.SubBU__c+' : '+mType+' : '+RecordTypeName+' : '+faMdt);
+            Set<String> empIdSet = new Set<String>();
+            for(CTRActorInProcess__mdt actor : faMdt) {
+                empIdSet.add(actor.EmployeeId__c);
+            }
+            Map<Id, User> actorUserMap = new Map<Id, User>([SELECT Id, Employee_Id__c, Email FROM User WHERE Employee_Id__c IN: empIdSet]);
+            List<String> faTeamEmail = new List<String>();
+            for(User actor : actorUserMap.values()) {
+                faTeamEmail.add(actor.Email);
+            }
+
             system.debug ('emailTemplate : ' + emailTemplate);
             
             String productName = '';
@@ -22,7 +39,6 @@ public without sharing class CTRSummarizeReportController {
             String payment = '';
             String RecordLink = URL.getOrgDomainUrl().toExternalForm() + '/' + reqFormItem.Id;
 
-            String RecordTypeName = reqFormItem.RecordType.Name.contains('Customer') ? 'Customer' : 'Supplier';
             if(reqFormItem.FinCrCond__c != null)
             {
                 creditcon = reqFormItem.FinCrCond__c;
@@ -50,12 +66,17 @@ public without sharing class CTRSummarizeReportController {
             if (String.isBlank(reqFormItem.SummarizeReportSubject__c)) {
                 reqFormItem.SummarizeReportSubject__c = emailTemplate.Subject__c.replace('{$RecordType$}', RecordTypeName).replace('{$AccountName$}', reqFormItem.Customer__r.Name).replace('{$BU$}', reqFormItem.BusinessUnit__c);
             }
-            if(reqFormItem.CreditOwnerSectionHead__c == UserInfo.getUserId())
+            if(reqFormItem.CreditOwnerSectionHead__c == UserInfo.getUserId() || actorUserMap.containsKey(UserInfo.getUserId()))
             {
                 reqFormItem.IsTRCR__c = 'true';
             }
             
-            
+            //add Email CC FA Team
+            if(reqFormItem.SummarizeReportEmailCC__c == null) {
+                reqFormItem.SummarizeReportEmailCC__c = String.join(faTeamEmail,',');
+            } else {
+                reqFormItem.SummarizeReportEmailCC__c += ','+String.join(faTeamEmail,',');
+            }
         }
         catch(Exception e)
         {
@@ -96,6 +117,8 @@ public without sharing class CTRSummarizeReportController {
             if (isSubmit) {
                 reqFormItem.Approval_Step__c = 'Summary Report';
             }
+            reqFormItem.SummaryReportBy__c = UserInfo.getUserId();
+            reqFormItem.SummaryReportDateTime__c = Datetime.now();
 
             update reqFormItem;
             if (isSubmit) {

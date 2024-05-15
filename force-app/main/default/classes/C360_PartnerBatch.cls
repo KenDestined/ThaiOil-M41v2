@@ -49,6 +49,8 @@ public without sharing class C360_PartnerBatch implements Database.Batchable<Obj
                         upsertPartnerList.add(upsertPartner);
                         //=====Reverse RelationShip=======================
                         if(partner.A0CUSTOMER != partner.ZCUSTBP  && partner.ZPARTFN == 'WE'){
+                            System.debug('A0CUSTOMER > '+partner.A0CUSTOMER);
+                            System.debug('ZCUSTBP > '+partner.ZCUSTBP);
                             upsertPartnerRever.Account__c = customerMap.get(partner.ZCUSTBP);
                             upsertPartnerRever.ReverseAccount__c  = customerMap.get(partner.A0CUSTOMER);
                             upsertPartnerRever.RelationshipType__c = 'WE-RE';
@@ -61,8 +63,11 @@ public without sharing class C360_PartnerBatch implements Database.Batchable<Obj
                     }
                 }
             }
+            for(C360_Relationship__c a : upsertPartnerList){
+            System.debug(a.Key__c);
+                }
             if(upsertPartnerList.size()> 0){
-                delete [select id from C360_Relationship__c where Account__r.AccountNumber__c in: delAccList];
+                //delete [select id from C360_Relationship__c where Account__r.AccountNumber__c in: delAccList];
                 Schema.SObjectField PartnerKey = C360_Relationship__c.Fields.Key__c;
                 Partner_resultList = Database.upsert(upsertPartnerList,PartnerKey,false);
                 if(Partner_resultList.size() > 0){

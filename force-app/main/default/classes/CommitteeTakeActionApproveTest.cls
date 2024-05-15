@@ -95,6 +95,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerExtend' limit 1];
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c reqItemConditionTrue = new CTRRequestFormItem__c();
         reqItemConditionTrue.Name = 'TestConditionTrue Item';
         reqItemConditionTrue.CTRRequestFormHeader__c = reqHeader.Id;
@@ -102,7 +103,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionTrue.EmailTo__c = 'testemailto@test.com';
         reqItemConditionTrue.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionTrue.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionTrue;
+        reqItemList.add(reqItemConditionTrue);
 
         CTRRequestFormItem__c reqItemConditionFalse = new CTRRequestFormItem__c();
         reqItemConditionFalse.Name = 'TestConditionFalse Item';
@@ -111,7 +112,8 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionFalse.EmailTo__c = 'testemailto@test.com';
         reqItemConditionFalse.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionFalse.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionFalse;
+        reqItemList.add(reqItemConditionFalse);
+        insert reqItemList;
 
         CTRCommitteeApproval__c ctrApproveConditionTrue = new CTRCommitteeApproval__c();
         ctrApproveConditionTrue.Name = 'TestConditionTrue Approve';
@@ -175,6 +177,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerExtend' limit 1];
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c reqItemConditionTrue = new CTRRequestFormItem__c();
         reqItemConditionTrue.Name = 'TestConditionTrue Item';
         reqItemConditionTrue.CTRRequestFormHeader__c = reqHeader.Id;
@@ -182,7 +185,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionTrue.EmailTo__c = 'testemailto@test.com';
         reqItemConditionTrue.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionTrue.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionTrue;
+        reqItemList.add(reqItemConditionTrue);
 
         CTRRequestFormItem__c reqItemConditionFalse = new CTRRequestFormItem__c();
         reqItemConditionFalse.Name = 'TestConditionFalse Item';
@@ -191,7 +194,8 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionFalse.EmailTo__c = 'testemailto@test.com';
         reqItemConditionFalse.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionFalse.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionFalse;
+        reqItemList.add(reqItemConditionFalse);
+        insert reqItemList;
 
         CTRCommitteeApproval__c ctrApproveConditionTrue = new CTRCommitteeApproval__c();
         ctrApproveConditionTrue.Name = 'TestConditionTrue Approve';
@@ -251,6 +255,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerExtend' limit 1];
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c reqItemConditionTrue = new CTRRequestFormItem__c();
         reqItemConditionTrue.Name = 'TestConditionTrue Item';
         reqItemConditionTrue.CTRRequestFormHeader__c = reqHeader.Id;
@@ -258,7 +263,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionTrue.EmailTo__c = 'testemailto@test.com';
         reqItemConditionTrue.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionTrue.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionTrue;
+        reqItemList.add(reqItemConditionTrue);
 
         CTRRequestFormItem__c reqItemConditionFalse = new CTRRequestFormItem__c();
         reqItemConditionFalse.Name = 'TestConditionFalse Item';
@@ -267,7 +272,8 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionFalse.EmailTo__c = 'testemailto@test.com';
         reqItemConditionFalse.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionFalse.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionFalse;
+        reqItemList.add(reqItemConditionFalse);
+        insert reqItemList;
 
         CTRCommitteeApproval__c ctrApproveConditionTrue = new CTRCommitteeApproval__c();
         ctrApproveConditionTrue.Name = 'TestConditionTrue Approve';
@@ -321,6 +327,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerExtend' limit 1];
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c reqItemConditionTrue = new CTRRequestFormItem__c();
         reqItemConditionTrue.Name = 'TestConditionTrue Item';
         reqItemConditionTrue.CTRRequestFormHeader__c = reqHeader.Id;
@@ -328,7 +335,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionTrue.EmailTo__c = 'testemailto@test.com';
         reqItemConditionTrue.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionTrue.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionTrue;
+        reqItemList.add(reqItemConditionTrue);
 
         CTRRequestFormItem__c reqItemConditionFalse = new CTRRequestFormItem__c();
         reqItemConditionFalse.Name = 'TestConditionFalse Item';
@@ -337,7 +344,9 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionFalse.EmailTo__c = 'testemailto@test.com';
         reqItemConditionFalse.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionFalse.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionFalse;
+        reqItemList.add(reqItemConditionFalse);
+
+        insert reqItemList;
 
         CTRCommitteeApproval__c ctrApproveConditionTrue = new CTRCommitteeApproval__c();
         ctrApproveConditionTrue.Name = 'TestConditionTrue Approve';
@@ -391,6 +400,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerExtend' limit 1];
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c reqItemConditionTrue = new CTRRequestFormItem__c();
         reqItemConditionTrue.Name = 'TestConditionTrue Item';
         reqItemConditionTrue.CTRRequestFormHeader__c = reqHeader.Id;
@@ -398,7 +408,7 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionTrue.EmailTo__c = 'testemailto@test.com';
         reqItemConditionTrue.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionTrue.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionTrue;
+        reqItemList.add(reqItemConditionTrue);
 
         CTRRequestFormItem__c reqItemConditionFalse = new CTRRequestFormItem__c();
         reqItemConditionFalse.Name = 'TestConditionFalse Item';
@@ -407,7 +417,9 @@ public with sharing class CommitteeTakeActionApproveTest {
         reqItemConditionFalse.EmailTo__c = 'testemailto@test.com';
         reqItemConditionFalse.EmailCC__c = 'testemailcc@test.com';
         reqItemConditionFalse.CommitteeOwner__c = testUser1.Id;
-        insert reqItemConditionFalse;
+        reqItemList.add(reqItemConditionFalse);
+        
+        insert reqItemList;
 
         CTRCommitteeApproval__c ctrApproveConditionTrue = new CTRCommitteeApproval__c();
         ctrApproveConditionTrue.Name = 'TestConditionTrue Approve';

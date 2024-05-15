@@ -45,10 +45,13 @@ public class CTRInitialCustomerTOPTest {
     
     @IsTest 
     public static void checkDupAccountTest(){
+        Map<String,Object> jsonData = new Map<String,Object>();
+        jsonData.put('Name','R2 Solutions Co.,Ltd.');
+
 		List<CTRShareholder__c> ShareholderList =[SELECT Id FROM CTRShareholder__c limit 1];
 		List<CTRShippingCountry__c> shippingList =[SELECT Id FROM CTRShippingCountry__c limit 1];
         Test.startTest();
-        	CTRInitialCustomerTOP.checkDupAccount('',ShareholderList,shippingList);
+        	CTRInitialCustomerTOP.checkDupAccount(JSON.serialize(jsonData),ShareholderList,shippingList);
         Test.stopTest();
     }
     

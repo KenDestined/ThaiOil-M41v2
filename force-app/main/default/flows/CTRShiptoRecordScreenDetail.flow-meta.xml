@@ -120,7 +120,7 @@
             <label>found partner</label>
         </rules>
     </decisions>
-    <description>Change get value from account to from CTR header</description>
+    <description>[25 Apr 2024] Change display type</description>
     <environments>Default</environments>
     <interviewLabel>CTR Prescreen ResultV02 {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTR Ship-to Record Screen Detail</label>
@@ -231,18 +231,18 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>CompanyNameDisplayText</name>
-                    <fieldText>&lt;p&gt;&lt;strong&gt;Company Name&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!varAccountSoldToName}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);&quot;&gt;__________________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Company Name&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <fields>
                     <name>ShipToNameEnglishDisplayText</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: transparent; color: rgb(0, 0, 0); font-family: Arial, sans-serif; font-size: 10pt;&quot;&gt;Ship-To Name (English)&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;{!getRequestHeader.CompanyNameENF__c}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);&quot;&gt;__________________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: transparent; color: rgb(0, 0, 0); font-family: Arial, sans-serif; font-size: 12px;&quot;&gt;Ship-To Name (English)&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>3</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -251,19 +251,61 @@
                 <name>ShipToInformationSection_Column2</name>
                 <fieldType>Region</fieldType>
                 <fields>
-                    <name>AccountOwnerDisplayText</name>
-                    <fieldText>&lt;p&gt;&lt;strong&gt;Account Owner&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!varAccountSoldToOwner}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);&quot;&gt;__________________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <name>txtValCompany</name>
+                    <fieldText>&lt;p&gt;{!varAccountSoldToName}&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <fields>
-                    <name>ShipToNameOtherLanguageDisplayText</name>
-                    <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: transparent; color: rgb(0, 0, 0); font-family: Arial, sans-serif; font-size: 10pt;&quot;&gt;Ship-To Name (Other Language)&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;{!getRequestHeader.CompanyNameLocal__c}&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(153, 153, 153);&quot;&gt;__________________________________________________________&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <name>txtValShiptoEng</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);&quot;&gt;{!getRequestHeader.CompanyNameENF__c}&lt;/span&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>6</stringValue>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>ShipToInformationSection_Column3</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>AccountOwnerDisplayText</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Account Owner&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>ShipToNameOtherLanguageDisplayText</name>
+                    <fieldText>&lt;p&gt;&lt;span style=&quot;background-color: transparent; color: rgb(0, 0, 0); font-family: Arial, sans-serif; font-size: 12px;&quot;&gt;Ship-To Name (Other Language)&lt;/span&gt;&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>ShipToInformationSection_Column4</name>
+                <fieldType>Region</fieldType>
+                <fields>
+                    <name>txtValueOwner</name>
+                    <fieldText>&lt;p&gt;{!varAccountSoldToOwner}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <fields>
+                    <name>txtValShiptoOther</name>
+                    <fieldText>&lt;p&gt;{!getRequestHeader.CompanyNameLocal__c}&lt;/p&gt;</fieldText>
+                    <fieldType>DisplayText</fieldType>
+                </fields>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>3</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
@@ -600,7 +642,7 @@
             <targetReference>GetRequestItemRecord</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
         <name>recordid</name>
         <dataType>String</dataType>

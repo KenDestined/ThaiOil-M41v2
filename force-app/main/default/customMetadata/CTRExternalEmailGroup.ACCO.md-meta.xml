@@ -4,6 +4,6 @@
     <protected>false</protected>
     <values>
         <field>Email__c</field>
-        <value xsi:type="xsd:string">acco@test.com</value>
+        <value xsi:type="xsd:string">topgroupacco@thaioilgroup.test</value>
     </values>
 </CustomMetadata>

@@ -2,6 +2,7 @@
     closeModal: function (component) {
         $A.get("e.force:closeQuickAction").fire();
         component.set("v.isReqDoc", false);
+        window.location.reload();
     },
     
 
@@ -25,6 +26,7 @@
         component.set('v.reqDocObj.CustomerSubject__c', component.get('v.emailInfo.Subject__c'));
         component.set('v.reqDocObj.CustomerMessage__c', component.get('v.emailInfo.Message__c'));
         console.log('submit---'+component.get('v.isSubmit'));
+        console.log('Debug reqDocObj',JSON.parse(JSON.stringify(component.get('v.reqDocObj'))));
         var action = component.get('c.saveRequestDoc');
         action.setParams({
             "reqFormItem": component.get('v.reqDocObj'),
@@ -33,6 +35,7 @@
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
+            console.log('Debug state',state)
             if (state === "SUCCESS") {
                 if(component.get('v.isSubmit'))
                 {
@@ -44,7 +47,7 @@
                 }
                 
                 this.closeModal(component);
-                component.set('v.showSpinner', false);
+                component.set('v.showSpinnerNoTimeout', false);
                 helper.uploadFileToSharePoint(component);
             } else if (state === "ERROR") {
                 var errors = response.getError();
@@ -52,7 +55,7 @@
                     this.showToast(errors[0].message, false);
                     console.log("Error message: " + errors[0].message);
                 }
-                component.set('v.showSpinner', false);
+                component.set('v.showSpinnerNoTimeout', false);
             }
         });
         $A.enqueueAction(action);

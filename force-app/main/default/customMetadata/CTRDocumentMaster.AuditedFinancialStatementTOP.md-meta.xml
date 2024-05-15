@@ -26,4 +26,8 @@
         <field>SortOrder__c</field>
         <value xsi:type="xsd:double">3.0</value>
     </values>
+    <values>
+        <field>SubBu__c</field>
+        <value xsi:type="xsd:string">TOP</value>
+    </values>
 </CustomMetadata>

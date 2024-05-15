@@ -18,6 +18,8 @@
     <aura:attribute name="SentGeneralView" type="Boolean" />
     <aura:attribute name="DisabledDistribution" type="Boolean" default="false" />
     <aura:attribute name="loadedValue" type="Boolean" default="true" />
+    <aura:attribute name="GeneralWarning" type="Boolean"/>
+    <aura:attribute name="SAPSyncDoNotChange" type="Boolean"/>
 
 
     <aura:attribute name="AccountGroupValue" type="String" />
@@ -26,7 +28,7 @@
 
     <aura:attribute name="SalesOrgList" type="List" />
 
-    <!-- Picklist tab Sales view     -->
+    <!-- Picklist tab Sales view -->
     <aura:attribute name="IncotermsList" type="List" />
     <aura:attribute name="CurrencyList" type="List" />
     <aura:attribute name="TaxClassificationList" type="List" />
@@ -37,8 +39,6 @@
     <aura:attribute name="CompanyCodeTOPList" type="List" />
     <aura:attribute name="PurchasingOrgTOPList" type="List" />
     <aura:attribute name="DivisionList" type="List" />
-
-
 
     <aura:attribute name="ChangedFieldForEDITHeader" type="List" default="[]" />
     <aura:attribute name="ChangedFieldForEDITItem" type="List" default="[]" />
@@ -70,6 +70,22 @@
                             <!-- Tab General View  -->
                             <lightning:tab label="General View" id="generalView">
                                 <div class="slds-grid slds-wrap">
+                                    <aura:if isTrue="{!v.GeneralWarning}">
+                                    <div class="slds-notify_container slds-is-relative">
+                                        <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                                          <span class="slds-assistive-text">warning</span>
+                                          <span class="slds-icon_container slds-icon-utility-warning slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                                            <lightning:icon iconName="utility:warning" alternativeText="warning" size="large" title="large size" />
+                                          </span>
+                                            <div class="slds-notify__content">
+                                                <h2 class="slds-text-heading_small ">This information has been created in General View on SAP. If you edit information, it will be update instead of current information.</h2>
+                                            </div>
+                                            <div class="slds-notify__close">
+                                            
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </aura:if>
                                     <!-- Information Section -->
                                     <div class="slds-col slds-size_1-of-1">
                                         <div class="slds-section slds-is-open" aura:id="informationSection">
@@ -96,7 +112,7 @@
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6"
                                                         style="padding-bottom: 16px; text-align: start;">
-                                                        <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  disabled="{!v.SentGeneralView}"/> -->
+                                                        <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  /> -->
                                                         <!-- Disable? change to item -->
                                                         <lightning:select name="SalesOrganizationTOP__c" disabled="true"
                                                             variant="label-hidden" label="Sales Organization"
@@ -122,7 +138,7 @@
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6"
                                                         style="padding-bottom: 16px; text-align: start;">
-                                                        <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  disabled="{!v.SentGeneralView}"/> -->
+                                                        <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  /> -->
                                                         <!-- Disable? change to item -->
                                                         <lightning:select name="SalesOrganizationTOP__c" disabled="true"
                                                             variant="label-hidden" label="Sales Organization"
@@ -152,7 +168,7 @@
                                                             id="Account Group" onchange="{!c.onChangeAccountGroup}"
                                                             variant="label-hidden" required="true"
                                                             value="{!v.requestFormHeaderObj.AccountGroup__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                            disabled="{!v.SAPSyncDoNotChange}" />
 
                                                     </div>
                                                     <!-- Trading Partner -->
@@ -169,7 +185,7 @@
                                                         <lightning:inputField fieldName="TradingPartner__c" id="Trading Partner"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.TradingPartner__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
 
                                                     <!-- Industry -->
@@ -186,7 +202,7 @@
                                                         <lightning:inputField fieldName="Industry__c" id="Industry"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Industry__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- Customer Type -->
                                                     <div
@@ -203,25 +219,25 @@
                                                             id="Customer Type" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.CustomerType__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                         <!-- Backend not mapping -->
                                                     </div>
-                                                    <!-- Type of Bussiness (Branch) -->
+                                                    <!-- Type of Business (Branch) -->
                                                     <div
                                                         class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-bottom_medium">
                                                         <div
                                                             style="text-align: left; padding-left: 50px; display: flex;">
                                                             <!-- <p style="color: red;">* &nbsp;</p> -->
-                                                            <p style="color: red;">* &nbsp;</p>Type of Bussiness (Branch)
+                                                            <p style="color: red;">* &nbsp;</p>Type of Business (Branch)
                                                         </div>
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6"
                                                         style="padding-bottom: 16px; text-align: start;">
                                                         <lightning:inputField fieldName="TypeOfBusinessBranch__c"
-                                                            id="Type of Bussiness (Branch)"
+                                                            id="Type of Business (Branch)"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.TypeOfBusinessBranch__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- TAX Number -->
                                                     <div
@@ -238,7 +254,7 @@
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             required="true"
                                                             value="{!v.requestFormHeaderObj.TaxCode1__c}"
-                                                            disabled="true" />
+                                                            disabled="SentGeneralView" />
                                                     </div>
 
                                                 </div>
@@ -290,7 +306,7 @@
                                                             variant="label-hidden" required="true" id="Name (Local 1)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameLocal1__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!--  Name input 2  -->
@@ -306,7 +322,7 @@
                                                             variant="label-hidden" id="Name (Local 2)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameLocal2__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- Full Name EN* -->
@@ -337,7 +353,7 @@
                                                             variant="label-hidden" id="Name(Eng 1)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameEN1__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!--  name(Eng) input 2 -->
@@ -353,7 +369,7 @@
                                                             variant="label-hidden" id="Name (EN 2)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameEN2__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                 </div>
@@ -391,7 +407,7 @@
                                                             id="Search Term 1 (Local)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerSearchTermLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- Search Term 1(Eng) -->
@@ -407,7 +423,39 @@
                                                             id="Search Term 1 (EN)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.CustomerSearchTermEN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
+                                                    </div>
+                                                    <!-- row 1* -->
+                                                    <div
+                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <p style="text-align: left; padding-left: 62px; display: flex;">
+                                                            Street 2
+                                                        </p>
+                                                    </div>
+                                                    <div class="slds-col slds-size_3-of-6"
+                                                        style="padding-bottom: 16px; text-align: start;">
+                                                        <lightning:inputField fieldName="Street2Local__c"
+                                                            variant="label-hidden" id="Street2 (Local)"
+                                                            onchange="{!c.handleAddJsonHeader}"
+                                                            value="{!v.requestFormHeaderObj.Street2Local__c}"
+                                                             />
+
+                                                    </div>
+                                                    <!-- row 2* -->
+                                                    <div
+                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
+                                                        <p style="text-align: left; padding-left: 62px; display: flex;">
+                                                            Street 3
+                                                        </p>
+                                                    </div>
+                                                    <div class="slds-col slds-size_3-of-6"
+                                                        style="padding-bottom: 16px; text-align: start;">
+                                                        <lightning:inputField fieldName="Street3Local__c"
+                                                            variant="label-hidden" id="Street3 (Local)"
+                                                            onchange="{!c.handleAddJsonHeader}"
+                                                            value="{!v.requestFormHeaderObj.Street3Local__c}"
+                                                             />
+
                                                     </div>
                                                     <!-- Street/House number* -->
                                                     <div
@@ -423,7 +471,7 @@
                                                             variant="label-hidden" required="true" id="Street (Local)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.StreetLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <div class="slds-col slds-size_2-of-12"
@@ -432,43 +480,15 @@
                                                             variant="label-hidden" id="House number"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.HousenoLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
-                                                    <!-- row 1* -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <p style="text-align: left; padding-left: 50px; display: flex;">
-                                                        </p>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6"
-                                                        style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField fieldName="Street2Local__c"
-                                                            variant="label-hidden" id="Street2 (Local)"
-                                                            onchange="{!c.handleAddJsonHeader}"
-                                                            value="{!v.requestFormHeaderObj.Street2Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
 
-                                                    </div>
-                                                    <!-- row 2* -->
-                                                    <div
-                                                        class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <p style="text-align: left; padding-left: 50px; display: flex;">
-                                                        </p>
-                                                    </div>
-                                                    <div class="slds-col slds-size_3-of-6"
-                                                        style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:inputField fieldName="Street3Local__c"
-                                                            variant="label-hidden" id="Street3 (Local)"
-                                                            onchange="{!c.handleAddJsonHeader}"
-                                                            value="{!v.requestFormHeaderObj.Street3Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
-
-                                                    </div>
                                                     <!-- row 3* -->
                                                     <div
                                                         class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <p style="text-align: left; padding-left: 50px; display: flex;">
+                                                        <p style="text-align: left; padding-left: 62px; display: flex;">
+                                                            Street 4
                                                         </p>
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6"
@@ -477,13 +497,14 @@
                                                             variant="label-hidden" id="Street4 (Local)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street4Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- row 4* -->
                                                     <div
                                                         class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
-                                                        <p style="text-align: left; padding-left: 50px; display: flex;">
+                                                        <p style="text-align: left; padding-left: 62px; display: flex;">
+                                                            Street 5
                                                         </p>
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6"
@@ -492,7 +513,7 @@
                                                             variant="label-hidden" id="Street5 (Local)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street5Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- District* -->
@@ -508,7 +529,7 @@
                                                             variant="label-hidden" required="true" id="District (Local)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.DistrictLocalText__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- Postal Code/City* -->
@@ -524,7 +545,7 @@
                                                             variant="label-hidden" required="true" id="Postal Code"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.PostalCodeLocalText__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <div class="slds-col slds-size_4-of-12"
@@ -533,7 +554,7 @@
                                                             variant="label-hidden" id="City (Local)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CityStateLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
 
                                                     </div>
@@ -550,7 +571,7 @@
                                                             variant="label-hidden" id="Street (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.StreetEN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_2-of-12"
                                                         style="padding-left: 10px; padding-bottom: 16px;">
@@ -570,7 +591,7 @@
                                                             variant="label-hidden" id="Street2 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street2EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- row 2* -->
                                                     <div
@@ -584,7 +605,7 @@
                                                             variant="label-hidden" id="Stree3 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street3EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- row 3* -->
                                                     <div
@@ -597,7 +618,7 @@
                                                         <lightning:inputField fieldName="Street4EN__c" id="Street4 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Street4EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- row 4* -->
                                                     <div
@@ -611,7 +632,7 @@
                                                             variant="label-hidden" id="Street5 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street5EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- District (Eng) -->
                                                     <div
@@ -626,7 +647,7 @@
                                                             variant="label-hidden" id="District (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.DistrictENText__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- City (Eng) -->
                                                     <div
@@ -654,9 +675,9 @@
                                                         style="padding-bottom: 16px; text-align: start;">
                                                         <lightning:inputField fieldName="Country__c"
                                                             variant="label-hidden" required="true" id="Country"
-                                                            onchange="{!c.handleAddJsonHeader}"
+                                                            onchange="{!c.handleAddJsonHeader}" disabled="true"
                                                             value="{!v.requestFormHeaderObj.Country__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                 </div>
@@ -694,7 +715,7 @@
                                                                 variant="label-hidden" required="true" id="Language"
                                                                 onchange="{!c.handleAddJsonHeader}"
                                                                 value="{!v.requestFormHeaderObj.Language__c}"
-                                                                disabled="{!v.SentGeneralView}" />
+                                                                 />
                                                         </aura:if>
                                                     </div>
                                                     <!-- Mobile -->
@@ -710,7 +731,7 @@
                                                             variant="label-hidden" id="Mobile Country Code"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.MobileCountryCode__c}"
-                                                            disabled="{!v.SentGeneralView}" required="true" />
+                                                             required="true" />
                                                     </div>
                                                     <div class="slds-col slds-size_4-of-12"
                                                         style="padding-bottom: 16px; text-align: start;">
@@ -718,7 +739,7 @@
                                                             variant="label-hidden" id="Mobile"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.MobilePhone__c}"
-                                                            disabled="{!v.SentGeneralView}" required="true" />
+                                                             required="true" />
                                                     </div>
                                                     <!-- Telephone -->
                                                     <div
@@ -733,7 +754,7 @@
                                                             variant="label-hidden" id="Phone Country Code"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.PhoneCountryCode__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-12"
                                                         style="padding-bottom: 16px; padding-right: 10px; text-align: start;">
@@ -741,7 +762,7 @@
                                                             variant="label-hidden" id="Phone"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Phone__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_1-of-12"
                                                         style="padding-bottom: 16px; text-align: start;">
@@ -749,7 +770,7 @@
                                                             variant="label-hidden" id="Phone Extension"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.PhoneExtension__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- Fax -->
                                                     <div
@@ -764,14 +785,14 @@
                                                             variant="label-hidden" id="FaxCountryCode"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.FaxCountryCode__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-12"
                                                         style="padding-bottom: 16px; padding-right: 10px; text-align: start;">
                                                         <lightning:inputField fieldName="Fax__c" variant="label-hidden"
                                                             id="Fax" onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Fax__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_1-of-12"
                                                         style="padding-bottom: 16px; text-align: start;">
@@ -779,7 +800,7 @@
                                                             variant="label-hidden" id="Fax Extension"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.FaxExtension__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- E-mail -->
                                                     <div
@@ -794,7 +815,7 @@
                                                             variant="label-hidden" id="Email"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Email__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                 </div>
                                             </div>
@@ -833,7 +854,7 @@
                                     <div class="slds-col slds-size_3-of-6"
                                         style="padding-bottom: 16px; text-align: start;">
                                         <!-- <lightning:inputField fieldName="DistributionChannel__c"
-                                                     variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.DistributionChannel__c}" disabled="{!v.SentGeneralView}"/> -->
+                                                     variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.DistributionChannel__c}" /> -->
                                         <!-- keep it header but how it map to account group or sales org -->
                                         <lightning:select name="DistributionChannel__c" disabled="{!v.DisabledDistribution}"
                                             variant="label-hidden" label="Distribution Channel"
@@ -860,7 +881,7 @@
                                     <div class="slds-col slds-size_3-of-6"
                                         style="padding-bottom: 16px; text-align: start;">
                                         <!-- <lightning:inputField fieldName="DistributionChannel__c"
-                                                     variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.DistributionChannel__c}" disabled="{!v.SentGeneralView}"/> -->
+                                                     variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.DistributionChannel__c}" /> -->
                                         <!-- keep it header but how it map to account group or sales org -->
                                         <lightning:select name="Division__c" variant="label-hidden" label="Division"
                                             onchange="{!c.handleAddJsonItem}"
@@ -886,7 +907,7 @@
                                     <div class="slds-col slds-size_3-of-6">
                                         <aura:if isTrue="{!v.loadedValue}">
 
-                                            <lightning:select name="currency" variant="label-hidden" label="Currency"
+                                            <lightning:select name="Currency__c" variant="label-hidden" label="Currency"
                                                 onchange="{!c.handleAddJsonItem}"
                                                 value="{!v.requestFormItemObj.Currency__c}">
                                                 <option value="">Please select Currency
@@ -933,7 +954,7 @@
                                         </div>
                                     </div>
                                     <div class="slds-col slds-size_3-of-6">
-                                        <lightning:select name="AccountAssignmentGroup" variant="label-hidden"
+                                        <lightning:select name="AccountAssignmentGroup__c" variant="label-hidden"
                                             label="Account Assignment Group" onchange="{!c.handleAddJsonItem}"
                                             value="{!v.requestFormItemObj.AccountAssignmentGroup__c}">
                                             <option value="">Please select Account Assignment Group
@@ -972,7 +993,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6">
-                                                        <lightning:select name="PriceGroup" variant="label-hidden"
+                                                        <lightning:select name="PriceGroup__c" variant="label-hidden"
                                                             label="Price Group" onchange="{!c.handleAddJsonItem}"
                                                             value="{!v.requestFormItemObj.PriceGroup__c}">
                                                             <option value="">Please select Price Group
@@ -1027,7 +1048,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6">
-                                                        <lightning:select name="incoterms" variant="label-hidden"
+                                                        <lightning:select name="Incoterms__c" variant="label-hidden"
                                                             label="Incoterms" onchange="{!c.handleAddJsonItem}"
                                                             value="{!v.requestFormItemObj.Incoterms__c}">
                                                             <option value="">Please select Incoterms
@@ -1057,7 +1078,7 @@
                                                             label="Term of Payment" displaylabel="false"
                                                             FieldName="TermOfPayment__c"
                                                             selectedRecordId="{!v.requestFormItemObj.TermOfPayment__c}"
-                                                            disabled="{!v.SentGeneralView}"/>
+                                                            />
                                                         <!-- <lightning:select name="paymentTerm" label=""
                                                                             value="{!v.requestFormItemObj.PaymentTerm__c}">
                                                                             <option value="">Please select Payment Term
@@ -1082,7 +1103,7 @@
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6">
                                                         <aura:if isTrue="{!v.loadedValue}">
-                                                            <lightning:select name="paymentTerm" variant="label-hidden"
+                                                            <lightning:select name="PaymentGuaranteeProcedure__c" variant="label-hidden"
                                                                 label="Payment Guarantee Procedure"
                                                                 onchange="{!c.handleAddJsonItem}"
                                                                 value="{!v.requestFormItemObj.PaymentGuaranteeProcedure__c}">
@@ -1116,7 +1137,22 @@
                             <!-- Tab General View  -->
                             <lightning:tab label="General View" id="generalView">
                                 <div class="slds-grid slds-wrap">
-
+                                    <aura:if isTrue="{!v.GeneralWarning}">
+                                        <div class="slds-notify_container slds-is-relative">
+                                            <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                                            <span class="slds-assistive-text">warning</span>
+                                            <span class="slds-icon_container slds-icon-utility-warning slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                                                <lightning:icon iconName="utility:warning" alternativeText="warning" size="large" title="large size" />
+                                            </span>
+                                                <div class="slds-notify__content">
+                                                    <h2 class="slds-text-heading_small ">This information has been created in General View on SAP. If you edit information, it will be update instead of current information.</h2>
+                                                </div>
+                                                <div class="slds-notify__close">
+                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </aura:if>
                                     <!-- Check RecordType contains Supplier -->
                                     <aura:if isTrue="{!v.recordTypeNameCustomer == false}">
                                         <!-- Information Section -->
@@ -1150,7 +1186,7 @@
                                                         </div>
                                                         <div class="slds-col slds-size_3-of-6"
                                                             style="padding-bottom: 16px; text-align: start;">
-                                                            <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  disabled="{!v.SentGeneralView}"/> -->
+                                                            <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  /> -->
                                                             <!-- Disable? change to item -->
                                                             <lightning:select name="PurchasingOrganizationTOP__c"
                                                                 disabled="true" variant="label-hidden"
@@ -1178,7 +1214,7 @@
                                                         </div>
                                                         <div class="slds-col slds-size_3-of-6"
                                                             style="padding-bottom: 16px; text-align: start;">
-                                                            <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  disabled="{!v.SentGeneralView}"/> -->
+                                                            <!-- <lightning:inputField fieldName="SalesOrganizationTOP__c" variant="label-hidden" required="true"  value="{!v.requestFormHeaderObj.SalesOrganizationTOP__c}"  /> -->
                                                             <!-- Disable? change to item -->
                                                             <lightning:select name="CompanyCodeTOP__c" disabled="true"
                                                                 variant="label-hidden" label="Company Code (TOP)"
@@ -1208,7 +1244,7 @@
                                                                 id="Account Group" onchange="{!c.handleAddJsonHeader}"
                                                                 variant="label-hidden" required="true"
                                                                 value="{!v.requestFormHeaderObj.AccountGroup__c}"
-                                                                disabled="{!v.SentGeneralView}" />
+                                                                disabled="{!v.SAPSyncDoNotChange}" />
                                                         </div>
                                                         <!-- Trading Partner -->
                                                         <div
@@ -1224,13 +1260,13 @@
                                                             <lightning:inputField fieldName="TradingPartner__c" id="Trading Partner"
                                                                 onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                                 value="{!v.requestFormHeaderObj.TradingPartner__c}"
-                                                                disabled="{!v.SentGeneralView}" />
+                                                                 />
                                                         </div>
-                                                        <!-- Type Bussiness (Branch) * -->
+                                                        <!-- Type Business (Branch) * -->
                                                         <div
                                                             class="slds-col slds-size_2-of-6 slds-p-horizontal_x-small slds-p-top_medium">
                                                             <p style="text-align: left; padding-left: 50px; display: flex;">
-                                                                <p style="color: red;">* &nbsp;</p>Type of Bussiness (Branch)
+                                                                <p style="color: red;">* &nbsp;</p>Type of Business (Branch)
                                                         
                                                             </p>
                                                         </div>
@@ -1241,7 +1277,7 @@
                                                                 onchange="{!c.handleAddJsonHeader}"
                                                                 variant="label-hidden"
                                                                 value="{!v.requestFormHeaderObj.TypeOfBusinessBranch__c}"
-                                                                disabled="{!v.SentGeneralView}" />
+                                                                 />
                                                         </div>
                                                         <!-- TAX Number * -->
                                                         <div
@@ -1257,7 +1293,7 @@
                                                                 id="TAX Number" onchange="{!c.handleAddJsonHeader}"
                                                                 variant="label-hidden" required="true"
                                                                 value="{!v.requestFormHeaderObj.TaxCode1__c}"
-                                                                disabled="true" />
+                                                                disabled="{!v.SentGeneralView}" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1308,7 +1344,7 @@
                                                             id="Name (Local 1)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden" required="true"
                                                             value="{!v.requestFormHeaderObj.CustomerNameLocal1__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!--  Name input 2  -->
@@ -1324,7 +1360,7 @@
                                                             variant="label-hidden" id="Name (Local 2)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameLocal2__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                      <!-- Full Name EN* -->
@@ -1353,7 +1389,7 @@
                                                             variant="label-hidden" id="Name(Eng 1)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameEN1__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!--  name(Eng) input 2 -->
@@ -1369,7 +1405,7 @@
                                                             variant="label-hidden" id="Name (EN 2)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.CustomerNameEN2__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                 </div>
@@ -1405,7 +1441,7 @@
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             required="true"
                                                             value="{!v.requestFormHeaderObj.SupplierSearchTermLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- Search Term 1(Eng) -->
@@ -1421,7 +1457,7 @@
                                                             id="Search Term 1 (EN)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.SupplierSearchTermEN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- Street/House number* -->
@@ -1437,7 +1473,7 @@
                                                             id="Street (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden" required="true"
                                                             value="{!v.requestFormHeaderObj.StreetLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <div class="slds-col slds-size_2-of-12"
@@ -1446,7 +1482,7 @@
                                                             id="House number" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.HousenoLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- row 1* -->
@@ -1461,7 +1497,7 @@
                                                             id="Street2 (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Street2Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- row 2* -->
@@ -1476,7 +1512,7 @@
                                                             id="Street3 (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Street3Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- row 3* -->
@@ -1491,7 +1527,7 @@
                                                             id="Street4 (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Street4Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- row 4* -->
@@ -1506,7 +1542,7 @@
                                                             id="Street5 (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Street5Local__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- District* -->
                                                     <div
@@ -1521,7 +1557,7 @@
                                                             id="District (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden" required="true"
                                                             value="{!v.requestFormHeaderObj.DistrictLocalText__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <!-- Postal Code/City* -->
@@ -1537,7 +1573,7 @@
                                                             id="Postal Code" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden" required="true"
                                                             value="{!v.requestFormHeaderObj.PostalCodeLocalText__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
                                                     </div>
                                                     <div class="slds-col slds-size_4-of-12"
@@ -1546,7 +1582,7 @@
                                                             id="City (Local)" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.CityStateLocal__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
 
 
                                                     </div>
@@ -1563,7 +1599,7 @@
                                                             variant="label-hidden" id="Street (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.StreetEN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_2-of-12"
                                                         style="padding-left: 10px; padding-bottom: 16px;">
@@ -1583,7 +1619,7 @@
                                                             variant="label-hidden" id="Street2 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street2EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- row 2* -->
                                                     <div
@@ -1597,7 +1633,7 @@
                                                             variant="label-hidden" id="Stree3 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street3EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- row 3* -->
                                                     <div
@@ -1610,7 +1646,7 @@
                                                         <lightning:inputField fieldName="Street4EN__c" id="Street4 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Street4EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- row 4* -->
                                                     <div
@@ -1624,7 +1660,7 @@
                                                             variant="label-hidden" id="Street5 (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.Street5EN__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- District (Eng) -->
                                                     <div
@@ -1639,7 +1675,7 @@
                                                             variant="label-hidden" id="District (EN)"
                                                             onchange="{!c.handleAddJsonHeader}"
                                                             value="{!v.requestFormHeaderObj.DistrictENText__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- City (Eng) -->
                                                     <div
@@ -1706,7 +1742,7 @@
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             required="true"
                                                             value="{!v.requestFormHeaderObj.Language__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- Mobile -->
                                                     <div
@@ -1721,14 +1757,14 @@
                                                             id="MobileCountryCode" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.MobileCountryCode__c}"
-                                                            disabled="{!v.SentGeneralView}" required="true"/>
+                                                             required="true"/>
                                                     </div>
                                                     <div class="slds-col slds-size_4-of-12"
                                                         style="padding-bottom: 16px; text-align: start;">
                                                         <lightning:inputField fieldName="MobilePhone__c" id="Mobile"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.MobilePhone__c}"
-                                                            disabled="{!v.SentGeneralView}" required="true"/>
+                                                             required="true"/>
                                                     </div>
                                                     <!-- Telephone -->
                                                     <div
@@ -1743,14 +1779,14 @@
                                                             id="PhoneCountryCode" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.PhoneCountryCode__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-12"
                                                         style="padding-bottom: 16px; padding-right: 10px; text-align: start;">
                                                         <lightning:inputField fieldName="Phone__c" id="Phone"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Phone__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_1-of-12"
                                                         style="padding-bottom: 16px; text-align: start;">
@@ -1758,7 +1794,7 @@
                                                             id="Phone Extension" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.PhoneExtension__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- Fax -->
                                                     <div
@@ -1773,14 +1809,14 @@
                                                             id="FaxCountryCode" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.FaxCountryCode__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-12"
                                                         style="padding-bottom: 16px; padding-right: 10px; text-align: start;">
                                                         <lightning:inputField fieldName="Fax__c" id="Fax"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Fax__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <div class="slds-col slds-size_1-of-12"
                                                         style="padding-bottom: 16px; text-align: start;">
@@ -1788,7 +1824,7 @@
                                                             id="Fax Extension" onchange="{!c.handleAddJsonHeader}"
                                                             variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.FaxExtension__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                     <!-- E-mail -->
                                                     <div
@@ -1802,7 +1838,7 @@
                                                         <lightning:inputField fieldName="Email__c" id="Email"
                                                             onchange="{!c.handleAddJsonHeader}" variant="label-hidden"
                                                             value="{!v.requestFormHeaderObj.Email__c}"
-                                                            disabled="{!v.SentGeneralView}" />
+                                                             />
                                                     </div>
                                                 </div>
                                             </div>
@@ -1839,7 +1875,7 @@
                                                     <div class="slds-col slds-size_3-of-6"
                                                         style="padding-bottom: 16px; text-align: start;">
                                                         <!-- <lightning:inputField fieldName="Ordercurrency__c" variant="label-hidden" required="true" value="{!v.requestFormItemObj.Ordercurrency__c}"/> -->
-                                                        <lightning:select name="currency" label="Order currency"
+                                                        <lightning:select name="Currency__c" label="Order currency"
                                                             variant="label-hidden" onchange="{!c.handleAddJsonItem}"
                                                             value="{!v.requestFormItemObj.Currency__c}">
                                                             <option value="">Please select Currency
@@ -1883,7 +1919,7 @@
                                                     </div>
                                                     <div class="slds-col slds-size_3-of-6"
                                                         style="padding-bottom: 16px; text-align: start;">
-                                                        <lightning:select name="incoterms" label="Incoterms"
+                                                        <lightning:select name="Incoterms__c" label="Incoterms"
                                                             variant="label-hidden" onchange="{!c.handleAddJsonItem}"
                                                             value="{!v.requestFormItemObj.Incoterms__c}">
                                                             <option value="">Please select Incoterms

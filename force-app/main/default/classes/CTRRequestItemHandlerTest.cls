@@ -39,6 +39,8 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
+        
+        List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
         CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
@@ -50,7 +52,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.SalesOrganization__c = '2000';
         reqItem.InterestedProductTypeAsCustomerTOP__c = 'Crude';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        reqItemList.add(reqItem);
 
         CTRRequestFormItem__c reqItem2 = new CTRRequestFormItem__c();
         //reqItem2.Name = 'Test 2';
@@ -63,7 +65,7 @@ public class CTRRequestItemHandlerTest {
         reqItem2.SalesOrganization__c = '2000';
         reqItem2.InterestedProductTypeAsCustomerTOP__c = 'Petroleum Products';
         reqItem2.SAPSubmitTime__c = DateTime.now();
-        insert reqItem2;
+        reqItemList.add(reqItem2);
 
         RecordType rt2 = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
         CTRRequestFormItem__c reqItem3 = new CTRRequestFormItem__c();
@@ -78,9 +80,8 @@ public class CTRRequestItemHandlerTest {
         reqItem3.InterestedProductTypeAsCustomerTOP__c = 'Petrochemical Products';
         reqItem3.SAPSubmitTime__c = DateTime.now();
         reqItem3.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem3;
-        
-        
+        reqItemList.add(reqItem3);
+        insert reqItemList;
     }
 
     @isTest
@@ -120,7 +121,7 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -131,7 +132,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.SalesOrganization__c = '2000';
         reqItem.InterestedProductTypeAsCustomerTOP__c = 'Crude;Petroleum Products';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"},{"Label":"Customer","Api":"Customer__c","Value":"'+ Master[2].Id +'"},{"Label":"TermofPayment","Api":"TermofPayment__c","Value":"'+ Master[2].Id +'"},{"Label":"SubIndustry","Api":"SubIndustry__c","Value":"'+ Master[2].Id +'"},{"Label":"Industry","Api":"Industry__c","Value":"'+ Master[2].Id +'"},{"Label":"CustomerType","Api":"CustomerType__c","Value":"'+ Master[2].Id +'"},{"Label":"InterGroup","Api":"InterGroup__c","Value":"'+ Master[2].Id +'"},{"Label":"Application","Api":"Application__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -156,7 +157,7 @@ public class CTRRequestItemHandlerTest {
         CTRRequestItemHandler.CalloutCDDAndNewsAfterUpdate(mRequestItemOldMap, mRequestItemNewMap);
        
         
-        CTRRequestFormItem__c reqItem4 = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem4 = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem4.Name = 'TestConditionTrue reqItem4';
         reqItem4.Customer__c = acc.Id;
         reqItem4.CTRRequestFormHeader__c = reqHeader.Id;
@@ -168,7 +169,7 @@ public class CTRRequestItemHandlerTest {
         reqItem4.InterestedProductTypeAsCustomerTOP__c = 'Petrochemical Products;Petroleum Products';
         reqItem4.SAPSubmitTime__c = DateTime.now();
         reqItem4.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem4;
+        update reqItem4;
         
         CTRRequestItemHandler.setQueueToPendingCcaAfterUpdate(mRequestItemOldMap, mRequestItemNewMap);
 
@@ -215,7 +216,7 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerEditInfo' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -226,7 +227,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.SalesOrganization__c = '2000';
         reqItem.InterestedProductTypeAsCustomerTOP__c = 'Crude';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"},{"Label":"Customer","Api":"Customer__c","Value":"'+ Master[2].Id +'"},{"Label":"TermofPayment","Api":"TermofPayment__c","Value":"'+ Master[2].Id +'"},{"Label":"SubIndustry","Api":"SubIndustry__c","Value":"'+ Master[2].Id +'"},{"Label":"Industry","Api":"Industry__c","Value":"'+ Master[2].Id +'"},{"Label":"CustomerType","Api":"CustomerType__c","Value":"'+ Master[2].Id +'"},{"Label":"InterGroup","Api":"InterGroup__c","Value":"'+ Master[2].Id +'"},{"Label":"Application","Api":"Application__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -305,7 +306,7 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -316,7 +317,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.SalesOrganization__c = '2000';
         reqItem.InterestedProductTypeAsCustomerTOP__c = 'Lube Base Products';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -380,7 +381,7 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -391,7 +392,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.SalesOrganization__c = '1100';
         reqItem.SAPSubmitTime__c = System.now();
         reqItem.InterestedProductTypeAsCustomerTOP__c = 'Lube Base Products';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -399,7 +400,7 @@ public class CTRRequestItemHandlerTest {
         // CTRRequestFormItem__c request = [SELECT ID,Name,Customer__c,CTRRequestFormHeader__c,SAPStatus__c,CallOutCDD__c,RecordTypeId,RecordTypeName__c FROM CTRRequestFormItem__c WHERE Name = 'Test 1'];
         mRequestItemOldMap.put(reqItem.Id,reqItem);
 
-        CTRRequestFormItem__c newReq = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c newReq = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         newReq.CallOutCDD__c = true;
         newReq.Customer__c = acc.Id;
         newReq.CTRRequestFormHeader__c = reqHeader.Id;
@@ -409,7 +410,7 @@ public class CTRRequestItemHandlerTest {
         // updateRequest.InterestedProductTypeAsSupplierTOP__c = 'B100/Ethanol';
         // updateRequest.InterestedProductTypeAsCustomerTX__c = 'Lube'; 
         // updateRequest.InterestedProductTypeAsSupplierTX__c = 'LAB';
-        insert newReq;
+        update newReq;
 
         //mRequestItemNewMap.put(reqItem.Id, updateRequest);
 
@@ -460,7 +461,7 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -470,7 +471,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.RecordTypeId = rt.Id;
         reqItem.SalesOrganization__c = '1100';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -522,7 +523,7 @@ public class CTRRequestItemHandlerTest {
         insert reqHeader;
 
         RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -532,7 +533,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.RecordTypeId = rt.Id;
         reqItem.SalesOrganization__c = '2000';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -599,19 +600,20 @@ public class CTRRequestItemHandlerTest {
 
         insert reqHeader;
 
-        RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerEditInfo' limit 1];
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
         reqItem.SAPStatus__c = 'Queue CCA';
+        reqItem.Status__c = 'New';
         reqItem.Email__c = 'testmockemail@gmail.com';
         reqItem.CallOutCDD__c = false;
         reqItem.RecordTypeId = rt.Id;
         reqItem.SalesOrganization__c = '2000';
         reqItem.InterestedProductTypeAsCustomerTOP__c = 'Lube Base Products';
-        reqItem.InternalEditField__c = '[{"Label":"TermOfPayment","Api":"TermOfPayment__c ","Value":"'+ Master[4].Id +'"}}]';
-        insert reqItem;
+        reqItem.InternalEditField__c = '[{"Label":"TermOfPayment","Api":"TermOfPayment__c ","Value":"'+ Master[4].Id +'"}]';
+        update reqItem;
         
         Id mID = reqItem.Id;
         List<String> mRequestItemFields = new List<String>(CTRRequestFormItem__c.SObjectType.getDescribe().fields.getMap().keySet());            
@@ -621,11 +623,22 @@ public class CTRRequestItemHandlerTest {
             + ' WHERE Id = :mID LIMIT 1';
         CTRRequestFormItem__c reqItemQ1 = Database.query(soqlItem);
         
-        
+        Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemOldMap.put(reqItemQ1.Id, reqItemQ1);
+
+        CTRRequestFormItem__c reqItemQ2 = reqItemQ1.clone(false, false, false);
+        reqItemQ2.Id = reqItemQ1.Id;
+        reqItemQ2.Email__c = 'EditEmail@email.com';
+        reqItemQ2.Status__c = 'In Review';
+
+        // update reqItemQ2;
+
+        Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemNewMap.put(reqItemQ2.Id, reqItemQ2);
+
         Test.startTest();
-         	reqItemQ1.Name = 'Edit test';
-        	update reqItemQ1;
-        //CTRRequestHeaderHandler.AddJsonEditInfoBeforeUpdate(mRequestHeaderOldMap, mRequestHeaderNewMap);
+            CTRRequestItemHandler.AddJsonEditInfoBeforeUpdate(mRequestItemOldMap, mRequestItemNewMap);
+
         Test.stopTest();
     }
 
@@ -665,8 +678,8 @@ public class CTRRequestItemHandlerTest {
 
         insert reqHeader;
 
-        RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerInitial' limit 1];
-        CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c();
+        RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerEditInfo' limit 1];
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
         //reqItem.Name = 'Test 1';
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
@@ -680,7 +693,7 @@ public class CTRRequestItemHandlerTest {
         reqItem.InterestedProductTypeAsSupplierTOP__c = 'Crude'; 
         reqItem.InterestedProductTypeAsSupplierTX__c = 'Fuel';
         reqItem.InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]';
-        insert reqItem;
+        update reqItem;
 
         Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
         Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
@@ -708,4 +721,108 @@ public class CTRRequestItemHandlerTest {
         Test.stopTest();
     }
 
+
+    @isTest
+    static void testSaveOriginalJsonCounterPartySet(){
+
+        Map<Id,CTRRequestFormHeader__c> mHeaderMap = new Map<Id,CTRRequestFormHeader__c>([SELECT ID FROM CTRRequestFormHeader__c]);
+        Map<Id,CTRRequestFormItem__c> mItemListMap = new Map<Id,CTRRequestFormItem__c>([SELECT ID FROM CTRRequestFormItem__c]);
+        
+        Set<Id> mHeaderSetId = mHeaderMap.keySet();
+        Set<Id> mItemSetId = mItemListMap.keySet();
+
+        Test.startTest();
+            CTRRequestItemHandler.saveOriginalJsonCounterPartySet(mHeaderSetId,mItemSetId,'Edit');
+            CTRRequestItemHandler.sendEditIntegrationViaTrigger(mItemSetId,true);
+            CTRRequestItemHandler.createFolderDependtoSalesOrg(mItemSetId);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testCheckEditSensitiveFieldAfterUpdate(){
+        
+         Account acc = new Account();
+        acc.Name = 'R2 Solutions Co.,Ltd.';
+        acc.AccountNumber__c = '124567';
+        insert acc;
+        
+        List<Master_Map__c> Master = new List<Master_Map__c>();
+        Master_Map__c m1 = new Master_Map__c(Code__c='ZTH0245', Type__c='Transportation Zone');
+        Master.add(m1);
+        Master_Map__c m2 = new Master_Map__c(Code__c='TH', Type__c='Country');
+        Master.add(m2);
+        Master_Map__c m3 = new Master_Map__c(Code__c='TH-Bangkok', Name ='TH-Bangkok',  Type__c='Province');
+        Master.add(m3);
+        Master_Map__c m4 = new Master_Map__c(Code__c='mg1', Type__c='Material Group');
+        Master.add(m4);
+        Master_Map__c m5 = new Master_Map__c(Code__c='ZA00001', Type__c ='Payment Term');   
+        Master.add(m5);
+        
+        insert Master;
+
+        RecordType rtHeader = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormHeader__c' AND DeveloperName = 'EditInformation' limit 1];
+        
+        CTRRequestFormHeader__c reqHeader = new CTRRequestFormHeader__c(
+            Status__c = 'New',
+            RecordTypeId = rtHeader.Id,
+            InterestedProductTypeAsCustomerTOP__c = 'Crude', 
+            InterestedProductTypeAsSupplierTOP__c = 'B100/Ethanol',
+            InterestedProductTypeAsCustomerTX__c = 'Lube', 
+            InterestedProductTypeAsSupplierTX__c = 'LAB',
+            InternalEditField__c = '[{"Label":"Country","Api":"Country__c","Value":"'+ Master[1].Id +'"},{"Label":"TransportationZone","Api":"TransportationZone__c","Value":"'+ Master[0].Id +'"},{"Label":"CityLocal","Api":"CityLocal__c","Value":"'+ Master[2].Id +'"}]'
+        );
+
+        insert reqHeader;
+
+        RecordType rt = [SELECT id FROM RecordType WHERE SobjectType = 'CTRRequestFormItem__c' AND DeveloperName = 'CustomerEditInfo' limit 1];
+        CTRRequestFormItem__c reqItem = [SELECT ID FROM CTRRequestFormItem__c LIMIT 1];
+        //reqItem.Name = 'Test 1';
+        reqItem.Customer__c = acc.Id;
+        reqItem.CTRRequestFormHeader__c = reqHeader.Id;
+        reqItem.SAPStatus__c = 'Queue CCA';
+        reqItem.Status__c = 'New';
+        reqItem.Email__c = 'testmockemail@gmail.com';
+        reqItem.CallOutCDD__c = false;
+        reqItem.CheckSensitiveField__c = false;
+        reqItem.RecordTypeId = rt.Id;
+        reqItem.SalesOrganization__c = '2000';
+        reqItem.InterestedProductTypeAsCustomerTOP__c = 'Lube Base Products';
+        reqItem.InternalEditField__c = '[{"Label":"TermOfPayment","Api":"TermOfPayment__c ","Value":"'+ Master[4].Id +'"}]';
+        update reqItem;
+        
+        Id mID = reqItem.Id;
+        List<String> mRequestItemFields = new List<String>(CTRRequestFormItem__c.SObjectType.getDescribe().fields.getMap().keySet());            
+        String soqlItem = ''
+            + ' SELECT ' + String.join(mRequestItemFields, ',')
+            + ' FROM CTRRequestFormItem__c'
+            + ' WHERE Id = :mID LIMIT 1';
+        CTRRequestFormItem__c reqItemQ1 = Database.query(soqlItem);
+        
+        Map<Id, CTRRequestFormItem__c> mRequestItemOldMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemOldMap.put(reqItemQ1.Id, reqItemQ1);
+
+        CTRRequestFormItem__c reqItemQ2 = reqItemQ1.clone(false, false, false);
+        reqItemQ2.Id = reqItemQ1.Id;
+        reqItemQ2.Email__c = 'EditEmail@email.com';
+        reqItemQ2.Status__c = 'In Review';
+        reqItemQ2.CheckSensitiveField__c = true;
+        // update reqItemQ2;
+
+        Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemNewMap.put(reqItemQ2.Id, reqItemQ2);
+
+        CTRShippingCountry__c shipping = new CTRShippingCountry__c();
+        shipping.CTRRequestFormItem__c = reqItemQ1.id;
+        shipping.ShippingCountry__c = 'TH';
+        shipping.Customer__c = acc.Id;
+        shipping.LocationType__c = 'Local';
+        shipping.Status__c = 'Active';
+        insert shipping;
+
+        Test.startTest();
+            CTRRequestItemHandler.checkEditSensitiveFieldAfterUpdate(mRequestItemOldMap, mRequestItemNewMap);
+
+            CTRRequestItemHandler.createDestinationCountryAfterInsert(new List<CTRRequestFormItem__c>{reqItemQ1});
+        Test.stopTest();
+    }
 }

@@ -123,7 +123,7 @@
                     </div>
                 </div>
         
-                <!-- <aura:renderIf isTrue="{!!v.isSupplier}"> -->
+                <!-- <aura:if isTrue="{!!v.isSupplier}"> -->
                 <div class="slds-section slds-is-open" aura:id="SectionContactPersonInformation">
                     <h3 class="slds-section__title">
                         <button aria-controls="SectionContactPersonInformation" aria-expanded="true" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}">
@@ -275,7 +275,7 @@
                         <!-- </lightning:recordEditForm> -->
                     </div>
                 </div>
-                <!-- </aura:renderIf> -->
+                <!-- </aura:if> -->
 
                 <div class="slds-section slds-is-open" aura:id="SectionProductTypeAsInterested">
                     <h3 class="slds-section__title">
@@ -286,7 +286,7 @@
                     </h3>
                     <div class="slds-section__content" id="SectionProductTypeAsInterested">
                         <div class="slds-grid slds-gutters slds-wrap slds-var-p-around_medium">
-                            <aura:renderIf isTrue="{!!v.isSupplier}">
+                            <aura:if isTrue="{!!v.isSupplier}">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                     <div class="slds-grid slds-gutters slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
@@ -301,7 +301,7 @@
                                             </div>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                            <aura:renderIf isTrue="{!v.isOtherProduct}">
+                                            <aura:if isTrue="{!v.isOtherProduct}">
                                                 <div class="slds-form slds-var-p-around_x-small">
                                                     <div class="slds-form-element">
                                                         <label class="slds-form-element__label"><abbr class="slds-required">*</abbr>Customer Other Products</label>
@@ -310,7 +310,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </aura:renderIf>
+                                            </aura:if>
                                         </div>
                                     </div>
                                 </div>
@@ -375,9 +375,9 @@
                                     </lightning:recordEditForm>
                                 </div>
 
-                            </aura:renderIf>
+                            </aura:if>
 
-                            <aura:renderIf isTrue="{!v.isSupplier}">
+                            <aura:if isTrue="{!v.isSupplier}">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                     <div class="slds-form slds-var-p-left_x-small slds-var-p-right_x-small">
                                         <div class="slds-form-element">
@@ -392,7 +392,7 @@
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                     <div class="slds-grid slds-gutters slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                            <aura:renderIf isTrue="{!v.isOtherProduct}">
+                                            <aura:if isTrue="{!v.isOtherProduct}">
                                                 <div class="slds-form slds-var-p-around_x-small">
                                                     <div class="slds-form-element">
                                                         <label class="slds-form-element__label">Supplier Product Identification</label>
@@ -401,7 +401,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </aura:renderIf>
+                                            </aura:if>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-top_medium">
                                             <b>Product Group Name</b><br/>
@@ -453,13 +453,13 @@
                                         </div>
                                     </lightning:recordEditForm>
                                 </div>
-                            </aura:renderIf>
+                            </aura:if>
                         </div>
                     </div>
                 </div>
                 
 
-                <aura:renderIf isTrue="{!!v.isSupplier}">
+                <aura:if isTrue="{!!v.isSupplier}">
                     <div class="slds-section slds-is-open" aura:id="SectionBillingDocument">
                         <h3 class="slds-section__title">
                             <button type="button" aria-controls="SectionBillingDocument" aria-expanded="true" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}">
@@ -469,7 +469,7 @@
                         </h3>
                         <div class="slds-section__content" id="SectionBillingDocument">
                             <div class="slds-grid slds-gutters slds-wrap slds-var-p-around_medium">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-around_medium">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-around_medium slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control checkbox-style">
@@ -479,7 +479,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-around_medium">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-around_medium slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control checkbox-style">
@@ -626,7 +626,7 @@
                         </h3>
                         <div class="slds-section__content" id="SectionAccountInfo">
                             <div class="slds-grid slds-gutters slds-wrap slds-var-p-around_medium">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-around_medium">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-var-p-around_medium slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control checkbox-style">
@@ -646,22 +646,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
-                                            <!-- <label class="slds-form-element__label"><abbr class="slds-required" title="required">*</abbr>Sort key</label> -->
                                             <div class="slds-form-element__control">
                                                 <lightning:inputField aura:id="editFormItemField" variant="label-stacked" fieldName="SortKey__c" required="{!!v.isSupplier}" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                    <div class="slds-form">
-                                        <div class="slds-form-element">
-                                            <!-- <label class="slds-form-element__label">Authorization</label> -->
-                                            <div class="slds-form-element__control">
-                                                <lightning:inputField aura:id="editFormItemField" variant="label-stacked" fieldName="Authorization__c" />
                                             </div>
                                         </div>
                                     </div>
@@ -736,7 +725,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -745,7 +734,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -754,7 +743,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -763,7 +752,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -795,7 +784,7 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -822,8 +811,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2"></div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <!-- <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2"></div> -->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -843,7 +832,7 @@
                                         </div>
                                     </div>
                                 </div> -->
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -852,7 +841,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -861,7 +850,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -967,9 +956,9 @@
                             </div>
                         </div>
                     </div>
-                </aura:renderIf>
+                </aura:if>
 
-                <aura:renderIf isTrue="{!v.isSupplier}">
+                <aura:if isTrue="{!v.isSupplier}">
                     <div class="slds-section slds-is-open" aura:id="SectionPurchasingArea">
                         <h3 class="slds-section__title">
                             <button type="button" aria-controls="SectionPurchasingArea" aria-expanded="true" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}">
@@ -1045,7 +1034,7 @@
                         </div>
                     </div>
 
-                    <!-- <aura:renderIf isTrue="{!!v.isSupplier}">
+                    <!-- <aura:if isTrue="{!!v.isSupplier}">
                     <div class="slds-section slds-is-open" aura:id="SectionPurAccData">
                         <h3 class="slds-section__title">
                             <button type="button" aria-controls="SectionPurAccData" aria-expanded="true" class="slds-button slds-section__title-action" onclick="{!c.toggleSection}">
@@ -1069,7 +1058,7 @@
                             </div>
                         </div>
                     </div>
-                    </aura:renderIf> -->
+                    </aura:if> -->
 
                     <div class="slds-section slds-is-open" aura:id="SectionAccountingInformation">
                         <h3 class="slds-section__title">
@@ -1090,7 +1079,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1129,7 +1118,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1138,7 +1127,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1147,7 +1136,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1156,7 +1145,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1165,7 +1154,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1174,7 +1163,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1183,7 +1172,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1192,7 +1181,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1295,7 +1284,7 @@
                                     </div>
                                 </div>
                                 <div class="slds-col slds-medium-size_1-of-2 slds-show_medium" />
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1304,7 +1293,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-hidden">
                                     <div class="slds-form">
                                         <div class="slds-form-element">
                                             <div class="slds-form-element__control">
@@ -1339,11 +1328,11 @@
                         </div>
                     </div>
 
-                </aura:renderIf>
+                </aura:if>
             </lightning:recordEditForm>
-            <aura:renderIf isTrue="{!v.isEdit}">
+            <aura:if isTrue="{!v.isEdit}">
                 <footer class="slds-modal__footer slds-text-align_center">
-                    <aura:renderIf isTrue="{!v.displayWarning}">
+                    <aura:if isTrue="{!v.displayWarning}">
                         <div class="slds-grid slds-gutters slds-var-p-around_large">
                             <div class="slds-col slds-medium-size_4-of-12 slds-show_medium" />
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-var-p-around_medium" style="border: solid 2px red;color: red;border-radius: 5px;">
@@ -1352,15 +1341,15 @@
                             </div>
                             <div class="slds-col slds-medium-size_4-of-12 slds-show_medium" />
                         </div>
-                    </aura:renderIf>
+                    </aura:if>
                     <lightning:button type="cancel" variant="brand-outline" label="Cancel" title="Cancel"
                         onclick="{!c.handleCancel}" />
                     <lightning:button type="submit" variant="brand" label="Save" title="Save" onclick="{!c.handleSaveRequest}" />
-                    <aura:renderIf isTrue="{!v.displayWarning}">
+                    <aura:if isTrue="{!v.displayWarning}">
                         <lightning:icon iconName="utility:warning" alternativeText="{!v.warningMessage}" variant="error" title="{!v.warningMessage}" size="small" class="slds-var-p-around_small" />
-                    </aura:renderIf>
+                    </aura:if>
                 </footer>
-            </aura:renderIf>
+            </aura:if>
         </aura:if>
     </section>
 </aura:component>

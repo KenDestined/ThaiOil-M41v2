@@ -639,7 +639,7 @@
                     });
                     toastEvent.fire();
                 }
-                
+
             }
             catch(ex)
             {
@@ -1584,6 +1584,7 @@
                 {
                     CreditConditionValue = component.find("Credit_Condition").get("v.value");
                     
+                    console.log('CreditConditionValue ',CreditConditionValue,component.get('v.IsPaymentRequried'))
                     //Reset Value
                     component.find("CreditLimit").set("v.value",'');
                     component.find("CreditLimitCurrency").set("v.value",'');
@@ -1610,6 +1611,7 @@
                     component.find("ApprovalTrader_PaymentTerm__c").set("v.value",'');
                     component.find("ApprovalTrader_PaymentCondition__c").set("v.value",'');
                     component.find("ApprovalTrader_Remark__c").set("v.value",'');
+                    component.set('v.IsTDPaymentRequried', true)
                 }
                 
                 //console.log('--- CreditConditionValue ---'+CreditConditionValue);
@@ -1618,11 +1620,17 @@
                     if(ApproverStep == 'TRCR')
                     {
                         component.set("v.IsCreditLimitDisable", true);
-                        component.set("v.IsTradeCreditDisable", false);
+                        component.set("v.IsCreditLimitRequired", true);
+                        component.set("v.IsTradeCreditDisable", true); //isEnable
+                        component.set("v.IsTradeCreditRequired", false);
+                        component.set("v.IsPaymentRequried", false);
                     }else if (ApproverStep == 'Trader')
                     {
                         component.set("v.IsTDCreditLimitDisable", true);
-                        component.set("v.IsTDTradeCreditDisable", false);
+                        component.set("v.IsTDCreditLimitRequired", true);
+                        component.set("v.IsTDTradeCreditDisable", true); //isEnable
+                        component.set("v.IsTDTradeCreditRequired", false);
+                        component.set("v.IsTDPaymentRequried", false);
                     }
                     
                 }
@@ -1632,16 +1640,28 @@
                     if(ApproverStep == 'TRCR' && CreditConditionValue == 'Open Account With Collateral')
                     {
                         component.set("v.IsTradeCreditDisable", true);
+                        component.set("v.IsTradeCreditRequired", false);
                         component.set("v.IsCreditLimitDisable", true);
+                        component.set("v.IsCreditLimitRequired", false);
+                        component.set("v.IsPaymentRequried", false);
                     }else if (ApproverStep == 'Trader')
                     {
                         component.set("v.IsTDCreditLimitDisable", true);
                         component.set("v.IsTDTradeCreditDisable", true);
+                        component.set("v.IsTDPaymentRequried", false);
+                        if(CreditConditionValue == 'Open Account With Collateral') {
+                            component.set("v.IsTDCreditLimitRequired", false);
+                            component.set("v.IsTDTradeCreditRequired", false);
+                        } else {
+                            component.set("v.IsTDCreditLimitRequired", true);
+                            component.set("v.IsTDTradeCreditRequired", true);
+                        }
                     }
                     else
                     {
                         component.set("v.IsTradeCreditDisable", false);
                         component.set("v.IsCreditLimitDisable", false);
+                        component.set("v.IsPaymentRequried", false);
                     }
                 } 
                     else if(CreditConditionValue == 'Cash in Advance' || CreditConditionValue == 'Others')
@@ -1655,6 +1675,7 @@
                         {
                             component.set("v.IsTDCreditLimitDisable", false);
                             component.set("v.IsTDTradeCreditDisable", false);
+                            component.set('v.IsTDPaymentRequried', false)
                         }
                     } 
             }

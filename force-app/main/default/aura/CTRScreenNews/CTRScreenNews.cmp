@@ -55,7 +55,25 @@
                     <h2 class="slds-text-heading_medium slds-hyphenate">News</h2>
                 </div>
                 <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
-                    <div class="slds-var-m-top_medium slds-var-m-bottom_x-large">
+                    <!-- <div class="slds-notify_container slds-is-relative" style="margin-bottom: 15px;">
+                        <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                            <span class="slds-assistive-text">warning</span>
+                            <span
+                                class="slds-icon_container slds-icon-utility-warning slds-m-right_small slds-no-flex slds-align-top"
+                                title="Description of icon when needed">
+                                <lightning:icon iconName="utility:warning" alternativeText="warning" size="medium"
+                                    title="large size" />
+                            </span>
+                            <div class="slds-notify__content">
+                                <h3 class="slds-text-heading_small ">This feature is under development, waiting for integration.
+                                </h3>
+                            </div>
+                            <div class="slds-notify__close">
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="slds-var-m-top_medium ">
                         <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
                             <thead>
                                 <tr class="slds-line-height_reset">
@@ -152,7 +170,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <!-- <tbody>
                                 <aura:iteration items="{!v.tableData}" var="dataAll" indexVar="indexDataAll">
                                     <tr class="slds-line-height_reset">
                                         <th aria-sort="none"
@@ -208,7 +226,6 @@
                                             </td>
                                         </tr>
                                     </aura:iteration>
-                                    <!-- View More -->
                                     <aura:renderIf isTrue="{!!empty(dataAll.ctrNewsModel)}">
                                         <tr class="slds-hint-parent">
                                             <td aria-sort="none" class="slds-text-align_right slds-cell_action-mode"
@@ -221,21 +238,24 @@
                                         </tr>
                                     </aura:renderIf>
                                 </aura:iteration>
-                            </tbody>
+                            </tbody> -->
                         </table>
+                        <div style="text-align: center;  margin-top: 6px;">
+                            <span>This function is not available</span>
+                        </div>
                     </div>
                 </div>
                 <div class="slds-modal__footer">
                     <div class="slds-grid slds-wrap" style="justify-content: center;">
-                        <div style="padding-right: 10px;">
-                            <span>Compliance risk news</span>
+                        <!-- <div style="padding-right: 10px;">
+                            <span>Compliance risk news</span> -->
                         <!--</div>
                         <div style="padding-left: 10px; width: 100px;">-->
-        					<lightning:select name="ComplianceNews" label="" value="{!v.selectedComplianceNews}" onchange="{!c.radioOnGroup}" disabled="{!or(!v.isLoaded, !v.isEdit)}">
+        					<!-- <lightning:select name="ComplianceNews" label="" value="{!v.selectedComplianceNews}" onchange="{!c.radioOnGroup}" disabled="{!or(!v.isLoaded, !v.isEdit)}">
                                 <option value="Yes">Yes</option>
                                 <option value="No">No</option>
         					</lightning:select>
-    					</div>
+    					</div> -->
                         <!--
                         <div style="display: flex; padding-right: 10px;">
                             <input type="radio" id="ComplianceNews-Yes" value="Yes" name="ComplianceNews" checked="{!v.ComplianceNewsYes}" onclick="{!c.radioOnGroup}"/>

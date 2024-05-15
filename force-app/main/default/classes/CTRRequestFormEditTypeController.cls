@@ -23,31 +23,56 @@ public with sharing class CTRRequestFormEditTypeController
             List<RecordType> mRecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE Id = :mRecordTypeSelectedId LIMIT 1];
             Integer mIndex = 1;
 
+            List<String> topSubBU = new List<String>{'TOP','TLB','TPX'};
+            List<String> txSubBU = new List<String>{'TXTH','TSV','TSR','JSKem','TXINDIA'};
+            String actBusinessUnit = mBusinessUnit;
+            if(topSubBU.contains(mBusinessUnit)) {
+                actBusinessUnit = 'TOP';
+            } else if(txSubBU.contains(mBusinessUnit)) {
+                actBusinessUnit = 'TX';
+            }
+            
             List<CTRRequestFormItem__c> mItemList = [SELECT Id, RecordTypeId, RecordType.DeveloperName, SalesOrganizationTOP__c, SalesOrganizationTX__c, PurchasingOrganizationTOP__c, CommercialScoringResult__c,
                                                             PurchasingOrganizationTX__c, CompanyCodeTOP__c, CompanyCodeTX__c, Customer__c, InterestedProductTypeAsCustomerTOP__c,
                                                             InterestedProductTypeAsCustomerTX__c, InterestedProductTypeAsSupplierTOP__c, InterestedProductTypeAsSupplierTX__c, 
-                                                            SAPNumber__c, Division__c, DistributionChannel__c, BusinessUnit__c, ProductName__c, toLabel(SalesOrganizationTX__c) salesOrgTXLabel, toLabel(SalesOrganizationTOP__c) salesOrgTOPLabel, toLabel(PurchasingOrganizationTX__c) purchaseOrgTXLabel, toLabel(PurchasingOrganizationTOP__c) purchaseOrgTOPLabel
-                                                            FROM CTRRequestFormItem__c WHERE Customer__c =: mAccountId AND BusinessUnit__c =: mBusinessUnit AND SAPNumber__c != null];
+                                                            SAPNumber__c, Division__c, DistributionChannel__c, BusinessUnit__c, ProductName__c, toLabel(SalesOrganizationTX__c) salesOrgTXLabel, toLabel(SalesOrganizationTOP__c) salesOrgTOPLabel, toLabel(PurchasingOrganizationTX__c) purchaseOrgTXLabel, toLabel(PurchasingOrganizationTOP__c) purchaseOrgTOPLabel,
+                                                            NonSAPSupplierCode__c, NonSAPCustomerCode__c
+                                                            FROM CTRRequestFormItem__c WHERE Customer__c =: mAccountId AND BusinessUnit__c =: actBusinessUnit AND (SAPNumber__c != null OR NonSAPCustomerCode__c != null OR NonSAPCustomerCode__c != null)];
             if(mRecordTypeList[0].DeveloperName.contains('Customer'))
             {
                     List<String> mSalesOrgList = new List<String>();
                     if(mBusinessUnit == 'TOP')
                     {
                         mSalesOrgList.add('1100');
+                    }
+                    else if(mBusinessUnit == 'TPX') {
                         mSalesOrgList.add('1300');
+                    } 
+                    else if(mBusinessUnit == 'TLB') {
                         mSalesOrgList.add('1400');
-                        
                     }
                     else if(mBusinessUnit == 'LABIX')
                     {
                         mSalesOrgList.add('1700');
                     }
-                    else if(mBusinessUnit == 'TX')
+                    else if(mBusinessUnit == 'TXTH') 
                     {
                         mSalesOrgList.add('2000');
+                    } 
+                    else if(mBusinessUnit == 'TSV') 
+                    {
                         mSalesOrgList.add('9100');
+                    } 
+                    else if(mBusinessUnit == 'TSR') 
+                    {
                         mSalesOrgList.add('9200');
+                    } 
+                    else if(mBusinessUnit == 'JSKem') 
+                    {
                         mSalesOrgList.add('9300');
+                    } 
+                    else if(mBusinessUnit == 'TXINDIA') 
+                    {
                         mSalesOrgList.add('9400');
                     }
                     List<String> mSalesAreaFields = new List<String>(Schema.getGlobalDescribe().get('C360_SalesArea__c').getDescribe().fields.getMap().keySet());            
@@ -66,10 +91,16 @@ public with sharing class CTRRequestFormEditTypeController
                         {
                             if(mItem.RecordType.DeveloperName == 'CustomerExtend' || mItem.RecordType.DeveloperName == 'CustomerInitial')
                             {
+                                String cusNumber;
                                 String mProductName = mItem.ProductName__c;
-                                String mSalesOrg = (mItem.BusinessUnit__c == 'TX')? mItem.SalesOrganizationTX__c: mItem.SalesOrganizationTOP__c;
-                                String mLabelSalesOrg = (mItem.BusinessUnit__c == 'TX')? String.valueOf(mItem.get('salesOrgTXLabel')) : String.valueOf(mItem.get('salesOrgTOPLabel'));
-                                String mKey = mItem.SAPNumber__c+mSalesOrg+mItem.DistributionChannel__c+mItem.Division__c;
+                                String mSalesOrg = (txSubBU.contains(mBusinessUnit))? mItem.SalesOrganizationTX__c: mItem.SalesOrganizationTOP__c;
+                                String mLabelSalesOrg = (txSubBU.contains(mBusinessUnit))? String.valueOf(mItem.get('salesOrgTXLabel')) : String.valueOf(mItem.get('salesOrgTOPLabel'));
+                                if(new List<String>{'TSR','JSKem','TXINDIA'}.contains(mBusinessUnit)) {
+                                    cusNumber = mItem.NonSAPCustomerCode__c;
+                                } else {
+                                    cusNumber = mItem.SAPNumber__c;
+                                }
+                                String mKey = cusNumber+mSalesOrg+mItem.DistributionChannel__c+mItem.Division__c;
                                 if(mKey == mSalesArea.Key__c)
                                 {
                                     isFoundItem = true;
@@ -113,19 +144,31 @@ public with sharing class CTRRequestFormEditTypeController
             {
                 //List<CTRPurchasingView__c> mPurchasingView = [SELECT Id FROM CTRPurchasingView__c WHERE Account__c =: mAccountId];
                 List<String> mPurchasingList = new List<String>();
-                    if(mBusinessUnit == 'TOP')
-                    {
-                        mPurchasingList.add('1100');
-                        mPurchasingList.add('1000');
-                    }
-                    else if(mBusinessUnit == 'TX')
-                    {
-                        mPurchasingList.add('A000');
-                        mPurchasingList.add('H100');
-                        mPurchasingList.add('I100');
-                        mPurchasingList.add('S100');
-                        mPurchasingList.add('N100');
-                    }
+                if(mBusinessUnit == 'TOP' || mBusinessUnit == 'TLB' || mBusinessUnit == 'TPX')
+                {
+                    mPurchasingList.add('1100');
+                    mPurchasingList.add('1000');
+                }
+                else if(mBusinessUnit == 'TXTH')
+                {
+                    mPurchasingList.add('A000');
+                }
+                else if(mBusinessUnit == 'TSV')
+                {
+                    mPurchasingList.add('H100');
+                }
+                else if(mBusinessUnit == 'TSR')
+                {
+                    mPurchasingList.add('I100');
+                }
+                else if(mBusinessUnit == 'JSKem')
+                {
+                    mPurchasingList.add('S100');
+                }
+                else if(mBusinessUnit == 'TXINDIA')
+                {
+                    mPurchasingList.add('N100');
+                }
                 List<String> mPurchasingViewFields = new List<String>(Schema.getGlobalDescribe().get('CTRPurchasingView__c').getDescribe().fields.getMap().keySet());            
                     String soqlText = '';
                     soqlText+= ' SELECT ' + String.join(mPurchasingViewFields, ',');
@@ -144,12 +187,18 @@ public with sharing class CTRRequestFormEditTypeController
                         {
                             if(mItem.RecordType.DeveloperName == 'SupplierExtend' || mItem.RecordType.DeveloperName == 'SupplierInitial')
                             {
+                                String supNumber;
+                                if(new List<String>{'TSR','JSKem','TXINDIA'}.contains(mBusinessUnit)) {
+                                    supNumber = mItem.NonSAPSupplierCode__c;
+                                } else {
+                                    supNumber = mItem.SAPNumber__c;
+                                }
                                 String mProductName = mItem.ProductName__c;
                                 System.debug('ProductName__c'+mProductName);
-                                String mPurchasingOrg = (mItem.BusinessUnit__c == 'TX')? mItem.PurchasingOrganizationTX__c: mItem.PurchasingOrganizationTOP__c;
+                                String mPurchasingOrg = (txSubBU.contains(mBusinessUnit))? mItem.PurchasingOrganizationTX__c: mItem.PurchasingOrganizationTOP__c;
                                 System.debug('mPurchasingOrg'+mPurchasingOrg);
-                                String mLabelPurchasingOrg = (mItem.BusinessUnit__c == 'TX')? String.valueOf(mItem.get('purchaseOrgTXLabel')): String.valueOf(mItem.get('purchaseOrgTOPLabel'));
-                                String mKey = mItem.SAPNumber__c+mPurchasingOrg;
+                                String mLabelPurchasingOrg = (txSubBU.contains(mBusinessUnit))? String.valueOf(mItem.get('purchaseOrgTXLabel')): String.valueOf(mItem.get('purchaseOrgTOPLabel'));
+                                String mKey = supNumber+mPurchasingOrg;
                                 System.debug('mKey'+mKey);
                                 System.debug('mPurchasingView.Key__c'+mPurchasingView.Key__c);
                                 if(mKey == mPurchasingView.Key__c)
@@ -201,19 +250,22 @@ public with sharing class CTRRequestFormEditTypeController
         {
             List<RecordType> RecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE Id = :RecordType LIMIT 1];
             Id insertedItemId;
+            List<String> topSubBU = new List<String>{'TOP','TLB','TPX'};
+            List<String> txSubBU = new List<String>{'TXTH','TSV','TSR','JSKem','TXINDIA'};
 
                 if(RecordTypeList[0].DeveloperName.contains('Customer')){
 
                     List<String> mSalesAreaFields = new List<String>(Schema.getGlobalDescribe().get('C360_SalesArea__c').getDescribe().fields.getMap().keySet());            
                     String soqlText = '';
                     soqlText+= ' SELECT ' + String.join(mSalesAreaFields, ',');
-                    soqlText+= ' ,AccountNumber__r.Country__c, AccountNumber__r.Country__r.Code__c, AccountNumber__r.AccountNumber__c';
+                    soqlText+= ' ,AccountNumber__r.Country__c, AccountNumber__r.Country__r.Code__c, AccountNumber__r.AccountNumber__c, AccountNumber__r.NonSAPCustomerCode__c';
                     soqlText+= ' FROM C360_SalesArea__c';
                     soqlText+= ' WHERE Id = \''+mRequestWrapper.mRecordId+'\' LIMIT 1';
                     List<C360_SalesArea__c> mSalesAreaList = new List<C360_SalesArea__c>();
                     mSalesAreaList = Database.query(soqlText);
 
-                    String mFinancialKey = mSalesAreaList[0].AccountNumber__r.AccountNumber__c+mSalesAreaList[0].SalesOrganization__c+mSalesAreaList[0].CreditControlArea__c;
+                    String cusNumber = new List<String>{'TSR','JSKem','TXINDIA'}.contains(BusinessUnit) ? mSalesAreaList[0].AccountNumber__r.NonSAPCustomerCode__c : mSalesAreaList[0].AccountNumber__r.AccountNumber__c;
+                    String mFinancialKey = cusNumber+mSalesAreaList[0].SalesOrganization__c+mSalesAreaList[0].CreditControlArea__c;
                     List<String> mFinancialFields = new List<String>(Schema.getGlobalDescribe().get('C360_FinancialInfo__c').getDescribe().fields.getMap().keySet());            
                     String soqlFinancialText = '';
                     soqlFinancialText+= ' SELECT ' + String.join(mFinancialFields, ',');
@@ -221,7 +273,7 @@ public with sharing class CTRRequestFormEditTypeController
                     soqlFinancialText+= ' WHERE Key__c = \''+mFinancialKey+'\'';
                     List<C360_FinancialInfo__c> mFinanicialList =  Database.query(soqlFinancialText);
 
-                    String mAddInfoKey = mSalesAreaList[0].AccountNumber__r.AccountNumber__c+mSalesAreaList[0].SalesOrganization__c+mSalesAreaList[0].DistributionChannel__c;
+                    String mAddInfoKey = cusNumber+mSalesAreaList[0].SalesOrganization__c+mSalesAreaList[0].DistributionChannel__c;
                     List<CTRAdditionalInfo__c> mAddInfoList = [SELECT Id, Application__c, InterGroup__c, CustomerType__c, CustomerGroup__c, Industry__c, SubIndustry__c FROM CTRAdditionalInfo__c WHERE Key__c =: mAddInfoKey LIMIT 1];
 
 
@@ -232,7 +284,7 @@ public with sharing class CTRRequestFormEditTypeController
                                                             AND SalesOrganization__c = :mSalesAreaList[0].SalesOrganization__c
                                                             AND Division__c = :mSalesAreaList[0].Division__c 
                                                             AND DistributionChannel__c = :mSalesAreaList[0].DistributionChannel__c
-                                                            AND SAPNumber__c != null];
+                                                            AND (SAPNumber__c != null OR NonSAPCustomerCode__c != null)];
 
                     CTRRequestFormHeader__c mRequestFormHeader = new CTRRequestFormHeader__c();
                     Id RecordTypeId = Schema.SObjectType.CTRRequestFormHeader__c.getRecordTypeInfosByDeveloperName().get('EditInformation').getRecordTypeId();
@@ -275,7 +327,7 @@ public with sharing class CTRRequestFormEditTypeController
                                 mRequestFormItem.OrderProbability__c = salesArea.OrderProbability__c;
                                 mRequestFormItem.OverdeliveryTolerance__c = salesArea.OverdeliveryTolerance__c;
                                 mRequestFormItem.PartialDeliveriesperitem__c = salesArea.PartialDeliveriesperitem__c;
-                                mRequestFormItem.PaymentGuaranteeProcedure__c = salesArea.PaymentGuaranteeProcedure__c;
+                                mRequestFormItem.PaymentGuaranteeProcedure__c = salesArea.CustomerPayment__c;
                                 mRequestFormItem.IsPriceDetermin__c = salesArea.IsPriceDetermin__c;
                                 mRequestFormItem.PriceGroup__c = salesArea.PriceGroup__c;
                                 mRequestFormItem.Rebate__c = salesArea.Rebate__c;
@@ -295,7 +347,7 @@ public with sharing class CTRRequestFormEditTypeController
                                     mRequestFormItem.SubIndustry__c = mAddInfoList[0].SubIndustry__c;
                                 }
 
-                                if (BusinessUnit == 'TX') {
+                                if (txSubBU.contains(BusinessUnit)) {
                                     mRequestFormItem.SalesOrganizationTX__c = salesArea.SalesOrganization__c;
                                     mRequestFormItem.Liable1__c = true;
                                     mRequestFormItem.Liable2__c = true;
@@ -312,14 +364,14 @@ public with sharing class CTRRequestFormEditTypeController
                                         mRequestFormItem.ReconAccount__c = mFinanicialList[0].ReconAccount__c;
                                         mRequestFormItem.CashManagementGroup__c = mFinanicialList[0].CashManagementGroup__c;
                                         mRequestFormItem.PaymentHistoryRecord__c = mFinanicialList[0].PaymentHistoryRecord__c;
-                                        mRequestFormItem.Authorization__c = mFinanicialList[0].Authorization__c;
+                                        // mRequestFormItem.Authorization__c = mFinanicialList[0].Authorization__c;
                                     }
 
                                     //mRequestFormItem.OrderProbability__c = 0;
                                     //mRequestFormItem.OrderCombination__c = false;
                                     //mRequestFormItem.Rebate__c = true;
                                     //mRequestFormItem.IsPriceDetermin__c = true;
-                                } else if (BusinessUnit == 'TOP')
+                                } else if (topSubBU.contains(BusinessUnit))
                                 {
                                     mRequestFormItem.SalesOrganizationTOP__c = salesArea.SalesOrganization__c;
                                 }
@@ -328,10 +380,10 @@ public with sharing class CTRRequestFormEditTypeController
                                     CTRRequestFormItem__c item = mItemList[0];
                                     if (item != null)
                                     {
-                                        if (BusinessUnit == 'TX') {
+                                        if (txSubBU.contains(BusinessUnit)) {
                                             mRequestFormItem.InterestedProductTypeAsCustomerTX__c = item.InterestedProductTypeAsCustomerTX__c != null ? item.InterestedProductTypeAsCustomerTX__c : '';
                                             mRequestFormHeader.InterestedProductTypeAsCustomerTX__c = item.InterestedProductTypeAsCustomerTX__c != null ? item.InterestedProductTypeAsCustomerTX__c : '';
-                                        } else if (BusinessUnit == 'TOP')
+                                        } else if (topSubBU.contains(BusinessUnit))
                                         {
                                             mRequestFormItem.InterestedProductTypeAsCustomerTOP__c = item.InterestedProductTypeAsCustomerTOP__c != null ? item.InterestedProductTypeAsCustomerTOP__c : '';
                                             mRequestFormHeader.InterestedProductTypeAsCustomerTOP__c = item.InterestedProductTypeAsCustomerTOP__c != null ? item.InterestedProductTypeAsCustomerTOP__c : '';
@@ -361,13 +413,14 @@ public with sharing class CTRRequestFormEditTypeController
                         List<String> mPurchasingViewFields = new List<String>(Schema.getGlobalDescribe().get('CTRPurchasingView__c').getDescribe().fields.getMap().keySet());            
                             String soqlText = '';
                             soqlText+= ' SELECT ' + String.join(mPurchasingViewFields, ',');
-                            soqlText+= ' ,Account__r.SupplierNumber__c, Account__r.Country__r.Code__c';
+                            soqlText+= ' ,Account__r.SupplierNumber__c, Account__r.Country__r.Code__c, Account__r.NonSAPSupplierCode__c';
                             soqlText+= ' FROM CTRPurchasingView__c';
                             soqlText+= ' WHERE Id = \''+mRequestWrapper.mRecordId+'\'';
                             List<CTRPurchasingView__c> mPurchaseViewList = new List<CTRPurchasingView__c>();
                             mPurchaseViewList = Database.query(soqlText);
 
-                            String mFinancialKey = mPurchaseViewList[0].Account__r.SupplierNumber__c+mPurchaseViewList[0].PurchasingOrg__c;
+                            String supNumber = new List<String>{'TSR','JSKem','TXINDIA'}.contains(BusinessUnit) ? mPurchaseViewList[0].Account__r.NonSAPSupplierCode__c : mPurchaseViewList[0].Account__r.SupplierNumber__c;
+                            String mFinancialKey = supNumber+mPurchaseViewList[0].PurchasingOrg__c;
                             List<String> mFinancialFields = new List<String>(Schema.getGlobalDescribe().get('C360_FinancialInfo__c').getDescribe().fields.getMap().keySet());            
                             String soqlFinancialText = '';
                             soqlFinancialText+= ' SELECT ' + String.join(mFinancialFields, ',');
@@ -375,7 +428,7 @@ public with sharing class CTRRequestFormEditTypeController
                             soqlFinancialText+= ' WHERE Key__c = \''+mFinancialKey+'\'';
                             List<C360_FinancialInfo__c> mFinanicialList = Database.query(soqlFinancialText);
 
-                            List<CTRRequestFormItem__c> mItemList = [SELECT Id, RecordTypeId, RecordType.DeveloperName, AutomaticPurchaseOrder__c, GRBasedInvVerif__c, PurchasingOrganization__c, Customer__c,
+                            List<CTRRequestFormItem__c> mItemList = [SELECT Id, RecordTypeId, RecordType.DeveloperName, AutomaticPurchaseOrder__c, GRBasedInvVerif__c, PurchasingOrganization__c, Customer__c, CommercialScoringResult__c,
                                                             ProductName__c, BusinessUnit__c, PurchasingOrganizationTOP__c, PurchasingOrganizationTX__c, InterestedProductTypeAsSupplierTX__c, InterestedProductTypeAsSupplierTOP__c
                                                             FROM CTRRequestFormItem__c 
                                                             WHERE Customer__c = :mPurchaseViewList[0].Account__c 
@@ -406,7 +459,7 @@ public with sharing class CTRRequestFormEditTypeController
                                         mRequestFormItem.Chkdoubleinv__c = Purchasing.Chkdoubleinv__c;
                                         mRequestFormItem.PurchasingOrganization__c = Purchasing.PurchasingOrg__c;
                                         
-                                        if (BusinessUnit == 'TX') {
+                                        if (txSubBU.contains(BusinessUnit)) {
                                             
                                             mRequestFormItem.PurchasingOrganizationTX__c = Purchasing.PurchasingOrg__c;
                                             mRequestFormItem.Liable1__c = true;
@@ -432,7 +485,7 @@ public with sharing class CTRRequestFormEditTypeController
                                                 mRequestFormItem.Chkdoubleinv__c = mFinanicialList[0].Chkdoubleinv__c;
                                             }
 
-                                        } else if (BusinessUnit == 'TOP')
+                                        } else if (topSubBU.contains(BusinessUnit))
                                         {
                                             mRequestFormItem.PurchasingOrganizationTOP__c = Purchasing.PurchasingOrg__c;
                                         }
@@ -442,10 +495,10 @@ public with sharing class CTRRequestFormEditTypeController
                                             if (mItemList[0] != null)
                                             {
                                                 CTRRequestFormItem__c item = mItemList[0];
-                                                if (BusinessUnit == 'TX') {
+                                                if (txSubBU.contains(BusinessUnit)) {
                                                     mRequestFormItem.InterestedProductTypeAsSupplierTX__c = item.InterestedProductTypeAsSupplierTX__c != null ? item.InterestedProductTypeAsSupplierTX__c : '';
                                                     mRequestFormHeader.InterestedProductTypeAsSupplierTX__c = item.InterestedProductTypeAsSupplierTX__c != null ? item.InterestedProductTypeAsSupplierTX__c : '';
-                                                } else if (BusinessUnit == 'TOP') 
+                                                } else if (topSubBU.contains(BusinessUnit)) 
                                                 {
                                                     mRequestFormItem.InterestedProductTypeAsSupplierTOP__c = item.InterestedProductTypeAsSupplierTOP__c != null ? item.InterestedProductTypeAsSupplierTOP__c : '';
                                                     mRequestFormHeader.InterestedProductTypeAsSupplierTOP__c = item.InterestedProductTypeAsSupplierTOP__c != null ? item.InterestedProductTypeAsSupplierTOP__c : '';

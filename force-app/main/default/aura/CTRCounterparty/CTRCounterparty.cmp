@@ -14,7 +14,7 @@
     <aura:attribute name="isTX" type="Boolean" default="false" />
     <aura:attribute name="isTOP" type="Boolean" default="false" />
     <aura:attribute name="DisplayEditButton" type="Boolean" default="false" />
-
+    <aura:attribute name="GeneralWarning" type="Boolean" default="false"/>
 
     <aura:attribute name="isLoaded" type="Boolean" default="false"/>
     <aura:attribute name="isCustomerType" type="Boolean" default="false"/>
@@ -63,7 +63,7 @@
         <!-- Edit Mode -->
         <aura:if isTrue="{!!v.IsPageDisable}">
     
-        <c:CTRInitialCustomerTOP isInitial="false" ObjectType="CTRRequestFormHeader__c" onPageRecordID = "{!v.headerId}" IsPageDisable = "{!v.IsPageDisable}" isAccount = "false" IsCounterParty = "true"
+        <c:CTRInitialCustomerTOP isInitial="false" ObjectType="CTRRequestFormHeader__c" onPageRecordID = "{!v.headerId}" IsPageDisable = "{!v.IsPageDisable}" isAccount = "false" IsCounterParty = "true" 
         recordId = "{!v.headerId}" reqitemId="{!v.recordId}" isCustomerType = "{!v.isCustomerType}" isSupplierType = "{!v.isSupplierType}" isTRCR = "{!v.isTRCR}" currentUserName = "{!v.currentUserName}"/>
         </aura:if>
 

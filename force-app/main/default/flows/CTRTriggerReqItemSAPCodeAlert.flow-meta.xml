@@ -1,45 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>sendCreateShipToEmailToRelevant</name>
-        <label>sendCreateShipToEmailToRelevant</label>
-        <locationX>578</locationX>
-        <locationY>1295</locationY>
-        <actionName>CTRFlowEmailCTR</actionName>
-        <actionType>apex</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>mEmailCCList</name>
-            <value>
-                <elementReference>findCCUsers.varTargetEmails</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mEmailToList</name>
-            <value>
-                <elementReference>findRelevantUsers.varTargetEmails</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mRecordId</name>
-            <value>
-                <elementReference>$Record.CTRRequestFormHeader__r.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>mTemplateId</name>
-            <value>
-                <elementReference>getCreateShipToRelevantEmail.Id</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>CTRFlowEmailCTR</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
         <name>sendCustomerEmailToCustomer</name>
         <label>sendCustomerEmailToCustomer</label>
-        <locationX>50</locationX>
-        <locationY>1511</locationY>
+        <locationX>1458</locationX>
+        <locationY>1619</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -73,8 +38,8 @@
     <actionCalls>
         <name>sendCustomerEmailToRelevant</name>
         <label>sendCustomerEmailToRelevant</label>
-        <locationX>50</locationX>
-        <locationY>1403</locationY>
+        <locationX>1458</locationX>
+        <locationY>1511</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -109,10 +74,156 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
+        <name>sendEmailEditShiptoCustomer</name>
+        <label>sendEmailEditShiptoCustomer</label>
+        <locationX>842</locationX>
+        <locationY>1511</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>recipientCCEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailEditShiptoCustomer.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendEmailEditShiptoRelevant</name>
+        <label>sendEmailEditShiptoRelevant</label>
+        <locationX>842</locationX>
+        <locationY>1403</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>sendEmailEditShiptoCustomer</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>findEditShiptoCC.varTargetEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>findEditShiptoRelevant.varTargetEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailEditShiptoRelevant.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendEmailShiptoCustomer</name>
+        <label>sendEmailShiptoCustomer</label>
+        <locationX>50</locationX>
+        <locationY>1511</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>recipientCCEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>recipientEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailShiptoCustomer.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>sendEmailShiptoRelevant</name>
+        <label>sendEmailShiptoRelevant</label>
+        <locationX>50</locationX>
+        <locationY>1403</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>sendEmailShiptoCustomer</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>findShiptoCC.varTargetEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>findShiptoRelevant.varTargetEmails</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>getEmailShiptoRelevant.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
         <name>sendSupplierEmailToRelevant</name>
         <label>sendSupplierEmailToRelevant</label>
-        <locationX>314</locationX>
-        <locationY>1403</locationY>
+        <locationX>1722</locationX>
+        <locationY>1511</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -149,8 +260,8 @@
     <actionCalls>
         <name>sendSupplierEmailToSupplier</name>
         <label>sendSupplierEmailToSupplier</label>
-        <locationX>314</locationX>
-        <locationY>1511</locationY>
+        <locationX>1722</locationX>
+        <locationY>1619</locationY>
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -183,33 +294,10 @@
     </actionCalls>
     <apiVersion>60.0</apiVersion>
     <assignments>
-        <name>assignCreateShipToEmails</name>
-        <label>assignCreateShipToEmails</label>
-        <locationX>578</locationX>
-        <locationY>1187</locationY>
-        <assignmentItems>
-            <assignToReference>recipientEmails</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Record.CTRRequestFormHeader__r.Email__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>recipientCCEmails</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Record.Owner:User.Email</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>sendCreateShipToEmailToRelevant</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>assignCustomerEmails</name>
         <label>assignCustomerEmails</label>
-        <locationX>50</locationX>
-        <locationY>1295</locationY>
+        <locationX>1458</locationX>
+        <locationY>1403</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -229,10 +317,70 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignEditShiptoRecipients</name>
+        <label>assignEditShiptoRecipients</label>
+        <locationX>842</locationX>
+        <locationY>1295</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.MDCName__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendEmailEditShiptoRelevant</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assignShiptoRecipients</name>
+        <label>assignShiptoRecipients</label>
+        <locationX>50</locationX>
+        <locationY>1295</locationY>
+        <assignmentItems>
+            <assignToReference>recipientEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.CTRRequestFormHeader__r.Email__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>recipientCCEmails</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.MDCName__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>sendEmailShiptoRelevant</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignSupplierEmails</name>
         <label>assignSupplierEmails</label>
-        <locationX>314</locationX>
-        <locationY>1295</locationY>
+        <locationX>1722</locationX>
+        <locationY>1403</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -254,9 +402,12 @@
     <decisions>
         <name>checkAccountType</name>
         <label>checkAccountType</label>
-        <locationX>578</locationX>
-        <locationY>971</locationY>
-        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <locationX>1590</locationX>
+        <locationY>1079</locationY>
+        <defaultConnector>
+            <targetReference>getSupplierRelevantEmail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Supplier</defaultConnectorLabel>
         <rules>
             <name>typeCustomer</name>
             <conditionLogic>and</conditionLogic>
@@ -272,63 +423,12 @@
             </connector>
             <label>Customer</label>
         </rules>
-        <rules>
-            <name>typeSupplier</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.fmlAccountTypeName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Supplier</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>getSupplierRelevantEmail</targetReference>
-            </connector>
-            <label>Supplier</label>
-        </rules>
-        <rules>
-            <name>typeCreateShipTo</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.fmlAccountTypeName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ShipTo</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>getCreateShipToRelevantEmail</targetReference>
-            </connector>
-            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-            <label>CreateShipTo</label>
-        </rules>
-        <rules>
-            <name>typeEditShipTo</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.RecordTypeName__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>ShipToEdit</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.IntegrationStatus__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Success</stringValue>
-                </rightValue>
-            </conditions>
-            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
-            <label>EditShipTo</label>
-        </rules>
     </decisions>
     <decisions>
         <name>checkCCUsers</name>
         <label>checkCCUsers</label>
-        <locationX>974</locationX>
-        <locationY>863</locationY>
+        <locationX>1788</locationX>
+        <locationY>971</locationY>
         <defaultConnectorLabel>Not Found Users</defaultConnectorLabel>
         <rules>
             <name>typeFoundCCUsers</name>
@@ -354,10 +454,68 @@
         </rules>
     </decisions>
     <decisions>
+        <name>checkEditShiptoCC</name>
+        <label>checkEditShiptoCC</label>
+        <locationX>974</locationX>
+        <locationY>971</locationY>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>foundEditShiptoCC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findEditShiptoCC.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findEditShiptoCC.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailEditShiptoRelevant</targetReference>
+            </connector>
+            <label>Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkEditShiptoRelevant</name>
+        <label>checkEditShiptoRelevant</label>
+        <locationX>1128</locationX>
+        <locationY>647</locationY>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>foundEditShipto</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findEditShiptoRelevant.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findEditShiptoRelevant.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEditShiptoCC</targetReference>
+            </connector>
+            <label>Found</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>checkRelevantUsers</name>
         <label>checkRelevantUsers</label>
-        <locationX>1304</locationX>
-        <locationY>539</locationY>
+        <locationX>2019</locationX>
+        <locationY>647</locationY>
         <defaultConnectorLabel>Not Found Users</defaultConnectorLabel>
         <rules>
             <name>typeFoundUsers</name>
@@ -382,7 +540,105 @@
             <label>Found Users</label>
         </rules>
     </decisions>
-    <description>[11 Apr 2024] Add create and edit ship-to</description>
+    <decisions>
+        <name>checkShipto</name>
+        <label>checkShipto</label>
+        <locationX>1199</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>getRelevantUsers</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>None</defaultConnectorLabel>
+        <rules>
+            <name>typeCreateShipto</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ShipToCreate</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getShiptoRelevant</targetReference>
+            </connector>
+            <label>Create Ship-to</label>
+        </rules>
+        <rules>
+            <name>typeEditShipto</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ShipToEdit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEditShiptoRelevant</targetReference>
+            </connector>
+            <label>Edit Ship-to</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkShiptoCC</name>
+        <label>checkShiptoCC</label>
+        <locationX>182</locationX>
+        <locationY>971</locationY>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>foundShiptoCC</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findShiptoCC.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findShiptoCC.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getEmailShiptoRelevant</targetReference>
+            </connector>
+            <label>Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>checkShiptoRelevant</name>
+        <label>checkShiptoRelevant</label>
+        <locationX>380</locationX>
+        <locationY>647</locationY>
+        <defaultConnectorLabel>Not Found</defaultConnectorLabel>
+        <rules>
+            <name>foundShiptoRelevant</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>findShiptoRelevant.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>findShiptoRelevant.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getShiptoCC</targetReference>
+            </connector>
+            <label>Found</label>
+        </rules>
+    </decisions>
+    <description>[25 Apr 2024] Add create and edit ship-to</description>
     <environments>Default</environments>
     <interviewLabel>CTRTriggerReqItemSAPCodeAlert {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTRTriggerReqItemSAPCodeAlert</label>
@@ -408,8 +664,8 @@
     <recordLookups>
         <name>getCCUsers</name>
         <label>getCCUsers</label>
-        <locationX>974</locationX>
-        <locationY>647</locationY>
+        <locationX>1788</locationX>
+        <locationY>755</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findCCUsers</targetReference>
@@ -449,31 +705,10 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>getCreateShipToRelevantEmail</name>
-        <label>getCreateShipToRelevantEmail</label>
-        <locationX>578</locationX>
-        <locationY>1079</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>assignCreateShipToEmails</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>DeveloperName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>CTRInitialSupplierGotSAPCodeToRelevant</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>EmailTemplate</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
-    <recordLookups>
         <name>getCustomerEmail</name>
         <label>getCustomerEmail</label>
-        <locationX>50</locationX>
-        <locationY>1187</locationY>
+        <locationX>1458</locationX>
+        <locationY>1295</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>assignCustomerEmails</targetReference>
@@ -493,8 +728,8 @@
     <recordLookups>
         <name>getCustomerRelevantEmail</name>
         <label>getCustomerRelevantEmail</label>
-        <locationX>50</locationX>
-        <locationY>1079</locationY>
+        <locationX>1458</locationX>
+        <locationY>1187</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getCustomerEmail</targetReference>
@@ -512,10 +747,171 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getEditShiptoCC</name>
+        <label>getEditShiptoCC</label>
+        <locationX>974</locationX>
+        <locationY>755</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findEditShiptoCC</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>InformRelatedCC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>EmployeeId__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>00001393</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEditShiptoRelevant</name>
+        <label>getEditShiptoRelevant</label>
+        <locationX>1128</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findEditShiptoRelevant</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>InformRelated</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailEditShiptoCustomer</name>
+        <label>getEmailEditShiptoCustomer</label>
+        <locationX>842</locationX>
+        <locationY>1187</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assignEditShiptoRecipients</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTREditShiptoGotSAPCodeToCustomer</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailEditShiptoRelevant</name>
+        <label>getEmailEditShiptoRelevant</label>
+        <locationX>842</locationX>
+        <locationY>1079</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getEmailEditShiptoCustomer</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTREditShipToGotSAPCodeToRelevant</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailShiptoCustomer</name>
+        <label>getEmailShiptoCustomer</label>
+        <locationX>50</locationX>
+        <locationY>1187</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assignShiptoRecipients</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRCreateShiptoGotSAPCodeToCustomer</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getEmailShiptoRelevant</name>
+        <label>getEmailShiptoRelevant</label>
+        <locationX>50</locationX>
+        <locationY>1079</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>getEmailShiptoCustomer</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRCreateShipToGotSAPCodeToRelevant</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getRelevantUsers</name>
         <label>getRelevantUsers</label>
-        <locationX>1304</locationX>
-        <locationY>323</locationY>
+        <locationX>2019</locationX>
+        <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>findRelevantUsers</targetReference>
@@ -555,10 +951,87 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>getShiptoCC</name>
+        <label>getShiptoCC</label>
+        <locationX>182</locationX>
+        <locationY>755</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findShiptoCC</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>InformRelatedCC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>EmployeeId__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>00001393</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getShiptoRelevant</name>
+        <label>getShiptoRelevant</label>
+        <locationX>380</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>findShiptoRelevant</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>InformRelated</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Customer</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>getSupplierEmail</name>
         <label>getSupplierEmail</label>
-        <locationX>314</locationX>
-        <locationY>1187</locationY>
+        <locationX>1722</locationX>
+        <locationY>1295</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>assignSupplierEmails</targetReference>
@@ -578,8 +1051,8 @@
     <recordLookups>
         <name>getSupplierRelevantEmail</name>
         <label>getSupplierRelevantEmail</label>
-        <locationX>314</locationX>
-        <locationY>1079</locationY>
+        <locationX>1722</locationX>
+        <locationY>1187</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getSupplierEmail</targetReference>
@@ -597,12 +1070,12 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>1178</locationX>
+        <locationX>1073</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>getRelevantUsers</targetReference>
+            <targetReference>checkShipto</targetReference>
         </connector>
-        <filterLogic>(1 AND 2 AND (3 OR 4 OR 5 OR 6 OR 7)) OR (8 AND 9 AND 10 )</filterLogic>
+        <filterLogic>1 AND 2 AND (3 OR 4 OR 5 OR 6 OR 7 OR 8)</filterLogic>
         <filters>
             <field>SAPNumber__c</field>
             <operator>IsNull</operator>
@@ -659,30 +1132,16 @@
                 <stringValue>ShipToEdit</stringValue>
             </value>
         </filters>
-        <filters>
-            <field>IntegrationStatus__c</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Success</stringValue>
-            </value>
-        </filters>
-        <filters>
-            <field>IntegrationStatus__c</field>
-            <operator>IsChanged</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <object>CTRRequestFormItem__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Active</status>
     <subflows>
         <name>findCCUsers</name>
         <label>findCCUsers</label>
-        <locationX>974</locationX>
-        <locationY>755</locationY>
+        <locationX>1788</locationX>
+        <locationY>863</locationY>
         <connector>
             <targetReference>checkCCUsers</targetReference>
         </connector>
@@ -696,10 +1155,44 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <name>findEditShiptoCC</name>
+        <label>findEditShiptoCC</label>
+        <locationX>974</locationX>
+        <locationY>863</locationY>
+        <connector>
+            <targetReference>checkEditShiptoCC</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getEditShiptoCC</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findEditShiptoRelevant</name>
+        <label>findEditShiptoRelevant</label>
+        <locationX>1128</locationX>
+        <locationY>539</locationY>
+        <connector>
+            <targetReference>checkEditShiptoRelevant</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getEditShiptoRelevant</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <name>findRelevantUsers</name>
         <label>findRelevantUsers</label>
-        <locationX>1304</locationX>
-        <locationY>431</locationY>
+        <locationX>2019</locationX>
+        <locationY>539</locationY>
         <connector>
             <targetReference>checkRelevantUsers</targetReference>
         </connector>
@@ -708,6 +1201,40 @@
             <name>varMetaUsers</name>
             <value>
                 <elementReference>getRelevantUsers</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findShiptoCC</name>
+        <label>findShiptoCC</label>
+        <locationX>182</locationX>
+        <locationY>863</locationY>
+        <connector>
+            <targetReference>checkShiptoCC</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getShiptoCC</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
+        <name>findShiptoRelevant</name>
+        <label>findShiptoRelevant</label>
+        <locationX>380</locationX>
+        <locationY>539</locationY>
+        <connector>
+            <targetReference>checkShiptoRelevant</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>getShiptoRelevant</elementReference>
             </value>
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>

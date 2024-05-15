@@ -39,7 +39,7 @@
     <start>
         <locationX>714</locationX>
         <locationY>49</locationY>
-        <filterLogic>1 AND (2 OR 3 OR 4 OR 5)</filterLogic>
+        <filterLogic>1 AND (2 OR 3 OR 4 OR 5 OR 6)</filterLogic>
         <filters>
             <field>SubmitToCreateSharePointFolder__c</field>
             <operator>EqualTo</operator>
@@ -73,6 +73,13 @@
             <operator>IsNull</operator>
             <value>
                 <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>AccountGroup__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ZSHP</stringValue>
             </value>
         </filters>
         <object>Account</object>

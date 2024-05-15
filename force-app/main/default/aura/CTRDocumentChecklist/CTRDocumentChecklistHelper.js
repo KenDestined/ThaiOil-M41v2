@@ -2,6 +2,9 @@
     closeModal: function (component) {
         $A.get("e.force:closeQuickAction").fire();
         component.set("v.isModalOpen", false);
+        if(component.get('v.isSaved')) {
+            window.location.reload();
+        }
     },
 
     getDocChecklist: function (component) {
@@ -151,8 +154,10 @@
         action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === "SUCCESS") {
-                var profileName = response.getReturnValue();
-                component.set('v.profile', profileName.BusinessUnit__c);
+                var requestObj = response.getReturnValue();
+                console.log('getBu',requestObj)
+                component.set('v.profile', requestObj.BusinessUnit__c);
+                component.set('v.subBU', requestObj.SubBU__c)
                 component.find("ChecklistBy__c").set("v.value", $A.get("$SObjectType.CurrentUser.Id"));
 
                 var today = new Date();
@@ -192,9 +197,9 @@
 
     getMetaDocList: function (component) {
         var action = component.get('c.getMetaDocList');
-        var recordId = component.get('v.recordId');
+        // var recordId = component.get('v.recordId');
         action.setParams({
-            "businessUnit": component.get('v.profile')
+            "subBU": component.get('v.subBU')
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
@@ -221,7 +226,7 @@
         var action = component.get('c.getDefaultDocChecklist');
         action.setParams({
             "recordId": recordId,
-            "businessUnit": component.get('v.profile')
+            "subBU": component.get('v.subBU')
         });
         action.setCallback(this, function (response) {
             var state = response.getState();
@@ -320,6 +325,7 @@
             var state = response.getState();
             if (state === "SUCCESS") {
                 this.showToast('Record saved successfully', true);
+                component.set('v.isSaved',true);
                 component.set('v.showSpinner', false);
                 this.toggleAlert(component);
 
@@ -339,6 +345,7 @@
     transSelectedDocFormat : function(component,selectedDocObj) {
         var recordId = component.get('v.recordId');
         var bu = component.get('v.profile');
+        var subBU = component.get('v.subBU');
         var result = [];
         var transResultMap = {'Pass': 'Passed', 'Waive': 'Waived', 'Not Pass': 'Not Passed'};
         Object.keys(selectedDocObj).forEach((key) => {
@@ -350,6 +357,7 @@
                 ExternalKey__c: key,
                 Result__c: docResult, //format of CTRDocumentItem
                 BusinessUnit__c: bu,
+                SubBU__c: subBU,
                 IsRequired__c: docObj.required
             }
             result.push(CTRDocItem);

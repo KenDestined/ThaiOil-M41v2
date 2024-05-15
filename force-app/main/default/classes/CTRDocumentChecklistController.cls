@@ -18,9 +18,9 @@ public without sharing class CTRDocumentChecklistController {
             reqFormItem.CustomerMessage__c = emailTemplate.HTMLBody__c
                 .replace('{$AccountName$}', reqFormItem.Customer__r.Name)
                 .replace('{$ContactFirstName$}', reqFormItem.CTRRequestFormHeader__r.FirstName__c)
-                .replace('{$ContactLastName$}', reqFormItem.CTRRequestFormHeader__r.LastName__c)
+                .replace('{$ContactLastName$}', reqFormItem.CTRRequestFormHeader__r.LastName__c);
                 //.replace('{$RequestDocumentURL$}', reqFormItem.CTRRequestFormHeader__r.Customer__r?.CTRUser__r?.TemporaryLoginURL__c);
-                .replace('{$RequestDocumentURL$}', '<a href="' + reqFormItem.CTRRequestFormHeader__r.Customer__r?.CTRUser__r?.TemporaryLoginURL__c + '/' + reqFormItem.CTRRequestFormHeader__r.Customer__c + '" target="_blank"><em>this link</em></a>');
+                // .replace('{$RequestDocumentURL$}', '<a href="' + reqFormItem.CTRRequestFormHeader__r.Customer__r?.CTRUser__r?.TemporaryLoginURL__c + '/' + reqFormItem.CTRRequestFormHeader__r.Customer__c + '" target="_blank"><em>this link</em></a>');
              //.replace('{$RequestDocumentURL$}', '<a href="https://www.google.co.th" target="_blank">this link</a>');
             
         }
@@ -49,15 +49,20 @@ public without sharing class CTRDocumentChecklistController {
         String isByTX = 'No';
         String VP = 'VP';
         String TRCR = 'Credit';
+        User mUser = [SELECT Id, Name, ProfileId, Profile.Name FROM User WHERE Id = :UserInfo.getUserId()];
         Map<String,List<String>>actorMap = CTRRequestFormItemController.getActor(Process,SalesOrg,isDom,RecordType,Product,isByTX,'');           
         if(actorMap != null)
         {
-            if(actorMap.get(TRCR) != null )
+            if(actorMap.get(TRCR) != null)
             {
                 if(actorMap.get(TRCR).contains(UserInfo.getUserId()))
                 {
                     reqFormItem.isTRCR__c = 'true';
                 } 
+            }
+            if(mUser.Profile.Name == 'System Administrator')
+            {
+                reqFormItem.isTRCR__c = 'true';
             }
             
         }
@@ -132,7 +137,9 @@ public without sharing class CTRDocumentChecklistController {
                         System.debug('temp---'+temp);
                         List<String>fileName = temp.split('\\.');
                         System.debug(fileName);
-                        filenames.add(fileName[0]);
+                        String mFileExtension = fileName[fileName.size()-1];
+						System.debug('fileName---'+temp.replace('.'+mFileExtension, ''));
+                        filenames.add(temp.replace('.'+mFileExtension, ''));
                         
                     }
                     joinString = String.join(filenames,',');
@@ -151,7 +158,7 @@ public without sharing class CTRDocumentChecklistController {
     // Send Email
     public static void sendEmailWithAttachment(Id recordId, CTRRequestFormItem__c reqFormObj, String uploadedList) {
 
-        CTRRequestFormItem__c reqForm = [SELECT CustomerMessage__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
+        CTRRequestFormItem__c reqForm = [SELECT CustomerMessage__c, CTRRequestFormHeader__r.Customer__r.CTRUser__c, CTRRequestFormHeader__r.Customer__r.CTRUser__r.TemporaryLoginURL__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
         String RecordLink = URL.getOrgDomainUrl().toExternalForm() + '/' + recordId;
         // Set To and CC Email Address List
         List<String> toAddresses = new List<String>();
@@ -179,19 +186,27 @@ public without sharing class CTRDocumentChecklistController {
 
         if (String.isNotBlank(uploadedList) && uploadedList != null) {
             List<String> filenames = uploadedList.split(',');
-
+System.debug('filenames:'+filenames);
             List<Attachment> attachments = [SELECT Id, Name, Body, ContentType FROM Attachment WHERE ParentId = :recordId];
-            List<ContentDocumentLink> documentLinks = [SELECT ContentDocumentId, ContentDocument.Title, ContentDocument.LatestPublishedVersionId 
+            for(Attachment mAttach: attachments)
+            {
+                System.debug('mAttach name:'+mAttach.Name);
+            }
+            List<ContentDocumentLink> documentLinks = [SELECT ContentDocumentId, ContentDocument.Title, ContentDocument.LatestPublishedVersionId
                                                             FROM ContentDocumentLink 
                                                             WHERE LinkedEntityId = :recordId AND ContentDocument.Title IN :filenames];
+
             
+            System.debug('ContentDocumentLink:'+documentLinks);
             Map<Id, ContentVersion> contentVersionMap = new Map<Id, ContentVersion>();
     
             Set<Id> contentVersionIds = new Set<Id>();
             for (ContentDocumentLink documentLink : documentLinks) {
+                System.debug('documentLink name:'+documentLink.ContentDocument.Title);
                 contentVersionIds.add(documentLink.ContentDocument.LatestPublishedVersionId);
             }
-    
+            
+     		System.debug('ContentDocumentLink:'+contentVersionIds);
             Map<Id, ContentVersion> contentVersions = new Map<Id, ContentVersion>([SELECT Id, Title, VersionData,FileExtension FROM ContentVersion WHERE Id IN :contentVersionIds]);
     
             if (!documentLinks.isEmpty()) {
@@ -209,14 +224,21 @@ public without sharing class CTRDocumentChecklistController {
     
         // Create an Email Message
         Messaging.SingleEmailMessage email = new Messaging.SingleEmailMessage();
+        OrgWideEmailAddress orgWideEmail = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'Commercial Team'];
+
+        reqForm.CustomerMessage__c = reqForm.CustomerMessage__c.replace('{$RequestDocumentURL$}', '<a href="' + reqForm.CTRRequestFormHeader__r.Customer__r?.CTRUser__r?.TemporaryLoginURL__c + '/' + reqForm.CTRRequestFormHeader__r.Customer__c + '" target="_blank"><em>this link</em></a>');
 
         email.setToAddresses(toAddresses);
         email.setCcAddresses(ccAddresses);
-        email.setWhatId(recordId);
+        email.setWhatId(recordId); 
         email.setSubject(reqFormObj.CustomerSubject__c);
         email.setHTMLBody(reqForm.CustomerMessage__c.replace('file.force.com', 'my.salesforce-sites.com').replace('{$RecordLink$}', '<a href="' + RecordLink + '" target="_blank">this link</a>'));
         email.setCharset('UTF-8');
         email.setSaveAsActivity(false);
+        if(orgWideEmail != null)
+        {
+            email.setOrgWideEmailAddressId(orgWideEmail.Id);
+        }
         email.setFileAttachments(fileAttachments);
 
         // Send the email
@@ -235,17 +257,32 @@ public without sharing class CTRDocumentChecklistController {
         return [SELECT Profile.Name FROM User WHERE Id = :UserInfo.getUserId()].Profile.Name;
     }
     
+    // @AuraEnabled(cacheable=true)
+    // public static CTRBuProfile__mdt getBUInfo(Id recordId)
+    // {
+    //     try 
+    //     {
+    //         CTRBuProfile__mdt currentuserBU = CTRBuProfileController.checkBusinessUnitFromProfile(UserInfo.getUserId(),recordId);
+    //         return currentuserBU;
+    //     }
+    //     catch(Exception e)
+    //     {
+    //         system.debug('CTRInitialCustomerTOP---'+e.getmessage()+' line:'+e.getLineNumber());
+    //         return null;
+    //     }
+    // }
+
     @AuraEnabled(cacheable=true)
-    public static CTRBuProfile__mdt getBUInfo(Id recordId)
+    public static CTRRequestFormItem__c getBUInfo(Id recordId)
     {
         try 
         {
-            CTRBuProfile__mdt currentuserBU = CTRBuProfileController.checkBusinessUnitFromProfile(UserInfo.getUserId(),recordId);
-            return currentuserBU;
+            CTRRequestFormItem__c mRequestItem = [SELECT Id, BusinessUnit__c, SubBU__c FROM CTRRequestFormItem__c WHERE Id =: recordId];
+            return mRequestItem;
         }
         catch(Exception e)
         {
-            system.debug('CTRInitialCustomerTOP---'+e.getmessage()+' line:'+e.getLineNumber());
+            system.debug('CTRDocumentChecklistController---'+e.getmessage()+' line:'+e.getLineNumber());
             return null;
         }
     }
@@ -320,13 +357,13 @@ public without sharing class CTRDocumentChecklistController {
     }
 
     @AuraEnabled
-    public static List<CTRDocumentMaster__mdt> getMetaDocList(String businessUnit) {
-        System.debug('Debug business unit '+businessUnit);
-        return [SELECT SortOrder__c, DeveloperName, DocumentName__c, Question__c, IsRequired__c FROM CTRDocumentMaster__mdt WHERE BusinessUnit__c =: businessUnit AND IsActive__c = true ORDER BY SortOrder__c];
+    public static List<CTRDocumentMaster__mdt> getMetaDocList(String subBU) {
+        System.debug('Debug subBU '+subBU);
+        return [SELECT SortOrder__c, DeveloperName, DocumentName__c, Question__c, SubBU__c, IsRequired__c FROM CTRDocumentMaster__mdt WHERE SubBU__c =: subBU AND IsActive__c = true ORDER BY SortOrder__c];
     }
 
     @AuraEnabled
-    public static List<CTRDocumentItem__c> getDefaultDocChecklist(Id recordId, String businessUnit) {
-        return [SELECT Id,ExternalKey__c, Result__c FROM CTRDocumentItem__c WHERE CTRRequestFormItem__c =: recordId AND BusinessUnit__c =: businessUnit];
+    public static List<CTRDocumentItem__c> getDefaultDocChecklist(Id recordId, String subBU) {
+        return [SELECT Id,ExternalKey__c, Result__c FROM CTRDocumentItem__c WHERE CTRRequestFormItem__c =: recordId AND SubBU__c =: subBU];
     }
 }

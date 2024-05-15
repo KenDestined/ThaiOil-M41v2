@@ -238,7 +238,7 @@
             if(!requestFormHeaderObj.ReconAccount__c){ ValidateMessageList.push('Recon. Account ')}
             if(!requestFormHeaderObj.SortKey__c){ ValidateMessageList.push('Sort Key ')}
             if(!requestFormHeaderObj.CashManagementGroup__c){ ValidateMessageList.push('Cash Mgmnt Group ')}
-            if(!requestFormHeaderObj.Authorization__c){ ValidateMessageList.push('Authorization ')}
+            //if(!requestFormHeaderObj.Authorization__c){ ValidateMessageList.push('Authorization ')}
             if(!requestFormHeaderObj.PaymentHistoryRecord__c){ ValidateMessageList.push('Payment History Record ')}
 
             // sales tab Item 

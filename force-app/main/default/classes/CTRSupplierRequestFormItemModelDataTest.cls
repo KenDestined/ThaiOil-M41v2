@@ -84,7 +84,9 @@ public class CTRSupplierRequestFormItemModelDataTest {
                                                     Street3EN__c,
                                                     Street4EN__c,
                                                     GroupKeyAccountKeyofBank__c,
-                                                    Street5EN__c FROM CTRRequestFormHeader__c LIMIT 1];
+                                                    Street5EN__c,
+                                                    TradingPartner__r.Code__c
+                                                 FROM CTRRequestFormHeader__c LIMIT 1];
         CTRRequestFormItem__c mRequestItem = [SELECT ID, GatewayId__c,Customer__r.SupplierNumber__c,PurchasingOrganization__c,
                                                 Incoterms__c,
                                                 Incoterms2__c,
@@ -103,7 +105,8 @@ public class CTRSupplierRequestFormItemModelDataTest {
                                                 WHTaxCountry__c,
                                                 Recty1__c,
                                                 Recty2__c,
-                                                Chkdoubleinv__c
+                                                Chkdoubleinv__c,
+                                                CompanyCodeTX__c
                                                 FROM CTRRequestFormItem__c LIMIT 1];
         Test.startTest();
         CTRSupplierRequestFormItemModelData.SetupJsonForSupplierDataModel(mRequestHeader, mRequestItem, 'General', 'TX','Test');

@@ -40,6 +40,9 @@
         	component.find("MobileCountryCode__c").focus();
         }
     },
+    handleSubmit : function(component,event,helper) {
+        return;
+    },
     handleSuccess : function(component,event,helper) {
         var queryString = window.location.search;
         var urlParams = new URLSearchParams(queryString);

@@ -860,14 +860,14 @@
         <name>is_Approved</name>
         <label>is Approved</label>
         <locationX>1147</locationX>
-        <locationY>782</locationY>
+        <locationY>783</locationY>
         <defaultConnector>
             <targetReference>is_Approved_and_manage_DestinationCountryAndShareholder</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Approved_for_Approval_Step</name>
-            <conditionLogic>1 AND 2 AND 3 AND 4 AND 5 AND 6 AND (7 OR 8 OR 9 OR 10)</conditionLogic>
+            <conditionLogic>((1 AND 2) OR (11 AND 12) OR (13 AND 14)) AND 3 AND 4 AND 5 AND 6 AND (7 OR 8 OR 9 OR 10)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.SAPNumber__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -904,7 +904,7 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>$Record.CTRRequestFormHeader__c</leftValueReference>
+                <leftValueReference>$Record.CTRRequestFormHeader__r.LastName__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
@@ -938,6 +938,34 @@
                     <stringValue>CustomerEditInfo</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPCustomerCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPCustomerCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPSupplierCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPSupplierCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_Common_Contact_Info</targetReference>
             </connector>
@@ -955,7 +983,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Approved_for_Approval_Step_0_0</name>
-            <conditionLogic>1 AND 2 AND 3 AND 4 AND (5 OR 6 OR 7 OR 8 OR 9 OR 10)</conditionLogic>
+            <conditionLogic>((1 AND 2) OR (11 AND 12) OR (13 AND 14)) AND 3 AND 4 AND (5 OR 6 OR 7 OR 8 OR 9 OR 10)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.SAPNumber__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -1026,6 +1054,34 @@
                     <stringValue>SupplierExtend</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPCustomerCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPCustomerCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPSupplierCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPSupplierCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_Shipping_Country</targetReference>
             </connector>
@@ -1040,7 +1096,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Approved_for_Approval_Step_0</name>
-            <conditionLogic>1 AND 2 AND 3 AND 4 AND 5 AND  (6 OR 7)</conditionLogic>
+            <conditionLogic>((1 AND 2) OR (8 AND 9) OR (10 AND 11)) AND 3 AND 4 AND 5 AND  (6 OR 7)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.SAPNumber__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -1088,6 +1144,34 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>SupplierExtend</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPCustomerCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPCustomerCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPSupplierCode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NonSAPSupplierCode__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>

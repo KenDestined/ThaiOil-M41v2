@@ -181,8 +181,55 @@ public with sharing class CTRSharPointFileController
         System.debug(mFileTitle);
         System.debug(mFileData);
         System.debug(mToken);
-        string form64 = '';
+        Http http = new Http();
+        HttpRequest request = ManageFileCallout ( mFolderName,  mPath,  mEndPoint,  mFileTitle ,  mFileData,  mToken);
+        // string form64 = '';
 
+        // form64 += CTRHttpFormBuilder.WriteBoundary();
+        // form64 += CTRHttpFormBuilder.WriteBodyParameter('namefolder', mPath);
+        // // form64 += CTRHttpFormBuilder.WriteBodyParameter('namefolder', mFolderName+mPath);
+        // form64 += CTRHttpFormBuilder.WriteBoundary();
+
+        // System.debug('Name:'+mFileTitle);
+        // System.debug('mFileBody:'+mFileData);
+
+        // CTRHttpFormBuilder.WriteFileResult result = CTRHttpFormBuilder.WriteFile('files', mFileTitle, 'multipart/form-data; charset="UTF-8"; boundary="'+BOUNDARY+'"', mFileData);
+        // form64 += result.Content; 
+        // form64 += CTRHttpFormBuilder.WriteBoundary(result.EndingType);
+        // blob mBlob = EncodingUtil.base64Decode(form64);
+        // System.debug('blob:'+mBlob);
+
+        // Http http = new Http();
+        // HttpRequest request = new HttpRequest();
+        // request.setEndpoint(mEndPoint);
+
+        // //request.setEndpoint('https://ctr-dev-dev-266ee3f00154.herokuapp.com/sharepoint/uploadfile');
+        // request.setHeader('Authorization', 'Bearer '+mToken);
+        // request.setMethod('POST');
+        // request.setHeader('Content-Type', 'multipart/form-data; charset="UTF-8"; boundary="'+BOUNDARY+'"');
+
+        // request.setBodyAsBlob(mBlob);
+        // request.setTimeout(120000); 
+        // System.debug('http: '+request);
+
+        HttpResponse response;
+        if(!Test.isRunningTest()){
+            response = http.send(request);
+
+            // Parse the JSON response
+            System.debug('The status code : ' + response.getStatusCode());
+            System.debug('The response body : ' + response.getBody());
+
+        }
+
+
+        // return response;
+    }
+
+    public static HttpRequest ManageFileCallout(String mFolderName, String mPath, String mEndPoint, String mFileTitle , Blob mFileData, String mToken)
+    {
+        string form64 = '';
+        System.debug('mPath: '+mPath);
         form64 += CTRHttpFormBuilder.WriteBoundary();
         form64 += CTRHttpFormBuilder.WriteBodyParameter('namefolder', mPath);
         // form64 += CTRHttpFormBuilder.WriteBodyParameter('namefolder', mFolderName+mPath);
@@ -209,19 +256,7 @@ public with sharing class CTRSharPointFileController
         request.setBodyAsBlob(mBlob);
         request.setTimeout(120000); 
         System.debug('http: '+request);
-
-        HttpResponse response;
-        if(!Test.isRunningTest()){
-            response = http.send(request);
-
-            // Parse the JSON response
-            System.debug('The status code : ' + response.getStatusCode());
-            System.debug('The response body : ' + response.getBody());
-
-        }
-
-
-        // return response;
+        return request;
     }
 
     public static void DownloadSharePoint(String mFolder, String mFileName)

@@ -84,12 +84,29 @@ public class CTRTriggerWebServiceQueueableTest {
         
         CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
 
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "success", "message": "Mocked response"}');
+        mapResponse.put('status_code', '200');
+
+        // Simulate queueable execution
+        Test.startTest();
+        CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Sale', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
+        );
+        System.enqueueJob(queueable);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testQueueable() {
+        
+        CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+
         // Simulate queueable execution
         Test.startTest();
         CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
             '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Sale', reqItem.Id, 'TestGatewayId'
         );
-        System.enqueueJob(queueable);
         Test.stopTest();
     }
     
@@ -98,11 +115,14 @@ public class CTRTriggerWebServiceQueueableTest {
         Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseFailedMock());
         
         CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "error", "message": "Mocked error response"}');
+        mapResponse.put('status_code', '400');
 
         // Simulate queueable execution
         Test.startTest();
         CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
-            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Sale', reqItem.Id, 'TestGatewayId'
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Sale', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
         );
         System.enqueueJob(queueable);
         Test.stopTest();
@@ -113,11 +133,14 @@ public class CTRTriggerWebServiceQueueableTest {
         Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseSuccessMock());
         
         CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "success", "message": "Mocked response"}');
+        mapResponse.put('status_code', '200');
 
         // Simulate queueable execution
         Test.startTest();
         CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
-            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'AdditionalInfo', reqItem.Id, 'TestGatewayId'
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'AdditionalInfo', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
         );
         System.enqueueJob(queueable);
         Test.stopTest();
@@ -128,11 +151,86 @@ public class CTRTriggerWebServiceQueueableTest {
         Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseFailedMock());
         
         CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "error", "message": "Mocked error response"}');
+        mapResponse.put('status_code', '400');
 
         // Simulate queueable execution
         Test.startTest();
         CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
-            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'AdditionalInfo', reqItem.Id, 'TestGatewayId'
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'AdditionalInfo', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
+        );
+        System.enqueueJob(queueable);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testQueueableExecutionBlockSuccess() {
+        Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseSuccessMock());
+        
+        CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "success", "message": "Mocked response"}');
+        mapResponse.put('status_code', '200');
+
+        // Simulate queueable execution
+        Test.startTest();
+        CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Block', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
+        );
+        System.enqueueJob(queueable);
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testQueueableExecutionBlockFail() {
+        Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseFailedMock());
+        
+        CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "error", "message": "Mocked error response"}');
+        mapResponse.put('status_code', '400');
+
+        // Simulate queueable execution
+        Test.startTest();
+        CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Block', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
+        );
+        System.enqueueJob(queueable);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testQueueableExecutionEditSuccess() {
+        Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseSuccessMock());
+        
+        CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "success", "message": "Mocked response"}');
+        mapResponse.put('status_code', '200');
+
+        // Simulate queueable execution
+        Test.startTest();
+        CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Edit', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
+        );
+        System.enqueueJob(queueable);
+        Test.stopTest();
+    }
+    
+    @isTest
+    static void testQueueableExecutionEditFail() {
+        Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseFailedMock());
+        
+        CTRRequestFormItem__c reqItem = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "error", "message": "Mocked error response"}');
+        mapResponse.put('status_code', '400');
+
+        // Simulate queueable execution
+        Test.startTest();
+        CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'Edit', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
         );
         System.enqueueJob(queueable);
         Test.stopTest();
@@ -143,11 +241,14 @@ public class CTRTriggerWebServiceQueueableTest {
         Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseSuccessMock());
         
         Lead reqItem = [SELECT Id FROM Lead LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "success", "message": "Mocked response"}');
+        mapResponse.put('status_code', '200');
 
         // Simulate queueable execution
         Test.startTest();
         CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
-            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'NewsSharedHolder', reqItem.Id, 'TestGatewayId'
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'NewsSharedHolder', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
         );
         System.enqueueJob(queueable);
         
@@ -159,11 +260,14 @@ public class CTRTriggerWebServiceQueueableTest {
         Test.setMock(HttpCalloutMock.class, new CTRTriggerWebServiceQueueableTest.ResponseFailedMock());
         
         Lead reqItem = [SELECT Id FROM Lead LIMIT 1];
+        Map<String,Object> mapResponse = new Map<String,Object>();
+        mapResponse.put('body', '{"status": "error", "message": "Mocked error response"}');
+        mapResponse.put('status_code', '400');
 
         // Simulate queueable execution
         Test.startTest();
         CTRTriggerWebServiceQueueable queueable = new CTRTriggerWebServiceQueueable(
-            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'NewsSharedHolder', reqItem.Id, 'TestGatewayId'
+            '{"input1": "sample"}', 'TestToken', 'https:\\test.enpoint.com', 'NewsSharedHolder', reqItem.Id, 'TestGatewayId', JSON.serialize(mapResponse)
         );
         System.enqueueJob(queueable);
         Test.stopTest();

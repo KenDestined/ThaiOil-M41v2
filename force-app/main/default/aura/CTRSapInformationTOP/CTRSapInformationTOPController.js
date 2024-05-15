@@ -29,6 +29,7 @@
         else
         {
             component.set('v.DistributionChannelList', component.get('v.AllDistributionChannelList'));
+            component.set('v.DisabledDistribution',true);
         }
 
         if(component.get('v.SentGeneralView'))
@@ -64,7 +65,7 @@
     },
     handleAddJsonItem: function(component, event, helper) 
     {
-        if(component.get('v.recordTypeName').includes('Edit'))
+        if(component.get('v.recordTypeName').includes('Edit') || component.get('v.recordTypeName').includes('Extend'))
         {
             helper.addFieldChangeToJson(component,event,'Item');
         }

@@ -3,8 +3,8 @@
     <actionCalls>
         <name>CallEditCounterpartyApprovalProcess</name>
         <label>Call Edit Counterparty Approval Process</label>
-        <locationX>380</locationX>
-        <locationY>2282</locationY>
+        <locationX>1029</locationX>
+        <locationY>2090</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
         <connector>
@@ -38,7 +38,7 @@
         <inputParameters>
             <name>processDefinitionNameOrId</name>
             <value>
-                <stringValue>CTR_TOP_Edit_TRCR_FALB_SH_Approve</stringValue>
+                <stringValue>CTR_TOP_Edit_TRCR_FALB_SH_Approve2</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
@@ -55,14 +55,58 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
-        <name>SendBellNotificationtoLABIXSH</name>
-        <label>Send Bell Notification to LABIX S/H</label>
-        <locationX>380</locationX>
-        <locationY>2714</locationY>
+        <name>SendBellNotificationtoFATXSH</name>
+        <label>Send Bell Notification to TXFA S/H</label>
+        <locationX>1161</locationX>
+        <locationY>2630</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
-            <targetReference>SendEmailtoAllLABIX</targetReference>
+            <targetReference>SendEmailtoTXTXFASH</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>GetCustomNotification.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>RecipientSHId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>FmlNotifySubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>FmlNotifybody</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetId</name>
+            <value>
+                <elementReference>VarTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>customNotificationAction</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendBellNotificationtoLABIXSH</name>
+        <label>Send Bell Notification to LABIX S/H</label>
+        <locationX>897</locationX>
+        <locationY>2522</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>SendEmailtoLABIXFALB</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -101,12 +145,12 @@
     <actionCalls>
         <name>SendBellNotificationtoTOPSH</name>
         <label>Send Bell Notification to TOP S/H</label>
-        <locationX>116</locationX>
-        <locationY>2714</locationY>
+        <locationX>633</locationX>
+        <locationY>2522</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
-            <targetReference>SendEmailtoAllTOP</targetReference>
+            <targetReference>SendEmailtoTOPTRCR</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -143,14 +187,14 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
-        <name>SendEmailtoAllLABIX</name>
-        <label>Send Email to All LABIX</label>
-        <locationX>380</locationX>
-        <locationY>2822</locationY>
+        <name>SendEmailtoLABIXFALB</name>
+        <label>Send Email to LABIX FALB</label>
+        <locationX>897</locationX>
+        <locationY>2630</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
-            <targetReference>SendEmailtoLABIXSH</targetReference>
+            <targetReference>SendEmailtoLABIXFALBSH</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -160,130 +204,15 @@
             </value>
         </inputParameters>
         <inputParameters>
-            <name>senderAddress</name>
+            <name>senderType</name>
             <value>
-                <stringValue>DefaultWorkflowUser</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <elementReference>LABIXEmailTitle</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>LABIXEmailbody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>sendRichBody</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>useLineBreaks</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>relatedRecordId</name>
-            <value>
-                <elementReference>VarTargetRecord</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>logEmailOnSend</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>SendEmailtoAllTOP</name>
-        <label>Send Email to All TOP</label>
-        <locationX>116</locationX>
-        <locationY>2822</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>SendEmailtoTOPSH</targetReference>
-        </connector>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailAddressesArray</name>
-            <value>
-                <elementReference>RecipientEmail</elementReference>
+                <stringValue>OrgWideEmailAddress</stringValue>
             </value>
         </inputParameters>
         <inputParameters>
             <name>senderAddress</name>
             <value>
-                <stringValue>DefaultWorkflowUser</stringValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailSubject</name>
-            <value>
-                <elementReference>TOPEmailTitle</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>emailBody</name>
-            <value>
-                <elementReference>TOPEmailBody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>sendRichBody</name>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>useLineBreaks</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>relatedRecordId</name>
-            <value>
-                <elementReference>VarTargetRecord</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>logEmailOnSend</name>
-            <value>
-                <booleanValue>false</booleanValue>
-            </value>
-        </inputParameters>
-        <nameSegment>emailSimple</nameSegment>
-        <versionSegment>1</versionSegment>
-    </actionCalls>
-    <actionCalls>
-        <name>SendEmailtoLABIXSH</name>
-        <label>Send Email to LABIX S/H</label>
-        <locationX>380</locationX>
-        <locationY>2930</locationY>
-        <actionName>emailSimple</actionName>
-        <actionType>emailSimple</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>emailAddressesArray</name>
-            <value>
-                <elementReference>RecipientSHEmail</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>senderAddress</name>
-            <value>
-                <stringValue>DefaultWorkflowUser</stringValue>
+                <elementReference>GetOrgwideEmail.OrgWideEmailAddress__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -326,10 +255,10 @@
         <versionSegment>1</versionSegment>
     </actionCalls>
     <actionCalls>
-        <name>SendEmailtoTOPSH</name>
-        <label>Send Email to TOP S/H</label>
-        <locationX>116</locationX>
-        <locationY>2930</locationY>
+        <name>SendEmailtoLABIXFALBSH</name>
+        <label>Send Email to LABIX FALB S/H</label>
+        <locationX>897</locationX>
+        <locationY>2738</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -340,9 +269,83 @@
             </value>
         </inputParameters>
         <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
             <name>senderAddress</name>
             <value>
-                <stringValue>DefaultWorkflowUser</stringValue>
+                <elementReference>GetOrgwideEmail.OrgWideEmailAddress__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>LABIXEmailTitleSH</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>LABIXEmailBodySH</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>useLineBreaks</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>VarTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmailtoTOPTRCR</name>
+        <label>Send Email to TOP TRCR</label>
+        <locationX>633</locationX>
+        <locationY>2630</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>SendEmailtoTOPTRCRSH</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddressesArray</name>
+            <value>
+                <elementReference>RecipientEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>GetOrgwideEmail.OrgWideEmailAddress__c</elementReference>
             </value>
         </inputParameters>
         <inputParameters>
@@ -384,35 +387,135 @@
         <nameSegment>emailSimple</nameSegment>
         <versionSegment>1</versionSegment>
     </actionCalls>
+    <actionCalls>
+        <name>SendEmailtoTOPTRCRSH</name>
+        <label>Send Email to TOP TRCR S/H</label>
+        <locationX>633</locationX>
+        <locationY>2738</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddressesArray</name>
+            <value>
+                <elementReference>RecipientSHEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <stringValue>OrgWideEmailAddress</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>GetOrgwideEmail.OrgWideEmailAddress__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>TOPEmailTitleSH</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>TOPEmailBodySH</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>useLineBreaks</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>relatedRecordId</name>
+            <value>
+                <elementReference>VarTargetRecord</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>logEmailOnSend</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>SendEmailtoTXTXFASH</name>
+        <label>Send Email to TX TXFA S/H</label>
+        <locationX>1161</locationX>
+        <locationY>2738</locationY>
+        <actionName>CTRFlowEmailCTR</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>mEmailCCList</name>
+            <value>
+                <elementReference>RecipientEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mEmailToList</name>
+            <value>
+                <elementReference>RecipientSHEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mRecordId</name>
+            <value>
+                <elementReference>GetRequestItemRecord.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>mTemplateId</name>
+            <value>
+                <elementReference>GetEmailTemplate_TX.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>CTRFlowEmailCTR</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
     <apiVersion>59.0</apiVersion>
     <assignments>
-        <name>AssignCMVP</name>
-        <label>Assign CMVP</label>
-        <locationX>512</locationX>
-        <locationY>1166</locationY>
+        <name>AssignFALB</name>
+        <label>Assign FALB</label>
+        <locationX>974</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>RecipientId</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>GetRequestItemRecord.OwnersCMVP__r.Id</elementReference>
+                <elementReference>FindFALB.varTargetIds</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>RecipientEmail</assignToReference>
             <operator>Add</operator>
             <value>
-                <elementReference>GetRequestItemRecord.OwnersCMVP__r.Email</elementReference>
+                <elementReference>FindFALB.varTargetEmails</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>CheckBusinessUnit_AssignTRCRSH</targetReference>
+            <targetReference>GetFALBSHMetadata</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignFALBSH</name>
         <label>Assign FALB S/H</label>
-        <locationX>578</locationX>
-        <locationY>1790</locationY>
+        <locationX>842</locationX>
+        <locationY>1430</locationY>
         <assignmentItems>
             <assignToReference>RecipientSHId</assignToReference>
             <operator>Add</operator>
@@ -432,56 +535,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>AssignOwner</name>
-        <label>Assign Owner</label>
-        <locationX>512</locationX>
-        <locationY>866</locationY>
-        <assignmentItems>
-            <assignToReference>RecipientId</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>GetRequestItemRecord.OwnerId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>RecipientEmail</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>GetRequestItemRecord.Owner:User.Email</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>CheckOwnerCMVP</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
-        <name>AssignOwnerSH</name>
-        <label>Assign Owner S/H</label>
-        <locationX>512</locationX>
-        <locationY>566</locationY>
-        <assignmentItems>
-            <assignToReference>RecipientId</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>GetRequestItemRecord.OwnersSectionHead__r.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>RecipientEmail</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>GetRequestItemRecord.OwnersSectionHead__r.Email</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>CheckOwner</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>AssignTargetRecord</name>
         <label>Assign Target Record</label>
-        <locationX>644</locationX>
-        <locationY>350</locationY>
+        <locationX>1359</locationX>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>VarTargetRecord</assignToReference>
             <operator>Add</operator>
@@ -490,14 +547,83 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>CheckOwnerSH</targetReference>
+            <targetReference>CheckBusinessUnit_AssignTRCRSH</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>AssignTrader</name>
+        <label>Assign Trader</label>
+        <locationX>1634</locationX>
+        <locationY>1214</locationY>
+        <assignmentItems>
+            <assignToReference>RecipientEmail</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.Owner:User.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecipientId</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.Owner:User.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckTraderSH</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>AssignTraderSH</name>
+        <label>Assign Trader S/H</label>
+        <locationX>1634</locationX>
+        <locationY>1514</locationY>
+        <assignmentItems>
+            <assignToReference>RecipientEmail</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.OwnersSectionHead__r.Email</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecipientId</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.Owner:User.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckRecipients</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>AssignTRCR</name>
+        <label>Assign TRCR</label>
+        <locationX>182</locationX>
+        <locationY>998</locationY>
+        <assignmentItems>
+            <assignToReference>RecipientId</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FindTRCR.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecipientEmail</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FindTRCR.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GetTRCRSHMetadata</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignTRCRSH</name>
         <label>Assign TRCR S/H</label>
         <locationX>50</locationX>
-        <locationY>1790</locationY>
+        <locationY>1430</locationY>
         <assignmentItems>
             <assignToReference>RecipientSHId</assignToReference>
             <operator>Add</operator>
@@ -516,11 +642,34 @@
             <targetReference>CheckRecipients</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>AssignTXFASH</name>
+        <label>Assign TXFA S/H</label>
+        <locationX>1766</locationX>
+        <locationY>998</locationY>
+        <assignmentItems>
+            <assignToReference>RecipientSHId</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FindTXFASH.varTargetIds</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>RecipientSHEmail</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>FindTXFASH.varTargetEmails</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CheckTrader</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>CheckBusinessUnit_AssignTRCRSH</name>
         <label>Check Business Unit</label>
-        <locationX>644</locationX>
-        <locationY>1358</locationY>
+        <locationX>1359</locationX>
+        <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>TOP_TRCRSH</name>
@@ -533,12 +682,12 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>GetTRCRSHMetadata</targetReference>
+                <targetReference>GetTRCRMetadata</targetReference>
             </connector>
             <label>TOP</label>
         </rules>
         <rules>
-            <name>LABIX_TRCRSH</name>
+            <name>LABIX_FALBSH</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>GetRequestItemRecord.BusinessUnit__c</leftValueReference>
@@ -548,16 +697,31 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>GetFALBSHMetadata</targetReference>
+                <targetReference>GetFALBMetadata</targetReference>
             </connector>
             <label>LABIX</label>
+        </rules>
+        <rules>
+            <name>TX_FALBSH</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetTXFASHMetadata</targetReference>
+            </connector>
+            <label>TX</label>
         </rules>
     </decisions>
     <decisions>
         <name>CheckBusinessUnit_TRCRSHNoReview</name>
         <label>Check Business Unit</label>
-        <locationX>380</locationX>
-        <locationY>2606</locationY>
+        <locationX>1029</locationX>
+        <locationY>2414</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>TOP_TRCRSHNoReview</name>
@@ -575,7 +739,7 @@
             <label>TOP</label>
         </rules>
         <rules>
-            <name>LABIX_TRCRNoReview</name>
+            <name>LABIX_FALBSHNoReview</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>GetRequestItemRecord.BusinessUnit__c</leftValueReference>
@@ -589,12 +753,56 @@
             </connector>
             <label>LABIX</label>
         </rules>
+        <rules>
+            <name>TX_TXFASHNoReview</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.BusinessUnit__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>TX</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetEmailTemplate_TX</targetReference>
+            </connector>
+            <label>TX</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckFALB</name>
+        <label>Check FALB</label>
+        <locationX>1172</locationX>
+        <locationY>890</locationY>
+        <defaultConnectorLabel>FALB = Null</defaultConnectorLabel>
+        <rules>
+            <name>FALBNotNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FindFALB.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FindFALB.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignFALB</targetReference>
+            </connector>
+            <label>FALB != Null</label>
+        </rules>
     </decisions>
     <decisions>
         <name>CheckFALBSH</name>
         <label>Check FALB S/H</label>
-        <locationX>710</locationX>
-        <locationY>1682</locationY>
+        <locationX>974</locationX>
+        <locationY>1322</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>FALBSHNotNull</name>
@@ -620,85 +828,10 @@
         </rules>
     </decisions>
     <decisions>
-        <name>CheckOwner</name>
-        <label>Check Owner</label>
-        <locationX>644</locationX>
-        <locationY>758</locationY>
-        <defaultConnector>
-            <targetReference>CheckOwnerCMVP</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>OwnerNotNull</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>GetRequestItemRecord.OwnerId</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>AssignOwner</targetReference>
-            </connector>
-            <label>Owner != Null</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>CheckOwnerCMVP</name>
-        <label>Check Owner CMVP</label>
-        <locationX>644</locationX>
-        <locationY>1058</locationY>
-        <defaultConnector>
-            <targetReference>CheckBusinessUnit_AssignTRCRSH</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>OwnerCMVPNotNull</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>GetRequestItemRecord.OwnersCMVP__r.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>AssignCMVP</targetReference>
-            </connector>
-            <label>Owner CMVP != Null</label>
-        </rules>
-    </decisions>
-    <decisions>
-        <name>CheckOwnerSH</name>
-        <label>Check Owner S/H</label>
-        <locationX>644</locationX>
-        <locationY>458</locationY>
-        <defaultConnector>
-            <targetReference>CheckOwner</targetReference>
-        </defaultConnector>
-        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
-        <rules>
-            <name>OwnerSHNotNull</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>GetRequestItemRecord.OwnersSectionHead__r.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>AssignOwnerSH</targetReference>
-            </connector>
-            <label>Owner S/H != Null</label>
-        </rules>
-    </decisions>
-    <decisions>
         <name>CheckRecipients</name>
         <label>Check Recipients</label>
-        <locationX>644</locationX>
-        <locationY>2066</locationY>
+        <locationX>1359</locationX>
+        <locationY>1874</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>RecipientsNotNull</name>
@@ -738,10 +871,103 @@
         </rules>
     </decisions>
     <decisions>
+        <name>CheckTrader</name>
+        <label>Check Trader</label>
+        <locationX>1766</locationX>
+        <locationY>1106</locationY>
+        <defaultConnector>
+            <targetReference>CheckTraderSH</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Trader = Null</defaultConnectorLabel>
+        <rules>
+            <name>TraderNotNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.Owner:User.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.Owner:User.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignTrader</targetReference>
+            </connector>
+            <label>Trader != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckTraderSH</name>
+        <label>Check Trader S/H</label>
+        <locationX>1766</locationX>
+        <locationY>1406</locationY>
+        <defaultConnector>
+            <targetReference>CheckRecipients</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Trader S/H = Null</defaultConnectorLabel>
+        <rules>
+            <name>TraderSHNotNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.OwnersSectionHead__r.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>GetRequestItemRecord.OwnersSectionHead__r.Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignTraderSH</targetReference>
+            </connector>
+            <label>Trader S/H != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>CheckTRCR</name>
+        <label>Check TRCR</label>
+        <locationX>380</locationX>
+        <locationY>890</locationY>
+        <defaultConnectorLabel>TRCR = Null</defaultConnectorLabel>
+        <rules>
+            <name>TRCRNotNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FindTRCR.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FindTRCR.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignTRCR</targetReference>
+            </connector>
+            <label>TRCR != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>CheckTRCRSH</name>
         <label>Check TRCR S/H</label>
         <locationX>182</locationX>
-        <locationY>1682</locationY>
+        <locationY>1322</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>TRCRSHNotNull</name>
@@ -766,7 +992,36 @@
             <label>TRCR S/H != Null</label>
         </rules>
     </decisions>
-    <description>25/03/24 Update email</description>
+    <decisions>
+        <name>CheckTXFASH</name>
+        <label>Check TXFA S/H</label>
+        <locationX>1920</locationX>
+        <locationY>890</locationY>
+        <defaultConnectorLabel>TXFA S/H = Null</defaultConnectorLabel>
+        <rules>
+            <name>TXFASHNotNull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FindTXFASH.varTargetIds</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>FindTXFASH.varTargetEmails</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>AssignTXFASH</targetReference>
+            </connector>
+            <label>TXFA S/H != Null</label>
+        </rules>
+    </decisions>
+    <description>08/05/2024 Add assign trader id and trader s/h id to recipientId.</description>
     <environments>Default</environments>
     <formulas>
         <name>CheckRecordType</name>
@@ -796,7 +1051,7 @@
     <formulas>
         <name>LABIXEmailTitleSH</name>
         <dataType>String</dataType>
-        <expression>&apos;[FYA]&apos;+ &apos;[&apos; + {!GetRequestItemRecord.SubBU__c} + &apos;]:&apos; + &apos; FALB request to edit information: &apos; + {!GetRequestItemRecord.CompanyName__c}</expression>
+        <expression>&apos;[FYA]&apos;+ &apos;[&apos; + {!GetRequestItemRecord.SubBU__c} + &apos;]:&apos; + &apos; FALB request to edit information: &apos; + {!GetRequestItemRecord.Customer__r.Name}</expression>
     </formulas>
     <formulas>
         <name>ProcessInstanceLinkFormula</name>
@@ -816,7 +1071,12 @@
     <formulas>
         <name>TOPEmailTitleSH</name>
         <dataType>String</dataType>
-        <expression>&apos;[FYA]&apos;+ &apos;[&apos; + {!GetRequestItemRecord.SubBU__c} + &apos;]:&apos; + &apos; TRCR request to edit information: &apos; + {!GetRequestItemRecord.CompanyName__c}</expression>
+        <expression>&apos;[FYA]&apos;+ &apos;[&apos; + {!GetRequestItemRecord.SubBU__c} + &apos;]:&apos; + &apos; TRCR request to edit information: &apos; + {!GetRequestItemRecord.Customer__r.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>TXEmailTitleSH</name>
+        <dataType>String</dataType>
+        <expression>&apos;[FYA]&apos;+ &apos;[&apos; + {!GetRequestItemRecord.SubBU__c} + &apos;]:&apos; + &apos; TXFA request to edit information: &apos; + {!GetRequestItemRecord.Customer__r.Name}</expression>
     </formulas>
     <interviewLabel>CTRTRCRSubmitEditfCounterPartyforApproval {!$Flow.CurrentDateTime}</interviewLabel>
     <label>CTRTRCRSubmitEditfCounterPartyforApproval</label>
@@ -842,11 +1102,11 @@
     <recordLookups>
         <name>GetCustomNotification</name>
         <label>Get Custom Notification</label>
-        <locationX>644</locationX>
+        <locationX>1359</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>AssignTargetRecord</targetReference>
+            <targetReference>GetOrgwideEmail</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -861,10 +1121,80 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>GetEmailTemplate_TX</name>
+        <label>Get Email Template</label>
+        <locationX>1161</locationX>
+        <locationY>2522</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>SendBellNotificationtoFATXSH</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CTRTXSubmitFASHEditfCounterPartyforApproval</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>EmailTemplate</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetFALBMetadata</name>
+        <label>Get FALB Metadata</label>
+        <locationX>1172</locationX>
+        <locationY>674</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>FindFALB</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>VerifyDocuments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>GetFALBSHMetadata</name>
         <label>Get FALB S/H Metadata</label>
-        <locationX>710</locationX>
-        <locationY>1466</locationY>
+        <locationX>974</locationX>
+        <locationY>1106</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>FindFALBSH</targetReference>
@@ -910,10 +1240,33 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>GetOrgwideEmail</name>
+        <label>Get Org-wide Email</label>
+        <locationX>1359</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>AssignTargetRecord</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrgWideEmailAddress__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CTRConfig__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>OrgWideEmailAddress__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>GetProcessInstance</name>
         <label>Get Process Instance</label>
-        <locationX>380</locationX>
-        <locationY>2390</locationY>
+        <locationX>1029</locationX>
+        <locationY>2198</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetProcessInstanceWorkItem</targetReference>
@@ -933,8 +1286,8 @@
     <recordLookups>
         <name>GetProcessInstanceWorkItem</name>
         <label>Get Process Instance Work Item</label>
-        <locationX>380</locationX>
-        <locationY>2498</locationY>
+        <locationX>1029</locationX>
+        <locationY>2306</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CheckBusinessUnit_TRCRSHNoReview</targetReference>
@@ -964,7 +1317,7 @@
     <recordLookups>
         <name>GetRequestItemRecord</name>
         <label>Get Request Item Record</label>
-        <locationX>644</locationX>
+        <locationX>1359</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -983,10 +1336,59 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
+        <name>GetTRCRMetadata</name>
+        <label>Get TRCR Metadata</label>
+        <locationX>380</locationX>
+        <locationY>674</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>FindTRCR</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>VerifyDocuments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Credit</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>GetTRCRSHMetadata</name>
         <label>Get TRCR S/H Metadata</label>
         <locationX>182</locationX>
-        <locationY>1466</locationY>
+        <locationY>1106</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>FindTRCRSH</targetReference>
@@ -1031,12 +1433,62 @@
         <object>CTRActorInProcess__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <name>GetTXFASHMetadata</name>
+        <label>Get TXFA S/H Metadata</label>
+        <locationX>1920</locationX>
+        <locationY>674</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>FindTXFASH</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Process__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>InformChangeInformation</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Step__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>CreditHead</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SalesOrg__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.SubBU__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>fmlCountry</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetRequestItemRecord.fmlAccountTypeName__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>CTRActorInProcess__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
     <screens>
         <description>Confirmation to Submit</description>
         <name>ConfirmationforSubmitforApproval</name>
         <label>Confirmation for Submit for Approval</label>
-        <locationX>380</locationX>
-        <locationY>2174</locationY>
+        <locationX>1029</locationX>
+        <locationY>1982</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1061,7 +1513,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>518</locationX>
+        <locationX>1233</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>GetRequestItemRecord</targetReference>
@@ -1069,10 +1521,27 @@
     </start>
     <status>Active</status>
     <subflows>
+        <name>FindFALB</name>
+        <label>Find FALB</label>
+        <locationX>1172</locationX>
+        <locationY>782</locationY>
+        <connector>
+            <targetReference>CheckFALB</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>GetFALBMetadata</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <name>FindFALBSH</name>
         <label>Find FALB S/H</label>
-        <locationX>710</locationX>
-        <locationY>1574</locationY>
+        <locationX>974</locationX>
+        <locationY>1214</locationY>
         <connector>
             <targetReference>CheckFALBSH</targetReference>
         </connector>
@@ -1086,10 +1555,27 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
     <subflows>
+        <name>FindTRCR</name>
+        <label>Find TRCR</label>
+        <locationX>380</locationX>
+        <locationY>782</locationY>
+        <connector>
+            <targetReference>CheckTRCR</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>GetTRCRMetadata</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
+    <subflows>
         <name>FindTRCRSH</name>
         <label>Find TRCR S/H</label>
         <locationX>182</locationX>
-        <locationY>1574</locationY>
+        <locationY>1214</locationY>
         <connector>
             <targetReference>CheckTRCRSH</targetReference>
         </connector>
@@ -1102,6 +1588,23 @@
         </inputAssignments>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </subflows>
+    <subflows>
+        <name>FindTXFASH</name>
+        <label>Find TXFA S/H</label>
+        <locationX>1920</locationX>
+        <locationY>782</locationY>
+        <connector>
+            <targetReference>CheckTXFASH</targetReference>
+        </connector>
+        <flowName>CTRSubFlowGetPISUsers</flowName>
+        <inputAssignments>
+            <name>varMetaUsers</name>
+            <value>
+                <elementReference>GetTXFASHMetadata</elementReference>
+            </value>
+        </inputAssignments>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </subflows>
     <textTemplates>
         <name>LABIXEmailbody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
@@ -1109,8 +1612,8 @@
     </textTemplates>
     <textTemplates>
         <name>LABIXEmailBodySH</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Dear &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;{!GetRequestItemRecord.CreditOwnerSectionHead__r.FirstName} {!GetRequestItemRecord.CreditOwnerSectionHead__r.LastName},&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Please kindly approve to edit information of {!GetRequestItemRecord.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Please see the detail and proceed via&lt;/span&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProcessInstanceLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px;&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Dear &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;{!GetRequestItemRecord.CreditOwnerSectionHead__r.FirstName} {!GetRequestItemRecord.CreditOwnerSectionHead__r.LastName},&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;Please kindly approve to edit information of {!GetRequestItemRecord.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Please see the detail and proceed via&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProcessInstanceLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Best Regards,&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Counterparties Registration Automated System&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;This is an automatic generated email. Please do not reply to this address.&lt;/span&gt;</text>
     </textTemplates>
     <textTemplates>
         <name>TOPEmailBody</name>
@@ -1120,7 +1623,12 @@
     <textTemplates>
         <name>TOPEmailBodySH</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Dear &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; color: rgb(0, 0, 0); font-size: 12px;&quot;&gt;{!GetRequestItemRecord.CreditOwnerSectionHead__r.FirstName} {!GetRequestItemRecord.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Please kindly approve to edit information of {!GetRequestItemRecord.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-family: sans-serif;&quot;&gt;Please see the detail and proceed via&lt;/span&gt;&amp;nbsp;&lt;a href=&quot;{!ProcessInstanceLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt;.&lt;br&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatic generated email. Please do not reply to this address.</text>
+        <text>&lt;span style=&quot;font-family: sans-serif; font-size: 12px;&quot;&gt;Dear &lt;/span&gt;&lt;span style=&quot;font-family: sans-serif; font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;{!GetRequestItemRecord.CreditOwnerSectionHead__r.FirstName} {!GetRequestItemRecord.CreditOwnerSectionHead__r.LastName},&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Please kindly approve to edit information of {!GetRequestItemRecord.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0);&quot;&gt;Please see the detail and proceed via&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProcessInstanceLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px; color: rgb(0, 0, 0); font-family: sans-serif;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-size: 12px; color: rgb(0, 0, 0); font-family: sans-serif;&quot;&gt;.&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Best Regards,&lt;br&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Counterparties Registration Automated System&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;This is an automatic generated email. Please do not reply to this address.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>TXEmailBodySH</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;span style=&quot;font-size: 12px; font-family: sans-serif;&quot;&gt;Dear &lt;/span&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif; color: rgb(0, 0, 0);&quot;&gt;{!GetRequestItemRecord.CreditOwnerSectionHead__r.FirstName} {!GetRequestItemRecord.CreditOwnerSectionHead__r.LastName},&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-family: sans-serif; font-size: 12px;&quot;&gt;Please kindly approve to edit information of {!GetRequestItemRecord.CTRRequestFormHeader__r.Customer__r.Name}&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px; font-family: sans-serif;&quot;&gt;Please see the detail and proceed via&lt;/span&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;a href=&quot;{!ProcessInstanceLinkFormula}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 12px;&quot;&gt;this link&lt;/a&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;.&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Best Regards,&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;Counterparties Registration Automated System&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size: 12px;&quot;&gt;This is an automatic generated email. Please do not reply to this address.&lt;/span&gt;</text>
     </textTemplates>
     <variables>
         <name>CTRCounterpartyApproval</name>

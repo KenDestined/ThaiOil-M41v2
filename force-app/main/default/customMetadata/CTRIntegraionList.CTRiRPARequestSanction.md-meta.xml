@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Token__c</field>
-        <value xsi:type="xsd:string">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEzWjFtMDAwMDAwUlhWTUVBNCIsInVzZXJuYW1lIjoic2ZpbnRlZ3JhdGlvbkByb3VuZHR3b3NvbHV0aW9ucy5jb20iLCJhY2NvdW50cyI6W10sImlhdCI6MTcxMzg0MTIwNywiZXhwIjoxNzEzODQ0ODA3fQ.JP5wTJJsvZ3f7O3TEiTbo_ADYHJEST7Gpw7DLQLxz8U</value>
+        <value xsi:type="xsd:string">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEzWjFtMDAwMDAwUlhWTUVBNCIsInVzZXJuYW1lIjoic2ZpbnRlZ3JhdGlvbkByb3VuZHR3b3NvbHV0aW9ucy5jb20iLCJhY2NvdW50cyI6W10sImlhdCI6MTcxNTc3NTYwMSwiZXhwIjoxNzE1Nzc5MjAxfQ.tkYMP-QaeSE8HDRNs3BR-WYQEAn0OgaQpdXo4f_aRuU</value>
     </values>
     <values>
         <field>Type__c</field>

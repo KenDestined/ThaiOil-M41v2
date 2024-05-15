@@ -2,9 +2,9 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
         <name>NavigatetoCTRItem_Customer_TOPLABIX</name>
-        <label>=NavigatetoCTRItem</label>
+        <label>NavigatetoCTRItem</label>
         <locationX>886</locationX>
-        <locationY>2162</locationY>
+        <locationY>2270</locationY>
         <actionName>c:CTRNavigateToRecord</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -22,7 +22,7 @@
         <name>NavigatetoCTRItem_Customer_TX</name>
         <label>NavigatetoCTRItem</label>
         <locationX>182</locationX>
-        <locationY>2162</locationY>
+        <locationY>2270</locationY>
         <actionName>c:CTRNavigateToRecord</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -40,7 +40,7 @@
         <name>NavigatetoCTRItem_Supplier_TOPLABIX</name>
         <label>NavigatetoCTRItem</label>
         <locationX>2118</locationX>
-        <locationY>2162</locationY>
+        <locationY>2270</locationY>
         <actionName>c:CTRNavigateToRecord</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -62,7 +62,7 @@
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>NavigatetoCTRItem_Customer_TOPLABIX</targetReference>
+            <targetReference>ConfirmationScreen_Customer_TOPLABIX</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -94,7 +94,7 @@
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>NavigatetoCTRItem_Customer_TX</targetReference>
+            <targetReference>ConfirmationScreen_Customer_TX</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -126,7 +126,7 @@
         <actionName>CTRFlowEmailCTR</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>NavigatetoCTRItem_Supplier_TOPLABIX</targetReference>
+            <targetReference>ConfirmationScreen_Supplier_TOPLABIX</targetReference>
         </connector>
         <flowTransactionModel>Automatic</flowTransactionModel>
         <inputParameters>
@@ -438,7 +438,7 @@
         <locationX>886</locationX>
         <locationY>1646</locationY>
         <defaultConnector>
-            <targetReference>NavigatetoCTRItem_Customer_TOPLABIX</targetReference>
+            <targetReference>ConfirmationScreen_Customer_TOPLABIX</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Missing Recipient Email</defaultConnectorLabel>
         <rules>
@@ -463,7 +463,7 @@
         <locationX>182</locationX>
         <locationY>1646</locationY>
         <defaultConnector>
-            <targetReference>NavigatetoCTRItem_Customer_TX</targetReference>
+            <targetReference>ConfirmationScreen_Customer_TX</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Missing Recipient Email</defaultConnectorLabel>
         <rules>
@@ -488,7 +488,7 @@
         <locationX>2118</locationX>
         <locationY>1646</locationY>
         <defaultConnector>
-            <targetReference>NavigatetoCTRItem_Supplier_TOPLABIX</targetReference>
+            <targetReference>ConfirmationScreen_Supplier_TOPLABIX</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Missing Recipient Email</defaultConnectorLabel>
         <rules>
@@ -658,6 +658,8 @@
             <label>TOP/LABIX</label>
         </rules>
     </decisions>
+    <description>25/04/2024 Test toast message.
+25/04/2024 Add Navigation and Add Display Text and remove toast</description>
     <environments>Default</environments>
     <formulas>
         <name>EmailSubject</name>
@@ -1137,6 +1139,63 @@
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>Confirm</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>ConfirmationScreen_Customer_TOPLABIX</name>
+        <label>ConfirmationScreen</label>
+        <locationX>886</locationX>
+        <locationY>2162</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>NavigatetoCTRItem_Customer_TOPLABIX</targetReference>
+        </connector>
+        <fields>
+            <name>ConfirmationScreenDisplay_Customer_TOPLABIX</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;The request has been submitted to credit team&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>ConfirmationScreen_Customer_TX</name>
+        <label>ConfirmationScreen</label>
+        <locationX>182</locationX>
+        <locationY>2162</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>NavigatetoCTRItem_Customer_TX</targetReference>
+        </connector>
+        <fields>
+            <name>ConfirmationScreenDisplay_Customer_TX</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;The request has been submitted to credit team&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>ConfirmationScreen_Supplier_TOPLABIX</name>
+        <label>ConfirmationScreen</label>
+        <locationX>2118</locationX>
+        <locationY>2162</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>NavigatetoCTRItem_Supplier_TOPLABIX</targetReference>
+        </connector>
+        <fields>
+            <name>ConfirmationScreenDisplay_Supplier_TOPLABIX</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;The request has been submitted to credit team&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
         <showFooter>true</showFooter>
         <showHeader>false</showHeader>
     </screens>

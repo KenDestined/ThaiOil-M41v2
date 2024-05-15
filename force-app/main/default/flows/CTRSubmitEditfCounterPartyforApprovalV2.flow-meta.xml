@@ -4,7 +4,7 @@
         <name>CTREditCounterpartyApproval</name>
         <label>CTREditCounterpartyApproval</label>
         <locationX>50</locationX>
-        <locationY>1430</locationY>
+        <locationY>1538</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
         <connector>
@@ -49,7 +49,7 @@
         <name>SendNotification</name>
         <label>Send Notification</label>
         <locationX>50</locationX>
-        <locationY>1538</locationY>
+        <locationY>1646</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -91,7 +91,7 @@
         <name>assignRecipientId</name>
         <label>assignRecipientId</label>
         <locationX>182</locationX>
-        <locationY>1106</locationY>
+        <locationY>1214</locationY>
         <assignmentItems>
             <assignToReference>recipientId</assignToReference>
             <operator>Add</operator>
@@ -107,7 +107,7 @@
         <name>assignTargetRecord</name>
         <label>assignTargetRecord</label>
         <locationX>182</locationX>
-        <locationY>998</locationY>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
             <operator>Add</operator>
@@ -120,10 +120,35 @@
         </connector>
     </assignments>
     <decisions>
+        <name>checkMetadata</name>
+        <label>checkMetadata</label>
+        <locationX>567</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>WarningNoSectionHeadinsystem_0</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Meta = Null</defaultConnectorLabel>
+        <rules>
+            <name>nullMetadata</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>getSH</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getSHUser</targetReference>
+            </connector>
+            <label>Meta != Null</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>CheckRecipient</name>
         <label>CheckRecipient</label>
         <locationX>182</locationX>
-        <locationY>1214</locationY>
+        <locationY>1322</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>HaveRecipient</name>
@@ -152,7 +177,7 @@
         <name>CheckRecipient_0</name>
         <label>CheckRecipient</label>
         <locationX>380</locationX>
-        <locationY>458</locationY>
+        <locationY>566</locationY>
         <defaultConnector>
             <targetReference>WarningNoSectionHeadinsystem_0</targetReference>
         </defaultConnector>
@@ -173,12 +198,12 @@
             <label>HaveRecipient</label>
         </rules>
     </decisions>
-    <description>[04 Apr 2024] Assign Owner&apos;s Section Head</description>
+    <description>[05 May 2024] Add condition to check user and revise country formula</description>
     <environments>Default</environments>
     <formulas>
         <name>fmlCountry</name>
         <dataType>String</dataType>
-        <expression>IF({!getPreRequest.Country__r.Code__c}=&quot;TH&quot;, &quot;Domestic&quot;, &quot;International&quot;)</expression>
+        <expression>IF({!getPreRequest.CTRRequestFormHeader__r.Country__r.Code__c}=&quot;TH&quot;, &quot;Domestic&quot;, &quot;International&quot;)</expression>
     </formulas>
     <formulas>
         <name>fmlNotifybody</name>
@@ -220,7 +245,7 @@
         <name>GetCustomNotification</name>
         <label>Get Custom Notification</label>
         <locationX>182</locationX>
-        <locationY>890</locationY>
+        <locationY>998</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>assignTargetRecord</targetReference>
@@ -240,7 +265,7 @@
     <recordLookups>
         <name>getPreRequest</name>
         <label>getPreRequest</label>
-        <locationX>380</locationX>
+        <locationX>567</locationX>
         <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -262,7 +287,7 @@
         <name>getRequest</name>
         <label>getRequest</label>
         <locationX>182</locationX>
-        <locationY>782</locationY>
+        <locationY>890</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetCustomNotification</targetReference>
@@ -282,11 +307,11 @@
     <recordLookups>
         <name>getSH</name>
         <label>getSH</label>
-        <locationX>380</locationX>
+        <locationX>567</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>getSHUser</targetReference>
+            <targetReference>checkMetadata</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -341,7 +366,7 @@
         <name>getSHUser</name>
         <label>getSHUser</label>
         <locationX>380</locationX>
-        <locationY>350</locationY>
+        <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CheckRecipient_0</targetReference>
@@ -372,7 +397,7 @@
         <name>UpdateRequestStatus</name>
         <label>Update Request Status</label>
         <locationX>50</locationX>
-        <locationY>1322</locationY>
+        <locationY>1430</locationY>
         <connector>
             <targetReference>CTREditCounterpartyApproval</targetReference>
         </connector>
@@ -402,7 +427,7 @@
         <name>updateSH</name>
         <label>updateSH</label>
         <locationX>182</locationX>
-        <locationY>566</locationY>
+        <locationY>674</locationY>
         <connector>
             <targetReference>ConfirmationforSubmitforApproval</targetReference>
         </connector>
@@ -435,7 +460,7 @@
         <name>ConfirmationforSubmitforApproval</name>
         <label>Confirmation for Submit for Approval</label>
         <locationX>182</locationX>
-        <locationY>674</locationY>
+        <locationY>782</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -460,8 +485,8 @@
     <screens>
         <name>WarningNoSectionHeadinsystem_0</name>
         <label>WarningNoSectionHeadinsystem</label>
-        <locationX>578</locationX>
-        <locationY>566</locationY>
+        <locationX>567</locationX>
+        <locationY>2114</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -475,7 +500,7 @@
         <showHeader>false</showHeader>
     </screens>
     <start>
-        <locationX>254</locationX>
+        <locationX>441</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>getPreRequest</targetReference>

@@ -307,7 +307,7 @@
     <assignments>
         <name>AssignSAPStatusGeneral</name>
         <label>AssignSAPStatusGeneral</label>
-        <locationX>41</locationX>
+        <locationX>40</locationX>
         <locationY>892</locationY>
         <assignmentItems>
             <assignToReference>$Record.SAPStatus__c</assignToReference>
@@ -478,7 +478,7 @@
     <decisions>
         <name>checkSAPNumberFromAccount</name>
         <label>checkSAPNumberFromAccount</label>
-        <locationX>441</locationX>
+        <locationX>440</locationX>
         <locationY>801</locationY>
         <defaultConnector>
             <targetReference>Required_Default_value_picklist_for_tx_0_0</targetReference>
@@ -486,7 +486,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Found_Account_Number</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Customer__r.AccountNumber__c</leftValueReference>
                 <operator>IsNull</operator>

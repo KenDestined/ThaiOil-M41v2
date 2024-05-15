@@ -5,153 +5,561 @@
     <values>
         <field>FieldList__c</field>
         <value xsi:type="xsd:string">[
-  {
-    &quot;Api&quot;: &quot;AccountGroup__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;BuildingCodeLocal__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CityStateLocal__C&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CoName__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Country__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerNameEN1__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerNameEN2__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerNameLocal1__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerNameLocal2__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerSearchTermEN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerSearchTermLocal__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;CustomerType__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;DistrictENText__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;DistrictLocalText__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Email__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Fax__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;FaxCountryCode__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;FaxExtension__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;FloorLocal__c &quot;
-  },
-  {
-    &quot;Api&quot;: &quot;GroupKeyAccountKeyofBank__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;HousenoLocal__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Industry__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Language__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;MobileCountryCode__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;MobilePhone__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Phone__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;PhoneCountryCode__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;PhoneExtension__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;PostalCodeLocalText__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;RegionSAP__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;RoomLocal__c &quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street2EN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street2Local__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street3EN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street3Local__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street4EN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street4Local__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street5EN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;Street5Local__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;StreetEN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;StreetLocal__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;SupplierSearchTermEN__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;SupplierSearchTermLocal__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;TaxClassification__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;TaxCode1__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;TradingPartner__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;TransportationZone__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;TypeofBusinessBranch__c&quot;
-  },
-  {
-    &quot;Api&quot;: &quot;VATRegno__c&quot;
-  }
+    {
+        &quot;Label&quot;: &quot;Account Group&quot;,
+        &quot;Api&quot;: &quot;AccountGroup__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Building Code&quot;,
+        &quot;Api&quot;: &quot;BuildingCodeLocal__c&quot;,
+        &quot;Type&quot;: &quot;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;City/State&quot;,
+        &quot;Api&quot;: &quot;CityStateLocal__C&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;C/O Name&quot;,
+        &quot;Api&quot;: &quot;CoName__c&quot;,
+        &quot;Type&quot;: &quot;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Country&quot;,
+        &quot;Api&quot;: &quot;Country__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;CustomerName1 (EN)&quot;,
+        &quot;Api&quot;: &quot;CustomerNameEN1__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;CustomerName2 (EN)&quot;,
+        &quot;Api&quot;: &quot;CustomerNameEN2__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;CustomerName1&quot;,
+        &quot;Api&quot;: &quot;CustomerNameLocal1__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;CustomerName2&quot;,
+        &quot;Api&quot;: &quot;CustomerNameLocal2__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Customer Search Term (EN)&quot;,
+        &quot;Api&quot;: &quot;CustomerSearchTermEN__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Customer Search Term (Other Languages)&quot;,
+        &quot;Api&quot;: &quot;CustomerSearchTermLocal__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TXCustomer;&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Customer Type&quot;,
+        &quot;Api&quot;: &quot;CustomerType__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;DistrictENText&quot;,
+        &quot;Api&quot;: &quot;DistrictENText__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;District&quot;,
+        &quot;Api&quot;: &quot;DistrictLocalText__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Email Address&quot;,
+        &quot;Api&quot;: &quot;Email__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Fax&quot;,
+        &quot;Api&quot;: &quot;Fax__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Country Code (Fax)&quot;,
+        &quot;Api&quot;: &quot;FaxCountryCode__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Fax (Ext.)&quot;,
+        &quot;Api&quot;: &quot;FaxExtension__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Floor&quot;,
+        &quot;Api&quot;: &quot;FloorLocal__c&quot;,
+        &quot;Type&quot;: &quot;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Group Key (Account  Key of Bank)&quot;,
+        &quot;Api&quot;: &quot;GroupKeyAccountKeyofBank__c&quot;,
+        &quot;Type&quot;: &quot;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;House no.&quot;,
+        &quot;Api&quot;: &quot;HousenoLocal__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Industry&quot;,
+        &quot;Api&quot;: &quot;Industry__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Language&quot;,
+        &quot;Api&quot;: &quot;Language__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Country Code (Mobile)&quot;,
+        &quot;Api&quot;: &quot;MobileCountryCode__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mobile&quot;,
+        &quot;Api&quot;: &quot;MobilePhone__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Phone&quot;,
+        &quot;Api&quot;: &quot;Phone__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Country Code (Phone)&quot;,
+        &quot;Api&quot;: &quot;PhoneCountryCode__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Phone (Ext.)&quot;,
+        &quot;Api&quot;: &quot;PhoneExtension__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Postal Code&quot;,
+        &quot;Api&quot;: &quot;PostalCodeLocalText__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Region&quot;,
+        &quot;Api&quot;: &quot;RegionSAP__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TXCustomer&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Room&quot;,
+        &quot;Api&quot;: &quot;RoomLocal__c&quot;,
+        &quot;Type&quot;: &quot;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street2 (EN)&quot;,
+        &quot;Api&quot;: &quot;Street2EN__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street2&quot;,
+        &quot;Api&quot;: &quot;Street2Local__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street3 (EN)&quot;,
+        &quot;Api&quot;: &quot;Street3EN__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street3&quot;,
+        &quot;Api&quot;: &quot;Street3Local__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street4 (EN)&quot;,
+        &quot;Api&quot;: &quot;Street4EN__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street4&quot;,
+        &quot;Api&quot;: &quot;Street4Local__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street5 (EN)&quot;,
+        &quot;Api&quot;: &quot;Street5EN__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street5&quot;,
+        &quot;Api&quot;: &quot;Street5Local__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street (EN)&quot;,
+        &quot;Api&quot;: &quot;StreetEN__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Street&quot;,
+        &quot;Api&quot;: &quot;StreetLocal__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Supplier Search Term (EN)&quot;,
+        &quot;Api&quot;: &quot;SupplierSearchTermEN__c&quot;,
+        &quot;Type&quot;: &quot;TOPSupplie;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Supplier Search Term (Other Languages)&quot;,
+        &quot;Api&quot;: &quot;SupplierSearchTermLocal__c&quot;,
+        &quot;Type&quot;: &quot;TOPSupplie;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;TAX Classification&quot;,
+        &quot;Api&quot;: &quot;TaxClassification__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TXCustomer&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Tax Number&quot;,
+        &quot;Api&quot;: &quot;TaxCode1__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Trading Partner&quot;,
+        &quot;Api&quot;: &quot;TradingPartner__c&quot;,
+        &quot;Type&quot;: &quot;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Transportation Zone&quot;,
+        &quot;Api&quot;: &quot;TransportationZone__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer;TOPSupplier;TXCustomer;TXSupplier&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Type of Business&quot;,
+        &quot;Api&quot;: &quot;TypeofBusiness__c&quot;,
+        &quot;Type&quot;: &quot;TOPSupplier;TXCustomer&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Type of Business (Branch)&quot;,
+        &quot;Api&quot;: &quot;TypeofBusinessBranch__c&quot;,
+        &quot;Type&quot;: &quot;TOPCustomer&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;CEO/President/MD First Name&quot;,
+        &quot;Api&quot;: &quot;CEOFirstName__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;CEO/President/MD Last Name&quot;,
+        &quot;Api&quot;: &quot;CEOLastName__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Company&apos;s latest credit rating by international agencies (Please specify if e.g. BBB, Baa2)&quot;,
+        &quot;Api&quot;: &quot;CompanyLatestCreditRating__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Company Name (English)&quot;,
+        &quot;Api&quot;: &quot;CompanyNameENF__c&quot;,
+        &quot;Type&quot;: &quot;Edit&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Company Name (Other Languages)&quot;,
+        &quot;Api&quot;: &quot;CompanyNameLocal__c&quot;,
+        &quot;Type&quot;: &quot;Edit&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Estimate monthly purchase per grade&quot;,
+        &quot;Api&quot;: &quot;CompanyPurchasingVolumnperGrade__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Company Website&quot;,
+        &quot;Api&quot;: &quot;CompanyWebsite__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Title (Mr./Mrs./Miss/etc.)&quot;,
+        &quot;Api&quot;: &quot;ContactSalutation__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Governance: Does your company have Corporate Governance policy?&quot;,
+        &quot;Api&quot;: &quot;CorporateGovernancePolicy__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Where do customers buy this product?&quot;,
+        &quot;Api&quot;: &quot;CustomerPurchaseProductFrom__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Customer&apos;s Facility (Tank and Storage)&quot;,
+        &quot;Api&quot;: &quot;CustomersFacilityTankAndStorage__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Customer&apos;s Facility (Transportation)&quot;,
+        &quot;Api&quot;: &quot;CustomersFacilityTransportation__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Environment: Does your company have Environment policy?&quot;,
+        &quot;Api&quot;: &quot;EnvironmentPolicy__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Unit of Purchasing volume per month&quot;,
+        &quot;Api&quot;: &quot;EstimatedMonthlyPurchaseUnit__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;First Name&quot;,
+        &quot;Api&quot;: &quot;FirstName__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;The Former Name of Company (if any)&quot;,
+        &quot;Api&quot;: &quot;FormerNameofCompany__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;(For Supplier) Has your company ever failed to supply under any agreement in the last 3 years? (Please specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;HasFailedSupplyInLast3Years__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Has your company or any of its affiliates, or any current director, officer, or key employee ever been charged with, or investigated for fraud, misrepresentation, corruption, bribery, money laundering, forced labour, environmental issues or other related activities during the past five years?&quot;,
+        &quot;Api&quot;: &quot;HasIssuesDuringThePast5Years__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Does your company have any offices, transactions, investments, activities or planned activities in sanctioned targets or any transactions, investments, activities or planned activities with (or in) any person or entity located in sanctioned targets with (or in) any entity owned controlled by any entity located in sanctioned targets*? (Please specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;HasSanctionedTarget__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Human Rights: Does your company have Human Rights policy?&quot;,
+        &quot;Api&quot;: &quot;HumanRightsPolicy__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Immediate Parent Company&quot;,
+        &quot;Api&quot;: &quot;ImmidiateParentCompany__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Incoperation Date&quot;,
+        &quot;Api&quot;: &quot;IncoperationDate__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Last Name&quot;,
+        &quot;Api&quot;: &quot;LastName__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Legal Entity&quot;,
+        &quot;Api&quot;: &quot;LegalEntity__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Other Legal Entity (Please Specify)&quot;,
+        &quot;Api&quot;: &quot;LegalEntityOthers__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Location in Google Maps (Latitude)&quot;,
+        &quot;Api&quot;: &quot;Location__Latitude__s&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Location in Google Maps (Longtitude)&quot;,
+        &quot;Api&quot;: &quot;Location__Longitude__s&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Location in Google Maps (Link)&quot;,
+        &quot;Api&quot;: &quot;LocationInGoogleMapsLinks__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing Building Code&quot;,
+        &quot;Api&quot;: &quot;MailingBuildingCode__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing City/State&quot;,
+        &quot;Api&quot;: &quot;MailingCity__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing District&quot;,
+        &quot;Api&quot;: &quot;MailingDistrict__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing Floor&quot;,
+        &quot;Api&quot;: &quot;MailingFloor__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing House no.&quot;,
+        &quot;Api&quot;: &quot;MailingHousenoLocal__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing Postal Code&quot;,
+        &quot;Api&quot;: &quot;MailingPostalCode__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing Room&quot;,
+        &quot;Api&quot;: &quot;MailingRoom__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing Street&quot;,
+        &quot;Api&quot;: &quot;MailingStreet__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Mailing Sub District&quot;,
+        &quot;Api&quot;: &quot;MailingSubDistrict__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Main Product&quot;,
+        &quot;Api&quot;: &quot;MainProduct__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Main Service&quot;,
+        &quot;Api&quot;: &quot;MainService__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Nickname&quot;,
+        &quot;Api&quot;: &quot;Nickname__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Got Energy Ministry&apos;s oil trader letter?&quot;,
+        &quot;Api&quot;: &quot;NoOfRegistrationMinistryEnergy__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Occupational Health and Safety: Does your company have Occupational Health and Safety policy?&quot;,
+        &quot;Api&quot;: &quot;OccupationalHealthAndSafetyPolicy__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Other Main Product&quot;,
+        &quot;Api&quot;: &quot;OtherMainProduct__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Other Main Service&quot;,
+        &quot;Api&quot;: &quot;OtherMainService__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;(For Customer) Has the company ever had any default payment over the amount of USD 50,000 in the last 3 years? (Please specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;PaymentOverTheAmountOfUSD__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Position&quot;,
+        &quot;Api&quot;: &quot;Position__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;(For Customer) Has the company ever had any default payment over the amount of USD 50,000 in the last 3 years? (Please specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;ReasonOfTheDefault__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Same Registered Address&quot;,
+        &quot;Api&quot;: &quot;SameRegisteredAddress__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Society Responsibility: Does your company have Social Responsibility policy?&quot;,
+        &quot;Api&quot;: &quot;SocialResponsibilityPolicy__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;(For Supplier) Has your company ever failed to supply under any agreement in the last 3 years? (Please specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;SpecifyFailedSupplyInLast3Years__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Has your company or any of its affiliates, or any current director, officer, or key employee ever been charged with, or investigated for fraud, misrepresentation, corruption, bribery, money laundering, forced labour, environmental issues or other related activities during the past five years? (Please Specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;SpecifyIssuesDuringThePast5Years__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Specify Languages of Company Name&quot;,
+        &quot;Api&quot;: &quot;SpecifyLanguagesOfCompanyName__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Does your company have any offices, transactions, investments, activities or planned activities in sanctioned targets or any transactions, investments, activities or planned activities with (or in) any person or entity located in sanctioned targets with (or in) any entity owned controlled by any entity located in sanctioned targets*? (Please specify the reason of the default)&quot;,
+        &quot;Api&quot;: &quot;SpecifySanctionedTarget__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Tentative Starting Trading Date?&quot;,
+        &quot;Api&quot;: &quot;StartTradingDate__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Sub District&quot;,
+        &quot;Api&quot;: &quot;SubDistrictLocalText__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Supplier&apos;s Facility (Tank and Storage)&quot;,
+        &quot;Api&quot;: &quot;SuppliersFacilityTankAndStorage__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Supplier&apos;s Facility (Transportation)&quot;,
+        &quot;Api&quot;: &quot;SuppliersFacilityTransportation__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Supplying this product to which company?&quot;,
+        &quot;Api&quot;: &quot;SupplierSupplyProductTo__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Supplier Type&quot;,
+        &quot;Api&quot;: &quot;SupplierType__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Type of Business&quot;,
+        &quot;Api&quot;: &quot;TypeOfBusinessCommercialEvaluation__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Other Type of Business (Please Specify)&quot;,
+        &quot;Api&quot;: &quot;TypeOfBusinessOthers__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    },
+    {
+        &quot;Label&quot;: &quot;Years of Experience in business?&quot;,
+        &quot;Api&quot;: &quot;Yearofexperience__c&quot;,
+        &quot;Type&quot;: &quot;All&quot;
+    }
 ]</value>
     </values>
     <values>

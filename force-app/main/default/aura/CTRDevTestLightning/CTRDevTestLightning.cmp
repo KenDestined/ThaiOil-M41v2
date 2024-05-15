@@ -1,6 +1,4 @@
-<aura:component
-    implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName"
-    access="global" controller="CTRsendToSAPController">
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global" controller="CTRsendToSAPController">
 
     <aura:attribute name="recordId" type="Id" />
     <aura:attribute name="mToken" type="String" />
@@ -38,8 +36,10 @@
 
     <aura:attribute name="buttonList" type="List" default="[]" />
 
-
     <aura:attribute name="mRecordTypeName" type="String" />
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="currentText" type="String" />
+    <aura:attribute name="picklistValues" type="List" />
 
     <aura:attribute name="loaded" type="Boolean" default="false" />
 
@@ -95,10 +95,33 @@
                     <aura:if isTrue="{!! v.isInitial }">
                         <b>{!v.DynamicText}</b> <br/>
                     </aura:if> -->
-                    <b>{!v.DynamicText}</b> <br />
+                    <!-- <b>{!v.DynamicText}</b> <br /> -->
+                    <c:CTRDevTestLightningNo2 selectedValue = "{!v.selectedValue}" picklistOptions ="{!v.picklistValues}" fieldApi="MobileCountryCode__c" fieldLabel="Country Code (Mobile)" disabled="false" required="false" displayFieldLabel="false"/>
+                    <b><lightning:formattedRichText value="{!v.DynamicText}"/></b> <br />
                 </aura:if>
                 <aura:if isTrue="{! v.isPreviewTable }">
-                    <div style="height: 40vh; width: 100%">
+                    <div class="slds-notify_container slds-is-relative" style="margin-bottom: 15px;">
+                        <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                            <span class="slds-assistive-text">warning</span>
+                            <span
+                                class="slds-icon_container slds-icon-utility-warning slds-m-right_small slds-no-flex slds-align-top"
+                                title="Description of icon when needed">
+                                <lightning:icon iconName="utility:warning" alternativeText="warning" size="medium"
+                                    title="large size" />
+                            </span>
+                            <div class="slds-notify__content">
+                                <h3 class="slds-text-heading_small ">Please review the current and update information of
+                                    General View before Send to SAP. After the submission, you will not be able to edit
+                                    this information.
+                                </h3>
+                    <c:CTRDevTestLightningNo2 selectedValue = "{!v.selectedValue}" picklistOptions ="{!v.picklistValues}" fieldApi="MobileCountryCode__c" fieldLabel="Country Code (Mobile)" disabled="false" required="true" displayFieldLabel="true"/>
+                            </div>
+                            <div class="slds-notify__close">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 40vh; width: 100%; border: 1px solid gainsboro;">
                         <lightning:datatable keyField="id" data="{! v.FieldChanged }"
                             columns="{! v.HeaderFieldHeaderList }" hideCheckboxColumn="true" />
                     </div>
@@ -129,7 +152,7 @@
                 <lightning:button variant="Brand" class="slds-button" label="Preview General Changed" onclick="{!c.previewTable}"/> -->
 
                 <aura:iteration items="{!v.buttonList}" var="btn">
-                    <lightning:button name="{!btn.action}" variant="Brand" class="slds-button" label="{!btn.label}"
+                    <lightning:button name="{!btn.action}" variant="{!(btn.variant ? btn.variant : 'Brand')}" class="slds-button" label="{!btn.label}"
                         onclick="{!c.handleBtnClick}" />
                 </aura:iteration>
                 <lightning:button variant="Neutral" class="slds-button" label="Cancel" onclick="{!c.closeModal}" />

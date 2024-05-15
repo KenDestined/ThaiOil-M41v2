@@ -1,136 +1,105 @@
 ({
-	doInit : function(component, event, helper) 
+	doInit: function (component, event, helper) 
 	{
-        component.set('v.showLoading', true);
-		if(component.get('v.historyType') == 'Initial' || component.get('v.historyType') == 'Edit' || component.get('v.historyType') == 'Extend')
+		if(component.get('v.selectedValue'))
 		{
-			
-			var mPreviousValueHeader = '';
-			var mNewValueHeader = '';
-			if(component.get('v.historyType') == 'Initial' || component.get('v.historyType') == 'Extend')
-			{
-				component.set('v.HeaderCard', 'Edit Counterparty v2');
-				mPreviousValueHeader = 'Trader Value';
-				mNewValueHeader = 'TRCR Value';
-				component.set('v.HeaderOriginal', mPreviousValueHeader);
-				component.set('v.HeaderLatest', mNewValueHeader);
-			}
-			else if (component.get('v.historyType') == 'Edit' || component.get('v.historyType') == 'SAP')
-			{
-				component.set('v.HeaderCard', 'Edit Log v2');
-				mPreviousValueHeader = 'Current Value';
-				mNewValueHeader = 'Latest Value';
-				component.set('v.HeaderOriginal', mPreviousValueHeader);
-				component.set('v.HeaderLatest', mNewValueHeader);
-			}
-			
-			component.set('v.HeaderFieldHeaderList',[{label: 'Source name', fieldName: 'mSource', type: 'text'},
-			{label: 'Field name', fieldName: 'mLabel', type: 'text', wrapText: true},
-			{label: mPreviousValueHeader, fieldName: 'mOldValue', type: 'text'},
-			{label: mNewValueHeader, fieldName: 'mLatestValue', type: 'text'},
-			{label: 'User', fieldName: 'mUser', type: 'text'}]);
+			component.set("v.currentText", component.get('v.selectedValue'));
 		}
-		else if(component.get('v.historyType') == 'Shareholder')
-		{
-			component.set('v.HeaderCard', 'Edit Shareholder');
-			component.set('v.HeaderOriginal', 'Name');
-			component.set('v.HeaderLatest', 'Percentage');
-			
-			component.set('v.RelatedObj', true);
+	},
+	//when clicking on field
+	getPickListValues : function(component, event, helper) 
+	{
+		var newList=[];
+		var list = component.get('v.picklistOptions');
+		//const list = ['Apples','Apricots','Avocados','Bananas','Blueberries','Cherries','Grapefruit','Jackfruit','Kiwi','Lime','Mango','Oranges','Peach','Raspberries','Tomato','Watermelon'];
+		//component.set("v.picklistValues", list);
 
-			component.set('v.HeaderFieldHeaderList',[{label: 'Name', fieldName: 'mCol1', type: 'text'},
-			{label: 'Percentage', fieldName: 'mCol2', type: 'text', wrapText: true},
-			{label: 'Status', fieldName: 'mStatus', type: 'text'}]);
-			
-		}
-		else if(component.get('v.historyType') == 'DestinationCountry')
+		var resultBox = component.find('resultBox');
+		if(component.get("v.currentText")) 
 		{
-			component.set('v.HeaderCard', 'Edit Destination Country');
-			component.set('v.HeaderOriginal', 'Country');
-			component.set('v.HeaderLatest', 'Type');
-			component.set('v.RelatedObj', true);
-			component.set('v.HeaderFieldHeaderList',[{label: 'Country', fieldName: 'mCol1', type: 'text'},
-			{label: 'Type', fieldName: 'mCol2', type: 'text', wrapText: true},
-			{label: 'Status', fieldName: 'mStatus', type: 'text'}]);
-
-		}
-		else if (component.get('v.historyType') == 'Edit')
-		{
-			component.set('v.isEditRecordType', true);
-			
-		}
-		// var action = component.get("c.onload");
-		// // set param to method  
-		//   action.setParams({
-		// 	  'mRecordId': component.get('v.recordId')
-		// 	});
-			  var action = component.get("c.onloadv4");
-			  // set param to method  
-				action.setParams({
-					'mRecordId': component.get('v.recordId')
-					,'mHistoryType': component.get('v.historyType')
-				  });
-			  // set a callBack   
-				action.setCallback(this, function(response) 
+			for(var i=0;i<list.length;i++)
+			{
+				var iterator= list[i].label;
+				if(iterator.toLowerCase().includes(component.get("v.currentText").toLowerCase()))
 				{
-				  //$A.util.removeClass(component.find("mySpinner"), "slds-show");
-					var state = response.getState();
-                    console.log(state);
-					if (state === "SUCCESS") 
-                    {
-						var result = response.getReturnValue();
-                        console.log('result: '+result);
-						if(result)
-						{
-							if(!component.get('v.RelatedObj'))
-							{
-								result.mAllEditList.sort(function (a, b) {
-									if (a.mSource < b.mSource) {
-									  return -1;
-									}
-									if (a.mSource > b.mSource) {
-									  return 1;
-									}
-									return 0;
-								  });
-								component.set('v.ItemFieldChanged', result.mItemEditList);
-								component.set('v.HeaderFieldChanged', result.mHeaderEditList);
-								component.set('v.FieldChanged', result.mAllEditList);
+					newList.push(list[i]);
+				}
+			}
+			component.set("v.picklistValues", newList);
+			
+			if(component.get("v.picklistValues").length == 0) 
+			{
+				$A.util.removeClass(resultBox, 'slds-is-open');
+			}
+			else
+			{
+				$A.util.addClass(resultBox, 'slds-is-open');
+			}
+		}
+		else
+		{
+			for(var i=0;i<list.length;i++)
+			{
+				var iterator= list[i].label;
+				newList.push(list[i]);
+			}
+			component.set("v.picklistValues", newList);
+			$A.util.addClass(resultBox, 'slds-is-open');
+		}
+	},
 
-								if(result.mAllEditList.length >0)
-								{
-									component.set('v.ChangedFound', true);
-								}
-							}
-							else
-							{
-								component.set('v.FieldChanged', result.mRelatedEditList);
-								if(result.mRelatedEditList.length >0)
-								{
-									component.set('v.ChangedFound', true);
-								}
-							}
-                            
+	// When user types the value in field
+	searchField : function(component, event, helper) {
+		var list = component.get('v.picklistOptions');
+		//const list = ['Apples','Apricots','Avocados','Bananas','Blueberries','Cherries','Grapefruit','Jackfruit','Kiwi','Lime','Mango','Oranges','Peach','Raspberries','Tomato','Watermelon'];
+		//component.set("v.picklistValues", list);
+		var resultBox = component.find('resultBox');
+		var currentText =event.getSource().get("v.value");
+		component.set("v.currentText", currentText);
+		component.set("v.selectedValue", currentText);
+		helper.fireEventChangeValuewithAPI(component);
+		var newList=[];
+		if(currentText.length > 0) 
+		{
+			for(var i=0;i<list.length;i++)
+			{
+				var iterator= list[i].label;
+				if(iterator.toLowerCase().includes(currentText.toLowerCase()))
+				{
+					newList.push(list[i]);
+				}
+			}
+			component.set("v.picklistValues", newList);
+			
+			if(component.get("v.picklistValues").length == 0) 
+			{
+				$A.util.removeClass(resultBox, 'slds-is-open');
+			}
+			else
+			{
+				$A.util.addClass(resultBox, 'slds-is-open');
+			}
+		}
+		else 
+		{
+			$A.util.addClass(resultBox, 'slds-is-open');
+		}
+	},
 
-						}
-						else
-						{
-							
-						}
-					}
-					else
-					{
-					  let errors = response.getError();
-					  let message = 'Unknown error';
-					  if (errors && Array.isArray(errors) && errors.length > 0) 
-					  {
-						message = errors[0].message;
-					  }
-					  alert('APEX Error: '+message);
-					}
-                    component.set('v.showLoading', false);
-				});
-			  // enqueue the Action  
-				$A.enqueueAction(action);
-	}
+	//When user selects a record, set it as selected
+	setSelectedRecord : function(component, event, helper) 
+	{
+		component.set("v.currentText", event.currentTarget.dataset.name);
+		component.set("v.selectedValue", event.currentTarget.dataset.value);
+		helper.fireEventChangeValuewithAPI(component);
+		var resultBox = component.find('resultBox');
+		$A.util.removeClass(resultBox, 'slds-is-open');
+	}, 
+
+	//Function when user clicks outside Component to close the dropdown list
+	closeDropDown : function(component, event, helper) 
+	{
+		var resultBox = component.find('resultBox');
+		$A.util.removeClass(resultBox, 'slds-is-open');
+	},
 })

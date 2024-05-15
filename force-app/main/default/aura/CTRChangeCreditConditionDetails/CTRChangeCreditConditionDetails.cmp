@@ -64,6 +64,7 @@
     <aura:attribute name="BankGuarantee" type="String" default=""/>
     <aura:attribute name="Status" type="String" default=""/>
     <aura:attribute name="ApprovalStep" type="String" default=""/>
+    <aura:attribute name="IsRequiredEffectiveDate" type="Boolean" default="true" />
     
     <aura:renderIf isTrue="{!!v.IsEditButtonDisable}">
         <aura:renderIf isTrue="{!and(v.Status == 'In Review',v.ApprovalStep == 'Credit Rating')}">
@@ -581,11 +582,20 @@
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
                                         <div class="slds-size_3-of-6" >
+                                            <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TX'}"> 
                                         	<lightning:inputField aura:id="ChangeCreditAmount" 
                                                               fieldName="ChangeCreditAmount__c" 
                                                               variant="label-hidden"
                                                               disabled="{!v.IsPageDisable}"
                                                               required = "true"/>
+                                            </aura:renderIf>
+                                            <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}"> 
+                                                <lightning:inputField aura:id="ChangeCreditAmountnumber" 
+                                                              fieldName="AmountCRNum__c" 
+                                                              variant="label-hidden"
+                                                              disabled="{!v.IsPageDisable}"
+                                                              required = "true"/>
+                                            </aura:renderIf>
                                         </div>
                                     </div>
                             	</div><br/>
@@ -772,17 +782,25 @@
                             <aura:renderIf isTrue="{!v.IsDescriptionDisable}">
                                 <div class="slds-grid slds-wrap">
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
-                                            <p> 
+                                            <p> <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
                                                 <span style="color:red; font-style: italic;" >* </span>
+                                                </aura:renderIf>
                                                 Description: </p>
                                         </div>
                                         <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
                                             <div class="slds-size_1-of-1" >
+                                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c != 'TX'}">
                                                 <lightning:inputField class="textAreaClass" aura:id="ChangeCreditDescription" 
                                                                               fieldName="Description__c" 
                                                                               variant="label-hidden"
-                                                                              disabled="{!v.IsPageDisable}"
-                                                                      		  required = "true"/>
+                                                                              disabled="{!v.IsPageDisable}"/>
+                                                </aura:renderIf>
+                                                <aura:renderIf isTrue="{!v.BUInfo.BusinessUnit__c == 'TX'}">
+                                                    <lightning:inputField class="textAreaClass" aura:id="ChangeCreditDescription" 
+                                                                              fieldName="Description__c" 
+                                                                              variant="label-hidden"
+                                                                              disabled="{!v.IsPageDisable}" required = "true"/>
+                                                </aura:renderIf>
                                             </div>
                                         </div>
                                 </div><br/>
@@ -833,8 +851,11 @@
                             	<div class="slds-grid slds-wrap">
                                 	<div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_4-of-12">
                                     	<p>
+                                            <aura:renderIf isTrue="{!v.IsRequiredEffectiveDate}">
                                             <span style="color:red; font-style: italic;" >* </span>
-                                            Effective Date Form: </p>
+                                            </aura:renderIf>
+                                            Effective Date From: </p>
+                                            
                                     </div>
                                     <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_8-of-12" >
                                         <div class="slds-grid slds-wrap">
@@ -843,7 +864,7 @@
                                                                   fieldName="EffectiveDateForm__c" 
                                                                   variant="label-hidden"
                                                                   disabled="{!v.IsPageDisable}"
-                                                                  required="true"/>
+                                                                  required="{!v.IsRequiredEffectiveDate}"/>
                                             </div>
                                             <div class="slds-align_absolute-center" >
                                                 <p>  To: </p>
@@ -853,7 +874,7 @@
                                                                   fieldName="EffectiveDateTo__c" 
                                                                   variant="label-hidden"
                                                                   disabled="{!v.IsPageDisable}"
-                                                                  required="true"/>
+                                                                  required="{!v.IsRequiredEffectiveDate}"/>
                                             </div>
                                         </div>
                                     </div>

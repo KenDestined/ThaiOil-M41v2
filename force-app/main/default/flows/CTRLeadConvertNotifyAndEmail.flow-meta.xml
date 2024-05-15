@@ -5,7 +5,7 @@
         <name>TOPSendEmailAction</name>
         <label>TOPSendEmailAction</label>
         <locationX>50</locationX>
-        <locationY>1079</locationY>
+        <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -74,7 +74,7 @@
         <name>TOPSendEmailToCustomerAction</name>
         <label>TOPSendEmailToCustomerAction</label>
         <locationX>50</locationX>
-        <locationY>1403</locationY>
+        <locationY>1511</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -134,7 +134,7 @@
         <name>TOPSendNotification</name>
         <label>TOPSendNotification</label>
         <locationX>50</locationX>
-        <locationY>1187</locationY>
+        <locationY>1295</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <connector>
@@ -179,7 +179,7 @@
         <name>TxCustomerSendEmailAction</name>
         <label>TxCustomerSendEmailAction</label>
         <locationX>314</locationX>
-        <locationY>1079</locationY>
+        <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -248,7 +248,7 @@
         <name>TxCustomerSendNotification</name>
         <label>TxCustomerSendNotification</label>
         <locationX>314</locationX>
-        <locationY>1187</locationY>
+        <locationY>1295</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -290,7 +290,7 @@
         <name>TxSupplierSendEmailAction</name>
         <label>TxSupplierSendEmailAction</label>
         <locationX>578</locationX>
-        <locationY>1079</locationY>
+        <locationY>1187</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
         <connector>
@@ -359,7 +359,7 @@
         <name>TXSupplierSendNotification</name>
         <label>TXSupplierSendNotification</label>
         <locationX>578</locationX>
-        <locationY>1187</locationY>
+        <locationY>1295</locationY>
         <actionName>customNotificationAction</actionName>
         <actionType>customNotificationAction</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -401,7 +401,7 @@
         <name>assignRecipientEmails</name>
         <label>assignRecipientEmails</label>
         <locationX>776</locationX>
-        <locationY>755</locationY>
+        <locationY>863</locationY>
         <assignmentItems>
             <assignToReference>recipientEmails</assignToReference>
             <operator>Add</operator>
@@ -425,7 +425,7 @@
         <name>assignRecipientIds</name>
         <label>assignRecipientIds</label>
         <locationX>776</locationX>
-        <locationY>647</locationY>
+        <locationY>755</locationY>
         <assignmentItems>
             <assignToReference>recipientIds</assignToReference>
             <operator>Add</operator>
@@ -442,7 +442,7 @@
         <name>assignTargetRec</name>
         <label>assignTargetRec</label>
         <locationX>776</locationX>
-        <locationY>539</locationY>
+        <locationY>647</locationY>
         <assignmentItems>
             <assignToReference>varTargetRecord</assignToReference>
             <operator>Assign</operator>
@@ -458,7 +458,7 @@
         <name>Check_recipient</name>
         <label>Check recipient</label>
         <locationX>776</locationX>
-        <locationY>863</locationY>
+        <locationY>971</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Check_Email_and_ID</name>
@@ -495,7 +495,7 @@
         <name>SelectUserBUbySales_Org</name>
         <label>Select User BU by Sales Org</label>
         <locationX>446</locationX>
-        <locationY>971</locationY>
+        <locationY>1079</locationY>
         <defaultConnectorLabel>None</defaultConnectorLabel>
         <rules>
             <name>TOP</name>
@@ -543,7 +543,7 @@
             <label>TxSupplier</label>
         </rules>
     </decisions>
-    <description>10/04/2024: email subject, notify subject update</description>
+    <description>30/04/2024: heroku link, image</description>
     <environments>Default</environments>
     <formulas>
         <name>fmlAccountType</name>
@@ -644,7 +644,7 @@
         <name>getAccount</name>
         <label>getAccount</label>
         <locationX>50</locationX>
-        <locationY>1295</locationY>
+        <locationY>1403</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>TOPSendEmailToCustomerAction</targetReference>
@@ -659,6 +659,22 @@
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getCTRConfig</name>
+        <label>getCTRConfig</label>
+        <locationX>776</locationX>
+        <locationY>539</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assignTargetRec</targetReference>
+        </connector>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CTRConfig__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>HerokuDomain__c</queriedFields>
+        <queriedFields>LeadProcessImage__c</queriedFields>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
@@ -690,7 +706,7 @@
         <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>assignTargetRec</targetReference>
+            <targetReference>getCTRConfig</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -742,8 +758,8 @@
     <textTemplates>
         <name>TOPCustomerEmailBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Dear {!$Record.FirstName} {!$Record.LastName},&lt;br&gt;&lt;br&gt;Please click &lt;a href=&quot;https://ctr-front-dev-3ee5b7960f48.herokuapp.com/one-time-access/{!$Record.ConvertedAccountId}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt; to complete the registration form.&lt;br&gt;
-Should you have any questions, please contact the Commercial Team&lt;/span&gt;&lt;br&gt;at &lt;a href=&quot;mailto://commercial@thaioilgroup.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;commercial@thaioilgroup.com&lt;/a&gt; or call +66 2 299 0000&lt;br&gt;&lt;br&gt;&lt;img src=&quot;https://thaioil--devm41.sandbox.file.force.com/sfc/dist/version/renditionDownload?rendition=ORIGINAL_Jpg&amp;amp;versionId=0681m000003TBZq&amp;amp;operationContext=DELIVERY&amp;amp;contentId=05T1m00000KDpoZ&amp;amp;page=0&amp;amp;d=/a/1m0000000bZN/AiRnhohLVKmL7o7hia55pC3PinYAW0sXCtAziEsGi_Q&amp;amp;oid=00D1m0000002NH5&amp;amp;dpt=null&amp;amp;viewId=&quot; alt=&quot;renditionDownload&quot;&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatically generated email, please do not reply to this email address.</text>
+        <text>Dear {!$Record.FirstName} {!$Record.LastName},&lt;br&gt;&lt;br&gt;Please click &lt;a href=&quot;{!getCTRConfig.HerokuDomain__c}/one-time-access/{!$Record.ConvertedAccountId}&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;this link&lt;/a&gt; to complete the registration form.&lt;br&gt;
+Should you have any questions, please contact the Commercial Team&lt;/span&gt;&lt;br&gt;at &lt;a href=&quot;mailto://commercial@thaioilgroup.com&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot;&gt;commercial@thaioilgroup.com&lt;/a&gt; or call +66 2 299 0000&lt;br&gt;&lt;br&gt;&lt;img src=&quot;{!getCTRConfig.LeadProcessImage__c}&quot; alt=&quot;renditionDownload&quot;&gt;&lt;br&gt;Best Regards,&lt;br&gt;Counterparties Registration Automated System&lt;br&gt;This is an automatically generated email, please do not reply to this email address.</text>
     </textTemplates>
     <textTemplates>
         <description>Email Body for TOP Trader</description>

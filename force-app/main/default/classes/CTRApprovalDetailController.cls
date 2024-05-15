@@ -19,7 +19,7 @@ public class CTRApprovalDetailController
                                                     ,InterestedProductTypeAsCustomerTOP__c,InterestedProductTypeAsCustomerTX__c,InterestedProductTypeAsSupplierTOP__c,InterestedProductTypeAsSupplierTX__c,
                                                     CTRRequestFormHeader__r.Email__c,CTRRequestFormHeader__r.FirstName__c,CTRRequestFormHeader__r.LastName__c,CTRRequestFormHeader__r.MobilePhone__c,InterestedProductTypeAsSupplier__c,
                                                     FinIntCrRating__c, FinCrCond__c, FinCrLimit__c, FinCrLimitCur__c, FinTradeCrIns__c, FinTradeCrInsCu__c
-                                                    ,CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c,RequestToChangeCredit__c, SubTypeCondition__c, ChangeCreditAmount__c,SubTypeCondition2__c, EffectiveDateForm__c, EffectiveDateTo__c,
+                                                    ,AmountCRNum__c,CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c,RequestToChangeCredit__c, SubTypeCondition__c, ChangeCreditAmount__c,SubTypeCondition2__c, EffectiveDateForm__c, EffectiveDateTo__c,
                                                     FinancialInformation__c,FinancialInformation__r.Credit_Condition__c,FinancialInformation__r.CreditLimit__c,FinancialInformation__r.InternalCreditRating__c
                                                     FROM CTRRequestFormItem__c WHERE id =: recID];
             
@@ -178,6 +178,7 @@ public class CTRApprovalDetailController
         public String traderComment{ get; set; }
         // public String traderComment2{ get; set; }
         //NO MAPPING FIELD 20/01/2024
+        //TOP
         public String trcrAnalysis{ get; set; }
         public String evpfApproval{ get; set; }
         public String evpfRemark{ get; set; }
@@ -193,8 +194,43 @@ public class CTRApprovalDetailController
         public String tlbmdRemark{ get; set; }
         public String tpxmdApproval{ get; set; }
         public String tpxmdRemark{ get; set; }
+        //LABIX
+        public String labixMDApproval{ get; set; }
+        public String labixMDRemark{ get; set; }
+        public String labixDMDApproval{ get; set; }
+        public String labixDMDRemark{ get; set; }
+        public String txipCmLabixApproval{ get; set; }
+        public String txipCmLabixRemark{ get; set; }
     }
 
+    public class CompanyNameModelTX {
+        public String assessmentDate{ get; set; }
+        public String customerName{ get; set; }
+        public String code{ get; set; }
+        public String businessSector{ get; set; }
+        public String requestedfreePrice{ get; set; }
+        public String requestedfreeNote{ get; set; }
+        public String collateralOfferingPrice{ get; set; }
+        public String collateralOfferingNote{ get; set; }
+        public String requestedCreditPrice{ get; set; }
+        public String requestedCreditNote{ get; set; }
+        public String actualSalesTotal{ get; set; }
+        public String actualSalesYear{ get; set; }
+        public String actualSalesNote{ get; set; }
+        public String plannedSalesTotal{ get; set; }
+        public String plannedSalesYear{ get; set; }
+        public String plannedSalesNote{ get; set; }
+        public String nameOfKeySupplier{ get; set; }
+        public String estimatedSalesVolumePerYear{ get; set; }
+        public String estimatedSalesValuePerYear{ get; set; }
+        public String customerBackground{ get; set; }
+        public String reasonsToRequest{ get; set; }
+    }
+
+    /**Last modified : Chuntika Bumrung 
+     * Add Mapping field > waiting to confirm from PAmm
+     * Add new endpoint with BusinessUnit == 'Labix'
+    */
     @AuraEnabled(cacheable=true)
     public static String CTRDownloadExcelTemplate(String recordId){
         CTRRequestFormItem__c companyName = [SELECT Id,Customer__r.Name,
@@ -231,8 +267,8 @@ public class CTRApprovalDetailController
                                              TraderPreScreenComment__c ,
                                              SalesOrganization__c,
                                              RecordType.Name,AdditionalOpinions__c,
-                                             CTRRequestFormHeader__r.CorporateGovernancePolicy__c,CTRRequestFormHeader__r.EnvironmentPolicy__c,CTRRequestFormHeader__r.SocialResponsibilityPolicy__c
-                                             
+                                             CTRRequestFormHeader__r.CorporateGovernancePolicy__c,CTRRequestFormHeader__r.EnvironmentPolicy__c,CTRRequestFormHeader__r.SocialResponsibilityPolicy__c,
+                                             BusinessUnit__c //TOP or LABIX or TX 
                                              FROM CTRRequestFormItem__c WHERE Id=:recordId];
         
         List<CTRShareholder__c>shareholderList = [select name from CTRShareholder__c where CTRRequestFormHeader__c =: companyName.CTRRequestFormHeader__c];
@@ -257,84 +293,121 @@ public class CTRApprovalDetailController
         
         System.debug(companyName.Customer__r.Name);
         CompanyNameModel companyNameModel = new CompanyNameModel();
-        //companyNameModel.forCompany ='TOP,TLB,TPX';
-        //companyNameModel.requestedFor ='requestedFor';
+        CompanyNameModelTX companyNameModeltx = new CompanyNameModelTX();
+        String jsonInput = '';
 
-        if(sanctionList.size() > 0)
-        {
-            companyNameModel.hasSanctionedShareholder ='Yes';
-            companyNameModel.hasSanctionedCEO ='Yes';
+        if(companyName.BusinessUnit__c == 'TOP' || companyName.BusinessUnit__c == 'LABIX'){
+            //companyNameModel.forCompany ='TOP,TLB,TPX';
+            //companyNameModel.requestedFor ='requestedFor';
+
+            if(sanctionList.size() > 0)
+            {
+                companyNameModel.hasSanctionedShareholder ='Yes';
+                companyNameModel.hasSanctionedCEO ='Yes';
+            }
+            else
+            {
+                companyNameModel.hasSanctionedShareholder ='No';
+                companyNameModel.hasSanctionedCEO ='No';
+            }
+            //companyNameModel.forCompany ='TOP,TLB,TPX';
+            //companyNameModel.requestedFor ='requestedFor';
+            companyNameModel.labixMDApproval ='approved'; 
+            companyNameModel.labixMDRemark =''; 
+            companyNameModel.labixDMDApproval ='approved'; 
+            companyNameModel.labixDMDRemark =''; 
+            companyNameModel.txipCmLabixApproval ='approved'; 
+            companyNameModel.txipCmLabixRemark =''; 
+
+            companyNameModel.supplierDeliverOverTheLast3Years =''; //waiting comX
+            companyNameModel.trcrAnalysis =''; //connot map
+            companyNameModel.evpfApproval =''; //connot map
+            companyNameModel.evpfRemark =''; //connot map
+            companyNameModel.evpcApproval =''; //connot map
+            companyNameModel.evpcRemark ='';//connot map
+            companyNameModel.trvpApproval ='';//connot map
+            companyNameModel.trvpRemark ='';//connot map
+            companyNameModel.cmvpApproval ='';//connot map
+            companyNameModel.cmvpRemark ='';//connot map
+            companyNameModel.acvpApproval ='';//connot map
+            companyNameModel.acvpRemark ='';//connot map
+            companyNameModel.tlbmdApproval ='';//connot map
+            companyNameModel.tlbmdRemark ='';//connot map
+            companyNameModel.tpxmdApproval ='';//connot map
+            companyNameModel.tpxmdRemark ='';//connot map
+            // companyNameModel.hasSanctionedShareholder ='';//connot map
+            // companyNameModel.hasSanctionedCEO ='';//connot map
+            companyNameModel.hasAntiMoneyViolation ='';//connot map
+            companyNameModel.hasCEORelatedToTOP ='';//connot map
+            //companyNameModel.hasEnvironmentalPolicy ='Yes';
+            //companyNameModel.hasSocialResponsibilityPolicy =''; //connot map
+            //companyNameModel.hasCorporateGovernancePolicy ='Yes';
+            
+            companyNameModel.shareholders =shareholderName;
+            companyNameModel.companyName =companyName.CTRRequestFormHeader__r.CompanyNameENF__c !=null ?  companyName.CTRRequestFormHeader__r.CompanyNameENF__c :'';
+            companyNameModel.companyLocalName =companyName.CTRRequestFormHeader__r.CompanyNameLocal__c !=null ?  companyName.CTRRequestFormHeader__r.CompanyNameLocal__c :'';
+            companyNameModel.address =companyName.CTRRequestFormHeader__r.MailingBuildingCode__c !=null ?  companyName.CTRRequestFormHeader__r.MailingBuildingCode__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.StreetLocal__c !=null ?  companyName.CTRRequestFormHeader__r.StreetLocal__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.Street2Local__c !=null ?  companyName.CTRRequestFormHeader__r.Street2Local__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.Street3Local__c !=null ?  companyName.CTRRequestFormHeader__r.Street3Local__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.Street4Local__c !=null ?  companyName.CTRRequestFormHeader__r.Street4Local__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.DistrictLocalText__c !=null ?  companyName.CTRRequestFormHeader__r.DistrictLocalText__c +' ':'';
+            //companyNameModel.address +=companyName.CTRRequestFormHeader__r.CityStateLocalText__c !=null ?  companyName.CTRRequestFormHeader__r.CityStateLocalText__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.CityStateLocal__c !=null ?  companyName.CTRRequestFormHeader__r.CityStateLocal__r.Description__c +' ':'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.PostalCodeLocalText__c !=null ?  companyName.CTRRequestFormHeader__r.PostalCodeLocalText__c +' ':'';
+            //companyNameModel.companyName =//CTRRequestFormHeader__r.PostalCodeLocalEnText__c,//nothisfiel !=null ?  //CTRRequestFormHeader__r.PostalCodeLocalEnText__c,//nothisfiel :'';
+            companyNameModel.address +=companyName.CTRRequestFormHeader__r.Country__c !=null ?  companyName.CTRRequestFormHeader__r.Country__r.Name +' ':''; 
+            
+            companyNameModel.incorporationDate =companyName.CTRRequestFormHeader__r.IncoperationDate__c !=null ?  String.valueof(companyName.CTRRequestFormHeader__r.IncoperationDate__c) :'';
+            companyNameModel.country =companyName.CTRRequestFormHeader__r.Country__c !=null ?  companyName.CTRRequestFormHeader__r.Country__r.Name :'';
+            companyNameModel.parentCompany =companyName.CTRRequestFormHeader__r.ImmidiateParentCompany__c !=null ?  companyName.CTRRequestFormHeader__r.ImmidiateParentCompany__c :'';
+            companyNameModel.parentCompany +=companyName.CTRRequestFormHeader__r.UltimateParentCompany__c !=null ?  companyName.CTRRequestFormHeader__r.UltimateParentCompany__c :'';
+            companyNameModel.mainServicesAndProducts =companyName.CTRRequestFormHeader__r.MainProduct__c !=null ?  companyName.CTRRequestFormHeader__r.MainProduct__c :'';
+            companyNameModel.mainServicesAndProducts +=companyName.CTRRequestFormHeader__r.MainService__c !=null ?  companyName.CTRRequestFormHeader__r.MainService__c :'';
+            companyNameModel.hasSanctionedTarget =companyName.CTRRequestFormHeader__r.HasSanctionedTarget__c !=null ?  companyName.CTRRequestFormHeader__r.HasSanctionedTarget__c :'';
+            companyNameModel.customerPaymentOverTheLast3Years =companyName.CTRRequestFormHeader__r.PaymentOverTheAmountOfUSD__c !=null ?  companyName.CTRRequestFormHeader__r.PaymentOverTheAmountOfUSD__c :'';
+            companyNameModel.paymentHistory =companyName.CTRRequestFormHeader__r.PaymentHistoryRecord__c !=null ?  String.valueof(companyName.CTRRequestFormHeader__r.PaymentHistoryRecord__c) :'';
+            companyNameModel.internalCreditRating =companyName.InternalCreditRating__c !=null ?  companyName.InternalCreditRating__c :'';
+            companyNameModel.creditCondition =companyName.Credit_Condition__c !=null ?  companyName.Credit_Condition__c :'';
+            companyNameModel.estimatedStartDate =companyName.StartTradingDate__c !=null ?  String.valueof(companyName.StartTradingDate__c) :'';
+            companyNameModel.traderComment =companyName.AdditionalOpinions__c !=null ?  companyName.AdditionalOpinions__c :'';
+            // companyNameModel.traderComment2 =companyName.TraderPreScreenComment__c !=null ?  companyName.TraderPreScreenComment__c :'';
+            companyNameModel.ceo =companyName.CTRRequestFormHeader__r.CEOFirstName__c !=null ?  companyName.CTRRequestFormHeader__r.CEOFirstName__c +' ':'';
+            companyNameModel.ceo +=companyName.CTRRequestFormHeader__r.CEOLastName__c !=null ?  companyName.CTRRequestFormHeader__r.CEOLastName__c :'';
+            companyNameModel.creditRating =companyName.CompanyLatestCreditRating__c !=null ?  companyName.CompanyLatestCreditRating__c :'';
+            companyNameModel.forCompany = companyName.SubBU__c !=null ?  companyName.SubBU__c :'';
+            companyNameModel.requestedFor =companyName.RecordType.Name.contains('Customer') ?  'Customer' :'Supplier';
+            companyNameModel.hasCorporateGovernancePolicy = companyName.CTRRequestFormHeader__r.CorporateGovernancePolicy__c !=null ?  companyName.CTRRequestFormHeader__r.CorporateGovernancePolicy__c :'';
+            companyNameModel.hasEnvironmentalPolicy = companyName.CTRRequestFormHeader__r.EnvironmentPolicy__c !=null ?  companyName.CTRRequestFormHeader__r.EnvironmentPolicy__c :'';
+            companyNameModel.hasSocialResponsibilityPolicy = companyName.CTRRequestFormHeader__r.SocialResponsibilityPolicy__c !=null ?  companyName.CTRRequestFormHeader__r.SocialResponsibilityPolicy__c :'';
+            
+            jsonInput = JSON.serialize(companyNameModel );
+        }else if(companyName.BusinessUnit__c == 'TX'){
+
+            companyNameModeltx.assessmentDate = String.valueOf(system.now().format('dd/MM/yyyy'));
+            companyNameModeltx.customerName = companyName.CTRRequestFormHeader__r.CompanyNameENF__c !=null ?  companyName.CTRRequestFormHeader__r.CompanyNameENF__c :'';
+            companyNameModeltx.code = '';
+            companyNameModeltx.businessSector = '';
+            companyNameModeltx.requestedfreePrice = '';
+            companyNameModeltx.requestedfreeNote = '';
+            companyNameModeltx.collateralOfferingPrice = '';
+            companyNameModeltx.collateralOfferingNote = '';
+            companyNameModeltx.requestedCreditPrice = '';
+            companyNameModeltx.requestedCreditNote = '';
+            companyNameModeltx.actualSalesTotal = '';
+            companyNameModeltx.actualSalesYear = '';
+            companyNameModeltx.actualSalesNote = '';
+            companyNameModeltx.plannedSalesTotal = '';
+            companyNameModeltx.plannedSalesYear = '';
+            companyNameModeltx.plannedSalesNote = '';
+            companyNameModeltx.nameOfKeySupplier = '';
+            companyNameModeltx.estimatedSalesVolumePerYear = '';
+            companyNameModeltx.estimatedSalesValuePerYear = '';
+            companyNameModeltx.customerBackground = '';
+            companyNameModeltx.reasonsToRequest = '';
+
+            jsonInput = JSON.serialize(companyNameModeltx);
         }
-        else
-        {
-            companyNameModel.hasSanctionedShareholder ='No';
-            companyNameModel.hasSanctionedCEO ='No';
-        }
-        //companyNameModel.forCompany ='TOP,TLB,TPX';
-        //companyNameModel.requestedFor ='requestedFor';
-        
-        companyNameModel.supplierDeliverOverTheLast3Years =''; //waiting comX
-        companyNameModel.trcrAnalysis =''; //connot map
-        companyNameModel.evpfApproval =''; //connot map
-        companyNameModel.evpfRemark =''; //connot map
-        companyNameModel.evpcApproval =''; //connot map
-        companyNameModel.evpcRemark ='';//connot map
-        companyNameModel.trvpApproval ='';//connot map
-        companyNameModel.trvpRemark ='';//connot map
-        companyNameModel.cmvpApproval ='';//connot map
-        companyNameModel.cmvpRemark ='';//connot map
-        companyNameModel.acvpApproval ='';//connot map
-        companyNameModel.acvpRemark ='';//connot map
-        companyNameModel.tlbmdApproval ='';//connot map
-        companyNameModel.tlbmdRemark ='';//connot map
-        companyNameModel.tpxmdApproval ='';//connot map
-        companyNameModel.tpxmdRemark ='';//connot map
-        // companyNameModel.hasSanctionedShareholder ='';//connot map
-        // companyNameModel.hasSanctionedCEO ='';//connot map
-        companyNameModel.hasAntiMoneyViolation ='';//connot map
-        companyNameModel.hasCEORelatedToTOP ='';//connot map
-        //companyNameModel.hasEnvironmentalPolicy ='Yes';
-        //companyNameModel.hasSocialResponsibilityPolicy =''; //connot map
-        //companyNameModel.hasCorporateGovernancePolicy ='Yes';
-        
-        companyNameModel.shareholders =shareholderName;
-        companyNameModel.companyName =companyName.CTRRequestFormHeader__r.CompanyNameENF__c !=null ?  companyName.CTRRequestFormHeader__r.CompanyNameENF__c :'';
-        companyNameModel.companyLocalName =companyName.CTRRequestFormHeader__r.CompanyNameLocal__c !=null ?  companyName.CTRRequestFormHeader__r.CompanyNameLocal__c :'';
-        companyNameModel.address =companyName.CTRRequestFormHeader__r.MailingBuildingCode__c !=null ?  companyName.CTRRequestFormHeader__r.MailingBuildingCode__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.StreetLocal__c !=null ?  companyName.CTRRequestFormHeader__r.StreetLocal__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.Street2Local__c !=null ?  companyName.CTRRequestFormHeader__r.Street2Local__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.Street3Local__c !=null ?  companyName.CTRRequestFormHeader__r.Street3Local__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.Street4Local__c !=null ?  companyName.CTRRequestFormHeader__r.Street4Local__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.DistrictLocalText__c !=null ?  companyName.CTRRequestFormHeader__r.DistrictLocalText__c +' ':'';
-        //companyNameModel.address +=companyName.CTRRequestFormHeader__r.CityStateLocalText__c !=null ?  companyName.CTRRequestFormHeader__r.CityStateLocalText__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.CityStateLocal__c !=null ?  companyName.CTRRequestFormHeader__r.CityStateLocal__r.Description__c +' ':'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.PostalCodeLocalText__c !=null ?  companyName.CTRRequestFormHeader__r.PostalCodeLocalText__c +' ':'';
-        //companyNameModel.companyName =//CTRRequestFormHeader__r.PostalCodeLocalEnText__c,//nothisfiel !=null ?  //CTRRequestFormHeader__r.PostalCodeLocalEnText__c,//nothisfiel :'';
-        companyNameModel.address +=companyName.CTRRequestFormHeader__r.Country__c !=null ?  companyName.CTRRequestFormHeader__r.Country__r.Name +' ':''; 
-         
-        companyNameModel.incorporationDate =companyName.CTRRequestFormHeader__r.IncoperationDate__c !=null ?  String.valueof(companyName.CTRRequestFormHeader__r.IncoperationDate__c) :'';
-        companyNameModel.country =companyName.CTRRequestFormHeader__r.Country__c !=null ?  companyName.CTRRequestFormHeader__r.Country__r.Name :'';
-        companyNameModel.parentCompany =companyName.CTRRequestFormHeader__r.ImmidiateParentCompany__c !=null ?  companyName.CTRRequestFormHeader__r.ImmidiateParentCompany__c :'';
-        companyNameModel.parentCompany +=companyName.CTRRequestFormHeader__r.UltimateParentCompany__c !=null ?  companyName.CTRRequestFormHeader__r.UltimateParentCompany__c :'';
-        companyNameModel.mainServicesAndProducts =companyName.CTRRequestFormHeader__r.MainProduct__c !=null ?  companyName.CTRRequestFormHeader__r.MainProduct__c :'';
-        companyNameModel.mainServicesAndProducts +=companyName.CTRRequestFormHeader__r.MainService__c !=null ?  companyName.CTRRequestFormHeader__r.MainService__c :'';
-        companyNameModel.hasSanctionedTarget =companyName.CTRRequestFormHeader__r.HasSanctionedTarget__c !=null ?  companyName.CTRRequestFormHeader__r.HasSanctionedTarget__c :'';
-        companyNameModel.customerPaymentOverTheLast3Years =companyName.CTRRequestFormHeader__r.PaymentOverTheAmountOfUSD__c !=null ?  companyName.CTRRequestFormHeader__r.PaymentOverTheAmountOfUSD__c :'';
-        companyNameModel.paymentHistory =companyName.CTRRequestFormHeader__r.PaymentHistoryRecord__c !=null ?  String.valueof(companyName.CTRRequestFormHeader__r.PaymentHistoryRecord__c) :'';
-        companyNameModel.internalCreditRating =companyName.InternalCreditRating__c !=null ?  companyName.InternalCreditRating__c :'';
-        companyNameModel.creditCondition =companyName.Credit_Condition__c !=null ?  companyName.Credit_Condition__c :'';
-        companyNameModel.estimatedStartDate =companyName.StartTradingDate__c !=null ?  String.valueof(companyName.StartTradingDate__c) :'';
-        companyNameModel.traderComment =companyName.AdditionalOpinions__c !=null ?  companyName.AdditionalOpinions__c :'';
-        // companyNameModel.traderComment2 =companyName.TraderPreScreenComment__c !=null ?  companyName.TraderPreScreenComment__c :'';
-        companyNameModel.ceo =companyName.CTRRequestFormHeader__r.CEOFirstName__c !=null ?  companyName.CTRRequestFormHeader__r.CEOFirstName__c +' ':'';
-        companyNameModel.ceo +=companyName.CTRRequestFormHeader__r.CEOLastName__c !=null ?  companyName.CTRRequestFormHeader__r.CEOLastName__c :'';
-        companyNameModel.creditRating =companyName.CompanyLatestCreditRating__c !=null ?  companyName.CompanyLatestCreditRating__c :'';
-        companyNameModel.forCompany = companyName.SubBU__c !=null ?  companyName.SubBU__c :'';
-        companyNameModel.requestedFor =companyName.RecordType.Name.contains('Customer') ?  'Customer' :'Supplier';
-        companyNameModel.hasCorporateGovernancePolicy = companyName.CTRRequestFormHeader__r.CorporateGovernancePolicy__c !=null ?  companyName.CTRRequestFormHeader__r.CorporateGovernancePolicy__c :'';
-        companyNameModel.hasEnvironmentalPolicy = companyName.CTRRequestFormHeader__r.EnvironmentPolicy__c !=null ?  companyName.CTRRequestFormHeader__r.EnvironmentPolicy__c :'';
-        companyNameModel.hasSocialResponsibilityPolicy = companyName.CTRRequestFormHeader__r.SocialResponsibilityPolicy__c !=null ?  companyName.CTRRequestFormHeader__r.SocialResponsibilityPolicy__c :'';
-        String jsonInput = JSON.serialize(companyNameModel );
         System.debug('Test JSON:::'+jsonInput);
         
         //jsonInput = '{ "forCompany": "TOP,TLB,TPX", "requestedFor": "Customer,Supplier", "companyName": "R2 Solutions Co.,Ltd.", "companyLocalName": "ราวด์ ทู โซลูชั่นส์", "address": "111, My Home, 11511", "incorporationDate": "18/01/2024", "country": "Thailand", "ceo": "Moke Krisnangkura", "shareholders": "Moke K.", "parentCompany": "R1 Solutions Co.,Ltd.", "mainServicesAndProducts": "Petroleum Products", "creditRating": "5.0", "hasSanctionedTarget": "Yes", "hasSanctionedShareholder": "Yes", "hasSanctionedCEO": "Yes", "hasAntiMoneyViolation": "Yes", "hasCEORelatedToTOP": "Yes", "supplierDeliverOverTheLast3Years": "Yes", "customerPaymentOverTheLast3Years": "Yes", "paymentHistory": "Not Available", "hasEnvironmentalPolicy": "Yes", "hasSocialResponsibilityPolicy": "Yes", "hasCorporateGovernancePolicy": "Yes", "internalCreditRating": "5.0", "creditCondition": "Cash on Delivery", "estimatedStartDate": "31/12/2222", "traderComment": "Proceed", "trcrAnalysis": "Good Credit with No Condition", "evpfApproval": "Approved", "evpfRemark": "OK", "evpcApproval": "Approved", "evpcRemark": "Pass", "trvpApproval": "Approved", "trvpRemark": "Done", "cmvpApproval": "Approved", "cmvpRemark": "Great", "acvpApproval": "Approved", "acvpRemark": "Good", "tlbmdApproval": "Approved", "tlbmdRemark": "Very Good", "tpxmdApproval": "Approved", "tpxmdRemark": "Excellent" }';
@@ -346,7 +419,16 @@ public class CTRApprovalDetailController
         request.settimeout(120000);
         // Get Custom Setting URL for enpoint.
         CTRConfig__c customSetting = CTRConfig__c.getInstance();
-        String valueURL = customSetting.CreditRating__c;
+        String valueURL = '';
+        if(companyName.BusinessUnit__c == 'TOP'){
+            valueURL = customSetting.CreditRating__c;
+        }
+        else if(companyName.BusinessUnit__c == 'LABIX'){
+            valueURL = customSetting.CreditRatingLabix__c;
+        }
+        else if(companyName.BusinessUnit__c == 'TX'){
+            valueURL = customSetting.CreditRatingTX__c;
+        }
         System.debug(valueURL);
         request.setEndpoint(valueURL);
         HttpResponse response = http.send(request);

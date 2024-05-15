@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
-    <description>[25 Mar 2024] Revise image</description>
+    <description>[25 Apr 2024] Add indent</description>
     <environments>Default</environments>
     <formulas>
         <name>fml_Org</name>
@@ -84,7 +84,7 @@
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>FinalRiskLevelUI</name>
-                    <fieldText>&lt;p&gt;Final Risk Level    &lt;/p&gt;</fieldText>
+                    <fieldText>&lt;p&gt;&lt;strong style=&quot;font-size: 14px;&quot;&gt;Final Risk Level    &lt;/strong&gt;&lt;/p&gt;</fieldText>
                     <fieldType>DisplayText</fieldType>
                 </fields>
                 <inputParameters>
@@ -265,6 +265,17 @@
             <fields>
                 <name>DueDiligenceResultScreen_Section3_Column1</name>
                 <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>1</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>DueDiligenceResultScreen_Section3_Column2</name>
+                <fieldType>Region</fieldType>
                 <fields>
                     <name>RiskLevelBySystemUI</name>
                     <fieldText>&lt;p&gt;Risk Level By System&lt;/p&gt;</fieldText>
@@ -273,13 +284,13 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>4</stringValue>
+                        <stringValue>3</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>DueDiligenceResultScreen_Section3_Column2</name>
+                <name>DueDiligenceResultScreen_Section3_Column3</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>imgSysNotAvailable</name>
@@ -448,6 +459,17 @@
             <fields>
                 <name>DueDiligenceResultScreen_Section4_Column1</name>
                 <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>1</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>DueDiligenceResultScreen_Section4_Column2</name>
+                <fieldType>Region</fieldType>
                 <fields>
                     <name>RiskLevelByTRCRUI</name>
                     <fieldText>&lt;p&gt;Risk Level By {!GetRequestItemRecord.fmlPositionNameOfFinancial__c}&lt;/p&gt;</fieldText>
@@ -456,13 +478,13 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>4</stringValue>
+                        <stringValue>3</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>DueDiligenceResultScreen_Section4_Column2</name>
+                <name>DueDiligenceResultScreen_Section4_Column3</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>imgFANotAvailable</name>
@@ -631,6 +653,17 @@
             <fields>
                 <name>DueDiligenceResultScreen_Section5_Column1</name>
                 <fieldType>Region</fieldType>
+                <inputParameters>
+                    <name>width</name>
+                    <value>
+                        <stringValue>1</stringValue>
+                    </value>
+                </inputParameters>
+                <isRequired>false</isRequired>
+            </fields>
+            <fields>
+                <name>DueDiligenceResultScreen_Section5_Column2</name>
+                <fieldType>Region</fieldType>
                 <fields>
                     <name>RiskLevelByCPXXUI</name>
                     <fieldText>&lt;p&gt;Risk Level By CPCE&lt;/p&gt;</fieldText>
@@ -639,13 +672,13 @@
                 <inputParameters>
                     <name>width</name>
                     <value>
-                        <stringValue>4</stringValue>
+                        <stringValue>3</stringValue>
                     </value>
                 </inputParameters>
                 <isRequired>false</isRequired>
             </fields>
             <fields>
-                <name>DueDiligenceResultScreen_Section5_Column2</name>
+                <name>DueDiligenceResultScreen_Section5_Column3</name>
                 <fieldType>Region</fieldType>
                 <fields>
                     <name>imgCPCENotAvailable</name>

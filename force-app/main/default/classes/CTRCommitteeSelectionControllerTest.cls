@@ -94,18 +94,6 @@ public without sharing class CTRCommitteeSelectionControllerTest {
         );
         insert reqItem1;
 
-        CTRRequestFormItem__c reqItem2 = new CTRRequestFormItem__c(
-            Name = 'Test Request Form Item 2',
-            Subject__c = '',
-            Message__c = '',
-            EmailTo__c = 'testuser@test.com',
-            EmailCC__c = 'testcc@test.com',
-            CTRRequestFormHeader__c = reqHeader.Id,
-            CommitteeOwner__c = testUser1.Id,
-            RecordTypeId = reqItemRTSup.Id
-        );
-        insert reqItem2;
-
         CTREmailTemplateMaster__c emailTemp1 = new CTREmailTemplateMaster__c(
             Subject__c = 'Subject',
             HTMLBody__c = 'Body',
@@ -116,7 +104,7 @@ public without sharing class CTRCommitteeSelectionControllerTest {
         CTREmailTemplateMaster__c emailTemp2 = new CTREmailTemplateMaster__c(
             Subject__c = 'Subject',
             HTMLBody__c = 'Body',
-            Type__c = 'Committee TX'
+            Type__c = 'Committee Customer TX'
         );
         insert emailTemp2;
 
@@ -169,8 +157,12 @@ public without sharing class CTRCommitteeSelectionControllerTest {
         );
         insert newCommAppr;
 
+
+        OrgWideEmailAddress orgWide = [SELECT Id,Address FROM OrgWideEmailAddress WHERE DisplayName = 'Commercial Team' LIMIT 1];
+
         CTRConfig__c config = new CTRConfig__c();
         config.RemindDate__c = 3;
+        config.OrgWideEmailAddress__c = orgWide.Address;
         insert config;
 
         C360Integration__c c360Integration = new C360Integration__c(
@@ -210,7 +202,7 @@ public without sharing class CTRCommitteeSelectionControllerTest {
         update testRecord;
 
         Test.startTest();
-        CTRCommitteeSelectionController.saveReqFormItem(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TOP');
+        CTRCommitteeSelectionController.saveReqFormItemAndSubmitToCommittees(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TOP');
         Test.stopTest();
 
         CTRRequestFormItem__c updatedRecord = [SELECT Id, Status__c, Approval_Step__c, RemindDate__c, CommitteeStatus__c FROM CTRRequestFormItem__c WHERE Id = :testRecord.Id LIMIT 1];
@@ -232,7 +224,7 @@ public without sharing class CTRCommitteeSelectionControllerTest {
 
 
         Test.startTest();
-        CTRCommitteeSelectionController.saveReqFormItem(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TX');
+        CTRCommitteeSelectionController.saveReqFormItemAndSubmitToCommittees(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TX');
         Test.stopTest();
 
         CTRRequestFormItem__c updatedRecord = [SELECT Id, Status__c, Approval_Step__c, RemindDate__c, CommitteeStatus__c FROM CTRRequestFormItem__c WHERE Id = :testRecord.Id LIMIT 1];
@@ -264,10 +256,59 @@ public without sharing class CTRCommitteeSelectionControllerTest {
     }
 
     @isTest
-    static void testRevertToTRCR() {
-        List<CTRRequestFormItem__c> testRecord = [SELECT Id FROM CTRRequestFormItem__c];
+    static void testSaveReqFormItemAndSubmitNoApproval() {
+        CTRCommittee__mdt committee = [SELECT Id, DeveloperName FROM CTRCommittee__mdt LIMIT 1];
+        CTRRequestFormItem__c testRecord = [SELECT Id, Name, Subject__c, Message__c, EmailTo__c, EmailCC__c, CommitteeName__c FROM CTRRequestFormItem__c LIMIT 1];
+        testRecord.Subject__c = 'subject';
+        testRecord.Message__c = 'message';
+        testRecord.EmailTo__c = 'testuser@test.com';
+        testRecord.EmailCC__c = 'testcc@test.com';
+        testRecord.CommitteeName__c = committee.DeveloperName;
+        update testRecord;
+
         Test.startTest();
-        CTRCommitteeSelectionController.revertToTRCR(testRecord[0].Id, 'Please, revise credit condition');
+        CTRCommitteeSelectionController.saveReqFormItemAndSubmitNoApproval(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TOP');
+        CTRCommitteeSelectionController.saveReqFormItemAndSubmitNoApproval(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TX');
+        Test.stopTest();
+
+        // Assertions
+        CTRRequestFormItem__c updatedRecord = [SELECT Id, Status__c,Approval_Step__c,RemindDate__c, CommitteeStatus__c FROM CTRRequestFormItem__c WHERE Id = :testRecord.Id LIMIT 1];
+        System.assertEquals('Approved', updatedRecord.Status__c, 'Status: "Approved"');
+        System.assertEquals('Approved', updatedRecord.Approval_Step__c, 'Approval Step:: "Approved"');
+        System.assertNotEquals(null, updatedRecord.RemindDate__c, 'Remind Date: Not NULL');
+        System.assertEquals('Submitted', updatedRecord.CommitteeStatus__c, 'Committee Status: "Submitted"');
+    }
+
+    @isTest
+    static void testSaveReqFormItemAndSubmitToCEO() {
+        CTRCommittee__mdt committee = [SELECT Id, DeveloperName FROM CTRCommittee__mdt LIMIT 1];
+        CTRRequestFormItem__c testRecord = [SELECT Id, Name, Subject__c, Message__c, EmailTo__c, EmailCC__c, CommitteeName__c FROM CTRRequestFormItem__c LIMIT 1];
+        testRecord.Subject__c = 'subject';
+        testRecord.Message__c = 'message';
+        testRecord.EmailTo__c = 'testuser@test.com';
+        testRecord.EmailCC__c = 'testcc@test.com';
+        testRecord.CommitteeName__c = committee.DeveloperName;
+        update testRecord;
+
+        Test.startTest();
+        CTRCommitteeSelectionController.saveReqFormItemAndSubmitToCEO(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TOP');
+        CTRCommitteeSelectionController.saveReqFormItemAndSubmitToCEO(testRecord.Id, testRecord, true, '[{"Title":"File1.txt"}, {"Title":"File2.txt"}]', 'Committee TOP', 'TX');
+        Test.stopTest();
+
+        // Assertions
+        CTRRequestFormItem__c updatedRecord = [SELECT Id, Status__c,Approval_Step__c,RemindDate__c, CommitteeStatus__c FROM CTRRequestFormItem__c WHERE Id = :testRecord.Id LIMIT 1];
+        System.assertEquals('Approval In Progress', updatedRecord.Status__c, 'Status: "Approval In Progress"');
+        System.assertEquals('Waiting for Approval', updatedRecord.Approval_Step__c, 'Approval Step:: "Waiting for Approval"');
+        System.assertNotEquals(null, updatedRecord.RemindDate__c, 'Remind Date: Not NULL');
+        System.assertEquals('Submitted', updatedRecord.CommitteeStatus__c, 'Committee Status: "Submitted"');
+    }
+
+
+    @isTest
+    static void testRevertToTRCR() {
+        List<CTRRequestFormItem__c> testRecord = [SELECT Id,CommitteeOwner__c FROM CTRRequestFormItem__c];
+        Test.startTest();
+        CTRCommitteeSelectionController.revertToTRCR(testRecord[0].Id, testRecord[0].CommitteeOwner__c , 'Comment');
         Test.stopTest();
     }
 
@@ -294,4 +335,49 @@ public without sharing class CTRCommitteeSelectionControllerTest {
         CTRCommitteeSelectionController.getTRCR('TLB', 'Customer', 'International','','No');
         Test.stopTest();
     }
+
+    // @isTest
+    // static void testGetChangeCreditCommittees() {
+    //     CTRRequestFormItem__c testRecord = [SELECT Id, Name, Subject__c, Message__c, EmailTo__c, EmailCC__c, CommitteeName__c,SalesOrganizationTX__c,SalesOrganization__c FROM CTRRequestFormItem__c LIMIT 1];
+    //     testRecord.SalesOrganizationTX__c = '1100';
+    //     testRecord.SalesOrganization__c = '1100';
+
+    //     String rqChange = 'Request to reduce/waive late payment';
+    //     String subType1 = 'Internal False';
+    //     String subType2 = '';
+    //     String salesOrg = 'TLB';
+    //     String type = 'International';
+    //     String chgAmount = '<=10,000';
+        
+    //     Test.startTest();
+    //     CTRCommitteeSelectionController.getChangeCreditCommittees(rqChange,subType1,subType2,salesOrg,type,chgAmount);
+    //     Test.stopTest();
+    // }
+
+    
+    @isTest
+    static void testGetRequestCounterpartyType() {
+        CTRRequestFormItem__c testRecord = [SELECT Id, Name, Subject__c, Message__c, EmailTo__c, EmailCC__c, CommitteeName__c,SalesOrganizationTX__c,SalesOrganization__c FROM CTRRequestFormItem__c LIMIT 1];
+        Test.startTest();
+        CTRCommitteeSelectionController.getRequestCounterpartyType(testRecord.Id);
+        Test.stopTest();
+    }
+
+    @isTest
+    static void testGetMasterPaymentTerm() {
+        Test.startTest();
+        Map<String, Master_Map__c> res = CTRCommitteeSelectionController.getMasterPaymentTerm();
+        Test.stopTest();
+    }
+
+    
+    @isTest
+    static void testGetRequestItem() {
+        CTRRequestFormItem__c testRecord = [SELECT Id, Name, Subject__c, Message__c, EmailTo__c, EmailCC__c, CommitteeName__c,SalesOrganizationTX__c,SalesOrganization__c FROM CTRRequestFormItem__c LIMIT 1];
+        Test.startTest();
+        CTRRequestFormItem__c res = CTRCommitteeSelectionController.getRequestItem(testRecord.Id);
+        Test.stopTest();
+    }
+    
+    
 }

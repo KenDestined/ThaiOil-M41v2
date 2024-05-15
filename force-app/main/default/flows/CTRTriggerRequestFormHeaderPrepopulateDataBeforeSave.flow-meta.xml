@@ -2,10 +2,36 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>59.0</apiVersion>
     <assignments>
+        <name>Assign_City_EN</name>
+        <label>Assign City EN</label>
+        <locationX>1392</locationX>
+        <locationY>993</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.CityStateEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CityStateLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Assign_City_EN_0</name>
+        <label>Assign City EN</label>
+        <locationX>451</locationX>
+        <locationY>780</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.CityStateEN__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.CityStateLocal__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>Assign_Name_EN</name>
         <label>Assign Name EN</label>
-        <locationX>1375</locationX>
-        <locationY>839</locationY>
+        <locationX>1380</locationX>
+        <locationY>857</locationY>
         <assignmentItems>
             <assignToReference>$Record.CustomerNameEN1__c</assignToReference>
             <operator>Assign</operator>
@@ -13,6 +39,9 @@
                 <elementReference>fmlCustomerEN40</elementReference>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>is_City_local_changed</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <name>Assign_Name_EN1</name>
@@ -49,6 +78,9 @@
                 <elementReference>fmlCustomerEN40</elementReference>
             </value>
         </assignmentItems>
+        <connector>
+            <targetReference>is_City_local_changed_0</targetReference>
+        </connector>
     </assignments>
     <assignments>
         <name>Assign_Name_Local</name>
@@ -99,6 +131,50 @@
         </connector>
     </assignments>
     <decisions>
+        <name>is_City_local_changed</name>
+        <label>is City local changed?</label>
+        <locationX>1137</locationX>
+        <locationY>1020</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>city_local_changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CityStateLocal__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_City_EN</targetReference>
+            </connector>
+            <label>city local changed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>is_City_local_changed_0</name>
+        <label>is City local changed?</label>
+        <locationX>741</locationX>
+        <locationY>808</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>city_local_changed_0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CityStateLocal__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_City_EN_0</targetReference>
+            </connector>
+            <label>city local changed</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>is_Create_Update</name>
         <label>is Create/Update?</label>
         <locationX>925</locationX>
@@ -128,6 +204,9 @@
         <label>is Name EN Changed?</label>
         <locationX>1137</locationX>
         <locationY>860</locationY>
+        <defaultConnector>
+            <targetReference>is_City_local_changed</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>NameEN_Changed</name>
@@ -164,6 +243,9 @@
         <label>is Name EN Changed?</label>
         <locationX>723</locationX>
         <locationY>638</locationY>
+        <defaultConnector>
+            <targetReference>is_City_local_changed_0</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>NameEN_Changed_0</name>

@@ -350,20 +350,37 @@
                                         console.log('---TraderCreditCondition-1---'+TraderCreditCondition);
                                         if(TraderCreditCondition == 'Open Account')
                                         {
+                                            // component.set("v.IsTDCreditLimitDisable", true);
+                                            // component.set("v.IsTDTradeCreditDisable", false);
                                             component.set("v.IsTDCreditLimitDisable", true);
-                                            component.set("v.IsTDTradeCreditDisable", false);
-                                            console.log('---Render Trade Credit-2---');
-                                            
+                                            component.set("v.IsTDCreditLimitRequired", true);
+                                            component.set("v.IsTDTradeCreditDisable", true); //isEnable
+                                            component.set("v.IsTDTradeCreditRequired", false);
+                                            component.set("v.IsTDPaymentRequried", false);
                                         }
-                                        else if(TraderCreditCondition == 'Open Account With Collateral' || TraderCreditCondition == 'L/C' || TraderCreditCondition == 'Domestic L/C' )
+                                        else if(TraderCreditCondition == 'Open Account With Collateral' )
                                         {
+                                            // component.set("v.IsTDCreditLimitDisable", true);
+                                            // component.set("v.IsTDTradeCreditDisable", true);
+                                            // component.set("v.IsTDCreditLimitDisable", true);
+
                                             component.set("v.IsTDCreditLimitDisable", true);
                                             component.set("v.IsTDTradeCreditDisable", true);
-                                        } 
+                                            component.set("v.IsTDCreditLimitRequired", false);
+                                            component.set("v.IsTDTradeCreditRequired", false);
+                                            component.set("v.IsTDPaymentRequried", false);
+                                        } else if(TraderCreditCondition == 'L/C' || TraderCreditCondition == 'Domestic L/C') {
+                                            component.set("v.IsTDCreditLimitDisable", true);
+                                            component.set("v.IsTDTradeCreditDisable", true);
+                                            component.set("v.IsTDCreditLimitRequired", true);
+                                            component.set("v.IsTDTradeCreditRequired", true);
+                                            component.set("v.IsTDPaymentRequried", false);
+                                        }
                                             else if(TraderCreditCondition == 'Cash in Advance' || TraderCreditCondition == 'Others')
                                             {
                                                 component.set("v.IsTDCreditLimitDisable", false);
                                                 component.set("v.IsTDTradeCreditDisable", false);
+                                                component.set("v.IsTDPaymentRequried", false);
                                             } 
                                     }
                                     
@@ -420,10 +437,18 @@
                                 if(CreditCondition == 'Open Account'){
                                     console.log('---Render Trade Credit-1---'+CreditCondition);
                                     component.set("v.IsCreditLimitDisable", true);
-                                    component.set("v.IsTradeCreditDisable", false);
+                                    component.set("v.IsCreditLimitRequired", true);
+                                    component.set("v.IsTradeCreditDisable", true); //isEnable
+                                    component.set("v.IsTradeCreditRequired", false);
+                                    component.set("v.IsPaymentRequried", false);
                                     console.log('---Render Trade Credit-2---');
-                                    
-                                }else if(CreditCondition == 'Cash in Advance' || CreditCondition == 'Others'){
+                                } else if(CreditCondition == 'Open Account With Collateral'){
+                                    component.set("v.IsTradeCreditDisable", true);
+                                    component.set("v.IsTradeCreditRequired", false);
+                                    component.set("v.IsCreditLimitDisable", true);
+                                    component.set("v.IsCreditLimitRequired", false);
+                                    component.set("v.IsPaymentRequried", false);
+                                } else if(CreditCondition == 'Cash in Advance' || CreditCondition == 'Others' || CreditCondition == 'L/C' || CreditCondition == 'Domestic L/C'){
                                     component.set("v.IsTradeCreditDisable", false);
                                     component.set("v.IsCreditLimitDisable", false);
                                     component.set("v.IsPaymentRequried", false);
@@ -471,6 +496,7 @@
                                 component.set("v.NotShowText",'This function isn\'t required in this request.');
                             }
                              */
+                            console.log('CurrentStepUserId ',component.get('v.CurrentStepUserId'),component.get('v.ApproverStepVal'),component.get('v.TDSectionName'))
                         }
                     });
                     $A.enqueueAction(actionBU);

@@ -23,6 +23,9 @@ public with sharing class CTRRequestFormItemControllerTest {
         reqItem.Customer__c = acc.Id;
         reqItem.CTRRequestFormHeader__c = reqHeader.Id;
         reqItem.Email__c = 'testmockemail@gmail.com';
+        reqItem.SalesOrganization__c = '1100';
+        reqItem.InterestedProductTypeAsSupplierTOP__c = 'B100/Ethanol';
+        reqItem.RecordTypeId =  Schema.SObjectType.CTRRequestFormItem__c.getRecordTypeInfosByDeveloperName().get('SupplierInitial').getRecordTypeId();
         reqItem.EmailPageAttachment__c = 'Screen Shot 2024-01-18 at 9.34.00 PM.png,Screen Shot 2024-01-18 at 9.34.00 PM.png';
         insert reqItem;
         
@@ -117,6 +120,15 @@ public with sharing class CTRRequestFormItemControllerTest {
             CTRRequestFormItemController.deleteAttachments(record.Id,'CustomerAttachment__c');
             CTRRequestFormItemController.deleteAttachments(record.Id,'CommitteeAttachment__c');
             CTRRequestFormItemController.deleteAttachments(record.Id,'SummarizeReportAttachment__c');
+        Test.stopTest();
+    }
+
+        
+    @IsTest 
+    public static void testCreatedNotiforHeroku(){
+        CTRRequestFormItem__c record =[SELECT Id FROM CTRRequestFormItem__c WHERE Email__c = 'testmockemail@gmail.com'];
+        Test.startTest();
+        	CTRRequestFormItemController.CreatedNotiforHeroku(record.Id);
         Test.stopTest();
     }
     

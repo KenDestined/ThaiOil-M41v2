@@ -75,14 +75,14 @@
                 // this.showToast('Record saved successfully', true);
                 console.log('Debug result ', result)
                 component.set('v.showSpinner', false);
-                if(result) {
+                if(result && !result.includes('error')) {
                     this.showToast('The request has been created.',true)
                     console.log('debug inserted id ',result);
                     var navEvt = $A.get("e.force:navigateToSObject"); 
                     navEvt.setParams({ "recordId": result, "slideDevName": "related" }); 
                     navEvt.fire(); 
                 } else {
-                    this.showToast('Failed to create request, Not found recordtype', false);
+                    this.showToast(result, false);
                 }
 
                 // if(requestList && requestList.length > 0) {

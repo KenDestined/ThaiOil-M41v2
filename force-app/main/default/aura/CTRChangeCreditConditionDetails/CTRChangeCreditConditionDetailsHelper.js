@@ -38,6 +38,7 @@
         						var SubTypeCondition = requestList[0].SubTypeCondition__c;
         						var SubTypeCondition2 = requestList[0].SubTypeCondition2__c;
                                 var ChangeCreditAmount = requestList[0].ChangeCreditAmount__c;
+                                var AmountCRNum = requestList[0].AmountCRNum__c;
                                 var EffectiveDateForm = requestList[0].EffectiveDateForm__c;
                                 var EffectiveDateTo = requestList[0].EffectiveDateTo__c;
                                 var CreditCondition = requestList[0].FinCrCond__c;
@@ -199,6 +200,7 @@
                                 component.find("SubTypeCondition").set("v.value",SubTypeCondition);
                                 component.find("SubTypeCondition2").set("v.value",SubTypeCondition2);
                                 component.find("ChangeCreditAmount").set("v.value",ChangeCreditAmount);
+                                component.find("ChangeCreditAmountnumber").set("v.value",AmountCRNum);
                                 component.find("EffectiveDateForm").set("v.value",EffectiveDateForm);
                                 component.find("EffectiveDateTo").set("v.value",EffectiveDateTo);
                                 component.find("ChangeCreditCreditCondition").set("v.value",CreditCondition);

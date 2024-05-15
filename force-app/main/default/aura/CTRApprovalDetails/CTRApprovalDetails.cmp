@@ -50,6 +50,11 @@
     <aura:attribute name="isAmount5Required" type="Boolean" default="false"/> 
     <aura:attribute name="IsOtherRequired" type="Boolean" default="false"/> 
     <aura:attribute name="IsReassignDisable" type="Boolean" default="false"/> 
+    <aura:attribute name="IsTDTradeCreditRequired" type="Boolean" default="true"/> 
+    <aura:attribute name="IsTDCreditLimitRequired" type="Boolean" default="true"/> 
+    <aura:attribute name="IsTradeCreditRequired" type="Boolean" default="true"/> 
+    <aura:attribute name="IsCreditLimitRequired" type="Boolean" default="true"/> 
+    <aura:attribute name="IsTDPaymentRequried" type="Boolean" default="true"/> 
     
     
     <!--auto calculate-->
@@ -642,7 +647,9 @@
                                                     <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                         <div class="slds-col slds-size_1-of-7">
                                                             <p>
-                                                                <span style="color:red; font-style: italic;" >* </span>
+                                                                <aura:renderIf isTrue="{!v.IsCreditLimitRequired}">
+                                                                    <span style="color:red; font-style: italic;" >* </span>
+                                                                </aura:renderIf>
                                                                 Credit Limit: 
                                                             </p>
                                                         </div>
@@ -652,7 +659,7 @@
                                                                               fieldName="CreditLimit__c" 
                                                                               variant="label-hidden"
                                                                               disabled="{!v.IsPageDisable}"
-                                                                              required="true"/> 
+                                                                              required="{!v.IsCreditLimitRequired}"/> 
                                                         </div>
                                                         <div class="slds-form_horizontal slds-col slds-size_1-of-6" >
                                                             <lightning:inputField aura:id="CreditLimitCurrency" 
@@ -660,7 +667,7 @@
                                                                               variant="label-hidden"
                                                                               disabled="{!v.IsPageDisable}"
                                                                               onchange="{!c.handleCreditLimitCurrency}" 
-                                                                              required="true"/>
+                                                                              required="{!v.IsCreditLimitRequired}"/>
                                                         </div>
                                                     </div>
                                                 
@@ -670,7 +677,10 @@
                                                     <aura:renderIf isTrue="{!v.IsTradeCreditDisable}">
                                                         <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                             <div class="slds-col slds-size_1-of-7">
-                                                                <p><span style="color:red; font-style: italic;" >* </span>
+                                                                <p>
+                                                                    <aura:renderIf isTrue="{!v.IsTradeCreditRequired}">
+                                                                        <span style="color:red; font-style: italic;" >* </span>
+                                                                    </aura:renderIf>
                                                                     Trade Credit Insurance: </p>
                                                             </div>
                                                             <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
@@ -679,14 +689,14 @@
                                                                                   fieldName="Trade_Credit_Insurance__c" 
                                                                                   variant="label-hidden"
                                                                                   disabled="{!v.IsPageDisable}"
-                                                                                  required="true"/> 
+                                                                                  required="{!v.IsTradeCreditRequired}"/> 
                                                             </div>
                                                             <div class="slds-form_horizontal slds-col slds-size_1-of-6" >
                                                                 <lightning:inputField aura:id="TradeCreditInsuranceCurrency__c" 
                                                                                   fieldName="TradeCreditInsuranceCurrency__c" 
                                                                                   variant="label-hidden"
                                                                                   disabled="{!v.IsPageDisable}"
-                                                                                  required="true"/>
+                                                                                  required="{!v.IsTradeCreditRequired}"/>
                                                             </div>
                                                         </div>
                                                         <br/>
@@ -807,7 +817,7 @@
                                                                       fieldName="PerformanceBond__c" 
                                                                       variant="label-hidden"
                                                                       disabled="{!v.IsPageDisable}"
-                                                                      required="true"/>
+                                                                      />
                                                 </div>
                                             </div>
                                             <div class="slds-grid slds-wrap slds-size_1-of-1">
@@ -963,7 +973,10 @@
                                                             <aura:renderIf isTrue="{!v.IsTDCreditLimitDisable}">
                                                                 <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                                     <div class="slds-col slds-size_1-of-7">
-                                                                        <p><span style="color:red; font-style: italic;" >* </span>
+                                                                        <p>
+                                                                            <aura:renderIf isTrue="{!v.IsTDCreditLimitRequired}">
+                                                                                <span style="color:red; font-style: italic;" >* </span>
+                                                                            </aura:renderIf>
                                                                             Credit Limit: </p>
                                                                     </div>
                                                                     <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
@@ -972,14 +985,14 @@
                                                                                           fieldName="ApprovalTrader_CreditLimit__c" 
                                                                                           variant="label-hidden"
                                                                                           disabled="{!v.IsTDFieldsDisable}"
-                                                                                          required="true"/> 
+                                                                                          required="{!v.IsTDCreditLimitRequired}"/> 
                                                                     </div>
                                                                     <div class="slds-form_horizontal slds-col slds-size_1-of-6" >
                                                                         <lightning:inputField aura:id="ApprovalTrader_CreditLimitCurrency__c" 
                                                                                           fieldName="ApprovalTraderCreditLimitCurrency__c" 
                                                                                           variant="label-hidden"
                                                                                           disabled="{!v.IsTDFieldsDisable}"
-                                                                                          required="true"/>
+                                                                                          required="{!v.IsTDCreditLimitRequired}"/>
                                                                     </div>
                                                                 </div>
                                                             </aura:renderIf>
@@ -987,7 +1000,10 @@
                                                             <aura:renderIf isTrue="{!v.IsTDTradeCreditDisable}">
                                                                 <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                                     <div class="slds-col slds-size_1-of-7">
-                                                                        <p> <span style="color:red; font-style: italic;" >* </span>
+                                                                        <p> 
+                                                                            <aura:renderIf isTrue="{!v.IsTDTradeCreditRequired}">
+                                                                                <span style="color:red; font-style: italic;" >* </span>
+                                                                            </aura:renderIf>
                                                                             Trade Credit Insurance: </p>
                                                                     </div>
                                                                     <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
@@ -996,14 +1012,14 @@
                                                                                           fieldName="ApprovalTrader_TradeCreditInsurance__c" 
                                                                                           variant="label-hidden"
                                                                                           disabled="{!v.IsTDFieldsDisable}"
-                                                                                          required="true"/> 
+                                                                                          required="{!v.IsTDTradeCreditRequired}"/> 
                                                                     </div>
                                                                     <div class="slds-form_horizontal slds-col slds-size_1-of-6" >
                                                                         <lightning:inputField aura:id="ApprovalTrader_TradeCreditCurrency__c" 
                                                                                           fieldName="ApprovalTraderTradeCreditCurrency__c" 
                                                                                           variant="label-hidden"
                                                                                           disabled="{!v.IsTDFieldsDisable}"
-                                                                                          required="true"/>
+                                                                                          required="{!v.IsTDTradeCreditRequired}"/>
                                                                     </div>
                                                                 </div>
                                                                 <br/>
@@ -1044,7 +1060,10 @@
                                                                 </div>
                                                                 <div class="slds-grid slds-wrap slds-size_1-of-1">
                                                                     <div class="slds-col slds-size_1-of-7">
-                                                                        <p><span style="color:red; font-style: italic;" >* </span>
+                                                                        <p>
+                                                                            <aura:renderIf isTrue="{!v.IsTDPaymentRequried}">
+                                                                                <span style="color:red; font-style: italic;" >* </span>
+                                                                            </aura:renderIf>
                                                                             Payment Condition: </p>
                                                                     </div>
                                                                     <div class="slds-form_horizontal slds-col slds-size_3-of-6" >
@@ -1052,7 +1071,7 @@
                                                                                           fieldName="ApprovalTrader_PaymentCondition__c" 
                                                                                           variant="label-hidden"
                                                                                           disabled="{!v.IsTDFieldsDisable}"
-                                                                                          required="true"/>
+                                                                                          required="{!v.IsTDPaymentRequried}"/>
                                                                     </div>
                                                                 </div>
                                                             </aura:renderIf>
@@ -1087,7 +1106,7 @@
                                                                                       fieldName="TDPerformanceBond__c" 
                                                                                       variant="label-hidden"
                                                                                       disabled="{!v.IsTDFieldsDisable}"
-                                                                                      required="true"/>
+                                                                                      />
                                                             </div>
                                                         </div>
                                                         <div class="slds-grid slds-wrap slds-size_1-of-1">

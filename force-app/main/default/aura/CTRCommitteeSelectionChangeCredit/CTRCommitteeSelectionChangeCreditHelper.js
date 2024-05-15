@@ -215,7 +215,7 @@
 
         if (requestChangeCreditCoditionLowerCase === "request to change credit condition") {
             if (subTypeConditionLowerCase === "change credit condition") {
-                return committeeInfo.FinIntCrRating__c;
+                return committeeInfo.FinIntCrRating__c || committeeInfo.FinancialInformation__r.InternalCreditRating__c;
             } else {
                 return committeeInfo.FinancialInformation__r.InternalCreditRating__c;
             }
@@ -340,6 +340,36 @@
                     const groupedCommittees = response.getReturnValue();
                     _THIS_.component.set("v.groupedCommittees", groupedCommittees);
                     resolve(groupedCommittees)
+                } else {
+                    console.error("Error fetching committees: " + state);
+                    reject(response.getError())
+                }
+            });
+            $A.enqueueAction(action);
+        }))
+    },
+
+    getSpecialGroupedCommittees: function () {
+        const _THIS_ = this;
+        return new Promise($A.getCallback(function (resolve, reject) {
+            const committeeInfo = _THIS_.component.get("v.committeeInfo");
+            const action = _THIS_.component.get("c.getChangeCreditCommittees");
+            const params = {
+                "rqChange": committeeInfo.RequestToChangeCredit__c,
+                "subType1": committeeInfo.SubTypeCondition__c,
+                "subType2": (committeeInfo.SubTypeCondition__c === "Expand Temporary Credit Line") ? "" : committeeInfo.SubTypeCondition2__c,
+                "salesOrg": _THIS_.getSubBU(),
+                "type": _THIS_.isDomesticOrInternational(),
+                "chgAmount": committeeInfo.ChangeCreditAmount__c,
+            };
+
+            action.setParams(params);
+            action.setCallback(this, function (response) {
+                const state = response.getState();
+                if (state === "SUCCESS") {
+                    const specialGroupedCommittees = response.getReturnValue();
+                    _THIS_.component.set("v.specialGroupedCommittees", specialGroupedCommittees);
+                    resolve(specialGroupedCommittees)
                 } else {
                     console.error("Error fetching committees: " + state);
                     reject(response.getError())
@@ -743,6 +773,7 @@
             const action = _THIS_.component.get("c.revertToTRCR");
             action.setParams({
                 "recordId": _THIS_.component.get("v.recordId"),
+                "selectedCreditOwner": _THIS_.component.get('v.creditOwner'),
                 "comment": _THIS_.component.get("v.requestFormObj.Comment__c"),
             });
             action.setCallback(this, function (response) {
@@ -781,7 +812,21 @@
         $A.enqueueAction(action);
     },
 
-    setDefaultFinalCreditCondition: function() {
+    setEmailAuthorizationTX: function () {
+        const bu = this.getBU();
+        if (bu === "TX") {
+            this.component.set("v.requestFormObj.EmailAuthorization__c", "committee required");
+            let cmp = this.component.find("EmailAuthorization");
+            if (!$A.util.isEmpty(cmp)) {
+                if ($A.util.isArray(cmp)) {
+                    cmp = cmp[0];
+                }
+                cmp.set("v.value", "Committee Required")
+            }
+        }
+    },
+
+    setDefaultFinalCreditCondition: function () {
         const committeeInfo = this.component.get("v.committeeInfo");
         const requestChangeCreditCodition = this.getRequestChangeCreditCondition() || "";
         const requestChangeCreditCoditionLowerCase = requestChangeCreditCodition.toLowerCase();
@@ -863,7 +908,7 @@
         }
     },
 
-    resetCommittee: function () {
+    resetCommittee: function (emailAuthorization) {
         const bu = this.getBU();
         const subBU = this.getSubBU();
         const lstCompany = [subBU];
@@ -879,7 +924,16 @@
                 return !!(item[fieldName])
             })
         })
-        this.component.set("v.selectedCommittees", []);
+
+        if (emailAuthorization === "ceo required") {
+            const selectedCommittees = [];
+            lstFilteredCommitteesInCompany.forEach((item) => {
+                selectedCommittees.push(item.DeveloperName)
+            });
+            this.component.set("v.selectedCommittees", selectedCommittees);
+        } else {
+            this.component.set("v.selectedCommittees", []);
+        }
         this.component.set("v.lstCommittees", lstFilteredCommitteesInCompany);
     },
 
@@ -889,6 +943,22 @@
             lstCommittee.push(...item.committees);
         });
         return lstCommittee;
+    },
+
+    convertChangeCreditCommitteesToList: function (changeCommittees) {
+        changeCommittees.forEach(function (item) {
+            const position = item.Position__c || "";
+            item.Parent__c = position ;
+            if (position.includes("TRCR")) {
+                item.Parent__c = "TRCR" ;
+            } else if (position.includes("CMDP")) {
+                item.Parent__c = "CMDP" ;
+            } else if (position.includes("TXIP")) {
+                item.Parent__c = "TXIP" ;
+            }
+            item.Label = item.DeveloperName;
+        });
+        return changeCommittees;
     },
 
     defaultFinalCreditCondition: function () {
@@ -1085,6 +1155,28 @@
         }
     },
 
+    defaultChangeCreditCommittee: function (lstCommittee, lstCompany, committeeInfo) {
+        const selectedCommittees = [];
+        const emailAuthorization = lstCommittee[0].EmailAuthorization__c;
+
+        lstCommittee.forEach((item) => {
+            if (item.IsDefault__c) {
+                selectedCommittees.push(item.DeveloperName);
+            }
+        })
+
+        let cmpEmailAuthorization = this.component.find("EmailAuthorization");
+        if (!$A.util.isEmpty(cmpEmailAuthorization)) {
+            if ($A.util.isArray(cmpEmailAuthorization)) {
+                cmpEmailAuthorization = cmpEmailAuthorization[0];
+            }
+            cmpEmailAuthorization.set('v.value', emailAuthorization);
+        }
+
+        this.component.set("v.selectedCommittees", selectedCommittees);
+        this.component.set("v.lstCommittees", lstCommittee);
+    },
+
     defaultCommittee: function (lstCommittee, lstCompany, committeeInfo) {
         const bu = this.getBU();
         const counterpartyType = this.getCounterpartyType();
@@ -1271,6 +1363,15 @@
         if (!creditRating) {
             this.showToast("INFO-0001", "info")
         }
+    },
+
+    loadChangeCreditCommittee: function (lstCommittee, lstCompany, committeeInfo) {
+        const selectedCommittees = !$A.util.isEmpty(committeeInfo.CommitteeName__c)
+            ? committeeInfo.CommitteeName__c.split(",")
+            : [];
+
+        this.component.set("v.selectedCommittees", selectedCommittees)
+        this.component.set("v.lstCommittees", lstCommittee)
     },
 
     loadCommittee: function (lstCommittee, lstCompany, committeeInfo) {
@@ -1461,7 +1562,7 @@
         const emailAuthorizationLowerCase = emailAuthorization ? emailAuthorization.toLowerCase() : "";
 
         if (emailAuthorizationLowerCase === "ceo required") {
-            this.component.set("v.enableCommitteeSelection", false);
+            this.component.set("v.enableCommitteeSelection", true);
         } else if (emailAuthorizationLowerCase === "committee required") {
             this.component.set("v.enableCommitteeSelection", true);
         } else {

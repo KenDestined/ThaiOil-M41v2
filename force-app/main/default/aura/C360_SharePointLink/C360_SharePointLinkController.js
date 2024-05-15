@@ -17,6 +17,7 @@
                     console.log(result);
                     if(result)
                     {
+                        component.set('v.isCreatingFolder',(result.length > 0 ? result[0].mSendCreateFolder : false));
                         component.set('v.SharePointList', result);
                         component.set('v.loadedButtonURL', true)
                     }
@@ -24,7 +25,7 @@
                         console.log('2'+component.get('v.SharePointList'));
 
                         component.set("v.loaded", true);
-
+                    console.log('debug loadedButtonURL ',component.get('v.loadedButtonURL'),component.get('v.isCreatingFolder'))
                     //component.set('v.spPath', res.getReturnValue());
                 }
             });
@@ -33,9 +34,17 @@
     },
     linkUrl : function(component, event, helper) 
     {
-        var element = event.getSource();
-		var mLink = element.get("v.value");
-        var spPath = component.get('v.spPath');
-        window.open(mLink);
+        console.log('Debug isCreatingFolder',component.get('v.isCreatingFolder'))
+        
+        if(component.get('v.isCreatingFolder')) {
+            console.log('Check send create sharepoint')
+            helper.checkSendCreateSharePointFolder(component, event, helper);
+        } else {
+            // var element = event.getSource();
+            // var mLink = element.get("v.value");
+            // var spPath = component.get('v.spPath');
+            // window.open(mLink);
+            helper.openSharepointLink(component, event, helper);
+        }
     },
 })

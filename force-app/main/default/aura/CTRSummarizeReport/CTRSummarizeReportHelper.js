@@ -18,7 +18,7 @@
         action.setCallback(this, function (response) {
             var state = response.getState();
             if (state === "SUCCESS") {
-                console.log('SUCCESS ' + response.getReturnValue());
+                console.log('SUCCESS ',response.getReturnValue());
 
                 var sumRep = response.getReturnValue();
                 component.set('v.ownerId', sumRep.SummarizeReportReassign__c);
@@ -68,7 +68,7 @@
                     });
                     toastEvent.fire();
 
-                    //$A.get("e.force:closeQuickAction").fire();
+                    $A.get("e.force:closeQuickAction").fire();
                     component.set("v.isModalOpen", false);
                 }
 
@@ -85,6 +85,7 @@
     },
 
     getMailApprovalReport: function (component, sumRep) {
+        console.log('getMailApprovalReport',sumRep)
         component.set('v.emailInfo.Subject__c', sumRep.SummarizeReportSubject__c);
         component.set('v.emailInfo.EmailTo__c', this.getEmailTo(sumRep));
         component.set('v.emailInfo.EmailCC__c', sumRep.SummarizeReportEmailCC__c);
@@ -152,7 +153,8 @@
                 $A.enqueueAction(action);
             }
             else {
-                this.showToast('Subject cannot be blank', false);
+                _THIS_.showToast('Subject cannot be blank', false);
+                component.set('v.showSpinner', false);
                 reject("INCOMPLETE");
             }
         }));

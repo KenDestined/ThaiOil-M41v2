@@ -16,7 +16,8 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
         Datetime lastThreeHours = datetime.now().addhours(-3);
         // Datetime lastThreeHours = datetime.now().addhours(-30); // for debugging
         // System.debug('Debug last 3 hours '+lastThreeHours);
-        this.query = 'SELECT Id, SubmitToCreateSharePointFolder__c, SFCode__c FROM Account WHERE isMigrateData__c = TRUE AND SubmitToCreateSharePointFolder__c = FALSE AND SFCode__c != NULL AND CreatedDate > :lastThreeHours';
+        this.query = 'SELECT Id, Name, AccountNumber__c, SupplierNumber__c, SubmitToCreateSharePointFolder__c, SFCode__c, RecordTypeId, RecordType.DeveloperName, AccountGroup__c FROM Account WHERE isMigrateData__c = TRUE AND SubmitToCreateSharePointFolder__c = FALSE AND SFCode__c != NULL';
+        //this.query +=' AND CreatedDate > :lastThreeHours';
         return Database.getQueryLocator(this.query);
     }
 
@@ -27,13 +28,15 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
         Map<String, Object> mDataToSendMap = new Map<String, Object>();
         if(this.mIntegration != null) {
             for(Account mAccount: scope) {
+
+                
                 Map<String, String> mDataMap = new Map<String, String>();
                 if(String.isNotBlank(this.mSetting.SharePointMainFolderDuringCreate__c) && String.isNotBlank(this.mSetting.HerokuIntegrationDomain__c) && String.isNotBlank(this.mIntegration.Path__c)) {
                     String subFolder = 'Common';
-                    if(mAccount.RecordType.DeveloperName.contains('ShipTo')) {
+                    if(mAccount.RecordType.DeveloperName.contains('ShipTo') || mAccount.AccountGroup__c == 'ZSHP') {
                         subFolder = 'ShipTo';
                     }
-                    String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(this.mSetting.SharePointMainFolderDuringCreate__c, mAccount.SFCode__c, subFolder, '', new List<String>(), '');
+                    String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(this.mSetting.SharePointMainFolderDuringCreate__c, mAccount.SFCode__c, subFolder, '', new List<String>(), '', mAccount);
                     if(String.isNotBlank(mBody))
                     {
                         mDataMap.put('mBody',mBody);
@@ -48,7 +51,7 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
                     mSendDataList.add(mDataMap);
                     mDataToSendMap.put(mAccount.Id, mDataMap);
                 }
-                mAccount.SubmitToCreateSharePointFolder__c = true; // update flag
+                
             }
         }
 
@@ -57,8 +60,9 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
             for(Map<String, String> mDataToSend: mSendDataList) {
                 sendServiceToHeroku(mDataToSend.get('mBody'), mDataToSend.get('mToken'), mDataToSend.get('mEndPoint'), mDataToSend.get('mSendType'),mDataToSend.get('mAccountId'), mDataToSend.get('mGatewayId'));
             }
+            sleep(3);
         }
-
+        
         if(scope.size() > 0){
             System.debug('::::::::: Finish SendCreateSharePointFolderBatch ::::::::::::::::');
             Database.SaveResult[] logUpsertResult = Database.update(scope);
@@ -71,8 +75,22 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
         }
     }
 
-    public void finish(Database.BatchableContext bc){}
+    public void finish(Database.BatchableContext bc){
 
+    }
+
+    public static void sleep(Integer secs ) {
+        datetime myStartDateTime = datetime.now();
+        DateTime newDateTime = myStartDateTime.addSeconds(secs);
+        while (datetime.now() < newDateTime ) {
+        // sleeping here...sort of
+        }
+        datetime myEndDateTime = datetime.now();
+        System.debug('start:  ' + myStartDateTime ) ;
+        System.debug('end:  ' + myEndDateTime) ;
+    }
+
+    // @future(callout = true) 
     private static void sendServiceToHeroku(String mJson, String mToken, String mEndPoint, String mInputSendType, Id mRecordId, String mGatewayId)
     {
         System.debug('Send Service to heroku '+mEndPoint+':'+mInputSendType+':'+mRecordId);
@@ -80,6 +98,7 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
         request.setMethod('POST');  
         request.setHeader('Content-Type', 'application/json');
         request.setBody(mJson);
+        request.setTimeout(120000); 
         request.setEndpoint(mEndPoint);
         request.setHeader('Authorization', 'Bearer ' + mToken);
             
@@ -96,45 +115,14 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
             {
                 System.debug('mRecordId:'+mRecordId);
                 System.debug('mInputSendType:'+mInputSendType);
-                if(sObjName == 'CTRRequestFormItem__c')
-                {
-                    System.debug('Success Response1: ' + response.getBody());
-                    if(mInputSendType == 'Sale')
-                    {
-                        System.debug('Success Response2: ' + response.getBody());
-                        CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRecordId);
-                        mRequestItemUpdate.IntegrationStatus__c = 'In Progress';
-                        mRequestItemUpdate.GatewayId__c = mGatewayId;
-                        mRequestItemUpdate.SAPSubmitTime__c = DateTime.now();
-                        mRequestItemUpdate.LatestIntegrationName__c = 'Initial Customer Sales View';
-                        update mRequestItemUpdate;
-                    }
-                    else if(mInputSendType == 'AdditionalInfo')
-                    {
-                        CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRecordId);
-                        mRequestItemUpdate.IntegrationStatus__c = 'In Progress';
-                        mRequestItemUpdate.GatewayId__c = mGatewayId;
-                        mRequestItemUpdate.SAPSubmitTime__c = DateTime.now();
-                        mRequestItemUpdate.LatestIntegrationName__c = 'Initial Customer Additional Information';
-                        update mRequestItemUpdate;
-                    }
-                }
-                else if(sObjName == 'Lead')
-                {
-                    if(mInputSendType == 'NewsSharedHolder')
-                    {
-                        Lead mLeadUpdate = new Lead(Id = mRecordId);
-                        mLeadUpdate.GatewayId__c = mGatewayId;
-                        update mLeadUpdate;
-                    }
-                }
-                else if(sObjName == 'Account')
+                if(sObjName == 'Account')
                 {
                     Account mAccountQ = [SELECT Id,SubmitToSharepointDateTime__c FROM Account WHERE Id=:mRecordId];
                     if(mInputSendType.contains('Folder'))
                     {
                         Account mAccount = new Account(Id = mRecordId);
                         mAccount.SharePointFolderIsReady__c = true;
+                        mAccount.SubmitToCreateSharePointFolder__c = true; // update flag
                         if(mAccountQ.SubmitToSharepointDateTime__c == null)
                         {
                             mAccount.SubmitToSharepointDateTime__c = System.now();
@@ -149,38 +137,7 @@ public class CTRCreateSharePointFolderBatch implements Database.Batchable<sObjec
             } 
             else 
             {
-                if(sObjName == 'CTRRequestFormItem__c')
-                {
-                    if(mInputSendType == 'Sale')
-                    {
-                        CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRecordId);
-                        mRequestItemUpdate.IntegrationStatus__c = 'Fail';
-                        mRequestItemUpdate.SAPStatus__c = 'Pending CCA';
-                        mRequestItemUpdate.GatewayId__c = mGatewayId;
-                        mRequestItemUpdate.SAPSubmitTime__c = DateTime.now();
-                        mRequestItemUpdate.LatestIntegrationName__c = 'Initial Customer Sales View';
-                        update mRequestItemUpdate;
-                    }
-                    else if(mInputSendType == 'AdditionalInfo')
-                    {
-                        CTRRequestFormItem__c mRequestItemUpdate = new CTRRequestFormItem__c(Id = mRecordId);
-                        mRequestItemUpdate.IntegrationStatus__c = 'Fail';
-                        mRequestItemUpdate.GatewayId__c = mGatewayId;
-                        mRequestItemUpdate.SAPSubmitTime__c = DateTime.now();
-                        mRequestItemUpdate.LatestIntegrationName__c = 'Initial Customer Additional Information';
-                        update mRequestItemUpdate;
-                    }
-                    
-                }
-                else if(sObjName == 'Lead')
-                {
-                    if(mInputSendType == 'NewsSharedHolder')
-                    {
-                        Lead mLeadUpdate = new Lead(Id = mRecordId);
-                        mLeadUpdate.GatewayId__c = mGatewayId;
-                        //update mLeadUpdate;
-                    }
-                }
+
                 // Error handling
                 System.debug('HTTP error: ' + response.getStatusCode() + ' ' + response.getBody());
             }

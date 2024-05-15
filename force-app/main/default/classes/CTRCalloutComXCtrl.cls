@@ -136,6 +136,9 @@ public without sharing class CTRCalloutComXCtrl {
             httpRequest.setHeader('Content-Type', 'application/soap+xml; charset=utf-8');
             httpRequest.setHeader('Content-Length', String.valueOf(soapRequest.length()));
             httpRequest.setBody(soapRequest);
+            // Set timeout in milliseconds (e.g., 120 seconds)
+            // Integer timeoutMilliseconds = 120000; // 120 seconds
+            // httpRequest.setTimeout(timeoutMilliseconds);
             
             // Create the HTTP connection
             Http http = new Http();
@@ -150,7 +153,7 @@ public without sharing class CTRCalloutComXCtrl {
                 
                 if(soapResponse.contains('Success')){
                     Application_Log__c log = new Application_Log__c();
-                    log.External_ID__c = 'ComX-'+extId;
+                    log.External_ID__c = 'ComX-Update-'+extId;
                     log.Method__c = 'Upsert';
                     log.Integration_Name__c = type.toLowercase().contains('customer') ? 'CTR ComX Callout Update Customer' : 'CTR ComX Callout Update Supplier';
                     log.Log_Type__c = 'Success';
@@ -162,7 +165,7 @@ public without sharing class CTRCalloutComXCtrl {
                     applogList.add(log);
                 }else{
                     Application_Log__c log = new Application_Log__c();
-                    log.External_ID__c = 'ComX-'+extId;
+                    log.External_ID__c = 'ComX-Update-'+extId;
                     log.Method__c = 'Upsert';
                     log.Integration_Name__c = type.toLowercase().contains('customer') ? 'CTR ComX Callout Update Customer' : 'CTR ComX Callout Update Supplier';
                     log.Log_Type__c = 'Error';
@@ -180,7 +183,7 @@ public without sharing class CTRCalloutComXCtrl {
                 System.debug('HTTP Error: ' + httpResponse.getStatusCode() + ' ' + httpResponse.getStatus());
                 
                 Application_Log__c log = new Application_Log__c();
-                log.External_ID__c = 'ComX-'+extId;
+                log.External_ID__c = 'ComX-Update-'+extId;
                 log.Method__c = 'Upsert';
                 log.Integration_Name__c = type.toLowercase().contains('customer') ? 'CTR ComX Callout Update Customer' : 'CTR ComX Callout Update Supplier';
                 log.Log_Type__c = 'Error';
@@ -194,14 +197,14 @@ public without sharing class CTRCalloutComXCtrl {
         }
         catch (Exception e) {
             Application_Log__c log = new Application_Log__c();
-            log.External_ID__c = 'ComX-'+extId;
+            log.External_ID__c = 'ComX-Update-'+extId;
             log.Method__c = 'Upsert';
             log.Integration_Name__c = type.toLowercase().contains('customer') ? 'CTR ComX Callout Update Customer' : 'CTR ComX Callout Update Supplier';
             log.Message_Type__c = 'Fail';
             log.Log_Type__c = 'Error';
             log.Request_Body__c = JSON.serialize(soapRequestForCatch).abbreviate(131000);
             log.Response_Body__c = '';
-            log.Error_Message__c = 'ComX - Exception'; //+e.getMessage() + ' line :'+e.getLineNumber()
+            log.Error_Message__c = 'Error From: CTRCalloutComXCtrl.callSoapApiUpdate line ' + e.getLineNumber() + ' || Message: ' + e.getMessage();// + ' line :'+e.getLineNumber()
             log.OwnerId = UserInfo.getUserId();
             applogList.add(log);
         }
@@ -213,11 +216,11 @@ public without sharing class CTRCalloutComXCtrl {
     
     //After update
     public static void pickOutData(Map<Id,CTRRequestFormItem__c>  mRequestItemOldMap, Map<Id,CTRRequestFormItem__c> mRequestItemNewMap) {
-        System.debug('--pickOutData--');
+        //System.debug('--pickOutData--');
         
         try{
             // System.debug(mRequestItemOldMap);
-            System.debug(mRequestItemNewMap);
+            //System.debug(mRequestItemNewMap);
             
             Set<Id> customerIds = new Set<Id>();
             Set<Id> recordtypeIds = new Set<Id>();
@@ -330,6 +333,9 @@ public without sharing class CTRCalloutComXCtrl {
             httpRequest.setMethod('POST');
             httpRequest.setHeader('Content-Type', 'application/json');
             httpRequest.setBody(wrapperListRequest);
+            // Set timeout in milliseconds (e.g., 120 seconds)
+            Integer timeoutMilliseconds = 120000; // 120 seconds
+            httpRequest.setTimeout(timeoutMilliseconds);
             
             // Create the HTTP connection
             Http http = new Http();
@@ -408,54 +414,72 @@ public without sharing class CTRCalloutComXCtrl {
     }
     
     //After Insert
-    public static void organizeData(String mRequestItem /*Map<Id,CTRRequestFormItem__c> mRequestItemNewMap*/) {
-        // public static void organizeData(String typeStr , String mRequestItem /*Map<Id,CTRRequestFormItem__c> mRequestItemNewMap*/) {
-        // public static void organizeData(Map<Id,CTRRequestFormItem__c>  mRequestItemOldMap, Map<Id,CTRRequestFormItem__c> mRequestItemNewMap) {
+    // public static void organizeData(String mRequestItem) {
+        public static void organizeData(Map<Id,CTRRequestFormItem__c> mRequestItemNewMap) {
         System.debug('--organizeData--');
         
         try{
             
-            /*String mRequestItem ='a3c1m000000MAAlAAO';
+            /*String mRequestItem ='a3c1m000000MAAlAAO';*/
             System.debug(mRequestItemNewMap);
             Set<Id> requestItemId = new Set<Id>();
-            List<CTRRequestFormItem__c> lRequestItemfromMap = new List<CTRRequestFormItem__c>();
+            // List<CTRRequestFormItem__c> lRequestItemfromMap = new List<CTRRequestFormItem__c>();
             for (CTRRequestFormItem__c mItem : mRequestItemNewMap.values()) 
             {   
                 if( ( mItem.RecordTypeName__c.contains('CustomerInitial') || mItem.RecordTypeName__c.contains('CustomerExtend') || mItem.RecordTypeName__c.contains('SupplierInitial') || mItem.RecordTypeName__c.contains('SupplierExtend') )
-                && mItem.Approval_TRCRSubmitDate__c != null
-                && mItem.ApproveDueDiligenceBy__r.Name != null
-                && mItem.Customer__r.SFCode__c != null
-                && mItem.SalesOrganization__c != null
-                && mItem.CTRRequestFormHeader__r.CompanyNameLocal__c != null
-                && mItem.CTRRequestFormHeader__r.CompanyNameENF__c != null
-                && mItem.CTRRequestFormHeader__r.Country__r.Description__c != null
-                && mItem.CTRRequestFormHeader__r.DistrictLocalText__c != null
-                && mItem.CTRRequestFormHeader__r.PostalCodeLocalText__c != null
-                && mItem.CTRRequestFormHeader__r.StreetLocal__c != null
-                && mItem.CTRRequestFormHeader__r.HousenoLocal__c != null
-                && mItem.CTRRequestFormHeader__r.Country__r.Code__c != null
-                && mItem.CTRRequestFormHeader__r.Phone__c != null
-                && mItem.CTRRequestFormHeader__r.TaxCode1__c != null
-                && mItem.CTRRequestFormHeader__r.AccountGroup__c != null
-                && mItem.Approval_TraderSubmitDate__c != null
-                && mItem.CreatedBy.Name != null
+                // && mItem.SummaryReportDateTime__c != null
+                // && mItem.SummaryReportBy__r.Name != null
+                // && mItem.Customer__r.SFCode__c != null
+                // && mItem.SalesOrganization__c != null
+                // && mItem.CTRRequestFormHeader__r.CompanyNameLocal__c != null
+                // && mItem.CTRRequestFormHeader__r.CompanyNameENF__c != null
+                // && mItem.CTRRequestFormHeader__r.Country__r.Description__c != null
+                // && mItem.CTRRequestFormHeader__r.DistrictLocalText__c != null
+                // && mItem.CTRRequestFormHeader__r.PostalCodeLocalText__c != null
+                // && mItem.CTRRequestFormHeader__r.StreetLocal__c != null
+                // && mItem.CTRRequestFormHeader__r.HousenoLocal__c != null
+                // && mItem.CTRRequestFormHeader__r.Country__r.Code__c != null
+                // && mItem.CTRRequestFormHeader__r.Phone__c != null
+                // && mItem.CTRRequestFormHeader__r.TaxCode1__c != null
+                // && mItem.CTRRequestFormHeader__r.AccountGroup__c != null
+                // && mItem.CreatedBy.Name != null
+                // && mItem.Status__c == 'Approved'
                 )
                 {
                     requestItemId.add(mItem.Id);
-                    lRequestItemfromMap.add(mItem);
+                    // lRequestItemfromMap.add(mItem);
                 }
                 
             }
-            System.debug(requestItemId);
+            /*System.debug(requestItemId);
             System.debug(lRequestItemfromMap);*/
             
-            List<CTRRequestFormItem__c> lRequestItemfromMap =[SELECT RecordTypeId,RecordTypeName__c,Id, Approval_TRCRSubmitDate__c,ApproveDueDiligenceBy__r.Name, Customer__r.SFCode__c,SalesOrganization__c ,
+            //Non-Trigger
+            List<CTRRequestFormItem__c> lRequestItemfromMap =[SELECT RecordTypeId,RecordTypeName__c,Id, SummaryReportDateTime__c,SummaryReportBy__r.Name, Customer__r.AccountNumber__c,Customer__r.SFCode__c,SalesOrganization__c ,
                                                        CTRRequestFormHeader__r.CompanyNameLocal__c,CTRRequestFormHeader__r.CompanyNameENF__c, CTRRequestFormHeader__r.Country__r.Description__c, 
                                                        CTRRequestFormHeader__r.DistrictLocalText__c,CTRRequestFormHeader__r.PostalCodeLocalText__c, CTRRequestFormHeader__r.StreetLocal__c,
                                                        CTRRequestFormHeader__r.HousenoLocal__c,CTRRequestFormHeader__r.Country__r.Code__c,CTRRequestFormHeader__r.Phone__c,CTRRequestFormHeader__r.TaxCode1__c,
-                                                       CTRRequestFormHeader__r.AccountGroup__c, Approval_TraderSubmitDate__c,CreatedBy.Name
+                                                       CTRRequestFormHeader__r.AccountGroup__c,CreatedBy.Name
                                                        FROM CTRRequestFormItem__c 
-                                                       WHERE Id = :mRequestItem];
+                                                       WHERE Id IN :requestItemId
+                                                        AND SummaryReportDateTime__c != null
+                                                        AND  SummaryReportBy__r.Name != null
+                                                        AND  Customer__r.SFCode__c != null
+                                                        AND  SalesOrganization__c != null
+                                                        AND  CTRRequestFormHeader__r.CompanyNameLocal__c != null
+                                                        AND  CTRRequestFormHeader__r.CompanyNameENF__c != null
+                                                        AND  CTRRequestFormHeader__r.Country__r.Description__c != null
+                                                        AND  CTRRequestFormHeader__r.DistrictLocalText__c != null
+                                                        AND  CTRRequestFormHeader__r.PostalCodeLocalText__c != null
+                                                        AND  CTRRequestFormHeader__r.StreetLocal__c != null
+                                                        AND  CTRRequestFormHeader__r.HousenoLocal__c != null
+                                                        AND  CTRRequestFormHeader__r.Country__r.Code__c != null
+                                                        AND  CTRRequestFormHeader__r.Phone__c != null
+                                                        AND  CTRRequestFormHeader__r.TaxCode1__c != null
+                                                        AND  CTRRequestFormHeader__r.AccountGroup__c != null
+                                                        AND  CreatedBy.Name != null
+                                                        AND  Status__c = 'Approved'
+                                                        ];//:mRequestItem];
             
             
             List<CustomerWrapper> cusWrapperList = new List<CustomerWrapper>(); // Initialize the list
@@ -480,12 +504,14 @@ public without sharing class CTRCalloutComXCtrl {
                 {
                     if(lRequestItemfromMap[0].RecordTypeName__c.contains('CustomerInitial') || lRequestItemfromMap[0].RecordTypeName__c.contains('CustomerExtend'))
                     {
-                        System.debug(lRequestItemfromMap[0].Approval_TRCRSubmitDate__c);
-                        System.debug(lRequestItemfromMap[0].Approval_TraderSubmitDate__c);
-                        String Approval_TRCRSubmitDate = String.valueOf(lRequestItemfromMap[0].Approval_TRCRSubmitDate__c).replace('-', '/');
-                        String Approval_TraderSubmitDate = String.valueOf(lRequestItemfromMap[0].Approval_TraderSubmitDate__c).replace('-', '/');
-                        System.debug(Approval_TRCRSubmitDate);
-                        System.debug(Approval_TraderSubmitDate);
+                        System.debug(lRequestItemfromMap[0].SummaryReportBy__r.Name);
+                        System.debug(lRequestItemfromMap[0].Customer__r.AccountNumber__c);
+                        System.debug(lRequestItemfromMap[0].SummaryReportDateTime__c);
+                        // System.debug(lRequestItemfromMap[0].Approval_TraderSubmitDate__c);
+                        String SummaryReportDateTime = String.valueOf(lRequestItemfromMap[0].SummaryReportDateTime__c).replace('-', '/');
+                        // String Approval_TraderSubmitDate = String.valueOf(lRequestItemfromMap[0].Approval_TraderSubmitDate__c).replace('-', '/');
+                        System.debug(SummaryReportDateTime);
+                        // System.debug(Approval_TraderSubmitDate);
     
                         CustomerWrapper wrapper  = new CustomerWrapper();
                         wrapper.Cust = new Cust(); // Initialize
@@ -494,16 +520,15 @@ public without sharing class CTRCalloutComXCtrl {
                         wrapper.Cust.MCT_CUST_NUM = lRequestItemfromMap[0].Id != null ? 'CPAI-'+lRequestItemfromMap[0].Id : ''; //DummyCode Generate by system
                         wrapper.Cust.MCT_STATUS = 'ACTIVE'; //Status
                         wrapper.Cust.MCT_CREATE_TYPE = 'CPAI'; //CREATED BY 
-                        wrapper.Cust.MCT_CREATED_DATE = lRequestItemfromMap[0].Approval_TRCRSubmitDate__c != null ?  String.valueOf(Approval_TRCRSubmitDate) : '' ;
+                        wrapper.Cust.MCT_CREATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ?  String.valueOf(SummaryReportDateTime) : '' ;
                         // wrapper.Cust.MCT_CUST_NUM = lRequestItemfromMap[0].Customer__r.SFCode__c != null ? 'CPAI-'+lRequestItemfromMap[0].Customer__r.SFCode__c : '';
-                        wrapper.Cust.MCT_UPDATED_DATE = lRequestItemfromMap[0].Approval_TRCRSubmitDate__c != null ? String.valueOf(Approval_TRCRSubmitDate) : ''  ;
-                        
-                        if (lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name.length() > updateCreateByLength) 
+                        wrapper.Cust.MCT_UPDATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : ''  ;
+                        if (lRequestItemfromMap[0].SummaryReportBy__r.Name.length() > updateCreateByLength) 
                         {
-                            wrapper.Cust.MCT_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR' : '' ; 
+                            wrapper.Cust.MCT_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR' : '' ; 
                         }else
                         {
-                            wrapper.Cust.MCT_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? (lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name)+'_SFCTR': '' ; 
+                            wrapper.Cust.MCT_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? (lRequestItemfromMap[0].SummaryReportBy__r.Name)+'_SFCTR': '' ; 
                         }
                         
                         if (lRequestItemfromMap[0].CreatedBy.Name.length() > updateCreateByLength) 
@@ -513,7 +538,7 @@ public without sharing class CTRCalloutComXCtrl {
                         {
                             wrapper.Cust.MCT_CREATED_BY = lRequestItemfromMap[0].CreatedBy.Name != null ? (lRequestItemfromMap[0].CreatedBy.Name)+'_SFCTR' : '' ; 
                         }
-                        // wrapper.Cust.MCT_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR': '' ; 
+                        // wrapper.Cust.MCT_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR': '' ; 
                         // wrapper.Cust.MCT_CREATED_BY = lRequestItemfromMap[0].CreatedBy.Name != null ? ((lRequestItemfromMap[0].CreatedBy.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '' ; 
                         
                         wrapper.CustDetail.MCD_FK_CUS = lRequestItemfromMap[0].Id != null ? 'CPAI-'+lRequestItemfromMap[0].Id : ''; //DummyCode Generate by system
@@ -531,33 +556,33 @@ public without sharing class CTRCalloutComXCtrl {
                         wrapper.CustDetail.MCD_TAX_NUMBER_1 = lRequestItemfromMap[0].CTRRequestFormHeader__r.TaxCode1__c != null ? lRequestItemfromMap[0].CTRRequestFormHeader__r.TaxCode1__c : '';
                         wrapper.CustDetail.MCD_KTOKD = lRequestItemfromMap[0].CTRRequestFormHeader__r.AccountGroup__c != null ? lRequestItemfromMap[0].CTRRequestFormHeader__r.AccountGroup__c : '';
                         wrapper.CustDetail.MCD_STATUS = 'ACTIVE' ;
-                        wrapper.CustDetail.MCD_CREATED_DATE = lRequestItemfromMap[0].Approval_TraderSubmitDate__c != null ? String.valueOf(Approval_TraderSubmitDate) : '';
+                        wrapper.CustDetail.MCD_CREATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : '';
 
-                        if (lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name.length() > updateCreateByLength) 
+                        if (lRequestItemfromMap[0].SummaryReportBy__r.Name.length() >= updateCreateByLength) 
                         {
-                            wrapper.CustDetail.MCD_NAME_PER_CREAT = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, mcdNamePerCreateLength))  : '';
-                            wrapper.CustDetail.MCD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR' : '';
-                            wrapper.CustDetail.MCD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR'  : '';
+                            wrapper.CustDetail.MCD_NAME_PER_CREAT = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, mcdNamePerCreateLength))  : '';
+                            wrapper.CustDetail.MCD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR' : '';
+                            wrapper.CustDetail.MCD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR'  : '';
 
                         }else
                         {
-                            wrapper.CustDetail.MCD_NAME_PER_CREAT = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name : '';
-                            wrapper.CustDetail.MCD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name+'_SFCTR' : '';
-                            wrapper.CustDetail.MCD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name+'_SFCTR' : '';
+                            wrapper.CustDetail.MCD_NAME_PER_CREAT = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name : '';
+                            wrapper.CustDetail.MCD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name+'_SFCTR' : '';
+                            wrapper.CustDetail.MCD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name+'_SFCTR' : '';
 
                         }
                         
-                        // wrapper.CustDetail.MCD_NAME_PER_CREAT = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? (lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(mcdNamePerCreateLength) : '';
-                        // wrapper.CustDetail.MCD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
-                        // wrapper.CustDetail.MCD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
-                        wrapper.CustDetail.MCD_UPDATED_DATE = lRequestItemfromMap[0].Approval_TraderSubmitDate__c != null ? String.valueOf(Approval_TraderSubmitDate) : '';
+                        // wrapper.CustDetail.MCD_NAME_PER_CREAT = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? (lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(mcdNamePerCreateLength) : '';
+                        // wrapper.CustDetail.MCD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
+                        // wrapper.CustDetail.MCD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
+                        wrapper.CustDetail.MCD_UPDATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : '';
                         cusWrapperList.add(wrapper);
                     }
                     else if(lRequestItemfromMap[0].RecordTypeName__c.contains('SupplierInitial') || lRequestItemfromMap[0].RecordTypeName__c.contains('SupplierExtend'))
                     {   
-                        System.debug(lRequestItemfromMap[0].Approval_TraderSubmitDate__c); //SF >> 2023-12-27 12:36:26
-                        String Approval_TRCRSubmitDate = String.valueOf(lRequestItemfromMap[0].Approval_TraderSubmitDate__c).replace('-', '/');
-                        System.debug(Approval_TRCRSubmitDate);
+                        System.debug(lRequestItemfromMap[0].SummaryReportDateTime__c); //SF >> 2023-12-27 12:36:26
+                        String SummaryReportDateTime = String.valueOf(lRequestItemfromMap[0].SummaryReportDateTime__c).replace('-', '/');
+                        System.debug(SummaryReportDateTime);
     
                         VendorWrapper wrapper  = new VendorWrapper();
                         wrapper.vendor = new Vendor(); // Initialize the vendor object
@@ -572,34 +597,34 @@ public without sharing class CTRCalloutComXCtrl {
                         wrapper.vendor.vnD_HOUSE_NUM_STREET = lRequestItemfromMap[0].CTRRequestFormHeader__r.HousenoLocal__c != null ? lRequestItemfromMap[0].CTRRequestFormHeader__r.HousenoLocal__c : ''; 
                         
                         wrapper.vendor.vnD_STATUS = 'ACTIVE'; //DummyCode Generate by system
-                        wrapper.vendor.vnD_CREATED_DATE = lRequestItemfromMap[0].Approval_TraderSubmitDate__c != null ? String.valueOf(Approval_TRCRSubmitDate) : ''; 
-                        // wrapper.vendor.vnD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : ''; 
-                        wrapper.vendor.vnD_UPDATED_DATE = lRequestItemfromMap[0].Approval_TraderSubmitDate__c != null ? String.valueOf(Approval_TRCRSubmitDate) : '';
-                        // wrapper.vendor.vnD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
+                        wrapper.vendor.vnD_CREATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : ''; 
+                        // wrapper.vendor.vnD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : ''; 
+                        wrapper.vendor.vnD_UPDATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : '';
+                        // wrapper.vendor.vnD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
                         wrapper.vendor.vnD_CREATE_TYPE = 'VND';
                         
                         wrapper.vendorData.mvD_FK_COMPANY = lRequestItemfromMap[0].SalesOrganization__c != null ? lRequestItemfromMap[0].SalesOrganization__c : '';
                         wrapper.vendorData.mvD_FK_VENDOR = lRequestItemfromMap[0].Id != null ? 'VND-'+lRequestItemfromMap[0].Id : '';
                         wrapper.vendorData.mvD_STATUS = 'ACTIVE' ;
-                        wrapper.vendorData.mvD_CREATED_DATE = lRequestItemfromMap[0].Approval_TraderSubmitDate__c != null ? String.valueOf(Approval_TRCRSubmitDate) : '';
-                        // wrapper.vendorData.mvD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
-                        wrapper.vendorData.mvD_UPDATED_DATE = lRequestItemfromMap[0].Approval_TraderSubmitDate__c != null ? String.valueOf(Approval_TRCRSubmitDate) : '';
-                        // wrapper.vendorData.mvD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
+                        wrapper.vendorData.mvD_CREATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : '';
+                        // wrapper.vendorData.mvD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
+                        wrapper.vendorData.mvD_UPDATED_DATE = lRequestItemfromMap[0].SummaryReportDateTime__c != null ? String.valueOf(SummaryReportDateTime) : '';
+                        // wrapper.vendorData.mvD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).abbreviate(updateCreateByLength))+'_SFCTR' : '';
                         
                         
-                        if (lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name.length() > updateCreateByLength) 
+                        if (lRequestItemfromMap[0].SummaryReportBy__r.Name.length() > updateCreateByLength) 
                         {
-                            wrapper.vendor.vnD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))  : '';
-                            wrapper.vendor.vnD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR' : '';
-                            wrapper.vendorData.mvD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR'  : '';
-                            wrapper.vendorData.mvD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? ((lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR'  : '';
+                            wrapper.vendor.vnD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))  : '';
+                            wrapper.vendor.vnD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR' : '';
+                            wrapper.vendorData.mvD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR'  : '';
+                            wrapper.vendorData.mvD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? ((lRequestItemfromMap[0].SummaryReportBy__r.Name).substring(0, updateCreateByLength))+'_SFCTR'  : '';
 
                         }else
                         {
-                            wrapper.vendor.vnD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name : '';
-                            wrapper.vendor.vnD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name : '';
-                            wrapper.vendorData.mvD_CREATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name : '';
-                            wrapper.vendorData.mvD_UPDATED_BY = lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name != null ? lRequestItemfromMap[0].ApproveDueDiligenceBy__r.Name : '';
+                            wrapper.vendor.vnD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name : '';
+                            wrapper.vendor.vnD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name : '';
+                            wrapper.vendorData.mvD_CREATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name : '';
+                            wrapper.vendorData.mvD_UPDATED_BY = lRequestItemfromMap[0].SummaryReportBy__r.Name != null ? lRequestItemfromMap[0].SummaryReportBy__r.Name : '';
 
                         }
                         

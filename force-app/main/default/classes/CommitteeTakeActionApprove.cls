@@ -161,9 +161,11 @@ public without sharing class CommitteeTakeActionApprove {
                     CTRRequestFormItem__r.CreditOwner__r.Email,
                     CTRRequestFormItem__r.CreditOwnerName__c,
                     CTRRequestFormItem__r.CreditOwnerSectionHead__c,
+                    CTRRequestFormItem__r.CreditOwnerSectionHead__r.Name,
                     CTRRequestFormItem__r.CreditOwnerSectionHead__r.Email,
                     CTRRequestFormItem__r.fmlAccountTypeName__c,
                     CTRRequestFormItem__r.CompanyNameSubject__c,
+                    CTRRequestFormItem__r.BusinessUnit__c,
                     CTRRequestFormItem__r.SubBU__c,
                     CTRRequestFormItem__r.Name,
                     Owner.Name,
@@ -182,12 +184,19 @@ public without sharing class CommitteeTakeActionApprove {
 
             //String[] splitEmailTo = rqForm.CTRRequestFormItem__r.EmailTo__c.split(',');
             String[] splitEmailTo = new List <String>();
-            splitEmailTo.add(rqForm.CTRRequestFormItem__r.CreditOwner__r.Email);
-            String[] splitEmailCC = rqForm.CTRRequestFormItem__r.EmailCC__c.split(',');
+            if (rqForm.CTRRequestFormItem__r.BusinessUnit__c == 'TX') {
+                splitEmailTo.add(rqForm.CTRRequestFormItem__r.CreditOwner__r.Email);
+            } else {
+                splitEmailTo.add(rqForm.CTRRequestFormItem__r.CreditOwnerSectionHead__r.Email); // CC Section Head
+            }
+
+            // String[] splitEmailCC = rqForm.CTRRequestFormItem__r.EmailCC__c.split(',');
             // Email CC Replace 'space', usage query where Email IN emailCC
-            String[] emailCC = rqForm.CTRRequestFormItem__r.EmailCC__c.split(',');
-            for (Integer i = 0; i < emailCC.size(); i++) {
-                emailCC[i] = emailCC[i].replace('\\s', '').trim();
+            String[] emailCC = rqForm.CTRRequestFormItem__r.EmailCC__c?.split(',');
+            if (emailCC != null) {
+                for (Integer i = 0; i < emailCC.size(); i++) {
+                    emailCC[i] = emailCC[i].replace('\\s', '').trim();
+                }
             }
 
             //TODO Query user from EmailTo, Use show 'User Name' in content message.
@@ -196,17 +205,24 @@ public without sharing class CommitteeTakeActionApprove {
             // System.debug('result::'+users);
             // Add emailCC in list<String> param0
             List<String> eCC = new list<String>();
-            eCC.add(emailCC[0]);
-            eCC.add(rqForm.ApproverName__r.Email); // CC Committee
-            if (rqForm?.CTRRequestFormItem__r?.CreditOwnerSectionHead__r?.Email != null) {
-                eCC.add(rqForm.CTRRequestFormItem__r.CreditOwnerSectionHead__r.Email); // CC Section Head
-            }
-            List<CTRExternalEmailGroup__mdt> mailGroup = [SELECT Email__c FROM CTRExternalEmailGroup__mdt WHERE DeveloperName IN ('TRCR')];
-            if (mailGroup.size() > 0) {
-                for (Integer i = 0; i < mailGroup.size(); i++) {
-                    eCC.add(mailGroup[i].Email__c);
+            if (emailCC != null) {
+                for (Integer i = 0; i < emailCC.size(); i++) {
+                    eCC.add(emailCC[i]); // CC
                 }
             }
+            eCC.add(rqForm.ApproverName__r.Email); // CC Committee
+            List<User> trcr = getTRCR(recordId);
+            if (trcr != null) {
+                for (Integer i = 0; i < trcr.size(); i++) {
+                    eCC.add(trcr[i].Email);
+                }
+            }
+            // List<CTRExternalEmailGroup__mdt> mailGroup = [SELECT Email__c FROM CTRExternalEmailGroup__mdt WHERE DeveloperName IN ('TRCR')];
+            // if (mailGroup.size() > 0) {
+            //     for (Integer i = 0; i < mailGroup.size(); i++) {
+            //         eCC.add(mailGroup[i].Email__c);
+            //     }
+            // }
 
             String subjecttemp = rqForm.CTRRequestFormItem__r.Subject__c;
 
@@ -220,7 +236,7 @@ public without sharing class CommitteeTakeActionApprove {
             //Messaging.SingleEmailMessage emailTosend = emailTemplateFormSend(rqForm.CTRRequestFormItem__c,subjecttemp,recordId, orgWideEmail.Id, rqForm.ApproverName__r.Name, message, users[0].Name, eCC, splitEmailTo, actionButton);
             // Messaging.SingleEmailMessage emailTosend = emailTemplateFormSend(rqForm.CTRRequestFormItem__c,subjecttemp,recordId, orgWideEmail.Id, rqForm.ApproverName__r.Name, message, users[0].Name, splitEmailTo, eCC, actionButton);
             // Messaging.SingleEmailMessage emailTosend = emailTemplateFormSend(rqForm.CTRRequestFormItem__c,subjecttemp,recordId, orgWideEmail.Id, rqForm.ApproverName__r.Name, message, rqForm.CTRRequestFormItem__r.CreditOwner__r.Name, splitEmailTo, eCC, actionButton);
-            Messaging.SingleEmailMessage emailTosend = emailTemplateFormSend(recordId, orgWideEmail.Id, rqForm.CTRRequestFormItem__r.SubBU__c, subjecttemp, rqForm.CTRRequestFormItem__r.Name, rqForm.CTRRequestFormItem__r.fmlAccountTypeName__c, rqForm.CTRRequestFormItem__r.CompanyNameSubject__c,rqForm.ApproverName__r.Name, rqForm.CTRRequestFormItem__r.CreditOwnerName__c, message, splitEmailTo, eCC, actionButton);
+            Messaging.SingleEmailMessage emailTosend = emailTemplateFormSend(recordId, orgWideEmail.Id, rqForm.CTRRequestFormItem__r.SubBU__c, subjecttemp, rqForm.CTRRequestFormItem__r.Name, rqForm.CTRRequestFormItem__r.fmlAccountTypeName__c, rqForm.CTRRequestFormItem__r.CompanyNameSubject__c,rqForm.ApproverName__r.Name, rqForm.CTRRequestFormItem__r.CreditOwnerSectionHead__r.Name, message, splitEmailTo, eCC, actionButton);
             try {
                 Messaging.SendEmailResult[] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[]{emailTosend});
             } catch(Exception ex) {
@@ -395,16 +411,33 @@ public without sharing class CommitteeTakeActionApprove {
             WHERE CompanyName__c = :accountId
                 AND Key__c = :financialKey
         ];
-        
+
         if(fcif.size() > 0)
         {
             fcif[0].InternalCreditRating__c = rqit.ChangeCreditCreditCondition__c;
             fcif[0].Credit_Condition__c = rqit.Credit_Condition__c;
             fcif[0].CreditLimit__c = rqit.CreditLimit__c;
-            
+
             update fcif[0];
         }
-        
+
+    }
+
+    private static List<User> getTRCR(String recordId) {
+        List<CTRRequestFormItem__c> usr = [SELECT SubBU__c, InterestedProductTypeAsSupplierTOP__c, RecordType.Name, Country__r.Code__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
+
+        if (!(usr.size() > 0)) {
+            return new List<User>();
+        }
+
+        String salesOrg = usr[0].SubBU__c;
+        String counterpartyType = usr[0].RecordType?.Name?.contains('Customer') ? 'Customer' : (usr[0].RecordType?.Name?.contains('Supplier') ? 'Supplier' : '');
+        String type = usr[0].Country__r?.Code__c == 'TH' ? 'Domestic' : 'International';
+        String product = usr[0].InterestedProductTypeAsSupplierTOP__c;
+        String hasCrude = String.isNotBlank(product) && product.contains('Crude') ? 'Crude' : '';
+        String interByTX = 'No';
+
+        return CTRCommitteeSelectionController.getTRCR(salesOrg, counterpartyType, type, hasCrude, interByTX);
     }
 
 }

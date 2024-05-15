@@ -149,14 +149,20 @@ System.debug('test');
             System.debug('isSubmit: ' + isSubmit);
             update reqFormItem;
 
-            if (isSubmit) {
+            if (isSubmit) 
+            {
                 setInitialPasswordSecret(reqFormItem.Id);
 
-                CTRRequestFormItem__c getReqFormItem = [SELECT Id, BusinessUnit__c, RecordType.DeveloperName, NotifyCustomAction__c
-                                                    FROM CTRRequestFormItem__c WHERE Id = :reqFormItem.Id];
+                CTRRequestFormItem__c getReqFormItem = [SELECT Id, BusinessUnit__c, RecordType.DeveloperName, NotifyCustomAction__c, Status__c
+                                                        FROM CTRRequestFormItem__c WHERE Id = :reqFormItem.Id];
 
-                reqFormItem.SubmittedTraderSendEmail__c = true;
+                if(getReqFormItem.status__c == 'Approved')
+                {
+                    reqFormItem.SubmittedTraderSendEmail__c = true;
+                }
+                
                 reqFormItem.Approval_Step__c = 'Inform Counterparty';
+
                 System.debug('Debug send email '+getReqFormItem.BusinessUnit__c+':'+getReqFormItem.RecordType.DeveloperName);
                 if(getReqFormItem.BusinessUnit__c == 'TX') {
                     if(getReqFormItem.RecordType.DeveloperName.contains('Customer')) {
@@ -171,7 +177,8 @@ System.debug('test');
                 CTRRequestFormItemController.deleteAttachments(reqFormItem.Id, 'EmailPageAttachment__c');
                 // sendFiletoHeroku(recordId, uploadedList);
             }
-        } catch (Exception e) {
+        } 
+        catch (Exception e) {
             System.debug('Error Line: ' + e.getLineNumber());
             throw new AuraHandledException(e.getMessage());
         }
@@ -197,7 +204,7 @@ System.debug('test');
     public static void sendEmailWithAttachment(Id recordId, CTRRequestFormItem__c reqFormObj, String uploadedList) {
 
         CTRRequestFormItem__c reqForm = [SELECT Id, BusinessUnit__c, EmailPageMessage__c, RecordType.DeveloperName, NotifyCustomAction__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
-
+        OrgWideEmailAddress orgWideEmail = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName = 'Commercial Team'];
         List<String> toAddresses = new List<String>();
         if(reqFormObj.EmailPageEmailTo__c != null && reqFormObj.EmailPageEmailTo__c != '')
         {
@@ -255,6 +262,7 @@ System.debug('test');
         email.setToAddresses(toAddresses);
         email.setCcAddresses(ccAddresses);
         email.setWhatId(recordId);
+        email.setOrgWideEmailAddressId(orgWideEmail.Id);
         email.setSubject(reqFormObj.EmailPageSubject__c);
         system.debug('reqForm---'+reqForm.EmailPageMessage__c);
         system.debug('reqForm-2--'+reqForm.EmailPageMessage__c.replace('file.force.com', 'my.salesforce-sites.com'));

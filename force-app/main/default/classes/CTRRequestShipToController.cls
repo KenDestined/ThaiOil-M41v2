@@ -22,36 +22,6 @@ public with sharing class CTRRequestShipToController {
         @AuraEnabled public Id resRecordId {get; set;}
     }
 
-    // public static Map<String, User> actorUserMap {
-    //     get {
-    //         if(actorUserMap == null) {
-    //             Map<String, String> empIdMap = new Map<String, String>();
-    //             List<CTRActorInProcess__mdt> sectionHeadMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'DueDiligence' AND Step__c = 'TraderHead' AND SalesOrg__c = 'TSV' AND Type__c = 'International' AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
-    //             if(sectionHeadMdt.size() > 0) {
-    //                 empIdMap.put(sectionHeadMdt[0].EmployeeId__c,'sectionHead');
-    //             }
-
-    //             List<CTRActorInProcess__mdt> mdcMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'SAPInformation' AND Step__c = 'TXMO' AND SalesOrg__c = 'TSV' AND Type__c = 'International' AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
-    //             if(mdcMdt.size() > 0) {
-    //                 empIdMap.put(mdcMdt[0].EmployeeId__c,'mdc');
-    //             }
-
-    //             List<CTRActorInProcess__mdt> mdcMngMdt = [SELECT Id,EmployeeId__c FROM CTRActorInProcess__mdt WHERE Process__c = 'SAPInformation' AND Step__c = 'TXMOHead' AND SalesOrg__c = 'TSV' AND Type__c = 'International' AND RecordType__c = 'Customer' AND InterByTX__c = 'No' LIMIT 1];
-    //             if(mdcMngMdt.size() > 0) {
-    //                 empIdMap.put(mdcMngMdt[0].EmployeeId__c,'mdcMng');
-    //             }
-    //             System.debug(empIdMap.keySet());
-    //             List<User> actorList = [SELECT Id, Employee_Id__c FROM User WHERE Employee_Id__c IN: empIdMap.keySet()];
-    //             actorUserMap = new Map<String, User>();
-    //             for(User actor : actorList) {
-    //                 System.debug(actor);
-    //                 actorUserMap.put(empIdMap.get(actor.Employee_Id__c),actor);
-    //             }
-    //         }
-    //         return actorUserMap;
-    //     }set;
-    // }
-
     public static Map<String, User> getActorUserMap(String subBU, String mType) {
         Map<String, User> actorUserMap = new Map<String, User>();
         Map<String, String> empIdMap = new Map<String, String>();
@@ -81,14 +51,25 @@ public with sharing class CTRRequestShipToController {
     }
 
     @AuraEnabled
-    public static List<RequestWrapper> onloadCreatePage(Id mAccountId, Id RecordType)
+    public static List<RequestWrapper> onloadCreatePage(Id mAccountId, Id RecordType, String mBusinessUnit)
     {
         try 
         {
             List<Account> currAccount = [SELECT Id, SalesOrganization__c FROM Account WHERE Id =: mAccountId];
             List<User> mUserList = [SELECT Id, Name, ProfileId ,Profile.Name From User WHERE Id = :UserInfo.getUserId()];
             List<RequestWrapper> mRequestWrapperList = new List<RequestWrapper>();
-            Set<String> setSalesOrg = new Set<String>{'2000','9100','9200','9300','9400'};
+            Set<String> setSalesOrg = new Set<String>();
+            if(mBusinessUnit == 'TXTH') {
+                setSalesOrg = new Set<String>{'2000'};
+            } else if(mBusinessUnit == 'TSV') {
+                setSalesOrg = new Set<String>{'9100'};
+            } else if(mBusinessUnit == 'TSR') {
+                setSalesOrg = new Set<String>{'9200'};
+            } else if(mBusinessUnit == 'JSKem') {
+                setSalesOrg = new Set<String>{'9300'};
+            } else if(mBusinessUnit == 'TXINDIA') {
+                setSalesOrg = new Set<String>{'9400'};
+            }
             List<RecordType> RecordTypeList = [SELECT Id, Name, DeveloperName FROM RecordType WHERE Id = :RecordType LIMIT 1];
 
             if(RecordTypeList[0].DeveloperName.contains('Edit')) 
@@ -172,16 +153,10 @@ public with sharing class CTRRequestShipToController {
                 return responseResult;
             }
             
-            System.debug(' Accomplished: '+formData);
             Map<String, Object> cObjMap = (Map<String, Object>) JSON.deserializeUntyped(formData);
-            System.debug(' cObjMap: '+cObjMap);
             String cObjJson = JSON.serialize(cObjMap);
-            System.debug(' cObjJson: '+cObjJson);
             Map<String, Object> cObjMapFurious = (Map<String, Object>) JSON.deserializeUntyped(cObjJson);
             String cObjJsonDrunk = JSON.serialize(cObjMapFurious);
-            
-            // Account accobj = (Account)JSON.deserialize(cObjJsonDrunk, Account.class);
-            // System.debug(' Accomplished: '+accobj);
 
             Object obj = JSON.deserializeUntyped(cObjJsonDrunk);
             System.debug(' Accomplished: '+obj);

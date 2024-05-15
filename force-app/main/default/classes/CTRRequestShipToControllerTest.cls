@@ -36,8 +36,8 @@ public with sharing class CTRRequestShipToControllerTest {
         Id customerRecordTypeId = [SELECT Id, Name, DeveloperName FROM RecordType WHERE DeveloperName = 'TxCustomer' LIMIT 1].Id;
         Id CustomerEditInfoRecordTypeId = [SELECT Id, Name, DeveloperName FROM RecordType WHERE DeveloperName = 'CustomerEditInfo' LIMIT 1].Id;
         
-        List<CTRRequestShipToController.RequestWrapper> results = CTRRequestShipToController.onloadCreatePage(acc.Id, customerRecordTypeId);
-        List<CTRRequestShipToController.RequestWrapper> results2 = CTRRequestShipToController.onloadCreatePage(acc.Id, CustomerEditInfoRecordTypeId);
+        List<CTRRequestShipToController.RequestWrapper> results = CTRRequestShipToController.onloadCreatePage(acc.Id, customerRecordTypeId,'TSV');
+        List<CTRRequestShipToController.RequestWrapper> results2 = CTRRequestShipToController.onloadCreatePage(acc.Id, CustomerEditInfoRecordTypeId,'TSV');
         System.assertNotEquals(0, results.size());
         System.assertNotEquals(0, results2.size());
     }
@@ -75,6 +75,8 @@ public with sharing class CTRRequestShipToControllerTest {
         Map<String,Object> jsonData = new Map<String,Object>();
         jsonData.put('BlockedReason__c', 'reason');
         jsonData.put('OrderBlock__c', 'order');
+        jsonData.put('UnderdeliveryTolerance__c', '10.5');
+        jsonData.put('OverdeliveryTolerance__c', '10.5');
 
         String formData = JSON.serialize(jsonData);
 

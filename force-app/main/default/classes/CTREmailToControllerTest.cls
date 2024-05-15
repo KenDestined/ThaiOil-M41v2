@@ -3,6 +3,7 @@ public without sharing class CTREmailToControllerTest {
 
     @testSetup
     static void setup() {
+
         CTRRequestFormHeader__c reqHeader = new CTRRequestFormHeader__c(
             Status__c = 'New',
             CompanyNameENF__c = 'Test',
@@ -102,6 +103,30 @@ public without sharing class CTREmailToControllerTest {
 
     @isTest
     static void testSaveEmailTo() {
+        CTRUser__c mCTRUser = new CTRUser__c();
+        mCTRUser.Username__c = 'test@gmail.com';
+        mCTRUser.Email__c = 'test@gmail.com';
+        mCTRUser.Password__c = 'Test';
+        mCTRUser.RecordTypeId = Schema.SObjectType.CTRUser__c.getRecordTypeInfosByDeveloperName().get('Administrator').getRecordTypeId();
+        insert mCTRUser;
+
+        Account acc1 = new Account();
+        acc1.Name = 'Acc1';
+        acc1.AccountNumber__c = '1';
+        acc1.AccountNumber__c = '1';
+        acc1.CTRUser__c = mCTRUser.Id;
+        insert acc1;
+
+        CTRRequestFormHeader__c reqHeader = new CTRRequestFormHeader__c(
+            Status__c = 'New',
+            CompanyNameENF__c = 'Test2',
+            FirstName__c = 'firstName2',
+            LastName__c = 'lastName2',
+            Email__c = 'test2@email.com',
+            Customer__c = acc1.Id
+        );
+        insert reqHeader;
+
         Test.startTest();
         CTRRequestFormItem__c reqItems = [SELECT Id FROM CTRRequestFormItem__c LIMIT 1];
         CTRRequestFormItem__c reqItem = new CTRRequestFormItem__c(
@@ -109,7 +134,8 @@ public without sharing class CTREmailToControllerTest {
             EmailPageSubject__c = 'Test Subject',
             EmailPageMessage__c = 'Test',
             EmailPageEmailTo__c = 'testuser@test.com, testuser@test.com',
-            EmailPageEmailCC__c = 'testcc@test.com'
+            EmailPageEmailCC__c = 'testcc@test.com',
+            CTRRequestFormHeader__c = reqHeader.Id
         );
         CTREmailToController.saveEmailTo(reqItem, false, 'TestFile.txt',reqItems.Id);
         CTREmailToController.saveEmailTo(reqItem, true, 'TestFile.txt',reqItems.Id);

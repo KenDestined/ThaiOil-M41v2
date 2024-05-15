@@ -14,7 +14,7 @@
         <field>JsonMapping__c</field>
         <value xsi:type="xsd:string">[	{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;CustomerName1&quot;,&quot;Api&quot;:&quot;CustomerNameLocal1__c&quot;}	
 	,{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;CustomerName2&quot;,&quot;Api&quot;:&quot;CustomerNameLocal2__c&quot;}	
-	,{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;CityStateText&quot;,&quot;Api&quot;:&quot;CityStateLocal__C&quot;}	
+	,{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;CityStateText&quot;,&quot;Api&quot;:&quot;CityStateLocal__c&quot;}	
 	,{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;DistrictText&quot;,&quot;Api&quot;:&quot;DistrictLocalText__c&quot;}	
 	,{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;PostalCodeText&quot;,&quot;Api&quot;:&quot;PostalCodeLocalText__c&quot;}	
 	,{&quot;Level&quot;:&quot;Header&quot;,&quot;Label&quot;:&quot;BuildingCode&quot;,&quot;Api&quot;:&quot;BuildingCodeLocal__c&quot;}	

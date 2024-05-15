@@ -25,6 +25,9 @@ public with sharing class CTRExtendCustomer {
             List<CTRRequestFormHeader__c> existingReqFormHeaders = validateDuplicateRequestForm(requestHeader, requestItem, bu, isSupplier);
             Boolean doCreate = true;
 
+            List<String> topSubBU = new List<String>{'TOP','TLB','TPX'};
+            List<String> txSubBU = new List<String>{'TXTH','TSV','TSR','JSKem','TXINDIA'};
+
             // check scenario #2
             if(existingReqFormHeaders != null && !existingReqFormHeaders.isEmpty()) {
                 for(CTRRequestFormHeader__c eachHeader : existingReqFormHeaders) {
@@ -50,9 +53,20 @@ public with sharing class CTRExtendCustomer {
                     String purchaseOrg = requestItem.PurchasingOrganization__c; // (!String.isBlank(requestItem.PurchasingOrganizationTOP__c) ? requestItem.PurchasingOrganizationTOP__c : requestItem.PurchasingOrganizationTX__c);
                     String mKey = account.SupplierNumber__c+purchaseOrg;
                     List<CTRPurchasingView__c> purViewList = Database.query('SELECT Id FROM CTRPurchasingView__c WHERE Key__c = :mKey');
+                    System.debug('Supplier Case PurchasingView='+purViewList.size()+', purchaseOrg='+purchaseOrg+', requestItem.CompanyCodeTOP__c='+requestItem.CompanyCodeTOP__c);
                     if(!purViewList.isEmpty()) {
-                        result.put('errorMessage', 'This supplier has been registered in this area.');
-                        doCreate = false;
+                        if(purchaseOrg == '1100') {
+                            String finInfoKey = account.SupplierNumber__c+requestItem.CompanyCodeTOP__c;
+                            List<C360_FinancialInfo__c> finInfoList = [SELECT Id,Name FROM C360_FinancialInfo__c WHERE Key__c LIKE: finInfoKey+'%' ];
+                            System.debug('Supplier1100 Key='+finInfoKey+', finInfoList='+finInfoList.size());
+                            if(finInfoList.size() > 0) {
+                                result.put('errorMessage', 'This supplier has been registered in this area.');
+                                doCreate = false;
+                            }
+                        } else {
+                            result.put('errorMessage', 'This supplier has been registered in this area.');
+                            doCreate = false;
+                        }
                     }
                 }
             } else if(doCreate && ((!isSupplier && String.isBlank(account.AccountNumber__c)) || (isSupplier && String.isBlank(account.SupplierNumber__c))) && existingReqFormHeaders != null && !existingReqFormHeaders.isEmpty() && String.isBlank(requestHeader.Id)) { // check scenario #4
@@ -77,13 +91,13 @@ public with sharing class CTRExtendCustomer {
                     Map<String, Object> inputReqFormHeaderMap = (Map<String, Object>) JSON.deserializeUntyped(JSON.serialize(requestHeader));
                     System.debug('inputReqFormHeaderMap -----' + inputReqFormHeaderMap);
                     String selectedProductTypeField = '';
-                    if(bu == 'TOP' || bu == 'LABIX') {
+                    if(topSubBU.contains(bu) || bu == 'LABIX') {
                         if(isSupplier) {
                             selectedProductTypeField = INTERESTEDPRODUCTTYPEASSUPPLIERTOPFIELD;
                         } else {
                             selectedProductTypeField = INTERESTEDPRODUCTTYPEASCUSTOMERTOPFIELD;
                         }
-                    } else if(bu == 'TX') {
+                    } else if(txSubBU.contains(bu)) {
                         if(isSupplier) {
                             selectedProductTypeField = INTERESTEDPRODUCTTYPEASSUPPLIERTXFIELD;
                         } else {
@@ -134,8 +148,40 @@ public with sharing class CTRExtendCustomer {
                     System.debug('createReqHeader -----' + createReqHeader);
                     upsert createReqHeader;
         
-                    
-                    if(bu == 'TOP' || bu == 'LABIX' || bu == 'TX') {
+                    CTRRequestFormHeader__c upsertReqHeader = [SELECT Id, Country__r.code__c FROM CTRRequestFormHeader__c WHERE Id =: createReqHeader.Id];
+                    // populate default value
+                    if(requestItem != null) {
+                        if(isSupplier) {
+                            requestItem.Chkdoubleinv__c = true;
+                            requestItem.GRBasedInvVerif__c = true;
+                            requestItem.AutomaticPurchaseOrder__c = true;
+                            if(requestItem.PurchasingOrganizationTX__c == 'A000' && upsertReqHeader.Country__r.Code__c == 'TH') {
+                                requestItem.Wthttype1__c = 'J1';
+                                requestItem.Wthttype2__c = 'J2';
+                                requestItem.Recty1__c = '53';
+                                requestItem.Recty2__c = '53';
+                                requestItem.Liable1__c = true;
+                                requestItem.Liable2__c = true;
+                                requestItem.WHTaxCountry__c = 'TH';
+                            }
+                        } else {
+                            requestItem.SortKey__c = '009';
+                            requestItem.PaymentHistoryRecord__c = true;
+                            requestItem.OrderProbability__c = 0;
+                            requestItem.ExchangeRateType__c = 'B';
+                            requestItem.CustPriceProc__c = '1';
+                            requestItem.CustStatGroup__c = '1';
+                            requestItem.OrderCombination__c = false;
+                            requestItem.PartialDeliveriesperitem__c = 'B';
+                            requestItem.MaxPartialDeliveries__c = 1;
+                            requestItem.UnderdeliveryTolerance__c = 5;
+                            requestItem.OverdeliveryTolerance__c = 5;
+                            requestItem.Rebate__c = true;
+                            requestItem.IsPriceDetermin__c = true;
+                            requestItem.DeliveryPriority__c = '02';
+                        }
+                    }
+                    // if(bu == 'TOP' || bu == 'LABIX' || bu == 'TX') {
                         // if(intProdCusList.size() > 0) {
                         //     CTRAccountCtrl.createReqItem(account, createReqHeader.Id, intProdCusList, bu, requestItem.RecordTypeId, shippingCountries, 'Customer');
                         // }
@@ -148,14 +194,16 @@ public with sharing class CTRExtendCustomer {
                         }
                         System.debug('requestItem -----' + requestItem);
                         upsert requestItem;
-                    }
+                    // }
                     result.put('recordId', requestItem.Id);
                 } catch (DmlException dmlex) {
+                    System.debug('Apex failed: Rollback');
                     Database.rollback(sp);
                     throw dmlex;
                 }
             }
         } catch (Exception ex) {
+            System.debug('Apex failed Line: '+ex.getLineNumber()+' Message: '+ex.getMessage());
             throw new AuraHandledException(ex.getMessage());
         }
         System.debug('result -----' + result);
@@ -182,13 +230,15 @@ public with sharing class CTRExtendCustomer {
                 PurchasingOrganization__c, EstimatedMonthlyPurchaseUnit__c, StartTradingDate__c, CustomerPurchaseProductFrom__c, CustomersFacilityTankAndStorage__c, CustomersFacilityTransportation__c, SupplierSupplyProductTo__c, SuppliersFacilityTankAndStorage__c, SuppliersFacilityTransportation__c, 
                 EnvironmentPolicy__c, SocialResponsibilityPolicy__c, CorporateGovernancePolicy__c, OccupationalHealthAndSafetyPolicy__c, HumanRightsPolicy__c, HasIssuesDuringThePast5Years__c, SpecifyIssuesDuringThePast5Years__c, PaymentOverTheAmountOfUSD__c, ReasonOfTheDefault__c, HasFailedSupplyInLast3Years__c, 
                 SpecifyFailedSupplyInLast3Years__c, HasSanctionedTarget__c, SpecifySanctionedTarget__c, CEOFirstName__c, CEOLastName__c, ImmidiateParentCompany__c, MainService__c, OtherMainService__c, MainProduct__c, OtherMainProduct__c, CompanyLatestCreditRating__c, PhoneExtension__c, FaxExtension__c, 
-                TimeZone__c, UltimateParentCompany__c, AccountNumber__c, AccountGroup__c, TaxClassification__c, AccountAssignmentGroup__c, Incoterms2Port__c, PaymentGuaranteeProcedure__c, PriceDetermin__c, Rebate__c, SupplierNumber__c,Country__r.Code__c, fmlCountryCode__c FROM Account WHERE Id = :accountId LIMIT 1];
+                TimeZone__c, UltimateParentCompany__c, AccountNumber__c, AccountGroup__c, TaxClassification__c, AccountAssignmentGroup__c, Incoterms2Port__c, PaymentGuaranteeProcedure__c, PriceDetermin__c, Rebate__c, SupplierNumber__c,Country__r.Code__c, fmlCountryCode__c, TypeOfBusinessBranch__c FROM Account WHERE Id = :accountId LIMIT 1];
     }
 
     @AuraEnabled(cacheable=true)
     public static String retrieveSalesOrgMapping(String selectedProductType, String bu) {
         String result = '';
         try {
+            List<String> topSubBU = new List<String>{'TOP','TLB','TPX'};
+            bu = topSubBU.contains(bu) || bu == 'LABIX' ? 'TOP' : bu;
             Map<String, CTRGeneralSetting__mdt> configMap = CTRCheckDueDiligenceController.getGeneralSetting(new List<String> {CTRREQUESTITEMSALESORGMAPPING});
             if(configMap != null && !configMap.isEmpty() && configMap.containsKey(CTRREQUESTITEMSALESORGMAPPING)) {
                 if(!String.isBlank(configMap.get(CTRREQUESTITEMSALESORGMAPPING)?.LongValue__c)) {
@@ -247,6 +297,9 @@ public with sharing class CTRExtendCustomer {
             whereSqls.add('Customer__c = \'' + reqFormItem.Customer__c + '\'');
             headerWhereSqls.add('Customer__c = \'' + reqFormItem.Customer__c + '\'');
         }
+
+        List<String> topSubBU = new List<String>{'TOP','TLB','TPX'};
+        List<String> txSubBU = new List<String>{'TXTH','TSV','TSR','JSKem','TXINDIA'};
         // if(bu == 'TOP' || bu == 'LABIX') {
         //     if(isSupplier) {
         //         if(!String.isBlank(reqFormItem.InterestedProductTypeAsSupplierTOP__c)) {
@@ -287,7 +340,7 @@ public with sharing class CTRExtendCustomer {
             if(!String.isBlank(reqFormItem.PurchasingOrganization__c)) {
                 whereSqls.add('PurchasingOrganization__c = \'' + reqFormItem.PurchasingOrganization__c + '\'');
             }
-            if(bu == 'TOP' || bu == 'LABIX') {
+            if(topSubBU.contains(bu) || bu == 'LABIX') {
                 if(!String.isBlank(reqFormItem.InterestedProductTypeAsSupplierTOP__c)) {
                     //whereSqls.add('InterestedProductTypeAsSupplierTOP__c = \'' + reqFormItem.InterestedProductTypeAsSupplierTOP__c + '\'');
                     whereSqls.add('InterestedProductTypeAsSupplierTOP__c INCLUDES (\'' + reqFormItem.InterestedProductTypeAsSupplierTOP__c + '\')');
@@ -303,7 +356,7 @@ public with sharing class CTRExtendCustomer {
             if(!String.isBlank(reqFormItem.SalesOrganization__c)) {
                 whereSqls.add('SalesOrganization__c = \'' + reqFormItem.SalesOrganization__c + '\'');
             }
-            if(bu == 'TOP' || bu == 'LABIX') {
+            if(topSubBU.contains(bu) || bu == 'LABIX') {
                 if(!String.isBlank(reqFormItem.InterestedProductTypeAsCustomerTOP__c)) {
                     //whereSqls.add('InterestedProductTypeAsCustomerTOP__c = \'' + reqFormItem.InterestedProductTypeAsCustomerTOP__c + '\'');
                     whereSqls.add('InterestedProductTypeAsCustomerTOP__c INCLUDES (\'' + reqFormItem.InterestedProductTypeAsCustomerTOP__c + '\')');

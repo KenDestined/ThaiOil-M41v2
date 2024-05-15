@@ -10,7 +10,7 @@ public class CTRFlowEmailGetAttachment {
             if(!isFirst) {
                 fileConditionStr += ' OR ';
             }
-            fileConditionStr += ' Name Like \''+fileName+'%\' '; // to ignore file extension
+            fileConditionStr += ' Name Like \'%'+fileName+'%\' '; // to ignore file extension
             isFirst = false;
         }
 

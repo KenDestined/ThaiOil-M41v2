@@ -9,6 +9,7 @@ public class CTRSharePointLinkController
     {
         @AuraEnabled public String mLabel { get; set; }
         @AuraEnabled public String mLink { get; set; }
+        @AuraEnabled public Boolean mSendCreateFolder { get; set; }
     }
 
     public class mCreateFolderWrapper
@@ -19,7 +20,7 @@ public class CTRSharePointLinkController
         @AuraEnabled public String Type { get; set; }
         //@AuraEnabled public List<String> Users { get; set; }
         //@AuraEnabled public String Role { get; set; }
-        //@AuraEnabled public mUpdateFieldToSharePoint fieldsUpdate { get; set; }
+        @AuraEnabled public mUpdateFieldToSharePoint fieldsUpdate { get; set; }
     }
 
     public class mUpdateFieldToSharePoint
@@ -30,17 +31,11 @@ public class CTRSharePointLinkController
         @AuraEnabled public String SalesforceCode { get; set; }
     }
 
-    public static String manageWrapperToCreateFolder(String mMainFolder, String mAccFolder, String mSubFolder, String mType, List<String> mUserList, String mRole)
+    public static String manageWrapperToCreateFolder(String mMainFolder, String mAccFolder, String mSubFolder, String mType, List<String> mUserList, String mRole, Account mAccount)
                                                     //,Account mAccount)
     {
         try
         {
-            mUpdateFieldToSharePoint mUpdateField = new mUpdateFieldToSharePoint();
-            mUpdateField.AccountName = ''; //mAccount.Name;
-            mUpdateField.CustomerCode = '';//mAccount.AccountNumber__c;
-            mUpdateField.SupplierCode = '';//mAccount.SupplierNumber;
-            mUpdateField.SalesforceCode = '';//mAccount.SFCode__c;
-
             mCreateFolderWrapper mCreateFolder = new mCreateFolderWrapper();
             mCreateFolder.MainFolder = mMainFolder;
             mCreateFolder.AccFolder = mAccFolder;
@@ -48,7 +43,15 @@ public class CTRSharePointLinkController
             mCreateFolder.Type = mType;
             //mCreateFolder.Users = (mUserList.size()>0)?mUserList: new List<String>();
             //mCreateFolder.Role = mRole;
-            //mCreateFolder.fieldsUpdate = mUpdateField;
+
+            if(mAccount != null) {
+                mUpdateFieldToSharePoint mUpdateField = new mUpdateFieldToSharePoint();
+                mUpdateField.AccountName = mAccount.Name; //mAccount.Name;
+                mUpdateField.CustomerCode = mAccount.AccountNumber__c;//mAccount.AccountNumber__c;
+                mUpdateField.SupplierCode = mAccount.SupplierNumber__c;//mAccount.SupplierNumber__c;
+                mUpdateField.SalesforceCode = mAccount.SFCode__c;//mAccount.SFCode__c;
+                mCreateFolder.fieldsUpdate = mUpdateField;
+            }
             String mJson = JSON.serialize(mCreateFolder);
             mJson = mJson.replace('null', '""');
             System.debug('Create folder json '+mJson);
@@ -106,7 +109,7 @@ public class CTRSharePointLinkController
 
             if(sObjName == 'Account')
             {
-                mAccount = [SELECT Id, AccountNumber__c, SFCode__c FROM Account WHERE Id =: recordId LIMIT 1];
+                mAccount = [SELECT Id, AccountNumber__c, SFCode__c, isMigrateData__c, SubmitToCreateSharePointFolder__c, MinutesSinceSubmitSharePoint__c FROM Account WHERE Id =: recordId LIMIT 1];
             }
             if(sObjName == 'Lead') {
                 mLead = [SELECT Id, LeadNo__c FROM Lead WHERE Id =: recordId LIMIT 1];
@@ -204,6 +207,18 @@ public class CTRSharePointLinkController
                         wrapperPath mWrapper = new wrapperPath();
                         mWrapper.mLabel = mShareFolder.Button_Name__c;
                         mWrapper.mLink = mLinkPath;
+                        mWrapper.mSendCreateFolder = false;
+
+                        if(sObjName == 'Account' && mAccount.size() > 0) {
+                            //create-sharepoint
+                            if(mAccount[0].MinutesSinceSubmitSharePoint__c == null) {
+                                // send create sharepoint
+                                mWrapper.mSendCreateFolder = true;
+                            } else if(mAccount[0].MinutesSinceSubmitSharePoint__c < 0.1) {
+                                // create sharepoint has been sent less than 0.1 mins
+                                mWrapper.mSendCreateFolder = true;
+                            }
+                        }
                         //mLinkPathList.add(mLinkPath);
                         mWrapperPathList.add(mWrapper);
                     }
@@ -280,7 +295,7 @@ public class CTRSharePointLinkController
                 Boolean mFoundPath = false;
                 String actMainFolder = mShareFolder.Main__c == 'Account' ? spMainFolder : mShareFolder.Main__c;
                 string mLinkPath = 'https://'+spTenantName+'.sharepoint.com/sites/'+ spSiteName+'/'+spFolderName+'/';
-                if(mShareFolder.SubFolder__c.contains(mSubFolder) && mShareFolder.Path__c != null && mShareFolder.Path__c.contains(mPath)) {
+                if(mShareFolder.SubFolder__c != null && mShareFolder.SubFolder__c.contains(mSubFolder) && mShareFolder.Path__c != null && mShareFolder.Path__c.contains(mPath)) {
                     if(mAccount.size() > 0)
                     {
                         mLinkPath += actMainFolder+'/';
@@ -318,6 +333,46 @@ public class CTRSharePointLinkController
             }
             System.debug('--mLinkPathList--'+mLinkPathList);
             return mLinkPathList;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    public class wrapperCheckCreateFolder
+    {
+        @AuraEnabled public Boolean isCreateSuccess { get; set; }
+        @AuraEnabled public String message { get; set; }
+    }
+
+    @AuraEnabled
+    public static wrapperCheckCreateFolder checkSendCreateSharePointFolder(Id recordId){
+        try {
+            wrapperCheckCreateFolder response = new wrapperCheckCreateFolder();
+            response.isCreateSuccess = true;
+            response.message = 'Sharepoint folder has been created.';
+            String sObjName = recordId.getSObjectType().getDescribe().getName();
+
+            // if(sObjName == 'CTRRequestFormItem__c') {
+            //     Set<Id> mItemSetId = new Set<Id>{recordId};
+            //     CTRRequestItemHandler.createFolderDependtoSalesOrg(mItemSetId);
+            // } else 
+            if(sObjName == 'Account') {
+                Account mAccount = [SELECT Id, isMigrateData__c, SubmitToCreateSharePointFolder__c, MinutesSinceSubmitSharePoint__c FROM Account WHERE Id =: recordId LIMIT 1];
+                if(mAccount.MinutesSinceSubmitSharePoint__c == null) {
+                    Account updateAccount = new Account(); // to trigger create sharepoint folder
+                    updateAccount.Id = recordId;
+                    updateAccount.isMigrateData__c = false;
+                    updateAccount.SubmitToCreateSharePointFolder__c = true;
+                    update updateAccount;
+
+                    response.isCreateSuccess = false;
+                    response.message = 'Creating sharepoint folder is in-progress, please try again later.';
+                } else if(mAccount.MinutesSinceSubmitSharePoint__c < 0.1) {
+                    response.isCreateSuccess = false;
+                    response.message = 'Creating sharepoint folder is in-progress, please try again later.';
+                }
+            }
+            return response;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }

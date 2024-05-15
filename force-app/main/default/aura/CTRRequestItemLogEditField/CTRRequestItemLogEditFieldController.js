@@ -64,7 +64,7 @@
 		//   action.setParams({
 		// 	  'mRecordId': component.get('v.recordId')
 		// 	});
-			  var action = component.get("c.onloadv3");
+			  var action = component.get("c.onloadv4");
 			  // set param to method  
 				action.setParams({
 					'mRecordId': component.get('v.recordId')

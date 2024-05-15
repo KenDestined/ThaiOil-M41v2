@@ -46,6 +46,7 @@
     <aura:attribute name="SupplierTransportationValue" type="List" default="" />
 
     <aura:attribute name="isAccount" type="Boolean" default="true" />
+    <aura:attribute name="isRequired" type="Boolean" default="true" />
     <aura:attribute name="isTRCR" type="Boolean" default="false" />
     <aura:attribute name="isCustomerProductSelected" type="Boolean" default="false" />
     <aura:attribute name="isSupplierProductSelected" type="Boolean" default="false" />
@@ -70,6 +71,7 @@
     <aura:attribute name="IsPageDisable" type="Boolean" default="false" />
     <aura:attribute name="IsSaved" type="Boolean" default="false" />
     <aura:attribute name="IsCounterParty" type="Boolean" default="false" />
+    <aura:attribute name="GeneralWarning" type="Boolean" default="false"/>
 
 
     <aura:attribute name="YesPaymentOverTheAmountOfUSD" type="Boolean" default="false" />
@@ -100,6 +102,7 @@
 
     <aura:attribute name="isNoCustomerProductsSAPSync" type="Boolean" default="true" />
     <aura:attribute name="SAPSync" type="Boolean" default="false" />
+    <aura:attribute name="SAPSyncDoNotChange" type="Boolean" default="false" />
     <aura:attribute name="SAPSyncCustomer" type="Boolean" default="false" />
     <aura:attribute name="SAPSyncSupplier" type="Boolean" default="false" />
 
@@ -133,6 +136,25 @@
         <lightning:spinner aura:id="spinner" variant="brand" />
 
         <div class="card">
+            <aura:if isTrue="{!v.GeneralWarning}">
+            
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                  <span class="slds-assistive-text">warning</span>
+                  <span class="slds-icon_container slds-icon-utility-warning slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                    <lightning:icon iconName="utility:warning" alternativeText="warning" size="large" title="large size" />
+                  </span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small ">This information has been created in General View on SAP. If you edit information, it will be update instead of current information.</h2>
+                    </div>
+                    <div class="slds-notify__close">
+                    
+                    </div>
+                </div>
+              </div>
+
+            </aura:if>
+
             <lightning:layoutItem padding="around-small">
                 <lightning:recordEditForm aura:id="recordEditForm" recordId="{!v.onPageRecordID}"
                     objectApiName="{!v.ObjectType}" recordTypeId="{!v.recordTypeId}" onsubmit="{!c.handleSubmit}"
@@ -163,8 +185,8 @@
                                     <label><span style="color:red; font-style: italic;">* </span>Company Name (English)</label>
                                     <lightning:inputField aura:id="CompanyNameENF__c" fieldName="CompanyNameENF__c"
                                         variant="label-hidden" id="Company Name (English)"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"
-                                        required="true"/>
+                                        onchange="{!c.handleAddJson}" 
+                                        required="{!v.isRequired}"/>
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_1-of-4"></div>
@@ -173,8 +195,8 @@
                                     <lightning:inputField aura:id="TypeOfBusinessBranch__c"
                                         fieldName="TypeOfBusinessBranch__c" variant="label-hidden"
                                         id="Type of Business (Branch)" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"
-                                        required="true"/>
+                                        onchange="{!c.handleAddJson}" 
+                                        required="{!v.isRequired}"/>
                                     <br />
                                 </div>
                                 
@@ -186,7 +208,7 @@
                                     <lightning:inputField aura:id="CompanyNameLocal__c" fieldName="CompanyNameLocal__c"
                                         variant="label-hidden" 
                                         id="Company Name (Other Languages)"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label>The Former Name of Company (if any)</label>
                                     <lightning:inputField aura:id="FormerNameofCompany__c"
@@ -204,51 +226,37 @@
                                     <lightning:inputField aura:id="SpecifyLanguagesOfCompanyName__c"
                                         fieldName="SpecifyLanguagesOfCompanyName__c" variant="label-hidden"
                                         id="Specify Languages of Company Name" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
 
                                     <br />
                                     <label for="Country"><span style="color:red; font-style: italic;">*
                                         </span>Country</label>
                                     <lightning:inputField aura:id="Country__c" fieldName="Country__c"
-                                        variant="label-hidden" required="true" 
-                                        id="Country"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        variant="label-hidden" required="{!v.isRequired}" 
+                                        id="Country" disabled="{!v.SAPSync}"
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_1-of-4"></div>
-
+                                
+                                <aura:renderIf isTrue="{!v.isCustomerType}">
                                 <div class="slds-col slds-size_1-of-4">
                                     <!-- Your lightning:inputField components here LEFT Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>Type of Business (Commercial Evalution)</label>
                                     <lightning:inputField aura:id="TypeOfBusinessCommercialEvaluation__c"
                                         fieldName="TypeOfBusinessCommercialEvaluation__c" variant="label-hidden"
-                                        required="true" 
-                                        id="Type of Bussiness (Commercial Evaluation)"
+                                        required="{!v.isRequired}" 
+                                        id="Type of Business (Commercial Evaluation)"
                                         onchange="{!c.handleTypeofBussinessChange}"/>
                                     <br />
                                     <label><span style="color:red; font-style: italic;">* </span>Legal Entity (Commercial Evalution)</label>
                                     <lightning:inputField aura:id="LegalEntity__c" fieldName="LegalEntity__c"
-                                        variant="label-hidden" required="true"
+                                        variant="label-hidden" required="{!v.isRequired}"
                                         id="Legal Entity (Commercial Evaluation)" 
                                         onchange="{!c.handleisOtherLegalEntityChange}"/>
                                     <br />
-                                    <label><span style="color:red; font-style: italic;">* </span>Incoperation Date</label>
-                                    <lightning:inputField aura:id="IncoperationDate__c" fieldName="IncoperationDate__c"
-                                        variant="label-hidden" required="true" 
-                                        id="Incoperation Date"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
-                                    <br />
-                                    <label class="slds-form-element__label">
-                                        <abbr class="slds-required" title="required">*</abbr>
-                                        <span class="slds-m-right_x-small">Tax Number</span>
-                                        <lightning:helptext
-                                            content="N = number / A = letter / X = A, B, C, F, G, H, L, J, P, T or K / Y = letter or number / Z = Z / Thailand: NNNNNNNNNNNNN / India: NNAXXXANNNNAYZY /  Vietnam: NNNNNNNNNN / Indonesia: NNNNNNNNNNNNNNN / Singapore: NNNNNNNNNA" />
-                                    </label>
-                                    <lightning:inputField aura:id="TaxCode1__c" fieldName="TaxCode1__c"
-                                        variant="label-hidden" required="true" 
-                                        id="Tax Number"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
-                                    <br />
+
+
                                 </div>
                                 <div class="slds-col slds-size_1-of-4"></div>
 
@@ -260,11 +268,11 @@
                                         <aura:renderIf isTrue="{!v.isOtherTypeofBussiness}">
                                             <span style="color:red; font-style: italic;">* </span>
                                         </aura:renderIf>
-                                        Other Type of Bussiness (Please Specify)
+                                        Other Type of Business (Please Specify)
                                     </span>
                                     <lightning:inputField aura:id="TypeOfBusinessOthers__c"
                                         fieldName="TypeOfBusinessOthers__c" variant="label-hidden"
-                                        id="Other Type of Bussiness (Please Specify)" 
+                                        id="Other Type of Business (Please Specify)" 
                                         onchange="{!c.handleAddJson}"
                                         required="{!v.isOtherTypeofBussiness}"/>
                                     <br />
@@ -280,12 +288,53 @@
                                         onchange="{!c.handleAddJson}"
                                         required="{!v.isOtherLegalEntity}"/>
                                     <br />
+                                </div>
+                                <div class="slds-col slds-size_1-of-4"></div>
+                            </aura:renderIf>
+
+
+                                <div class="slds-col slds-size_1-of-4">
+                                    <!-- Your lightning:inputField components here LEFT Col -->
+                                    <label><span style="color:red; font-style: italic;">* </span>Incoperation Date</label>
+                                    <lightning:inputField aura:id="IncoperationDate__c" fieldName="IncoperationDate__c"
+                                        variant="label-hidden" required="{!v.isRequired}" 
+                                        id="Incoperation Date"
+                                        onchange="{!c.handleAddJson}" />
+                                    <br />
+                                </div>
+                                <div class="slds-col slds-size_1-of-4"></div>
+
+                                <div class="slds-col slds-size_1-of-4">
+                                    <!-- Your lightning:inputField components here Right Col -->
+                                    <aura:renderIf isTrue="{!v.isCustomerType}">
                                     <label><span style="color:red; font-style: italic;">* </span>Years of Experience in business?</label>
                                     <lightning:inputField aura:id="Yearofexperience__c" fieldName="Yearofexperience__c"
-                                        variant="label-hidden" required="true" 
+                                        variant="label-hidden" required="{!v.isRequired}" 
                                         id="Year of experience in business"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
+                                </aura:renderIf>
+                                </div>
+                                <div class="slds-col slds-size_1-of-4"></div>
+
+                                <div class="slds-col slds-size_1-of-4">
+                                    <!-- Your lightning:inputField components here LEFT Col -->
+                                    <label class="slds-form-element__label">
+                                        <abbr class="slds-required" title="required">*</abbr>
+                                        <span class="slds-m-right_x-small">Tax Number</span>
+                                        <lightning:helptext
+                                            content="N = number / A = letter / X = A, B, C, F, G, H, L, J, P, T or K / Y = letter or number / Z = Z / Thailand: NNNNNNNNNNNNN / India: NNAXXXANNNNAYZY /  Vietnam: NNNNNNNNNN / Indonesia: NNNNNNNNNNNNNNN / Singapore: NNNNNNNNNA" />
+                                    </label>
+                                    <lightning:inputField aura:id="TaxCode1__c" fieldName="TaxCode1__c"
+                                        variant="label-hidden" required="{!v.isRequired}" 
+                                        id="Tax Number" disabled="{!v.SAPSync}"
+                                        onchange="{!c.handleAddJson}" />
+                                    <br />
+                                </div>
+                                <div class="slds-col slds-size_1-of-4"></div>
+
+                                <div class="slds-col slds-size_1-of-4">
+                                    <!-- Your lightning:inputField components here Right Col -->
                                     <label>Company Website</label>
                                     <aura:renderIf isTrue="{!v.isAccount}">
                                         <lightning:inputField aura:id="Website" fieldName="Website"
@@ -317,7 +366,7 @@
                                     <!-- Your lightning:inputField components here LEFT Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>CEO/President/MD First Name</label>
                                     <lightning:inputField aura:id="CEOFirstName__c" fieldName="CEOFirstName__c"
-                                        variant="label-hidden" required="true"
+                                        variant="label-hidden" required="{!v.isRequired}"
                                         id="CEO/President/Managing Director First Name" 
                                         onchange="{!c.handleAddJson}"/>
                                     <br />
@@ -327,7 +376,7 @@
                                     <!-- Your lightning:inputField components here Right Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>CEO/President/MD Last Name</label>
                                     <lightning:inputField aura:id="CEOLastName__c" fieldName="CEOLastName__c"
-                                        variant="label-hidden" required="true"
+                                        variant="label-hidden" required="{!v.isRequired}"
                                         id="CEO/President/Managing Director Last Name" 
                                         onchange="{!c.handleAddJson}"/>
                                     <br />
@@ -403,7 +452,7 @@
                                         <lightning:inputField aura:id="CustomerSearchTermEN__c"
                                             fieldName="CustomerSearchTermEN__c" variant="label-hidden"
                                             id="Customer Search Term (EN)" 
-                                            onchange="{!c.handleAddJson}" disabled="{!v.SAPSyncCustomer}"/>
+                                            onchange="{!c.handleAddJson}" />
                                         <br />
                                     </aura:renderIf>
 
@@ -415,7 +464,7 @@
                                         <lightning:inputField aura:id="CustomerSearchTermLocal__c"
                                             fieldName="CustomerSearchTermLocal__c" variant="label-hidden"
                                             id="Customer Search Term (Other Languages)" 
-                                            onchange="{!c.handleAddJson}" disabled="{!v.SAPSyncCustomer}"/>
+                                            onchange="{!c.handleAddJson}" />
                                         <br />
                                     </aura:renderIf>
                                 </div>
@@ -429,7 +478,7 @@
                                         <lightning:inputField aura:id="SupplierSearchTermEN__c"
                                             fieldName="SupplierSearchTermEN__c" variant="label-hidden"
                                             id="Supplier Search Term (EN)" 
-                                            onchange="{!c.handleAddJson}" disabled="{!v.SAPSyncSupplier}"/>
+                                            onchange="{!c.handleAddJson}"/>
                                         <br />
                                     </aura:renderIf>
 
@@ -441,7 +490,7 @@
                                         <lightning:inputField aura:id="SupplierSearchTermLocal__c"
                                             fieldName="SupplierSearchTermLocal__c" variant="label-hidden"
                                             id="Supplier Search Term (Other Languages)" 
-                                            onchange="{!c.handleAddJson}" disabled="{!v.SAPSyncSupplier}"/>
+                                            onchange="{!c.handleAddJson}"/>
                                         <br />
                                     </aura:renderIf>
                                 </div>
@@ -471,25 +520,25 @@
                                     <lightning:inputField aura:id="BuildingCodeLocal__c"
                                         fieldName="BuildingCodeLocal__c" variant="label-hidden" 
                                         id="Building Code"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label>Floor</label>
                                     <lightning:inputField aura:id="FloorLocal__c" fieldName="FloorLocal__c"
                                         variant="label-hidden" 
                                         id="Floor" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label for="House"><span style="color:red; font-style: italic;">* </span>House no.</label>
                                     <lightning:inputField aura:id="HousenoLocal__c" fieldName="HousenoLocal__c"
-                                        variant="label-hidden" required="true" 
+                                        variant="label-hidden" required="{!v.isRequired}" 
                                         id="House No."
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label>Sub District</label>
                                     <lightning:inputField aura:id="SubDistrictLocalText__c"
                                         fieldName="SubDistrictLocalText__c" variant="label-hidden" 
                                         id="Sub District"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
 
                                 </div>
@@ -501,25 +550,25 @@
                                     <lightning:inputField aura:id="RoomLocal__c" fieldName="RoomLocal__c"
                                         variant="label-hidden" 
                                         id="Room" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label>c/o</label>
                                     <lightning:inputField aura:id="CoName__c" fieldName="CoName__c"
                                         variant="label-hidden" 
                                         id="c/o" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label for="Street">Street</label>
                                     <lightning:inputField aura:id="StreetLocal__c" fieldName="StreetLocal__c"
                                         variant="label-hidden" 
                                         id="Street" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label><span style="color:red; font-style: italic;">* </span>District</label>
                                     <lightning:inputField aura:id="DistrictLocalText__c"
-                                        fieldName="DistrictLocalText__c" variant="label-hidden" required="true"
+                                        fieldName="DistrictLocalText__c" variant="label-hidden" required="{!v.isRequired}"
                                         id="District" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
 
                                 </div>
@@ -530,9 +579,9 @@
                                     <!-- Your lightning:inputField components here LEFT Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>City/State</label>
                                     <lightning:inputField aura:id="CityStateLocal__c" fieldName="CityStateLocal__c"
-                                        variant="label-hidden" required="true" 
+                                        variant="label-hidden" required="{!v.isRequired}" 
                                         id="City/State"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_1-of-4"></div>
@@ -540,25 +589,25 @@
                                     <!-- Your lightning:inputField components here Right Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>Postal Code</label>
                                     <lightning:inputField aura:id="PostalCodeLocalText__c"
-                                        fieldName="PostalCodeLocalText__c" variant="label-hidden" required="true"
+                                        fieldName="PostalCodeLocalText__c" variant="label-hidden" required="{!v.isRequired}"
                                         id="Postal Code" 
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_1-of-4"></div>
 
-
+                                <aura:renderIf isTrue="{!v.isCustomerType}">
                                 <div class="slds-col slds-size_1-of-4">
                                     <!-- Your lightning:inputField components here LEFT Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>Location in Google Maps (Link)</label>
                                     <lightning:inputField aura:id="LocationInGoogleMapsLinks__c"
-                                        fieldName="LocationInGoogleMapsLinks__c" variant="label-hidden" required="true"
+                                        fieldName="LocationInGoogleMapsLinks__c" variant="label-hidden" required="{!v.isRequired}"
                                         id="Location in Google Maps (Link)" 
                                         onchange="{!c.handleAddJson}"/>
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_3-of-4"></div>
-
+                                </aura:renderIf>
                                 <div class="slds-col slds-size_1-of-4">
                                     <!-- Your lightning:inputField components here LEFT Col -->
 
@@ -759,19 +808,19 @@
                                     <lightning:inputField aura:id="ContactSalutation__c"
                                         fieldName="ContactSalutation__c" variant="label-hidden" 
                                         id="Title (Mr./Mrs./Miss/etc.)"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label for="First"><span style="color:red; font-style: italic;">* </span>First Name</label>
                                     <lightning:inputField aura:id="FirstName__c" fieldName="FirstName__c"
-                                        variant="label-hidden" required="true" 
+                                        variant="label-hidden" required="{!v.isRequired}" 
                                         id="First Name"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label>Position</label>
                                     <lightning:inputField aura:id="Position__c" fieldName="Position__c"
                                         variant="label-hidden" 
                                         id="Position"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
 
 
@@ -783,19 +832,19 @@
                                     <lightning:inputField aura:id="Nickname__c" fieldName="Nickname__c"
                                         variant="label-hidden" 
                                         id="Nickname"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label for="Last"><span style="color:red; font-style: italic;">* </span>Last Name</label>
                                     <lightning:inputField aura:id="LastName__c" fieldName="LastName__c"
-                                        variant="label-hidden" required="true" 
+                                        variant="label-hidden" required="{!v.isRequired}" 
                                         id="Last Name"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label for="Email"><span style="color:red; font-style: italic;">* </span>Email Address</label>
                                     <lightning:inputField aura:id="Email__c" fieldName="Email__c" variant="label-hidden"
-                                        required="true" 
+                                        required="{!v.isRequired}" 
                                         id="Email Address"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
 
                                 </div>
@@ -808,7 +857,7 @@
                                     <lightning:inputField aura:id="Language__c" fieldName="Language__c"
                                         variant="label-hidden" 
                                         id="Lanaguage"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_3-of-4" />
@@ -817,15 +866,15 @@
                                     <!-- Your lightning:inputField components here LEFT Col -->
                                     <label><span style="color:red; font-style: italic;">* </span>Country Code (Mobile)</label>
                                     <lightning:inputField aura:id="MobileCountryCode__c"
-                                        fieldName="MobileCountryCode__c" variant="label-hidden" required="true" 
+                                        fieldName="MobileCountryCode__c" variant="label-hidden" required="{!v.isRequired}" 
                                         id="Country Code (Mobile)"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label><span style="color:red; font-style: italic;">* </span>Country Code (Phone)</label>
                                     <lightning:inputField aura:id="PhoneCountryCode__c" fieldName="PhoneCountryCode__c"
                                         variant="label-hidden" 
-                                        id="Country Code (Phone)" required="true"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        id="Country Code (Phone)" required="{!v.isRequired}"
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
 
                                 </div>
@@ -835,9 +884,9 @@
                                     <label for="Mobile"><span style="color:red; font-style: italic;">*
                                         </span>Mobile</label>
                                     <lightning:inputField aura:id="MobilePhone__c" fieldName="MobilePhone__c"
-                                        variant="label-hidden" required="true" 
+                                        variant="label-hidden" required="{!v.isRequired}" 
                                         id="Mobile"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                     <label><span style="color:red; font-style: italic;">*
                                     </span>Phone</label>
@@ -845,13 +894,13 @@
                                         <lightning:inputField aura:id="Phone" fieldName="Phone"
                                             variant="label-hidden" 
                                             id="Phone" required ="true"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     </aura:renderIf>
                                     <aura:renderIf isTrue="{!!v.isAccount}">
                                         <lightning:inputField aura:id="Phone__c" fieldName="Phone__c"
                                             variant="label-hidden" 
                                             id="Phone" required ="true"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     </aura:renderIf>
                                     <br />
 
@@ -865,7 +914,7 @@
                                     <lightning:inputField aura:id="PhoneExtension__c" fieldName="PhoneExtension__c"
                                         variant="label-hidden" 
                                         id="Phone Ext."
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                 </div>
                                 <div class="slds-col slds-size_1-of-4"></div>
@@ -876,7 +925,7 @@
                                     <lightning:inputField aura:id="FaxCountryCode__c" fieldName="FaxCountryCode__c"
                                         variant="label-hidden" 
                                         id="Country Code (Fax)"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
 
 
@@ -888,13 +937,13 @@
                                     <aura:renderIf isTrue="{!v.isAccount}">
                                         <lightning:inputField aura:id="Fax" fieldName="Fax" variant="label-hidden" 
                                         id="Fax"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     </aura:renderIf>
                                     <aura:renderIf isTrue="{!!v.isAccount}">
                                         <lightning:inputField aura:id="Fax__c" fieldName="Fax__c"
                                             variant="label-hidden" 
                                             id="Fax"
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     </aura:renderIf>
                                     <br />
 
@@ -909,7 +958,7 @@
                                     <lightning:inputField aura:id="FaxExtension__c" fieldName="FaxExtension__c"
                                         variant="label-hidden" 
                                         id="Fax Ext."
-                                        onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                        onchange="{!c.handleAddJson}" />
                                     <br />
                                 </div>
 
@@ -1090,7 +1139,7 @@
                                         <!-- Your lightning:inputField components here LEFT Col -->
                                         <p>Estimate monthly purchase per grade</p>
                                         <lightning:inputField aura:id="CompanyPurchasingVolumnperGrade__c"
-                                            fieldName="CompanyPurchasingVolumnperGrade__c" variant="label-hidden" disabled="{!v.isNoCustomerProductsSAPSync}"
+                                            fieldName="CompanyPurchasingVolumnperGrade__c" variant="label-hidden"
                                             id="Estimate monthly purchase per grade"
                                             onchange="{!c.handleAddJson}" />
                                         <br />
@@ -1101,7 +1150,7 @@
                                         <p>Unit of Purchasing volume per month</p>
                                         <lightning:inputField aura:id="EstimatedMonthlyPurchaseUnit__c"
                                             fieldName="EstimatedMonthlyPurchaseUnit__c" variant="label-hidden" 
-                                            id="Unit of Purchasing volume per month" disabled="{!v.isNoCustomerProductsSAPSync}"
+                                            id="Unit of Purchasing volume per month" 
                                             onchange="{!c.handleAddJson}"/>
                                         <br />
                                     </div>
@@ -1186,15 +1235,15 @@
                                                 <aura:if isTrue="{!v.isCustomerProductSelected}">
                                                     <span style="color:red; font-style: italic;">* </span>
                                                 </aura:if>
-                                                (For Customer) Which company do customers purchase this product from?
+                                                Where do customers buy this product?
                                             </span>
                                             <lightning:helptext
-                                                content="If a customer buys a product from more than one company, use a semicolon(;) before inputting the next company" />
+                                            content="If a customer buys a product from more than one company, use a semicolon(;) before inputting the next company" />
                                         </label>
                                         <lightning:inputField aura:id="CustomerPurchaseProductFrom__c"
                                             fieldName="CustomerPurchaseProductFrom__c" variant="label-hidden" 
                                             required="{!v.isCustomerProductSelected}"
-                                            id="(For Customer) Which company do customers purchase this product from?"
+                                            id="Where do customers buy this product?"
                                             onchange="{!c.handleAddJson}"/>
                                         <br />
                                         <label class="slds-form-element__label">
@@ -1205,7 +1254,7 @@
                                                 Customer's Facility (Tank and Storage)
                                             </span>
                                             <lightning:helptext
-                                                content="If a supplier supply a product from more than one company, use a semicolon(;) before inputting the next company" />
+                                            content="If a customer buys a product from more than one company, use a semicolon(;) before inputting the next company" />
                                         </label>
                                         <lightning:inputField aura:id="CustomersFacilityTankAndStorage__c"
                                             fieldName="CustomersFacilityTankAndStorage__c" variant="label-hidden" 
@@ -1227,7 +1276,7 @@
                                                 Customer's Facility (Transportation)
                                             </span>
                                             <lightning:helptext
-                                                content="If a supplier supply a product from more than one company, use a semicolon(;) before inputting the next company" />
+                                            content="If a customer buys a product from more than one company, use a semicolon(;) before inputting the next company" />
                                         </label>
                                         <lightning:inputField aura:id="CustomersFacilityTransportation__c"
                                             fieldName="CustomersFacilityTransportation__c" variant="label-hidden"
@@ -1252,7 +1301,7 @@
                                                 <aura:if isTrue="{!v.isSupplierProductSelected}">
                                                     <span style="color:red; font-style: italic;">* </span>
                                                 </aura:if>
-                                                (For Supplier) Which company do you supply this product to? (If any)
+                                                Supplying this product to which company?
                                             </span>
                                             <lightning:helptext
                                                 content="If a supplier delivers a product from more than one company, use a semicolon(;) before inputting the next company" />
@@ -1260,11 +1309,11 @@
                                         <lightning:inputField aura:id="SupplierSupplyProductTo__c"
                                             fieldName="SupplierSupplyProductTo__c" variant="label-hidden" 
                                             required="{!v.isSupplierProductSelected}"
-                                            id="(For Supplier) Which company do you supply this product to? (If any)"
+                                            id=" Supplying this product to which company?"
                                             onchange="{!c.handleAddJson}"/>
                                         <br />
 
-                                        <label class="slds-form-element__label">
+                                        <!-- <label class="slds-form-element__label">
                                             <span>
                                                 <aura:if isTrue="{!v.isSupplierProductSelected}">
                                                     <span style="color:red; font-style: italic;">* </span>
@@ -1279,12 +1328,6 @@
                                             required="{!v.isSupplierProductSelected}"
                                             id="Supplier's Facility (Tank and Storage)"
                                             onchange="{!c.handleAddJson}"/>
-
-                                        <!-- <lightning:checkboxGroup name="SupplierTankAndStorage"
-                                                                            label="Supplier's Facility (Tank and Storage)"
-                                                                            options="{! v.FacilityTankAndStorage }"
-                                                                            value="{! v.SupplierTankAndStorageValue }"
-                                                                            onchange="{! c.handleChangeCheckboxGroup }"/> -->
                                         <br />
                                         <label class="slds-form-element__label">
                                             <span>
@@ -1301,13 +1344,7 @@
                                             required="{!v.isSupplierProductSelected}"
                                             id="Supplier's Facility (Transportation)"
                                             onchange="{!c.handleAddJson}"/>
-
-                                        <!-- <lightning:checkboxGroup name="SupplierTransportation"
-                                                                            label="Supplier's Facility (Transportation)"
-                                                                            options="{! v.FacilityTransportation }"
-                                                                            value="{! v.SupplierTransportationValue }"
-                                                                            onchange="{! c.handleChangeCheckboxGroup }"/> -->
-                                        <br />
+                                        <br /> -->
                                     </aura:renderIf>
 
                                 </div>
@@ -1449,7 +1486,7 @@
                                                     <!-- Your lightning:inputField components here MID Col -->
                                                     <lightning:inputField aura:id="EnvironmentPolicy__c"
                                                         fieldName="EnvironmentPolicy__c" variant="label-hidden"
-                                                        required="true" 
+                                                        required="{!v.isRequired}" 
                                                         id="Environment: Does your company have Environment policy?"
                                                         onchange="{!c.handleAddJson}"/>
 
@@ -1483,7 +1520,7 @@
                                                     <!-- Your lightning:inputField components here MID Col -->
                                                     <lightning:inputField aura:id="SocialResponsibilityPolicy__c"
                                                         fieldName="SocialResponsibilityPolicy__c" variant="label-hidden"
-                                                        required="true" 
+                                                        required="{!v.isRequired}" 
                                                         id="Society Responsibility: Does your company have Social Responsibility policy?"
                                                         onchange="{!c.handleAddJson}"/>
 
@@ -1517,7 +1554,7 @@
                                                     <!-- Your lightning:inputField components here MID Col -->
                                                     <lightning:inputField aura:id="CorporateGovernancePolicy__c"
                                                         fieldName="CorporateGovernancePolicy__c" variant="label-hidden"
-                                                        required="true" 
+                                                        required="{!v.isRequired}" 
                                                         id="Governance: Does your company have Corporate Governance policy?"
                                                         onchange="{!c.handleAddJson}"/>
 
@@ -1553,7 +1590,7 @@
                                                     <br />
                                                     <lightning:inputField aura:id="OccupationalHealthAndSafetyPolicy__c"
                                                         fieldName="OccupationalHealthAndSafetyPolicy__c"
-                                                        variant="label-hidden" required="true" 
+                                                        variant="label-hidden" required="{!v.isRequired}" 
                                                         id="Occupational Health and Safety: Does your company have Occupational Health and Safety policy?"
                                                         onchange="{!c.handleAddJson}"/>
                                                     <!-- Your lightning:inputField components here MID Col -->
@@ -1588,7 +1625,7 @@
                                                     <!-- Your lightning:inputField components here MID Col -->
                                                     <lightning:inputField aura:id="HumanRightsPolicy__c"
                                                         fieldName="HumanRightsPolicy__c" variant="label-hidden"
-                                                        required="true" 
+                                                        required="{!v.isRequired}" 
                                                         id="Human Rights: Does your company have Human Rights policy?"
                                                         onchange="{!c.handleAddJson}"/>
 
@@ -1629,7 +1666,7 @@
                                     <!-- Your lightning:inputField components here MID Col -->
                                     <lightning:inputField aura:id="HasIssuesDuringThePast5Years__c"
                                         fieldName="HasIssuesDuringThePast5Years__c" variant="label-hidden"
-                                        required="true" 
+                                        required="{!v.isRequired}" 
                                         id="Has your company or any of its affiliates, or any current director, officer, or key employee ever been charged with, or investigated for fraud, misrepresentation, corruption, bribery, money laundering, forced labour, environmental issues or other related activities during the past five years?"
                                         onchange="{!c.handleChangeYesNo}"/>
 
@@ -1798,7 +1835,7 @@
                                 <div class="slds-col slds-size_1-of-6">
                                     <!-- Your lightning:inputField components here MID Col -->
                                     <lightning:inputField aura:id="HasSanctionedTarget__c"
-                                        fieldName="HasSanctionedTarget__c" variant="label-hidden" required="true" 
+                                        fieldName="HasSanctionedTarget__c" variant="label-hidden" required="{!v.isRequired}" 
                                         id="Does your company have any offices, transactions, investments, activities or planned activities in sanctioned targets or any transactions, investments, activities or planned activities with (or in) any person or entity located in sanctioned targets with (or in) any entity owned controlled by any entity located in sanctioned targets?"
                                         onchange="{!c.handleChangeYesNo}"/>
                                     <!-- <span class="slds-radio"> 
@@ -1911,22 +1948,22 @@
                                             Account Group
                                         </label>
                                         <lightning:inputField aura:id="AccountGroup__c" fieldName="AccountGroup__c"
-                                            variant="label-hidden" required="true" 
+                                            variant="label-hidden" required="{!v.isRequired}" disabled="{!v.SAPSyncDoNotChange}"
                                             id="Account Group"
-                                            onchange="{!c.handleisAccountGroupChange}" disabled="{!v.SAPSync}"/>
+                                            onchange="{!c.handleisAccountGroupChange}" />
                                         <br />
                                         
                                             <label>Region</label>
                                             <lightning:inputField aura:id="RegionSAP__c" fieldName="RegionSAP__c"
                                                 variant="label-hidden" 
                                                 id="Region"
-                                                onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                                onchange="{!c.handleAddJson}" />
                                             <br />
                                             <label><span style="color:red; font-style: italic;">* </span>Tax Classification</label>
                                             <lightning:inputField aura:id="TAXClassification__c" fieldName="TAXClassification__c"
-                                                variant="label-hidden" required="true" 
+                                                variant="label-hidden" required="{!v.isRequired}" 
                                                 id="Tax Classification"
-                                                onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}"/>
+                                                onchange="{!c.handleAddJson}" />
                                             <br />
                                     </div>
                                     <div class="slds-col slds-size_1-of-4"></div>
@@ -1943,13 +1980,13 @@
                                             id="Trading Partner"
                                             onchange="{!c.handleAddJson}" 
                                             required="{!v.isAccountGroup}"
-                                            disabled="{!v.SAPSync}"/>
+                                            />
                                         <br />
                                         <label><span style="color:red; font-style: italic;">* </span>Transportation Zone</label>
                                         <lightning:inputField aura:id="TransportationZone__c" fieldName="TransportationZone__c"
                                             variant="label-hidden" 
                                             id="Transportation Zone"
-                                            onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}" required="true"/>
+                                            onchange="{!c.handleAddJson}"  required="{!v.isRequired}"/>
                                         <br />
                                     </div>
                                     <div class="slds-col slds-size_1-of-4"></div>
@@ -1980,16 +2017,16 @@
                                             Account Group
                                         </label>
                                         <lightning:inputField aura:id="AccountGroup__c" fieldName="AccountGroup__c"
-                                            variant="label-hidden" required="true" 
+                                            variant="label-hidden" required="{!v.isRequired}" disabled="{!v.SAPSyncDoNotChange}"
                                             id="Account Group"
-                                            onchange="{!c.handleisAccountGroupChange}" disabled="{!v.SAPSync}"/>
+                                            onchange="{!c.handleisAccountGroupChange}" />
                                         <br />
                                         
                                             <label><span style="color:red; font-style: italic;">* </span>Group Key (Account  Key of Bank)</label>
                                             <lightning:inputField aura:id="GroupKeyAccountKeyofBank__c" fieldName="GroupKeyAccountKeyofBank__c"
                                                 variant="label-hidden" 
                                                 id="Group Key (Account  Key of Bank)"
-                                                onchange="{!c.handleAddJson}" disabled="{!v.SAPSync}" required="true" />
+                                                onchange="{!c.handleAddJson}"  required="{!v.isRequired}" />
                                             <br />
                                     </div>
                                     <div class="slds-col slds-size_1-of-4"></div>
@@ -2006,7 +2043,7 @@
                                             id="Trading Partner"
                                             onchange="{!c.handleAddJson}" 
                                             required="{!v.isAccountGroup}"
-                                            disabled="{!v.SAPSync}"/>
+                                            />
                                         <br />
                                         
                                     </div>

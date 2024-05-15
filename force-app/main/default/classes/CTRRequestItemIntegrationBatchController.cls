@@ -73,7 +73,9 @@ public with sharing class CTRRequestItemIntegrationBatchController implements Da
                         mToken = mIntegrationInitialCustomer.Token__c;
                         mIntegrationName= 'Edit Customer General+Sales View';
                         CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
-                        mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'Customer', mRequestItem.BusinessUnit__c, mGatewayId);
+                        mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, 'Customer', mRequestItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  true);
+
+                        //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'Customer', mRequestItem.BusinessUnit__c, mGatewayId);
                         mPath = mIntegrationInitialCustomer.Path__c;
                         if(mPath != null)
                         {
@@ -89,7 +91,9 @@ public with sharing class CTRRequestItemIntegrationBatchController implements Da
                         mToken = mIntegrationInintialSupplier.Token__c;
                         mIntegrationName= 'Edit Supplier General+Purchasing View';
                         CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
-                        mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList,mRequestHeader,mRequestItem, 'Supplier', mRequestItem.BusinessUnit__c, mGatewayId);
+                        mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, 'Supplier', mRequestItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  true);
+
+                        //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList,mRequestHeader,mRequestItem, 'Supplier', mRequestItem.BusinessUnit__c, mGatewayId);
                         mPath = mIntegrationInintialSupplier.Path__c;
                         System.debug('Endpoint:'+mEndPoint);
                         if(mPath != null)

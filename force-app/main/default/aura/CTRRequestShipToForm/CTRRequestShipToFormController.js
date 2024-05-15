@@ -21,6 +21,8 @@
         var prepopulateObj = {
             ShippingConditions__c: '02',
             MaxPartialDeliveries__c: '1',
+            PartialDeliveriesperitem__c: '1',
+            DeliveryPriority__c: '02',
         }
         helper.prepopulateData(component,prepopulateObj);
     },

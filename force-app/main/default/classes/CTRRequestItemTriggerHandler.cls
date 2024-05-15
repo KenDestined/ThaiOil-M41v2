@@ -17,7 +17,9 @@ public with sharing class CTRRequestItemTriggerHandler implements ITriggerHandle
 
     }
     public void afterInsert(Map<Id, SObject> newItems) {
-        // CTRCalloutComXCtrl.organizeData((Map<Id,CTRRequestFormItem__c>)newItems);
+        System.debug('CTRRequestItemTriggerHandler afterInsert');
+        CTRCalloutComXCtrl.organizeData((Map<Id,CTRRequestFormItem__c>)newItems);
+        CTRRequestItemHandler.CreateMainFolderSharePointAfterCreate((List<CTRRequestFormItem__c>) newItems.values());
         CTRRequestItemHandler.CreateFolderSharePointAfterCreate((List<CTRRequestFormItem__c>) newItems.values());
         CTRRequestItemHandler.createDestinationCountryAfterInsert((List<CTRRequestFormItem__c>)newItems.values());
         CTRRequestItemHandler.savepointOriginalValueForEditTypeAfterInsert((List<CTRRequestFormItem__c>)newItems.values());
@@ -26,6 +28,7 @@ public with sharing class CTRRequestItemTriggerHandler implements ITriggerHandle
     }
     public void afterUpdate(Map<Id, SObject> newItems, Map<Id, SObject> oldItems) 
     {
+        CTRRequestItemHandler.generateMasterDocResponseSendToSAPAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.CreateSharePointForInitialAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.AddNewOwnerPermissionToSharePointAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);
         CTRRequestItemHandler.savepointCounterPartyJsonInitialAfterUpdate((Map<Id,CTRRequestFormItem__c>)oldItems, (Map<Id,CTRRequestFormItem__c>)newItems);

@@ -179,9 +179,7 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>13/3/2024 Update Email html
-21/3/2024 Revise Company Name
-17/04/2024 Revise Company Name</description>
+    <description>23/04/2024 Add text &quot;This verification code expires in 2 minutes&quot; in EmailBody.</description>
     <environments>Default</environments>
     <formulas>
         <description>Subject email</description>
@@ -299,7 +297,7 @@
     <textTemplates>
         <name>EmailBody</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
-        <text>&lt;p&gt;Dear &lt;span style=&quot;color: rgb(68, 68, 68); background-color: rgb(255, 255, 255);&quot;&gt;{!recipientName}&lt;/span&gt;,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To access the counterparty registration system, please use the code below for account verification.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Account Verification Code: {!$Record.VerificationCode__c}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;If you didn&apos;t request a code, you can ignore this email.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatically generated email. Please do not reply to this address.&lt;/p&gt;</text>
+        <text>&lt;p&gt;Dear &lt;span style=&quot;background-color: rgb(255, 255, 255); color: rgb(68, 68, 68);&quot;&gt;{!recipientName}&lt;/span&gt;,&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;To access the counterparty registration system, please use the code below for account verification.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;Account Verification Code: {!$Record.VerificationCode__c}&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;This verification code expires in 2 minutes.&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;If you didn&apos;t request a code, you can ignore this email.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Best Regards,&lt;/p&gt;&lt;p&gt;Counterparties Registration Automated System&lt;/p&gt;&lt;p&gt;This is an automatically generated email. Please do not reply to this address.&lt;/p&gt;</text>
     </textTemplates>
     <variables>
         <description>Recipient emails for sending email</description>

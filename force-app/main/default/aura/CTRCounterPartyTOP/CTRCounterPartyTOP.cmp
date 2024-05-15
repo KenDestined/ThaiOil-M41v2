@@ -184,7 +184,7 @@
                                         <!-- Start Row -->
                                         <div class="slds-col slds-size_5-of-12">
                                             <label class="slds-form-element__label">
-                                                <span class="slds-m-right_x-small">Type of Bussiness</span>
+                                                <span class="slds-m-right_x-small">Type of Business</span>
                                                 <lightning:helptext content="For Commercial Evaluation" />
                                             </label>
                                             <lightning:card footer=" " title="">
@@ -198,7 +198,7 @@
 
                                         <div class="slds-col slds-size_5-of-12">
                                             <label class="slds-form-element__label">
-                                                <span class="slds-m-right_x-small">Other Type of Bussiness (Please Specify)</span>
+                                                <span class="slds-m-right_x-small">Other Type of Business (Please Specify)</span>
                                             </label>
                                             <lightning:card footer=" " title="">
                                                 <p class="slds-p-horizontal_small">

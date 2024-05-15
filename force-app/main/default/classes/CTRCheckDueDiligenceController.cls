@@ -6,6 +6,7 @@ public without sharing class CTRCheckDueDiligenceController {
     private static final String CTRDUEDILIGENCEDECISION = 'CTRDueDiligenceDecision';
     private static final String CTRDUEDILIGENCERISKLEVEL = 'CTRDueDiligenceRiskLevel';
     private static final String CTRDUEDILIGENCERISKLEVELCSS = 'CTRDueDiligenceRiskLevelCSS';
+    private static final String CTRDUEDILIGENCERESULTACTOR = 'CTRDueDiligenceResultActor';
     private static final List<String> riskLevelDeveloperNames = new List<String> {CTRDUEDILIGENCEDECISION, CTRDUEDILIGENCERISKLEVELCSS}; // custom metadata
     private static final String userLanguageTH = 'TH';
     private static final String FOUND = 'Found';
@@ -27,6 +28,7 @@ public without sharing class CTRCheckDueDiligenceController {
     public static List<CTRNews__c> newsList = new List<CTRNews__c>();
     public static List<CTRCDDNACCTransaction__c> cddNaccTransactionList = new List<CTRCDDNACCTransaction__c>();
     public static List<CTRRequestFormHeader__c> reqHeaderList = new List<CTRRequestFormHeader__c>();
+    public static List<String> destinationCountryList = new List<String>();
     private static String accountName;
     private static String reqHeaderName;
     private static Set<String> reportNameSet;
@@ -115,6 +117,7 @@ public without sharing class CTRCheckDueDiligenceController {
                         }
                         String fieldLabel = fieldMap.get(field).getDescribe().getLabel();
                         Boolean disabled = false;
+                        String actorStep = '';
                         if(buProfile != null && !String.isBlank(buProfile.BusinessUnit__c) && riskLevelLabelMap != null && !riskLevelLabelMap.isEmpty() && riskLevelLabelMap.containsKey(buProfile.BusinessUnit__c)) {
                             System.debug(CLASSNAME + '.retrieveRiskLevel bu -----' + buProfile.BusinessUnit__c);
                             Map<String, Object> fieldConfigMap = (Map<String, Object>) riskLevelLabelMap.get(buProfile.BusinessUnit__c);
@@ -123,7 +126,7 @@ public without sharing class CTRCheckDueDiligenceController {
                                 if(labelMap.containsKey('label')) { fieldLabel = (String) labelMap.get('label'); }
                                 if(labelMap.containsKey('disabled')) { disabled = (Boolean) labelMap.get('disabled'); }
                                 if(labelMap.containsKey('actorStep')) {
-                                    String actorStep = (String) labelMap.get('actorStep');
+                                    actorStep = (String) labelMap.get('actorStep');
                                     Boolean isValid = validateActor(recordId, actorStep, UserInfo.getUserId(), CHECKDUEDILIGENCE, buProfile, reqItems);
                                     System.debug(CLASSNAME + '.retrieveRiskLevel isValid -----' + isValid);
                                     disabled = !isValid;
@@ -135,7 +138,8 @@ public without sharing class CTRCheckDueDiligenceController {
                             'fieldLabel' => fieldLabel,
                             'options' => options,
                             'disabled' => disabled,
-                            'additionalInfo' => (field == RISKLEVELBYSYSTEMFIELD && String.isBlank(String.valueOf(reqItems[0].get(field))) ? '(' + NOTAVAILABLE + ')' : '')
+                            'additionalInfo' => (field == RISKLEVELBYSYSTEMFIELD && String.isBlank(String.valueOf(reqItems[0].get(field))) ? '(' + NOTAVAILABLE + ')' : ''),
+                            'actorStep' => actorStep
                         });
                     }
                 }
@@ -177,10 +181,10 @@ public without sharing class CTRCheckDueDiligenceController {
         try {
             if(!String.isBlank(recordId)) {
                 reqItem = retrieveRequestItem(recordId)[0];
-                // String riskLevelConfigName = 'CTRDueDiligenceRiskLevel';
-                // if(reqItem.RecordType.DeveloperName.contains('ShipTo')) {
-                //     riskLevelConfigName = 'CTRDueDiligenceRiskLevelForShipTo';
-                // }
+
+                Map<String, CTRGeneralSetting__mdt> configMap = getGeneralSetting(new List<String> {CTRDUEDILIGENCERESULTACTOR}); // retrieve actor label from custom metadata
+                String actorConfig = configMap?.get(CTRDUEDILIGENCERESULTACTOR)?.LongValue__c;
+                Map<String, Object> actorConfigMap = (!String.isBlank(actorConfig) ? (Map<String, Object>) JSON.deserializeUntyped(actorConfig) : null);
 
                 CTRBuProfile__mdt buProfile = retrieveBusinessUnitFromProfile(recordId);
                 String userLanguage = userLanguageTH;
@@ -188,7 +192,7 @@ public without sharing class CTRCheckDueDiligenceController {
                     userLanguage = buProfile.Language__c;
                 }
                 List<CTRDueDiligenceTemplate__c> templateList = [SELECT Id, Name, BusinessUnit__c, RecordTypes__c, Level__c, RiskLevel__c, Position__c, HidePosition__c, Parent__c, Parent__r.Name, ValueTH__c, ValueEN__c, LinkToNEWS__c, AnswerCode__c, 
-                                                                 ReportDeveloperName__c, ReportLink__c FROM CTRDueDiligenceTemplate__c WHERE BusinessUnit__c INCLUDES (:buProfile.BusinessUnit__c) AND RecordTypes__c INCLUDES (:reqItem.RecordType.DeveloperName) ORDER BY Parent__c, Level__c, Position__c];
+                                                                 ReportDeveloperName__c, ReportLink__c, Actor__c FROM CTRDueDiligenceTemplate__c WHERE Active__C = TRUE AND BusinessUnit__c INCLUDES (:buProfile.BusinessUnit__c) AND RecordTypes__c INCLUDES (:reqItem.RecordType.DeveloperName) ORDER BY Parent__c, Level__c, Position__c];
                 Map<String, List<Object>> templateMap = new Map<String, List<Object>>();
                 Map<Integer, String> levelResultMap = new Map<Integer, String>();
                 Boolean isNotAvailable = false;
@@ -210,15 +214,27 @@ public without sharing class CTRCheckDueDiligenceController {
                     }
 
                     for(CTRDueDiligenceTemplate__c template : templateList) {
-                        // System.debug(CLASSNAME + '.retrieveDueDiligenceResult Level__c/RiskLevel__c -----Level__c:' + + template.Level__c + '/RiskLevel__c:' + template.RiskLevel__c);
+                        System.debug(CLASSNAME + '.retrieveDueDiligenceResult Level__c/RiskLevel__c -----Level__c:' + + template.Level__c + '/RiskLevel__c:' + template.RiskLevel__c + '/Actor__c:' + template.Actor__c);
                         Set<String> levelResults = new Set<String>();
                         if(template.Level__c != null) {
                             List<Object> levelList = new List<Object>();
                             if(templateMap != null && !templateMap.isEmpty() && templateMap.containsKey(template.RiskLevel__c)) {
                                 levelList.addAll((List<Object>) templateMap.get(template.RiskLevel__c));
                             }
+                            System.debug('levelList -----' + levelList);
+                            List<Object> actorList = new List<Object>();
+                            if(!String.isBlank(template.Actor__c)) {
+                                for(Object actor : levelList) {
+                                    Map<String, Object> actorMap = (Map<String, Object>) actor;
+                                    if(actorMap.get('actor') == template.Actor__c) {
+                                        actorList = (List<Object>) actorMap.get('actorList');
+                                        break;
+                                    }
+                                }
+                            }
+
                             if(!String.isBlank(template.Parent__c)) {
-                                for(Object parent : levelList) {
+                                for(Object parent : actorList) {
                                     Map<String, Object> parentMap = (Map<String, Object>) parent;
                                     if(parentMap.get('name') == template.Parent__r.Name) {
                                         List<Object> childList = new List<Object>();
@@ -258,8 +274,32 @@ public without sharing class CTRCheckDueDiligenceController {
                                 }
                                 detailMap.put('hidePosition', template.HidePosition__c);
                                 detailMap.put('linkToNews', template.LinkToNEWS__c);
-                                levelList.add(detailMap);
+                                actorList.add(detailMap);
                             }
+
+                            Boolean actorFound = false;
+                            if(levelList != null && !levelList.isEmpty()) {
+                                for(Object actor : levelList) {
+                                    Map<String, Object> actorMap = (Map<String, Object>) actor;
+                                    if(actorMap.get('actor') == template.Actor__c) {
+                                        actorMap.put('actorList', actorList);
+                                        actorFound = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(!actorFound) {
+                                String actor = template.Actor__c;
+                                if(actorConfigMap != null && !actorConfigMap.isEmpty() && actorConfigMap.containsKey(buProfile.BusinessUnit__c)) {
+                                    Map<String, Object> actorByBuMap = (Map<String, Object>) actorConfigMap.get(buProfile.BusinessUnit__c);
+                                    if(actorByBuMap != null && !actorByBuMap.isEmpty() && actorByBuMap.containsKey(actor) && actorByBuMap.get(actor) != null) {
+                                        actor = (String) actorByBuMap.get(actor);
+                                    }
+                                }
+                                levelList.add(new Map<String, Object> {'actor' => template.Actor__c, 'actorLabel' => actor, 'actorList' => actorList});
+                            }
+                            System.debug('levelList -----' + levelList);
+
                             if(levelList != null && !levelList.isEmpty()) {
                                 templateMap.put(template.RiskLevel__c, levelList);
                             }
@@ -478,9 +518,15 @@ public without sharing class CTRCheckDueDiligenceController {
                     }
                 }
                 when 'AC13' {
-                    if(reqHeaderList != null && !reqHeaderList.isEmpty()) {
-                        System.debug(answerCode + ' -----' + reqHeaderList[0].Country__r.Code__c);
-                        if(!String.isBlank(reqHeaderList[0].Country__c) && !String.isBlank(reqHeaderList[0].Country__r.Code__c) && new List<String> {'VN', 'LA', 'KH'}.contains(reqHeaderList[0].Country__r.Code__c)) { result = FOUND; }
+                    if(destinationCountryList != null && !destinationCountryList.isEmpty()) {
+                        System.debug(answerCode + ' -----' + destinationCountryList);
+                        // if(!String.isBlank(reqHeaderList[0].Country__c) && !String.isBlank(reqHeaderList[0].Country__r.Code__c) && new List<String> {'VN', 'LA', 'KH'}.contains(reqHeaderList[0].Country__r.Code__c)) { result = FOUND; }
+                        for(String country : destinationCountryList) {
+                            if(new List<String> {'VN', 'LA', 'KH'}.contains(country)) {
+                                result = FOUND;
+                                break;
+                            }
+                        }
                     }
                 }
                 when else {
@@ -510,15 +556,22 @@ public without sharing class CTRCheckDueDiligenceController {
     private static void fetchDueDiligenceAnswer(CTRRequestFormItem__c reqItem) {
         if(!String.isBlank(reqItem.CTRRequestFormHeader__c)) {
             Date lastNMonth = System.today().addMonths(-3);
+            List<CTRShippingCountry__c> shippingCountryList = [SELECT Id, ShippingCountry__c FROM CTRShippingCountry__c WHERE CTRRequestFormItem__c =: reqItem.Id];
+            if(!shippingCountryList.isEmpty()) {
+                for(CTRShippingCountry__c shipCountry : shippingCountryList) {
+                    if(!String.isBlank(shipCountry.ShippingCountry__c)) { destinationCountryList.add(shipCountry.ShippingCountry__c); }
+                }
+            }
             reqHeaderList = [SELECT Id, Name, Country__c, Country__r.Code__c, Customer__c, Customer__r.Name, CEOFirstName__c, CEOLastName__c, 
                              (SELECT Id, Account__c, Account__r.Name, Shareholders__c, Shareholders__r.Name, FindingWeb__c, PositionType__c, Type__c, IntegrationStatus__c, IntegrationMessage__c, RequestFormHeader__c, RequestFormHeader__r.Name FROM CTR_CDD_Sanction__r), // WHERE FindingWeb__c =: FOUND 
                              (SELECT Id, Headline__c, Keyword__c, SourceURL__c, Date__c, Source__c, Content__c FROM CTR_News__r WHERE Date__c >=: lastNMonth), 
                              (SELECT Id, Name, Customer__c, Customer__r.Name FROM CTRShareholder__r) 
                              FROM CTRRequestFormHeader__c WHERE Id =: reqItem.CTRRequestFormHeader__c];
             if(!reqHeaderList.isEmpty()) {
+                if(!String.isBlank(reqHeaderList[0].Country__c) && !String.isBlank(reqHeaderList[0].Country__r.Code__c)) { destinationCountryList.add(reqHeaderList[0].Country__r.Code__c); }
                 List<CTR_RiskCountry__c> latestVersionList = [SELECT Version__c FROM CTR_RiskCountry__c ORDER BY CreatedDate DESC LIMIT 1]; // get latest version
-                if(!latestVersionList.isEmpty() && !String.isBlank(reqHeaderList[0].Country__c) && !String.isBlank(reqHeaderList[0].Country__r.Code__c)) {
-                    List<CTR_RiskCountry__c> riskCountryList = [SELECT Version__c, Level__c, LevelText__c, CountryCode__c, CountryName__c FROM CTR_RiskCountry__c WHERE CountryCode__c =: reqHeaderList[0].Country__r.Code__c AND Version__c =: latestVersionList[0].Version__c ORDER BY Level__c ASC, CreatedDate DESC];
+                if(!latestVersionList.isEmpty() && destinationCountryList != null && !destinationCountryList.isEmpty()) {
+                    List<CTR_RiskCountry__c> riskCountryList = [SELECT Version__c, Level__c, LevelText__c, CountryCode__c, CountryName__c FROM CTR_RiskCountry__c WHERE CountryCode__c =: destinationCountryList AND Version__c =: latestVersionList[0].Version__c ORDER BY Level__c ASC, CreatedDate DESC]; // CountryCode__c =: reqHeaderList[0].Country__r.Code__c
                     System.debug(CLASSNAME + '.fetchDueDiligenceAnswer riskCountryList -----' + riskCountryList);
                     if(!riskCountryList.isEmpty()) {
                         for(CTR_RiskCountry__c rc : riskCountryList) {

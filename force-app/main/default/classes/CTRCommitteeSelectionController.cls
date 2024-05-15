@@ -59,6 +59,70 @@ public without sharing class CTRCommitteeSelectionController {
         return groupedCommittees;
     }
 
+    @AuraEnabled(cacheable=true)
+    public static List<CTRCommitteeChangeCredit__mdt> getChangeCreditCommittees(String rqChange, String subType1, String subType2, String salesOrg, String type, string chgAmount) {
+        // rqChange = 'Request to reduce/waive late payment';
+        // subType1 = 'Internal False';
+        // subType2 = '';
+        // salesOrg = 'TOP';
+        // type = 'International';
+        // chgAmount = '10,001 - 20,000';
+
+        Map<String, String> mapPosition = new Map<String, String>();
+        for (CTRCommitteePosition__mdt pos : [
+            SELECT Id, DeveloperName, Position__c, EmployeeId__c FROM CTRCommitteePosition__mdt ]) {
+            mapPosition.put(pos.Position__c, pos.EmployeeId__c);
+        }
+
+        Map<String, User> mapUser = new Map<String, User>();
+        for (User usr : [ SELECT Id, Name, Email, Employee_Id__c FROM User ]) {
+            mapUser.put(usr.Employee_Id__c, usr);
+        }
+
+        List<CTRCommitteeChangeCredit__mdt> lstCommittee = [
+            SELECT
+                Id,
+                DeveloperName,
+                RequestToChangeCredit__c,
+                SubTypeCondition__c,
+                SubTypeCondition2__c,
+                SalesOrg__c,
+                Type__c,
+                ChangeCreditAmount__c,
+                Position__c,
+                Name__c,
+                Email__c,
+                EmployeeId__c,
+                EmailAuthorization__c,
+                IsDefault__c,
+                Order__c
+            FROM CTRCommitteeChangeCredit__mdt
+            WHERE
+                RequestToChangeCredit__c = :rqChange
+                AND SubTypeCondition__c = :subType1
+                AND SubTypeCondition2__c = :subType2
+                AND SalesOrg__c = :salesOrg
+                AND Type__c = :type
+                AND ChangeCreditAmount__c = :chgAmount
+            ORDER BY Order__c
+        ];
+
+        for (CTRCommitteeChangeCredit__mdt cmit : lstCommittee) {
+            cmit.EmployeeId__c = '';
+            if (mapPosition.containsKey(cmit.Position__c)) {
+                String employeeId = mapPosition.get(cmit.Position__c);
+                if (mapUser.containsKey(employeeId)) {
+                    User u = mapUser.get(employeeId);
+                    cmit.EmployeeId__c = u.Employee_Id__c;
+                    cmit.Name__c = u.Name;
+                    cmit.Email__c = u.Email;
+                }
+            }
+        }
+
+        return lstCommittee;
+    }
+
     @AuraEnabled
     public static CTRBUProfile__mdt getCurrentUserBUProfile(string recordId) {
         return CTRBuProfileController.checkBusinessUnitFromProfile(UserInfo.getUserId(), recordId);
@@ -107,9 +171,9 @@ public without sharing class CTRCommitteeSelectionController {
             CTRRequestFormItem__c reqFormItem = [
                 SELECT
                     Id, Name,
-                    AgreeAsTraderCommentSH__c, AgreeAsTraderCommentVP__c, AmountBankGuarantee__c, AmountBuyTrade__c, AmountCreditTerm__c, AmountDCLCondition__c, AmountOpenedCredit__c, Approval_SHAgree__c, Approval_Step__c, Approval_VPAgree__c, ApprovalTrader_CreditCondition__c, ApprovalTrader_CreditLimit__c, ApprovalTrader_CreditRating__c, ApprovalTrader_PaymentCondition__c, ApprovalTrader_PaymentTerm__c, ApprovalTrader_TradeCreditInsurance__c, ApprovalTraderCreditLimitCurrency__c, ApprovalTraderRiskCategory__c, ApprovalTraderTradeCreditCurrency__c, Authorization__c,
+                    AgreeAsTraderCommentSH__c, AgreeAsTraderCommentVP__c, AmountBankGuarantee__c, AmountBuyTrade__c, AmountCreditTerm__c, AmountDCLCondition__c, AmountOpenedCredit__c, Approval_SHAgree__c, Approval_Step__c, Approval_VPAgree__c, ApprovalTrader_CreditCondition__c, ApprovalTrader_CreditLimit__c, ApprovalTrader_CreditRating__c, ApprovalTrader_PaymentCondition__c, ApprovalTrader_PaymentTerm__c, ApprovalTrader_TradeCreditInsurance__c, ApprovalTraderCreditLimitCurrency__c, ApprovalTraderRiskCategory__c, ApprovalTraderTradeCreditCurrency__c,
                     BuyTradeDCLCondition__c, BuyTradeEndorsement__c,
-                    CashOnDelivery__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, ChangeCreditCreditLimitCurrency__c, ChangeCreditInternalCreditRating__c, CMVPPreScreenDecision__c, Comment__c, CommitteeAttachment__c, CommitteeEmail__c, CommitteeName__c, CommitteeStatus__c, Country__c, Country__r.Code__c, Credit_Condition__c, CreditLimit__c, CreditLimitCurrency__c, CreditOwner__c, CreditOwnerSectionHead__c, CTRRequestFormHeader__r.Customer__c, CTRRequestFormHeader__r.Customer__r.Name, Customer__r.AccountNumber__c, CTRRequestFormHeader__r.Email__c, CTRRequestFormHeader__r.FirstName__c, CTRRequestFormHeader__r.LastName__c, CTRRequestFormHeader__r.MobilePhone__c, CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c, CTRRequestFormHeader__r.TypeOfBusinessOthers__c, Currency__c, Customer__c,
+                    CashOnDelivery__c, ChangeCreditAmount__c, ChangeCreditCreditCondition__c, ChangeCreditCreditLimit__c, ChangeCreditCreditLimitCurrency__c, ChangeCreditInternalCreditRating__c, CMVPPreScreenDecision__c, Comment__c, CommitteeAttachment__c, CommitteeEmail__c, CommitteeName__c, CommitteeStatus__c, Country__c, Country__r.Code__c, Credit_Condition__c, CreditLimit__c, CreditLimitCurrency__c, CreditOwner__c, CreditOwnerSectionHead__c, CTRRequestFormHeader__r.Customer__c, CTRRequestFormHeader__r.Customer__r.Name, Customer__r.AccountNumber__c, CTRRequestFormHeader__r.Email__c, CTRRequestFormHeader__r.FirstName__c, CTRRequestFormHeader__r.LastName__c, CTRRequestFormHeader__r.MobilePhone__c, CTRRequestFormHeader__r.TypeOfBusinessCommercialEvaluation__c, CTRRequestFormHeader__r.TypeOfBusinessOthers__c, Currency__c, Customer__c,
                     EffectiveDateForm__c, EffectiveDateTo__c, EmailAuthorization__c, EmailCC__c, EmailTo__c, EmailUrgent__c,
                     FinancialInformation__r.InternalCreditRating__c, FinancialInformation__r.Credit_Condition__c, FinancialInformation__r.CreditLimit__c, FinalPerformanceBond__c, FinAmountBankGuarantee__c, FinAmountBuyTrade__c, FinAmountCreditTerm__c, FinAmountDCLCondition__c, FinAmountOpenedCredit__c, FinBuyTradeDCLCondition__c, FinBuyTradeEndorsement__c, FinCashOnDelivery__c, FinCrCond__c, FinCrLimit__c, FinCrLimitCur__c, FinHavingCollateral__c, FinHavingCreditTermOrLetter__c, FinHavingOpenedCredit__c, FinIntCrRating__c, FinOtherCondition__c, FinPaymentCond__c, FinPaymentTerm__c, FinRiskCategory__c, FinTotalSecuredCurrency__c, FinTradeCrIns__c, FinTradeCrInsCu__c,
                     HavingCollateral__c, HavingCreditTermOrLetter__c, HavingOpenedCredit__c,
@@ -118,9 +182,9 @@ public without sharing class CTRCommitteeSelectionController {
                     OtherCondition__c, Owner__c, Owner__r.Name, OwnersCMVP__c,
                     PaymentCondition__c, PaymentTerm__c, PerformanceBond__c, Product__c, PurchasingOrganizationTOP__c, PurchasingOrganizationTX__c,
                     RecordType.Name, RemarkPerformanceBond__c, RequestToChangeCredit__c, RequestToChangeCreditTX__c, RiskCategory__c,
-                    SalesOrganization__c, SalesOrganizationTOP__c, SalesOrganizationTX__c, Status__c, SubBU__c, Subject__c, SubTypeCondition__c,
+                    SalesOrganization__c, SalesOrganizationTOP__c, SalesOrganizationTX__c, Status__c, SubBU__c, Subject__c, SubTypeCondition__c, SubTypeCondition2__c,
                     TDPerformanceBond__c, TermOfPayment__c, TotalSecuredAmount__c, TotalSecuredCurrency__c, Trade_Credit_Insurance__c, TradeCreditInsuranceCurrency__c, TraderRemark__c, TraderWaive__c, TypeOfBusiness__c, TypeOfBusinessOther__c, TermOfPayment__r.Name,
-                    CompanyCodeTX__c, DistributionChannel__c, Division__c, PurchasingOrganization__c, 
+                    CompanyCodeTX__c, DistributionChannel__c, Division__c, PurchasingOrganization__c,
                     BlockedReason__c, SelectedPurchasingOrg__c, OrderBlock__c, CommitteeOwner__r.Name, CreditOwner__r.Name, CreditOwnerName__c, Customer__r.NonSAPCustomerCode__c, Customer__r.SupplierNumber__c,Customer__r.NonSAPSupplierCode__c
                 FROM CTRRequestFormItem__c
                 WHERE Id = :recordId
@@ -236,7 +300,7 @@ public without sharing class CTRCommitteeSelectionController {
             msg = msg.replace('{$FinalCreditLimit$}', (reqFormItem.FinCrLimit__c != null) ? String.valueOf(reqFormItem.FinCrLimit__c.format()) : '');
             msg = msg.replace('{$FinalInternalCreditRating$}', (reqFormItem.FinIntCrRating__c != null) ? reqFormItem.FinIntCrRating__c : '');
             msg = msg.replace('{$CreditOwnerName$}', (reqFormItem.CreditOwnerName__c != null) ? reqFormItem.CreditOwnerName__c : '');
-            
+
         }
 
         return msg;
@@ -570,7 +634,7 @@ public without sharing class CTRCommitteeSelectionController {
     }
 
     @AuraEnabled
-    public static Boolean revertToTRCR(String recordId, String comment) {
+    public static Boolean revertToTRCR(String recordId, String selectedCreditOwner, String comment) {
         String revertedStatus = 'Reverted to Credit Team';
         List<CTRCommitteeApproval__c> cmteAprvs = [SELECT Id, ApproverName__c FROM CTRCommitteeApproval__c WHERE CTRRequestFormItem__c = :recordId AND ApprovalResult__c = 'Waiting Section Head Review'];
         if (!cmteAprvs.isEmpty()) {
@@ -586,6 +650,7 @@ public without sharing class CTRCommitteeSelectionController {
         rqit.RevertedTRCRSH__c = true;
         rqit.CommitteeStatus__c = revertedStatus;
         rqit.Comment__c = comment;
+        rqit.CreditOwner__c = selectedCreditOwner;
 
         Savepoint sp = Database.setSavepoint();
         try {
@@ -668,12 +733,24 @@ public without sharing class CTRCommitteeSelectionController {
 
         List<String> cmteSelected = new List<String>();
         for (CTRCommittee__mdt cm : cmtes) {
-            cmteSelected.add(cm.Name__c);
-            // cmteSelected.add(cm.EmployeeId__c);
+            // cmteSelected.add(cm.Name__c);
+            cmteSelected.add(cm.EmployeeId__c);
         }
 
-        List<User> aprvs = [SELECT Id, Name, Email, Employee_ID__c FROM User WHERE IsActive = true AND Name IN :cmteSelected];
-        // List<User> aprvs = [SELECT Id, Name, Email, Employee_ID__c FROM User WHERE IsActive = true AND Employee_ID__c IN :cmteSelected];
+        List<String> pos = new List<String>();
+        for (CTRCommitteeChangeCredit__mdt chg : [SELECT Position__c FROM CTRCommitteeChangeCredit__mdt WHERE DeveloperName IN :cmte]) {
+            pos.add(chg.Position__c);
+        }
+
+        for (CTRCommitteePosition__mdt em : [SELECT EmployeeId__c FROM CTRCommitteePosition__mdt WHERE Position__c IN :pos]) {
+            cmteSelected.add(em.EmployeeId__c);
+        }
+
+        List<User> aprvs = new List<User>();
+        if (cmteSelected.size() > 0) {
+            // List<User> aprvs = [SELECT Id, Name, Email, Employee_ID__c FROM User WHERE IsActive = true AND Name IN :cmteSelected];
+            aprvs = [SELECT Id, Name, Email, Employee_ID__c FROM User WHERE IsActive = true AND Employee_ID__c IN :cmteSelected];
+        }
 
         return aprvs;
     }
@@ -704,7 +781,7 @@ public without sharing class CTRCommitteeSelectionController {
         for (User usr : [SELECT Id, Name, Email, Employee_ID__c FROM User WHERE IsActive = true AND Name IN :cmtesName]) {
             mapUsers.put(usr.Name, usr);
         }
-        
+
         for (CTRCommittee__mdt cmte : cmtes) {
             if (mapUsers.containsKey(cmte.Name__c)) {
                 cmte.Email__c = mapUsers.get(cmte.Name__c).Email;
@@ -720,7 +797,7 @@ public without sharing class CTRCommitteeSelectionController {
         // for (User usr : [SELECT Id, Name, Email, Employee_ID__c FROM User WHERE IsActive = true AND Employee_ID__c IN :cmtesEmployeeId]) {
         //     mapUsers.put(usr.Employee_ID__c, usr);
         // }
-        
+
         // for (CTRCommittee__mdt cmte : cmtes) {
         //     if (mapUsers.containsKey(cmte.EmployeeId__c)) {
         //         cmte.Email__c = mapUsers.get(cmte.EmployeeId__c).Email__c;
@@ -729,7 +806,7 @@ public without sharing class CTRCommitteeSelectionController {
     }
 
     public static void sendEmailWithAttachment(Id recordId, CTRRequestFormItem__c reqFormObj, List<CTRCommitteeApproval__c> newCommApprs, String uploadedList, String templateType, String profile) {
-        CTRRequestFormItem__c itm = [SELECT BusinessUnit__c FROM CTRRequestFormItem__c WHERE Id = :recordId];        
+        CTRRequestFormItem__c itm = [SELECT BusinessUnit__c FROM CTRRequestFormItem__c WHERE Id = :recordId];
         EmailTemplate emailTemplate = new EmailTemplate();
         if (itm.BusinessUnit__c == 'TOP') {
             emailTemplate = [SELECT Id, Name, HtmlValue FROM EmailTemplate WHERE DeveloperName = 'CommitteeTakeActioninEmailTOP'];

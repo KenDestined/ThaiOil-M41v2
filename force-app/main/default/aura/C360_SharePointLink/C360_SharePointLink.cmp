@@ -7,7 +7,8 @@ controller="CTRSharePointLinkController">
     <aura:attribute name="SharePointList" type="List" />
     <aura:attribute name="loaded" type="Boolean" default="true"/>
     <aura:attribute name="loadedButtonURL" type="Boolean" default="false"/>
-
+    <aura:attribute name="isCreatingFolder" type="Boolean" default="false"/>
+    
     <aura:attribute name="url" type="String" />
     <aura:attribute name="spPath" type="String" default="11"/>
     

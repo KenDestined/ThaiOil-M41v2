@@ -35,7 +35,11 @@
 
     <aura:attribute name="isTOP" type="Boolean" default="false" />
     <aura:attribute name="isTX" type="Boolean" default="false" /> 
+    <aura:attribute name="GeneralWarning" type="Boolean" default="false" />
+
     <aura:attribute name="SentGeneralView" type="Boolean" default="false" />
+    <aura:attribute name="SAPSyncDoNotChange" type="Boolean" default="false"/>
+
     <aura:attribute name="PendingApproval" type="Boolean" default="false" />
     <aura:attribute name="isNotShipTo" type="Boolean" default="true" />
 
@@ -149,21 +153,22 @@
                 </aura:if>
 
                 <aura:renderIf isTrue="{!v.isTX}">
-                    <c:CTRSapInformationTX recordId="{!v.recordId}" recordTypeNameCustomer="{!v.recordTypeNameCustomer}" requestFormHeaderObj = "{!v.requestFormHeaderObj}" recordTypeName = "{!v.recordTypeName}"
+                    <c:CTRSapInformationTX recordId="{!v.recordId}" recordTypeNameCustomer="{!v.recordTypeNameCustomer}" requestFormHeaderObj = "{!v.requestFormHeaderObj}" recordTypeName = "{!v.recordTypeName}" GeneralWarning = "{!v.GeneralWarning}" 
                     requestFormItemObj = "{!v.requestFormItemObj}" recordIdFormHeader = "{!v.recordIdFormHeader}" DivisionList = "{v.DivisionList}" 
                     SalesOrgList = "{!v.SalesOrgTXList}" PurchasingOrgList = "{!v.PurchasingOrgTXList}" 
                     TaxClassificationList = "{!v.TaxClassificationList}"
                     SentGeneralView = "{!v.SentGeneralView}" ChangedFieldForEDITHeader="{!v.ChangedFieldForEDITHeader}" ChangedFieldForEDITItem="{!v.ChangedFieldForEDITItem}"
                     AccountGroupList = "{!v.AccountGroupList}" TypeOfBusinessList = "{!v.TypeOfBusinessList}" CountryCodePhoneList = "{!v.CountryCodePhoneList}" 
-                    TradingPartnerList = "{!v.TradingPartnerList}" RegionList = "{!v.RegionList}" LanguageList = "{!v.LanguageList}" currentUserName = "{!v.currentUserName}" PendingApproval = "{!v.PendingApproval}" isNotShipTo = "{!v.isNotShipTo}"/>
+                    TradingPartnerList = "{!v.TradingPartnerList}" RegionList = "{!v.RegionList}" LanguageList = "{!v.LanguageList}" currentUserName = "{!v.currentUserName}" PendingApproval = "{!v.PendingApproval}" isNotShipTo = "{!v.isNotShipTo}"
+                    SAPSyncDoNotChange = "{!v.SAPSyncDoNotChange}"/>
                 </aura:renderIf>
 
                 <aura:renderIf isTrue="{!v.isTOP}">
                     <c:CTRSapInformationTOP recordId="{!v.recordId}" recordTypeNameCustomer="{!v.recordTypeNameCustomer}" requestFormHeaderObj = "{!v.requestFormHeaderObj}" recordTypeName = "{!v.recordTypeName}" DistributionChannelList = "{!v.DistributionChannelList}"
-                    requestFormItemObj = "{!v.requestFormItemObj}" recordIdFormHeader = "{!v.recordIdFormHeader}" IncotermsList = "{!v.IncotermsList}" CurrencyList = "{!v.CurrencyList}" PaymentTermList = "{!v.PaymentTermList}" 
+                    requestFormItemObj = "{!v.requestFormItemObj}" recordIdFormHeader = "{!v.recordIdFormHeader}" IncotermsList = "{!v.IncotermsList}" CurrencyList = "{!v.CurrencyList}" PaymentTermList = "{!v.PaymentTermList}" GeneralWarning = "{!v.GeneralWarning}" 
                     SalesOrgList = "{!v.SalesOrgTOPList}" PurchasingOrgTOPList = "{!v.PurchasingOrgTOPList}" CompanyCodeTOPList = "{!v.CompanyCodeTOPList}" AllDistributionChannelList = "{!v.AllDistributionChannelList}"
                     PaymentGuaranteeProcedureList = "{!v.PaymentGuaranteeProcedureList}" AccountAssignmentGroupList = "{!v.AccountAssignmentGroupList}" TaxClassificationList = "{!v.TaxClassificationList}" PriceGroupList = "{!v.PriceGroupList}" DivisionList = "{!v.DivisionList}"
-                    SentGeneralView = "{!v.SentGeneralView}"  ChangedFieldForEDITHeader="{!v.ChangedFieldForEDITHeader}" ChangedFieldForEDITItem="{!v.ChangedFieldForEDITItem}" mDependencyMap = "{!v.mDependencyMap}" currentUserName = "{!v.currentUserName}"/>
+                    SentGeneralView = "{!v.SentGeneralView}"  ChangedFieldForEDITHeader="{!v.ChangedFieldForEDITHeader}" ChangedFieldForEDITItem="{!v.ChangedFieldForEDITItem}" mDependencyMap = "{!v.mDependencyMap}" currentUserName = "{!v.currentUserName}" SAPSyncDoNotChange = "{!v.SAPSyncDoNotChange}"/>
 
                 </aura:renderIf>
 

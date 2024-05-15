@@ -212,6 +212,11 @@
                     if ((item.RecordType.DeveloperName.includes('Initial')) && (!item.Customer__r.AccountNumber__c || !item.Customer__r.SupplierNumber__c)) {
                         component.set("v.isDisplay", true);
                     }
+                    if(item.RecordType.DeveloperName.includes('Customer'))
+                    {
+                        component.set("v.isNoCustomerProducts", false);
+                        
+                    }
                     console.log('RecordTypeItem : ' + item.RecordType.DeveloperName);
                     console.log('AccountNumberItem : ' + item.Customer__r.AccountNumber__c);
                     console.log('AccountNumberItem : ' + item.Customer__r.SupplierNumber__c);

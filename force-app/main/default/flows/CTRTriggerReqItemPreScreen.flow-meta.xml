@@ -2832,7 +2832,8 @@
             <label>NotPass</label>
         </rules>
     </decisions>
-    <description>18/04/2024 Add update element after VP pre-screen pass in other outcome.</description>
+    <description>30/04/2024 use fmlAccountTypeName__c in email subject
+07/05/2024 update notification title of FATX notify</description>
     <environments>Default</environments>
     <formulas>
         <name>FAEmailSubject</name>
@@ -2862,7 +2863,7 @@
     <formulas>
         <name>FATXNotiTitle</name>
         <dataType>String</dataType>
-        <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Pre-Screen Result from&quot; &amp; {!$Record.fmlPositionNameOfVP__c}</expression>
+        <expression>{!$Record.CTRRequestFormHeader__r.Customer__r.Name} &amp; &quot; Pre-Screen Result from &quot; &amp; {!$Record.fmlPositionNameOfVP__c}</expression>
     </formulas>
     <formulas>
         <name>fmlAccountType</name>
@@ -2912,7 +2913,7 @@
     <formulas>
         <name>SHPreScreenEmailSubject</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYA][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: Endorse of Customer Registarion Pre-Screen for &quot; &amp;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
+        <expression>&quot;[FYA][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: Endorse of &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registarion Pre-Screen for &quot; &amp;{!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
     </formulas>
     <formulas>
         <name>SHPreScreenNotifyBody</name>
@@ -2927,12 +2928,12 @@
     <formulas>
         <name>SHPreScreentoTraderEmailSubject_NotPassed</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYI][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: Customer Registration Pre-Screen Result for &quot; &amp; {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
+        <expression>&quot;[FYI][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registration Pre-Screen Result for &quot; &amp; {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
     </formulas>
     <formulas>
         <name>SHPreScreentoTraderEmailSubject_Passed</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYI][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: Customer Registration Pre-Screen Result for &quot; &amp; {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
+        <expression>&quot;[FYI][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registration Pre-Screen Result for &quot; &amp; {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
     </formulas>
     <formulas>
         <name>SHPreScreentoTraderNotifyBody</name>
@@ -2947,7 +2948,7 @@
     <formulas>
         <name>TraderPreScreenEmailSubject</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYA][&quot; + {!getRequestItemRecord.SubBU__c} + &quot;]: Approval of Customer Registration Pre-Screen for &quot; + {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
+        <expression>&quot;[FYA][&quot; + {!getRequestItemRecord.SubBU__c} + &quot;]: Approval of &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registration Pre-Screen for &quot; + {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
     </formulas>
     <formulas>
         <name>TraderPreScreenNotifyBody</name>
@@ -2978,17 +2979,17 @@
         <description>Subject email</description>
         <name>VPPreScreenEmailSubject</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYI][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: Customer Registration Pre-Screen Result for &quot; &amp; {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
+        <expression>&quot;[FYI][&quot; &amp; {!getRequestItemRecord.SubBU__c} &amp; &quot;]: &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registration Pre-Screen Result for &quot; &amp; {!$Record.CTRRequestFormHeader__r.Customer__r.Name}</expression>
     </formulas>
     <formulas>
         <name>VPPreScreenEmailSubjectToCustomer</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYA]: Additional Information Required for Your Customer Registration&quot;</expression>
+        <expression>&quot;[FYA]: Additional Information Required for Your &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registration&quot;</expression>
     </formulas>
     <formulas>
         <name>VPPreScreenEmailSubjectToSupplier</name>
         <dataType>String</dataType>
-        <expression>&quot;[FYA]: Additional Information Required for Your Customer Registration&quot;</expression>
+        <expression>&quot;[FYA]: Additional Information Required for Your &quot; &amp; {!getRequestItemRecord.fmlAccountTypeName__c} &amp; &quot; Registration&quot;</expression>
     </formulas>
     <formulas>
         <name>VPPreScreenNotifyBody</name>

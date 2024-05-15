@@ -3,6 +3,8 @@
         console.log('emailInfo--------' + JSON.stringify(component.get('v.emailInfo')));
 
         //helper.getListFile(component)
+        component.set('v.showSpinner',false);
+        // console.log('Debug loading',component.get('v.showSpinner'))
     },
 
     handleToggleSection: function (component, event, helper) {
@@ -40,10 +42,9 @@
     },
 
     onClickSave: function (component, event, helper) {
-        component.set('v.showSpinner', true);
+        component.set('v.showSpinnerNoTimeout', true);
 
         component.set('v.isSubmit', false);
-
         // Option 1
         // var fileList = component.get('v.fileList');
         // var fileToDelList = component.get('v.fileToDelList');
@@ -72,7 +73,7 @@
     },
 
     onClickSubmit: function (component, event, helper) {
-        component.set('v.showSpinner', true);
+        component.set('v.showSpinnerNoTimeout', true);
 		component.set('v.isSubmit', true);
         // For Option 1, 2, 3
         // var fileList = component.get('v.fileList');
@@ -135,7 +136,7 @@
         $A.enqueueAction(action);
     },
     handlePreview: function (component, event, helper) {
-        //component.set('v.emailInfo.EmailCC__c', component.get('v.selectedEmailCC'));
+        component.set('v.emailInfo.EmailCC__c', component.get('v.selectedEmailCC'));
         component.set('v.PreviewFileList', []);
         console.log('null PreviewFileList ' + component.get('v.PreviewFileList'));
         var fileNameList = component.get('v.fileList');

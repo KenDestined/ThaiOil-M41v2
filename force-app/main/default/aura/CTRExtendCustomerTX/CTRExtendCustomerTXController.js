@@ -8,6 +8,7 @@
             component.set('v.interestProductField', 'InterestedProductTypeAsCustomerTX__c');
         }
         console.log(component.get('v.recordTypeId'))
+        console.log('Is Supplier',component.get('v.isSupplier'));
         if(!$A.util.isEmpty(component.get('v.recordId'))) {
             component.set('v.isEdit', true);
         }
@@ -120,7 +121,6 @@
         helper.retrievePaymentMethodMapping(component, selectedCompanyCode);
     },
     handleProductGroupNameClick: function(component, event, helper) {
-        debugger
         window.open($A.get('$Resource.CTRTopGroupProductHierarchy'), '_blank');
     },
 

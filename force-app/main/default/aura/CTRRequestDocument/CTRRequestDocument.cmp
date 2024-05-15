@@ -17,6 +17,7 @@
     <!--Showing spinner while uploading -->
     <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
     <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showSpinnerNoTimeout" type="Boolean" default="false" />
     <aura:attribute name="fileName" type="String" default="No File Selected.." />
     <!--List of file which are uploaded -->
     <aura:attribute name="attachments" type="List" default="[]" />
@@ -67,7 +68,7 @@
                     </header>
                     <!-- Modal Body -->
                     <div class="slds-modal__content slds-p-around_medium">
-                        <aura:if isTrue="{!v.showSpinner}">
+                        <aura:if isTrue="{!v.showSpinner || v.showSpinnerNoTimeout}">
                             <lightning:spinner size="large" variant="brand" />
                         </aura:if>
                         <div class="slds-var-m-top_medium slds-var-m-bottom_x-large" style="background-color: white;">
@@ -176,10 +177,10 @@
                                         <aura:if isTrue="{!AND(v.requestItemRecord.BusinessUnit__c == 'TX', v.requestItemRecord.fmlAccountTypeName__c == 'Customer')}">
                                             Send to Trader
                                         </aura:if>
-                                        <aura:if isTrue="{!AND(v.requestItemRecord.BusinessUnit__c == 'TOP', v.requestItemRecord.fmlAccountTypeName__c == 'Customer')}">
+                                        <aura:if isTrue="{!AND( OR(v.requestItemRecord.BusinessUnit__c == 'TOP', v.requestItemRecord.BusinessUnit__c == 'LABIX'), v.requestItemRecord.fmlAccountTypeName__c == 'Customer')}">
                                             Send to Customer
                                         </aura:if>
-                                        <aura:if isTrue="{!AND(v.requestItemRecord.BusinessUnit__c == 'TOP', v.requestItemRecord.fmlAccountTypeName__c == 'Supplier')}">
+                                        <aura:if isTrue="{!AND(OR(v.requestItemRecord.BusinessUnit__c == 'TOP', v.requestItemRecord.BusinessUnit__c == 'LABIX'), v.requestItemRecord.fmlAccountTypeName__c == 'Supplier')}">
                                             Send to Supplier
                                         </aura:if>
 

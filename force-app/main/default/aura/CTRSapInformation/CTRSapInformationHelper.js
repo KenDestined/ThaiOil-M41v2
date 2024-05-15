@@ -84,6 +84,11 @@
                     if ((result.mRequestItem.Customer__r.AccountNumber__c || result.mRequestItem.Customer__r.SupplierNumber__c) && !result.mRecordTypeName.includes('Edit')) {
                         component.set('v.SentGeneralView', true);
                     }
+                    if ((result.mRequestItem.Customer__r.AccountNumber__c || result.mRequestItem.Customer__r.SupplierNumber__c))
+                    {
+                        component.set('v.GeneralWarning', true);
+                        component.set('v.SAPSyncDoNotChange', true);
+                    }
                     if(result.mRecordTypeName.includes('ShipTo'))
                     {
                         component.set('v.recordTypeNameCustomer', result.mRecordTypeName.includes('ShipTo'));
@@ -103,6 +108,7 @@
                             {
                                 component.set('v.PendingApproval',true);
                                 component.set('v.SentGeneralView', true);
+                                component.set('v.SAPSyncDoNotChange', true);
                             }
                         }
                     }
@@ -130,7 +136,7 @@
                     component.set('v.requestFormItemObj', result.mRequestItem);
                     component.set('v.requestFormHeaderObj', result.mRequestHeader);
                     component.set('v.recordIdFormHeader', result.mHeaderId);
-                    if (result.mRecordTypeName.includes('Edit')) {
+                    if (result.mRecordTypeName.includes('Edit') ) {
                         if (result.mRequestHeader) {
                             if (result.mRequestHeader.InternalEditField__c) {
                                 var mListFieldChanged = JSON.parse(result.mRequestHeader.InternalEditField__c);
@@ -138,6 +144,8 @@
                             }
 
                         }
+                    }
+                    if (result.mRecordTypeName.includes('Edit') || result.mRecordTypeName.includes('Extend')) {
                         if (result.mRequestItem) {
                             if (result.mRequestItem.InternalEditField__c) {
                                 var mListFieldChanged = JSON.parse(result.mRequestItem.InternalEditField__c);
@@ -208,7 +216,7 @@
                 if (!requestFormItemObj.ReconAccount__c) { ValidateMessageList.push('Recon. Account ') }
                 if (!requestFormItemObj.SortKey__c) { ValidateMessageList.push('Sort Key ') }
                 if (!requestFormItemObj.CashManagementGroup__c) { ValidateMessageList.push('Cash Mgmnt Group ') }
-                if (!requestFormItemObj.Authorization__c) { ValidateMessageList.push('Authorization ') }
+                //if (!requestFormItemObj.Authorization__c) { ValidateMessageList.push('Authorization ') }
                 if (!requestFormItemObj.PaymentHistoryRecord__c) { ValidateMessageList.push('Payment History Record ') }
                 if (!requestFormHeaderObj.TransportationZone__c) { ValidateMessageList.push('Transportation Zone ') }
 
@@ -606,6 +614,8 @@
                 var jsonChanged = JSON.stringify(component.get('v.ChangedFieldForEDITHeader'));
                 mHeader.InternalEditField__c = jsonChanged;
             }
+        }
+        if (mRecordTypeName.includes('Edit') || mRecordTypeName.includes('Extend')) {
             if (component.get('v.ChangedFieldForEDITItem')) {
                 var jsonChanged = JSON.stringify(component.get('v.ChangedFieldForEDITItem'));
                 mItem.InternalEditField__c = jsonChanged;
@@ -629,7 +639,11 @@
                 // component.set('v.isModalOpen',false);
                 // $A.get("e.force:closeQuickAction").fire();
                 component.set('v.showLoading', false);
-                location.reload();
+                setTimeout(function () {
+                    //window.parent.location = '/' + listofvalue.AccountId;
+                    location.reload();
+                }, 3000);
+                
             } else if (state === "ERROR") {
                 var errors = response.getError();
                 if (errors && errors[0] && errors[0].message) {

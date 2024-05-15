@@ -37,7 +37,7 @@
             &quot;section&quot;: &quot;Compliance Advice by GLGC&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;ComplianceAdviceResult__c&quot;: &quot;May this company proceed with the counterparty registration process?&quot;,
-                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance Advice&quot;,
+                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance advice or explanation for not proceeding with the CTR process&quot;,
                 &quot;ComplianceAdviceBy__c&quot;: &quot;Compliance Advice By&quot;,
                 &quot;ComplianceAdviceDateTime__c&quot;: &quot;Compliance Advice Date/Time&quot;
             },
@@ -78,11 +78,11 @@
         },
         &quot;endorseDueDiligence&quot;: {
             &quot;button&quot;: &quot;Endorse Enhanced Due Diligence&quot;,
-            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM by Trader&quot;,
+            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;EndorseDueDiligenceResult__c&quot;: &quot;Enhanced Due Diligence Result&quot;,
-                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM by Trader&quot;,
-                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result By Trader&quot;,
+                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM&quot;,
+                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result&quot;,
                 &quot;EndorseDueDiligenceDateTime__c&quot;: &quot;Record Enhanced Due Diligence Result Date/Time&quot;
             },
             &quot;actorStep&quot;: &quot;AMM&quot;
@@ -127,7 +127,7 @@
             &quot;section&quot;: &quot;Compliance Advice by GLGC&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;ComplianceAdviceResult__c&quot;: &quot;May this company proceed with the counterparty registration process?&quot;,
-                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance Advice&quot;,
+                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance advice or explanation for not proceeding with the CTR process&quot;,
                 &quot;ComplianceAdviceBy__c&quot;: &quot;Compliance Advice By&quot;,
                 &quot;ComplianceAdviceDateTime__c&quot;: &quot;Compliance Advice Date/Time&quot;
             },
@@ -168,11 +168,11 @@
         },
         &quot;endorseDueDiligence&quot;: {
             &quot;button&quot;: &quot;Endorse Enhanced Due Diligence&quot;,
-            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM by Trader&quot;,
+            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;EndorseDueDiligenceResult__c&quot;: &quot;Enhanced Due Diligence Result&quot;,
-                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM by Trader&quot;,
-                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result By Trader&quot;,
+                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM&quot;,
+                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result&quot;,
                 &quot;EndorseDueDiligenceDateTime__c&quot;: &quot;Record Enhanced Due Diligence Result Date/Time&quot;
             },
             &quot;actorStep&quot;: &quot;AMM&quot;
@@ -217,7 +217,7 @@
             &quot;section&quot;: &quot;Compliance Advice by GLGC&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;ComplianceAdviceResult__c&quot;: &quot;May this company proceed with the counterparty registration process?&quot;,
-                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance Advice&quot;,
+                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance advice or explanation for not proceeding with the CTR process&quot;,
                 &quot;ComplianceAdviceBy__c&quot;: &quot;Compliance Advice By&quot;,
                 &quot;ComplianceAdviceDateTime__c&quot;: &quot;Compliance Advice Date/Time&quot;
             },
@@ -258,11 +258,11 @@
         },
         &quot;endorseDueDiligence&quot;: {
             &quot;button&quot;: &quot;Endorse Enhanced Due Diligence&quot;,
-            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM by Trader&quot;,
+            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;EndorseDueDiligenceResult__c&quot;: &quot;Enhanced Due Diligence Result&quot;,
-                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM by Trader&quot;,
-                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result By Trader&quot;,
+                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM&quot;,
+                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result&quot;,
                 &quot;EndorseDueDiligenceDateTime__c&quot;: &quot;Record Enhanced Due Diligence Result Date/Time&quot;
             },
             &quot;actorStep&quot;: &quot;AMM&quot;
@@ -307,7 +307,7 @@
             &quot;section&quot;: &quot;Compliance Advice by GLGC&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;ComplianceAdviceResult__c&quot;: &quot;May this company proceed with the counterparty registration process?&quot;,
-                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance Advice&quot;,
+                &quot;ComplianceAdviceComment__c&quot;: &quot;Compliance advice or explanation for not proceeding with the CTR process&quot;,
                 &quot;ComplianceAdviceBy__c&quot;: &quot;Compliance Advice By&quot;,
                 &quot;ComplianceAdviceDateTime__c&quot;: &quot;Compliance Advice Date/Time&quot;
             },
@@ -348,11 +348,11 @@
         },
         &quot;endorseDueDiligence&quot;: {
             &quot;button&quot;: &quot;Endorse Enhanced Due Diligence&quot;,
-            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM by Trader&quot;,
+            &quot;section&quot;: &quot;Record Enhanced Due Diligence Result from AMM&quot;,
             &quot;reviewInfo&quot;: {
                 &quot;EndorseDueDiligenceResult__c&quot;: &quot;Enhanced Due Diligence Result&quot;,
-                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM by Trader&quot;,
-                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result By Trader&quot;,
+                &quot;EndorseDueDiligenceComment__c&quot;: &quot;Enhanced Due Diligence Comment from AMM&quot;,
+                &quot;EndorseDueDiligenceBy__c&quot;: &quot;Record Enhanced Due Diligence Result&quot;,
                 &quot;EndorseDueDiligenceDateTime__c&quot;: &quot;Record Enhanced Due Diligence Result Date/Time&quot;
             },
             &quot;actorStep&quot;: &quot;AMM&quot;

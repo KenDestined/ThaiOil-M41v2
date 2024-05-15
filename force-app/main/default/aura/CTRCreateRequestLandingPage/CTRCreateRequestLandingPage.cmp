@@ -16,8 +16,8 @@
     <aura:attribute name="newRequestModalTitle" type="String" default="" />
     <aura:attribute name="newRequestModalBody" type="Object" default="{}" />
 
-    <aura:attribute name="buOptions" type="List" default="[{'label':'TOP','value':'TOP'},{'label':'LABIX','value':'LABIX'},{'label':'TX','value':'TX'}]" />
-    <aura:attribute name="currentUserName" type="String"/>
+    <aura:attribute name="buOptions" type="List" default="[{'label':'TOP','value':'TOP'},{'label':'TPX','value':'TPX'},{'label':'TLB','value':'TLB'},{'label':'LABIX','value':'LABIX'},{'label':'TXTH','value':'TXTH'},{'label':'TSV','value':'TSV'},{'label':'TSR','value':'TSR'},{'label':'JSKem','value':'JSKem'},{'label':'TXINDIA','value':'TXINDIA'}]" />
+
     <aura:attribute name="isTOP" type="Boolean" default="false" />
     <aura:attribute name="isLABIX" type="Boolean" default="false" />
     <aura:attribute name="isTX" type="Boolean" default="false" />

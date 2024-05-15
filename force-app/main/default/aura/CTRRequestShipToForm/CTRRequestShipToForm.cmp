@@ -36,6 +36,7 @@
     <aura:attribute name="recordHeaderId" type="Id" />
     <aura:attribute name="useCustomerId" type="Id" />
     <aura:attribute name="defaultInputRecordId" type="Id" />
+    <aura:attribute name="forceDefaultInputRecordId" type="Id" />
     <aura:attribute name="isEdit" type="Boolean" default="false" />
     <aura:attribute name="isInitial" type="Boolean" default="false" />
     <aura:attribute name="ChangedFieldForEDITHeader" type="List" default="[]" />
@@ -819,7 +820,7 @@
                                         style="padding-bottom: 0px;">
                                         <!-- Delivery Priority -->
                                         <div
-                                            class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small">
+                                            class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small slds-hidden">
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label" for="Delivery Priority">
                                                     <abbr class="slds-required" title="required">*</abbr>Delivery
@@ -870,7 +871,7 @@
 
                                         <!-- Max. partial deliveries -->
                                         <div
-                                            class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small">
+                                            class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small slds-hidden">
                                             <div class="slds-form-element">
                                                 <label class="slds-form-element__label" for="Max. partial deliveries">
                                                     <abbr class="slds-required" title="required">*</abbr>Max.
@@ -913,9 +914,9 @@
 
                                 <!-- Partial delivery per item -->
                                 <div
-                                    class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small">
+                                    class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small slds-hidden">
                                     <lightning:recordEditForm recordId="{!v.recordId}"
-                                        objectApiName="CTRRequestFormItem__c">
+                                        objectApiName="CTRRequestFormItem__c" onload="{!c.handleLoadShipping1}">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label" for="Partial delivery per item">
                                                 <abbr class="slds-required" title="required">*</abbr>Partial
@@ -937,7 +938,7 @@
                                 <div class="slds-grid slds-wrap slds-var-p-around_large" style="padding-top: 0px;">
                                     <!-- Underdel tolerance -->
                                     <div
-                                        class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small">
+                                        class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small slds-hidden">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label" for="Underdel tolerance">
                                                 <abbr class="slds-required" title="required">*</abbr>Underdel
@@ -954,7 +955,7 @@
 
                                     <!-- Overdetiv. Tolerance -->
                                     <div
-                                        class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small">
+                                        class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small slds-hidden">
                                         <div class="slds-form-element">
                                             <label class="slds-form-element__label" for="Overdetiv. Tolerance">
                                                 <abbr class="slds-required" title="required">*</abbr>Overdetiv.
@@ -1012,7 +1013,7 @@
                                         <!-- Tax classification -->
                                         <div
                                             class="slds-p-right_medium slds-p-left_medium slds-col slds-size_1-of-2 slds-p-bottom_x-small">
-                                            <lightning:recordEditForm recordId="{!v.defaultInputRecordId}" objectApiName="{!v.useSObjectName}">
+                                            <lightning:recordEditForm recordId="{!v.forceDefaultInputRecordId}" objectApiName="{!v.useSObjectName}">
                                                 <div class="slds-form-element">
                                                     <label class="slds-form-element__label" for="Tax classification">
                                                         Tax

@@ -3,8 +3,8 @@
     <actionCalls>
         <name>NavigateToItemRecord</name>
         <label>NavigateToItemRecord</label>
-        <locationX>790</locationX>
-        <locationY>3442</locationY>
+        <locationX>424</locationX>
+        <locationY>4178</locationY>
         <actionName>c:CTRNavigateToRecord</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -28,8 +28,8 @@
     <assignments>
         <name>AssignChoosenCountryLabel</name>
         <label>AssignChoosenCountryLabel</label>
-        <locationX>788</locationX>
-        <locationY>3097</locationY>
+        <locationX>424</locationX>
+        <locationY>3962</locationY>
         <assignmentItems>
             <assignToReference>varChooseCountryLabel</assignToReference>
             <operator>Assign</operator>
@@ -44,8 +44,8 @@
     <assignments>
         <name>AssignCountry</name>
         <label>AssignCountry</label>
-        <locationX>902</locationX>
-        <locationY>1638</locationY>
+        <locationX>490</locationX>
+        <locationY>1682</locationY>
         <assignmentItems>
             <assignToReference>varChooseCountry</assignToReference>
             <operator>Assign</operator>
@@ -67,8 +67,8 @@
     <assignments>
         <name>AssignItemData</name>
         <label>AssignItemData</label>
-        <locationX>770</locationX>
-        <locationY>2363</locationY>
+        <locationX>336</locationX>
+        <locationY>3206</locationY>
         <assignmentItems>
             <assignToReference>varRequestItemRecord.Customer__c</assignToReference>
             <operator>Assign</operator>
@@ -111,8 +111,8 @@
     <assignments>
         <name>AssignNewShipTo</name>
         <label>AssignNewShipTo</label>
-        <locationX>782</locationX>
-        <locationY>2625</locationY>
+        <locationX>336</locationX>
+        <locationY>3530</locationY>
         <assignmentItems>
             <assignToReference>varShipToAccountRecord.ShippingCountry__c</assignToReference>
             <operator>Assign</operator>
@@ -148,8 +148,8 @@
     <assignments>
         <name>AssignPicklistLabel</name>
         <label>AssignPicklistLabel</label>
-        <locationX>364</locationX>
-        <locationY>574</locationY>
+        <locationX>864</locationX>
+        <locationY>998</locationY>
         <assignmentItems>
             <assignToReference>LoopShipCountryToAssignPicklistLabel.Name</assignToReference>
             <operator>Assign</operator>
@@ -164,8 +164,8 @@
     <assignments>
         <name>AssignResetValidate</name>
         <label>AssignResetValidate</label>
-        <locationX>633</locationX>
-        <locationY>1291</locationY>
+        <locationX>182</locationX>
+        <locationY>1682</locationY>
         <assignmentItems>
             <assignToReference>varCheckDupShipToCountry</assignToReference>
             <operator>Assign</operator>
@@ -194,8 +194,8 @@
     <assignments>
         <name>AssignShipToHeader</name>
         <label>AssignShipToHeader</label>
-        <locationX>765</locationX>
-        <locationY>2091</locationY>
+        <locationX>336</locationX>
+        <locationY>2882</locationY>
         <assignmentItems>
             <assignToReference>varHeaderRecord.Customer__c</assignToReference>
             <operator>Assign</operator>
@@ -313,13 +313,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>getAccountRecord.PaymentOverTheAmountOfUSD__c</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>varHeaderRecord.ViolatingAntiMoneyLaunderingLaws__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>getAccountRecord.ViolatingAntiMoneyLaunderingLaws__c</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -630,8 +623,8 @@
     <assignments>
         <name>AssignTempShipCountry</name>
         <label>AssignTempShipCountry</label>
-        <locationX>527</locationX>
-        <locationY>646</locationY>
+        <locationX>864</locationX>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>varShipCountryCollectionWithPicklistLabel</assignToReference>
             <operator>Add</operator>
@@ -646,8 +639,8 @@
     <assignments>
         <name>AssignValidate</name>
         <label>AssignValidate</label>
-        <locationX>294</locationX>
-        <locationY>1645</locationY>
+        <locationX>270</locationX>
+        <locationY>2006</locationY>
         <assignmentItems>
             <assignToReference>varCheckDupShipToCountry</assignToReference>
             <operator>Assign</operator>
@@ -663,8 +656,8 @@
         <name>filterChoosenValue</name>
         <elementSubtype>FilterCollectionProcessor</elementSubtype>
         <label>filterChoosenValue</label>
-        <locationX>787</locationX>
-        <locationY>2907</locationY>
+        <locationX>336</locationX>
+        <locationY>3746</locationY>
         <assignNextValueToReference>currentItem_filterChoosenValue</assignNextValueToReference>
         <collectionProcessorType>FilterCollectionProcessor</collectionProcessorType>
         <collectionReference>getPicklistInfo</collectionReference>
@@ -683,8 +676,8 @@
     <decisions>
         <name>checkDuplicateShipToCountry</name>
         <label>checkDuplicateShipToCountry</label>
-        <locationX>625</locationX>
-        <locationY>1640</locationY>
+        <locationX>182</locationX>
+        <locationY>2282</locationY>
         <defaultConnector>
             <targetReference>getRecordTypeShipToHeader</targetReference>
         </defaultConnector>
@@ -708,8 +701,8 @@
     <decisions>
         <name>CheckMatchCountry</name>
         <label>CheckMatchCountry</label>
-        <locationX>284</locationX>
-        <locationY>1282</locationY>
+        <locationX>402</locationX>
+        <locationY>1898</locationY>
         <defaultConnector>
             <targetReference>LoopShipToCountry</targetReference>
         </defaultConnector>
@@ -740,8 +733,8 @@
     <decisions>
         <name>CheckSelectedPicklist</name>
         <label>CheckSelectedPicklist</label>
-        <locationX>527</locationX>
-        <locationY>511</locationY>
+        <locationX>996</locationX>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>LoopPicklistInfoToAssignLabel</targetReference>
         </defaultConnector>
@@ -765,8 +758,8 @@
     <decisions>
         <name>is_found_shipping_country</name>
         <label>is found shipping country</label>
-        <locationX>752</locationX>
-        <locationY>975</locationY>
+        <locationX>336</locationX>
+        <locationY>1466</locationY>
         <defaultConnector>
             <targetReference>DisplayCountryNone</targetReference>
         </defaultConnector>
@@ -787,6 +780,7 @@
             <label>found shipping country</label>
         </rules>
     </decisions>
+    <description>[10 May 2024] Remove ViolatingAntiMoneyLaunderingLaws__c</description>
     <dynamicChoiceSets>
         <name>ChoiceShippingCountryPicklist</name>
         <dataType>Picklist</dataType>
@@ -809,8 +803,8 @@
     <loops>
         <name>LoopFilterChoosenValue</name>
         <label>LoopFilterChoosenValue</label>
-        <locationX>959</locationX>
-        <locationY>3006</locationY>
+        <locationX>336</locationX>
+        <locationY>3854</locationY>
         <collectionReference>filterChoosenValue</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -820,8 +814,8 @@
     <loops>
         <name>LoopPicklistInfoToAssignLabel</name>
         <label>LoopPicklistInfoToAssignLabel</label>
-        <locationX>758</locationX>
-        <locationY>517</locationY>
+        <locationX>776</locationX>
+        <locationY>782</locationY>
         <collectionReference>getPicklistInfo</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -834,8 +828,8 @@
     <loops>
         <name>LoopShipCountryToAssignPicklistLabel</name>
         <label>LoopShipCountryToAssignPicklistLabel</label>
-        <locationX>757</locationX>
-        <locationY>742</locationY>
+        <locationX>336</locationX>
+        <locationY>674</locationY>
         <collectionReference>getShipToCountry</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -848,8 +842,8 @@
     <loops>
         <name>LoopShipToCountry</name>
         <label>LoopShipToCountry</label>
-        <locationX>633</locationX>
-        <locationY>1446</locationY>
+        <locationX>182</locationX>
+        <locationY>1790</locationY>
         <collectionReference>getShipToCountry</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -868,7 +862,7 @@
     <processMetadataValues>
         <name>CanvasMode</name>
         <value>
-            <stringValue>FREE_FORM_CANVAS</stringValue>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -881,8 +875,8 @@
     <recordCreates>
         <name>CreateHeaderRecord</name>
         <label>CreateHeaderRecord</label>
-        <locationX>946</locationX>
-        <locationY>2190</locationY>
+        <locationX>336</locationX>
+        <locationY>2990</locationY>
         <connector>
             <targetReference>getRecordTypeShipToItem</targetReference>
         </connector>
@@ -891,8 +885,8 @@
     <recordCreates>
         <name>createItemRecord</name>
         <label>createItemRecord</label>
-        <locationX>949</locationX>
-        <locationY>2448</locationY>
+        <locationX>336</locationX>
+        <locationY>3314</locationY>
         <connector>
             <targetReference>getNewItemRecird</targetReference>
         </connector>
@@ -901,8 +895,8 @@
     <recordCreates>
         <name>CreateShipToAccountRecord</name>
         <label>CreateShipToAccountRecord</label>
-        <locationX>784</locationX>
-        <locationY>2762</locationY>
+        <locationX>336</locationX>
+        <locationY>3638</locationY>
         <connector>
             <targetReference>filterChoosenValue</targetReference>
         </connector>
@@ -911,8 +905,8 @@
     <recordLookups>
         <name>getAccountRecord</name>
         <label>getAccountRecord</label>
-        <locationX>752</locationX>
-        <locationY>229</locationY>
+        <locationX>336</locationX>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getShipToCountry</targetReference>
@@ -932,8 +926,8 @@
     <recordLookups>
         <name>getEntityDefinition</name>
         <label>getEntityDefinition</label>
-        <locationX>528</locationX>
-        <locationY>370</locationY>
+        <locationX>336</locationX>
+        <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getFieldDefinition</targetReference>
@@ -953,8 +947,8 @@
     <recordLookups>
         <name>getFieldDefinition</name>
         <label>getFieldDefinition</label>
-        <locationX>279</locationX>
-        <locationY>370</locationY>
+        <locationX>336</locationX>
+        <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getPicklistInfo</targetReference>
@@ -981,8 +975,8 @@
     <recordLookups>
         <name>getNewItemRecird</name>
         <label>getNewItemRecird</label>
-        <locationX>600</locationX>
-        <locationY>2465</locationY>
+        <locationX>336</locationX>
+        <locationY>3422</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignNewShipTo</targetReference>
@@ -1002,8 +996,8 @@
     <recordLookups>
         <name>getPicklistInfo</name>
         <label>getPicklistInfo</label>
-        <locationX>279</locationX>
-        <locationY>742</locationY>
+        <locationX>336</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopShipCountryToAssignPicklistLabel</targetReference>
@@ -1023,8 +1017,8 @@
     <recordLookups>
         <name>getRecordTypeShipToHeader</name>
         <label>getRecordTypeShipToHeader</label>
-        <locationX>765</locationX>
-        <locationY>1874</locationY>
+        <locationX>336</locationX>
+        <locationY>2774</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignShipToHeader</targetReference>
@@ -1051,8 +1045,8 @@
     <recordLookups>
         <name>getRecordTypeShipToItem</name>
         <label>getRecordTypeShipToItem</label>
-        <locationX>608</locationX>
-        <locationY>2206</locationY>
+        <locationX>336</locationX>
+        <locationY>3098</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignItemData</targetReference>
@@ -1079,8 +1073,8 @@
     <recordLookups>
         <name>getShipToCountry</name>
         <label>getShipToCountry</label>
-        <locationX>748</locationX>
-        <locationY>370</locationY>
+        <locationX>336</locationX>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getEntityDefinition</targetReference>
@@ -1107,8 +1101,8 @@
     <screens>
         <name>DisplayCountry</name>
         <label>DisplayCountry</label>
-        <locationX>632</locationX>
-        <locationY>1140</locationY>
+        <locationX>182</locationX>
+        <locationY>1574</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1215,8 +1209,8 @@
     <screens>
         <name>DisplayCountryNone</name>
         <label>DisplayCountryNone</label>
-        <locationX>902</locationX>
-        <locationY>1145</locationY>
+        <locationX>490</locationX>
+        <locationY>1574</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1275,8 +1269,8 @@
     <screens>
         <name>Success_Screen</name>
         <label>Success Screen</label>
-        <locationX>790</locationX>
-        <locationY>3273</locationY>
+        <locationX>424</locationX>
+        <locationY>4070</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1294,8 +1288,8 @@
     <screens>
         <name>ValidateDupScreen</name>
         <label>ValidateDupScreen</label>
-        <locationX>508</locationX>
-        <locationY>1841</locationY>
+        <locationX>50</locationX>
+        <locationY>2390</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
@@ -1308,8 +1302,8 @@
         <showHeader>true</showHeader>
     </screens>
     <start>
-        <locationX>630</locationX>
-        <locationY>50</locationY>
+        <locationX>210</locationX>
+        <locationY>0</locationY>
         <connector>
             <targetReference>getAccountRecord</targetReference>
         </connector>

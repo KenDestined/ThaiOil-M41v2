@@ -73,7 +73,7 @@ public class CTRLeadHandler
                         Lead mLeadUpdate = new Lead(Id = mLead.Id);
                         mLeadUpdate.LeadNumberText__c = mLead.LeadNo__c;
                         mLeadUpdateList.add(mLeadUpdate);
-                        String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(mSetting.SharePointMainFolderDuringCreate__c, mLead.LeadNo__c, 'Common', '', new List<String>(),'');
+                        String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(mSetting.SharePointMainFolderDuringCreate__c, mLead.LeadNo__c, 'Common', '', new List<String>(),'',null);
                         if(String.isNotBlank(mBody))
                         {
                             //String mBody = '{"MainFolder": "'+mSetting.SharePointMainFolderDuringCreate__c+'","AccFolder" : "'+mLead.LeadNo__c+'","SubFolder" : "Common", "Type": ""}';

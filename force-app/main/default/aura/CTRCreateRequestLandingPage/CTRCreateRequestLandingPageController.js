@@ -17,14 +17,16 @@
 		component.set('v.isTX', false);
 		component.set('v.isLABIX', false);
 		component.set('v.isTOP', false);
+		var topList = ['TOP','TLB','TPX'];
+		var txList = ['TXTH','TSV','TSR','JSKem','TXINDIA'];
 		if (selectedBU) {
-			if (selectedBU == 'TX') {
+			if (txList.includes(selectedBU)) {
 				component.set('v.isTX', true);
 			}
 			if (selectedBU == 'LABIX') {
 				component.set('v.isLABIX', true);
 			}
-			if (selectedBU == 'TOP') {
+			if (topList.includes(selectedBU)) {
 				component.set('v.isTOP', true);
 			}
 		}

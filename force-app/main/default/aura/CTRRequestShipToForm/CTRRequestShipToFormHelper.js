@@ -135,6 +135,7 @@
     validateRequiredData: function (component) {
         var isError = false;
         var convertObj = {};
+        var errorFields = [];
         component.find("editFormAccountField").forEach(function (cmp) {
             var fieldName = cmp.get('v.fieldName');
             var value = cmp.get('v.value');
@@ -144,6 +145,7 @@
                 // if(!$A.util.hasClass(cmp,'slds-has-error')) {
                 $A.util.addClass(cmp, "slds-has-error");
                 $A.util.addClass(component.find('error-' + fieldName), "custom-error-enabled");
+                errorFields.push({[fieldName]:value});
                 // }
                 isError = true;
             } else {
@@ -151,6 +153,7 @@
                 $A.util.removeClass(component.find('error-' + fieldName), "custom-error-enabled");
             }
         })
+        console.log('Validate Required Data: ',errorFields)
         console.log('Actual form data', convertObj)
 
         if (isError) {
@@ -171,14 +174,17 @@
                 if (component.get('v.selectedRequest')) {
                     component.set('v.useCustomerId', component.get('v.selectedRequest').mAccountId);
                     component.set('v.defaultInputRecordId', component.get('v.selectedRequest').mAccountId);
+                    component.set('v.forceDefaultInputRecordId', component.get('v.selectedRequest').mAccountId);
                 }
             } else {
                 component.set('v.useCustomerId', component.get('v.customerId'));
+                component.set('v.forceDefaultInputRecordId', component.get('v.customerId'));
             }
         } else {
             // press edit button
             component.set('v.useCustomerId', component.get('v.selectedRequest').mAccountId);
             component.set('v.defaultInputRecordId', component.get('v.recordHeaderId'));
+            component.set('v.forceDefaultInputRecordId', component.get('v.recordHeaderId'));
             if (component.get('v.requestType').includes('Edit')) {
                 component.set('v.isEdit', true);
             }
@@ -249,6 +255,7 @@
         var cmp = event.getSource();
         var fieldName = cmp.get('v.fieldName');
         var value = cmp.get('v.value');
+        var errorFields = [];
         if (cmp.get("v.required") == true && cmp.get("v.disabled") == false && (value == null || value == '')) {
             // if(!$A.util.hasClass(cmp,'slds-has-error')) {
             $A.util.addClass(cmp, "slds-has-error");
@@ -258,7 +265,6 @@
             $A.util.removeClass(cmp, "slds-has-error");
             $A.util.removeClass(component.find('error-' + fieldName), "custom-error-enabled");
         }
-
     },
 
     prepopulateData: function(component,prepopulateObj) {

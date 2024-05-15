@@ -9,6 +9,7 @@ public with sharing class CTRsendToSAPController
         @AuraEnabled public String mAccountNumber{ get; set; }
         @AuraEnabled public String mSupplierNumber{ get; set; }
         @AuraEnabled public Integer mQueue{ get; set; }
+        @AuraEnabled public List<CTRSapInformationController.options> mPicklist{ get; set; }
         //@AuraEnabled public boolean mGeneralViewCreated{ get; set; }
 
         //@AuraEnabled public String mToken{ get; set;}
@@ -23,6 +24,7 @@ public with sharing class CTRsendToSAPController
         public List<String> emailTo { get; set; }
         public List<String> emailCC { get; set; }
     }
+
     public Static List<CTRRequestFormItem__c> getRequestItemForSendToSAP(Set<Id> mSetId)
     {
         List<String> mRequestItemFields = new List<String>(CTRRequestFormItem__c.SObjectType.getDescribe().fields.getMap().keySet());
@@ -37,6 +39,8 @@ public with sharing class CTRsendToSAPController
             + ' ,CustomerType__r.Code__c ,CustomerGroup__r.Code__c'
             + ' ,Industry__r.Code__c ,SubIndustry__r.Code__c'
             + ' ,Application__r.Code__c ,InterGroup__r.Code__c'
+            + ' ,CTRRequestFormHeader__r.CompanyNameENF__c'
+            + ' ,CTRRequestFormHeader__r.CustomerSearchTermEN__c'
             + ' FROM CTRRequestFormItem__c'
             + ' WHERE ID IN :mSetId';
             List<CTRRequestFormItem__c> mRequestItemList = Database.query(soqlItem);
@@ -139,13 +143,13 @@ public with sharing class CTRsendToSAPController
                         List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mAccountObjName), mAccountObjName,'');
                         if(mAccountFieldList.size()>0)
                         {
-                            mAccountJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
+                            //mAccountJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
                         }
 
                         List<String> mHeaderFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
                         if(mHeaderFieldList.size()>0)
                         {
-                            mHeaderJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mHeaderFieldList, mHeaderObjName, mHeaderSetId);
+                            //mHeaderJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mHeaderFieldList, mHeaderObjName, mHeaderSetId);
                         }
                         System.debug('mAccountFieldList: '+mAccountFieldList.size());
                         System.debug('mHeaderFieldList: '+mHeaderFieldList.size());
@@ -153,8 +157,8 @@ public with sharing class CTRsendToSAPController
                     System.debug('mAccountJsonMapResult: '+mAccountJsonMapResult.get(mRequestItem.Customer__c));
                     System.debug('mHeaderJsonMapResult: '+mHeaderJsonMapResult.get(mRequestItem.CTRRequestFormHeader__c));
     
-                    Map<String, Object> mHeaderFieldDataMap = CTRRequestEditLogFieldController.getFieldMapFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
-                    mDiffGeneralJson = CTRRequestEditLogFieldController.filteredCompareAccountAndHeaderJson(recordId,mAccountJsonMapResult.get(mRequestItem.Customer__c), mHeaderJsonMapResult.get(mRequestItem.CTRRequestFormHeader__c), mHeaderFieldDataMap, mBuType);
+                    //Map<String, Object> mHeaderFieldDataMap = CTRRequestEditLogFieldController.getFieldMapFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
+                    //mDiffGeneralJson = CTRRequestEditLogFieldController.filteredCompareAccountAndHeaderJson(recordId,mAccountJsonMapResult.get(mRequestItem.Customer__c), mHeaderJsonMapResult.get(mRequestItem.CTRRequestFormHeader__c), mHeaderFieldDataMap, mBuType);
                 }
             }
             mRequestItemUpdate.InternalGeneralChangedField__c = mDiffGeneralJson;
@@ -214,6 +218,7 @@ public with sharing class CTRsendToSAPController
        //mResultData.mGeneralViewCreated = mRequestItem.Customer__r.SAPConfirmedData__c;
        mResultData.mAccountNumber = mRequestItem.Customer__r.AccountNumber__c;
        mResultData.mSupplierNumber = mRequestItem.Customer__r.SupplierNumber__c;
+       mResultData.mPicklist = CTRSapInformationController.convertedDropdownToOptions('CTRRequestFormHeader__c','PhoneCountryCode__c');
        mResultData.mQueue = mQueue;
        mResultData.mResult = mResult;
        return mResultData;
@@ -244,7 +249,7 @@ public with sharing class CTRsendToSAPController
                            mCustomerSetId.add(mItem.Customer__c);
                            //Map<String, String> mCounterPartyFieldListMap = new Map<String, String>();
                            Map<Id, String> mAccountJsonMapResult = new Map<Id, String>();
-                           Map<String, String> mCounterPartyFieldListMap = CTRRequestEditLogFieldController.getMetadataFieldListFromSource('Counter party');
+                           Map<String, String> mCounterPartyFieldListMap = CTRRequestEditLogFieldController.getMetadataFieldListFromSource('SAP Information');
                            if(mCounterPartyFieldListMap.size()>0)
                            {
                                //Account To Json
@@ -346,8 +351,8 @@ public with sharing class CTRsendToSAPController
                 {
                     mRecordTypeName = 'ShipTo';
                 }
-                CTRCustomerRequestFormItemModelData mCustomerData = new CTRCustomerRequestFormItemModelData();
-                CTRSupplierRequestFormItemModelData mSupplierData = new CTRSupplierRequestFormItemModelData();
+                //CTRCustomerRequestFormItemModelData mCustomerData = new CTRCustomerRequestFormItemModelData();
+                //CTRSupplierRequestFormItemModelData mSupplierData = new CTRSupplierRequestFormItemModelData();
                 CTRShipToRequestFormItemModelData mShipToData = new CTRShipToRequestFormItemModelData();
                 CTRBlockRequestFormItemModelData mBlockData = new CTRBlockRequestFormItemModelData();
                 CTRBlockSupplierRequestFormItemModelData mBlockSupplier = new CTRBlockSupplierRequestFormItemModelData();
@@ -526,7 +531,7 @@ public with sharing class CTRsendToSAPController
                         {
                             System.debug('Supplier TOP LABIX');
                             // special case for 1100 supplier TOP
-                            String mKey = mRequestItem.SAPNumber__c+mRequestItem.PurchasingOrganizationTOP__c;
+                            String mKey = mRequestItem.Customer__r.SupplierNumber__c+mRequestItem.PurchasingOrganizationTOP__c;
                             List<CTRPurchasingView__c> checkPurchasingView = [SELECT Id FROM CTRPurchasingView__c WHERE Account__c =: mRequestItem.Customer__c AND Key__c =: mKey LIMIT 1];
                             if(mRequestItem.Customer__r.SupplierNumber__c != null) 
                             {
@@ -636,7 +641,8 @@ public with sharing class CTRsendToSAPController
                         if(mRequestItem.SAPStatus__c != 'SAP Confirmed Sales/Purchasing View')
                         {
                             mIntegrationName= 'Edit Ship to General+Sales View';
-                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'ShipTo', mBusinessUnit, mGatewayId);
+                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mRequestHeader,mRequestItem, mRecordTypeName, mRequestItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  true);
+                            //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mRequestHeader,mRequestItem, 'ShipTo', mBusinessUnit, mGatewayId);
                             mEndPoint += mIntegrationInitialCustomer.Path__c != null ? mIntegrationInitialCustomer.Path__c : '';
                             jsonInput = JSON.serialize(mEditData);
                         }
@@ -665,7 +671,7 @@ public with sharing class CTRsendToSAPController
 
                 System.debug('Result:'+jsonInput);
 
-                if(String.isNotBlank(mPath) && String.isNotBlank(mEndPoint))
+                if(String.isNotBlank(mPath) && String.isNotBlank(mEndPoint) && String.isNotBlank(jsonInput))
                 {
                     System.debug('Send callout to sap mock');
                     
@@ -817,6 +823,7 @@ public with sharing class CTRsendToSAPController
            // for(CTRRequestFormItem__c mRequestItem: mRequestItemList)
            // {
            Map<Id, wrapperCCAEmailData> mapCCAEmailData = getCCAEmailData(mRequestItemList);
+           System.debug('EmailInformCCA '+mapCCAEmailData);
            for(Id key : mapCCAEmailData.keySet() ) {
                Messaging.SingleEmailMessage mail = setupCCAEmail(mapCCAEmailData.get(key));
                mEmailMessageList.add(mail);
@@ -866,30 +873,45 @@ public with sharing class CTRsendToSAPController
 
    public Static Messaging.SingleEmailMessage setupCCAEmail (wrapperCCAEmailData CCAEmailData)
    {
-       // List<EmailTemplate> mEmailTemplateList = [SELECT Id,Subject,Description,HtmlValue,DeveloperName,Body FROM EmailTemplate WHERE DeveloperName = 'CTR_Initial_customer_Inform_SAP_to_Mapping_CCA' LIMIT 1]; 
+    //    List<EmailTemplate> mEmailTemplateList = [SELECT Id,Subject,Description,HtmlValue,DeveloperName,Body FROM EmailTemplate WHERE DeveloperName = 'CTR_Initial_customer_Inform_SAP_to_Mapping_CCA' LIMIT 1]; 
        // Contact mContact = [SELECT ID FROM Contact LIMIT 1];
        // List<Messaging.SingleEmailMessage> emailList = new List<Messaging.SingleEmailMessage>();
        // for(Id key : mapCCAEmailData.keySet()){
            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
            if(CCAEmailData.emailTemplate != null)
            {
-               List<String> sendTo = new List<String>(CCAEmailData.emailTo);
-               // sendTo.add(mRequestItem.Owner.Email);
-               mail.setToAddresses(sendTo);
-               // mail.setToAddresses('manatpong.t@roundtwosolutions.com');
-               mail.setSenderDisplayName('Thaioil Salesforce Support');
-               //mail.setSubject('Request to review Sales Area for Account Number: '+ mRequestItem.Customer__r.AccountNumber__c);
-               mail.setEntityAttachments(CCAEmailData.attachmentIds);
-               mail.setCcAddresses(CCAEmailData.emailCC);
-               mail.setBccSender(false);
-               mail.setUseSignature(false);
-               mail.setTargetObjectId(CCAEmailData.contact.Id); 
-               mail.setTemplateID(CCAEmailData.emailTemplate.Id); 
-               mail.setWhatId(CCAEmailData.requestItemObj.Id);
-               mail.setTreatTargetObjectAsRecipient(false);
-               mail.setCharset('UTF-8');
-               mail.setSaveAsActivity(false);
-               //mail.setHtmlBody('Dear ' + mRequestItem.Owner.Name + '<br> &nbsp;&nbsp; <br>Please review Sales view in SAP for Account Number: '+ mRequestItem.Customer__r.AccountNumber__c+' <br> Sales Organization: '+mRequestItem.SalesOrganization__c+' <br> Thank you');
+                List<String> sendTo = new List<String>(CCAEmailData.emailTo);
+                String emailSubject = CCAEmailData.emailTemplate.Subject
+                                .replace('{$SubBU__c$}', CCAEmailData?.requestItemObj?.SubBU__c)
+                                .replace('{$CompanyNameENF__c$}', CCAEmailData?.requestItemObj?.CTRRequestFormHeader__r.CompanyNameENF__c);
+
+                String emailBody = CCAEmailData.emailTemplate.HtmlValue
+                            .replace('{$CompanyNameENF__c$}',CCAEmailData?.requestItemObj?.CTRRequestFormHeader__r.CompanyNameENF__c)
+                            .replace('{$ProductName__c$}',CCAEmailData?.requestItemObj?.ProductName__c)
+                            .replace('{$SalesOrganization__c$}',CCAEmailData?.requestItemObj?.SalesOrganization__c)
+                            .replace('{$AccountNumber__c$}',CCAEmailData?.requestItemObj?.Customer__r.AccountNumber__c)
+                            .replace('{$Owner.Name$}',CCAEmailData?.requestItemObj?.Owner.Name)
+                            .replace('{$CustomerSearchTermEN__c$}',CCAEmailData?.requestItemObj?.CTRRequestFormHeader__r.CustomerSearchTermEN__c)
+                            .replace(']]>','');
+
+                // sendTo.add(mRequestItem.Owner.Email);
+                // mail.setToAddresses(sendTo);
+                mail.setToAddresses(new List<String>{'manatpong.t@roundtwosolutions.com'});
+                mail.setSenderDisplayName('Thaioil Salesforce Support');
+                //    mail.setSubject('Request to review Sales Area for Account Number: '+ mRequestItem.Customer__r.AccountNumber__c);
+                mail.setSubject(emailSubject);
+                mail.setEntityAttachments(CCAEmailData.attachmentIds);
+                mail.setCcAddresses(CCAEmailData.emailCC);
+                mail.setBccSender(false);
+                mail.setUseSignature(false);
+                mail.setTargetObjectId(CCAEmailData.contact.Id); 
+                //    mail.setTemplateID(CCAEmailData.emailTemplate.Id); 
+                mail.setWhatId(CCAEmailData.requestItemObj.Id);
+                mail.setTreatTargetObjectAsRecipient(false);
+                mail.setCharset('UTF-8');
+                mail.setSaveAsActivity(false);
+                mail.setHtmlBody(emailBody);
+                //mail.setHtmlBody('Dear ' + mRequestItem.Owner.Name + '<br> &nbsp;&nbsp; <br>Please review Sales view in SAP for Account Number: '+ mRequestItem.Customer__r.AccountNumber__c+' <br> Sales Organization: '+mRequestItem.SalesOrganization__c+' <br> Thank you');
            }
            // emailList.add(mail);
        // }

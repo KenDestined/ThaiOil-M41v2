@@ -32,7 +32,7 @@
     },
 
     saveRequest: function(component) {
-        debugger
+        console.log('Form item',this.getFormData(component).CTRRequestFormItem__c)
         console.log('[saveRequest] -----');
         component.set('v.showLoading', true);
         component.set('v.displayWarning', false);
@@ -85,7 +85,6 @@
 
     getFormData: function(component) {
         console.log('[getFormData] -----');
-        debugger
         var ownerId = component.find('editFormItemOwner').get('v.selectedRecordId');
         var bu = component.get('v.bu');
         var interestProductField = component.get('v.interestProductField');
@@ -149,7 +148,6 @@
     },
 
     validateFormData: function(component) {
-        debugger
         console.log('[validateFormData] -----');
         let allValid = true;
         if($A.util.isEmpty(component.find('editFormItemOwner').get('v.selectedRecordId'))) {
@@ -293,45 +291,80 @@
                 {
                     cmp.set('v.value', accountObject['Phone']);
                 }
-                if(fieldName == 'WHTaxCountry__c') 
-                {
-                    cmp.set('v.value', accountObject['fmlCountryCode__c']);
-                }
+                // if(fieldName == 'WHTaxCountry__c') 
+                // {
+                //     cmp.set('v.value', accountObject['fmlCountryCode__c']);
+                // }
                 // if(accountObject['fmlCountryCode__c'])
                 // {
                 //     if(accountObject['fmlCountryCode__c'] == 'TH')
                 //     {
-                        if(fieldName == 'Wthttype1__c') {
-                            cmp.set('v.value', 'J1');
-                        }
-                        if(fieldName == 'Wthttype2__c') {
-                            cmp.set('v.value', 'J2');
-                        }
-                        if(fieldName == 'Recty1__c') {
-                            cmp.set('v.value', '53');
-                        }
-                        if(fieldName == 'Recty2__c') {
-                            cmp.set('v.value', '53');
-                        }
-                        if(fieldName == 'Liable1__c') {
-                            cmp.set('v.value', true);
-                        }
-                        if(fieldName == 'Liable2__c') {
-                            cmp.set('v.value', true);
-                        }
+                        // if(fieldName == 'Wthttype1__c') {
+                        //     cmp.set('v.value', 'J1');
+                        // }
+                        // if(fieldName == 'Wthttype2__c') {
+                        //     cmp.set('v.value', 'J2');
+                        // }
+                        // if(fieldName == 'Recty1__c') {
+                        //     cmp.set('v.value', '53');
+                        // }
+                        // if(fieldName == 'Recty2__c') {
+                        //     cmp.set('v.value', '53');
+                        // }
+                        // if(fieldName == 'Liable1__c') {
+                        //     cmp.set('v.value', true);
+                        // }
+                        // if(fieldName == 'Liable2__c') {
+                        //     cmp.set('v.value', true);
+                        // }
                         //cmp.set('v.LockWTH', true);
                 //     }
                 // }
                 if(!component.get('v.isSupplier'))
                 {
+                    if(fieldName == 'SortKey__c') {
+                        cmp.set('v.value', '009');
+                    }
                     if(fieldName == 'PartialDeliveriesperitem__c') {
                         cmp.set('v.value', 'B');
                     }
+                } else {
+                    if(fieldName == 'SortKey__c') {
+                        cmp.set('v.value', '001');
+                    }
                 }
 
+                // if(component.get('v.bu') == 'TXTH' && component.get('v.isSupplier')) {
+                //     if(accountObject['fmlCountryCode__c'] && accountObject['fmlCountryCode__c'] == 'TH') {
+                //         // TXTH Domestic supplier
+                //         if(fieldName == 'Wthttype1__c') {
+                //             cmp.set('v.value', 'J1');
+                //         }
+                //         if(fieldName == 'Wthttype2__c') {
+                //             cmp.set('v.value', 'J2');
+                //         }
+                //     }
+                //     if(fieldName == 'Recty1__c') {
+                //         cmp.set('v.value', '53');
+                //     }
+                //     if(fieldName == 'Recty2__c') {
+                //         cmp.set('v.value', '53');
+                //     }
+                //     if(fieldName == 'Liable1__c') {
+                //         cmp.set('v.value', true);
+                //     }
+                //     if(fieldName == 'Liable2__c') {
+                //         cmp.set('v.value', true);
+                //     }
+                //     if(fieldName == 'WHTaxCountry__c') {
+                //         cmp.set('v.value', 'TH');
+                //     }
+                // }
+
                 // Set default value
-                if(fieldName == 'SortKey__c') {
-                    cmp.set('v.value', '009');
+                
+                if(fieldName == 'PaymentHistoryRecord__c') {
+                    cmp.set('v.value', true);
                 }
                 else if(fieldName == 'Division__c') {
                     cmp.set('v.value', '00');
@@ -342,7 +375,9 @@
                 else if(fieldName == 'CustPriceProc__c') {
                     cmp.set('v.value', '1');
                 }
-                
+                else if(fieldName == 'CustStatGroup__c') {
+                    cmp.set('v.value', '1');
+                }
                 else if(fieldName == 'MaxPartialDeliveries__c') {
                     cmp.set('v.value', '1');
                 }
@@ -364,6 +399,9 @@
                 else if(fieldName == 'IsPriceDetermin__c') {
                     cmp.set('v.value', 'true');
                 }
+                else if(fieldName == 'DeliveryPriority__c') {
+                    cmp.set('v.value', '02');
+                }
                 else if(fieldName == 'Chkdoubleinv__c') {
                     cmp.set('v.value', 'true');
                 }
@@ -374,6 +412,16 @@
                 {
                     cmp.set('v.value', '02');
                 }
+
+                else if(fieldName == 'GRBasedInvVerif__c') 
+                {
+                    cmp.set('v.value', 'true');
+                }
+                else if(fieldName == 'AutomaticPurchaseOrder__c') 
+                {
+                    cmp.set('v.value', 'true');
+                }
+                console.log('Populate data ',fieldName,cmp.get('v.value'));
             });
         }
         component.set("v.showLoading", false);

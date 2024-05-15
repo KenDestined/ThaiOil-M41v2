@@ -45,28 +45,53 @@
         })).catch($A.getCallback((error) => {
             helper.showToast(error.message, 'error');
         }));
+        const p8 = p3.then($A.getCallback(() => {
+            return helper.getSpecialGroupedCommittees();
+        })).catch($A.getCallback((error) => {
+            helper.showToast(error.message, 'error');
+        }));
 
-        Promise.all([p3, p4, p5, p6, p7]).then($A.getCallback(function ([committeeInfo, groupedCommittees, trcrList, trcrHeadList, ceoList]) {
+        Promise.all([p3, p4, p5, p6, p7, p8]).then($A.getCallback(function ([committeeInfo, groupedCommittees, trcrList, trcrHeadList, ceoList, changeCommittees]) {
+            const bu = helper.getBU();
             const subBU = helper.getSubBU();
 
-            const lstCommittee = helper.convertGroupedCommitteesToList(groupedCommittees);
-            const lstCompany = [subBU];
+            if (!$A.util.isEmpty(changeCommittees)) {
+                const lstCommittee = helper.convertChangeCreditCommitteesToList(changeCommittees);
+                const lstCompany = [subBU];
 
-            if (String(committeeInfo.EmailAuthorization__c).toLowerCase() === "ceo required") {
-                component.set("v.emailInfo.EmailTo__c", helper.getCEOEmail());
-                component.set("v.requestFormObj.EmailTo__c", helper.getCEOEmail());
-                helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
-            } else if (String(committeeInfo.EmailAuthorization__c).toLowerCase() === "committee required") {
-                if (!committeeInfo.CommitteeName__c) {
-                    helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
+                if (!committeeInfo.EmailAuthorization__c && !committeeInfo.CommitteeName__c) {
+                    helper.defaultChangeCreditCommittee(lstCommittee, lstCompany, committeeInfo);
+                } else {
+                    helper.loadChangeCreditCommittee(lstCommittee, lstCompany, committeeInfo);
+                }
+            } else {
+                const lstCommittee = helper.convertGroupedCommitteesToList(groupedCommittees);
+                const lstCompany = [subBU];
+    
+                if (String(committeeInfo.EmailAuthorization__c).toLowerCase() === "ceo required") {
+                    component.set("v.emailInfo.EmailTo__c", helper.getCEOEmail());
+                    component.set("v.requestFormObj.EmailTo__c", helper.getCEOEmail());
+                    helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
+                } else if (String(committeeInfo.EmailAuthorization__c).toLowerCase() === "committee required") {
+                    if (!committeeInfo.CommitteeName__c) {
+                        helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
+                    } else {
+                        helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
+                    }
                 } else {
                     helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
                 }
-            } else {
-                helper.loadCommittee(lstCommittee, lstCompany, committeeInfo);
+                
+                if (bu === "TX") {
+                    helper.setEmailAuthorizationTX();
+                    if (!committeeInfo.CommitteeName__c && committeeInfo.EmailAuthorization__c !== "Committee Required") {
+                        helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
+                    }
+                }
+    
+                helper.setDefaultFinalCreditCondition();
             }
 
-            helper.setDefaultFinalCreditCondition();
             helper.canEdit(trcrList, trcrHeadList);
             helper.setCreditOwnerWhereCondition(trcrList);
         })).catch($A.getCallback(function (error) {
@@ -278,18 +303,23 @@
             helper.toggleMailToCommittee(emailAuthorization);
 
             if (emailAuthorizationLowerCase === "ceo required") {
-                helper.resetCommittee();
-
-                component.set("v.emailInfo.EmailTo__c", helper.getCEOEmail());
-                component.set("v.requestFormObj.EmailTo__c", helper.getCEOEmail());
+                helper.resetCommittee(emailAuthorizationLowerCase);
+                // component.set("v.emailInfo.EmailTo__c", helper.getCEOEmail());
+                // component.set("v.requestFormObj.EmailTo__c", helper.getCEOEmail());
             } else if (emailAuthorizationLowerCase === "committee required") {
                 const subBU = helper.getSubBU();
                 const groupedCommittees = component.get("v.groupedCommittees");
+                const changeCommittees = component.get("v.specialGroupedCommittees");
                 const committeeInfo = component.get("v.committeeInfo");
-                const lstCommittee = helper.convertGroupedCommitteesToList(groupedCommittees);
                 const lstCompany = [subBU];
 
-                helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
+                if (!$A.util.isEmpty(changeCommittees)) {
+                    const lstCommittee = helper.convertChangeCreditCommitteesToList(changeCommittees);
+                    helper.defaultChangeCreditCommittee(lstCommittee, lstCommittee, committeeInfo)
+                } else {
+                    const lstCommittee = helper.convertGroupedCommitteesToList(groupedCommittees);
+                    helper.defaultCommittee(lstCommittee, lstCompany, committeeInfo);
+                }
             } else {
                 helper.resetCommittee();
             }

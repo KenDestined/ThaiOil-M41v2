@@ -279,8 +279,12 @@ public class CTRCalloutComXCtrlTest {
         );
         insert testRequestItem;
 
+        Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemNewMap.put(testRequestItem.Id, testRequestItem);
+
         Test.startTest();
-        CTRCalloutComXCtrl.organizeData(testRequestItem.Id);
+        CTRCalloutComXCtrl.organizeData(mRequestItemNewMap);
+        // CTRCalloutComXCtrl.organizeData(testRequestItem.Id);
         Test.stopTest();
     }
 
@@ -306,8 +310,12 @@ public class CTRCalloutComXCtrlTest {
         );
         insert testRequestItem;
         
+        Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemNewMap.put(testRequestItem.Id, testRequestItem);
+
         Test.startTest();
-        CTRCalloutComXCtrl.organizeData(String.valueOf(testRequestItem.Id));
+        CTRCalloutComXCtrl.organizeData(mRequestItemNewMap);
+        // CTRCalloutComXCtrl.organizeData(String.valueOf(testRequestItem.Id));
         Test.stopTest();
     }
 
@@ -474,8 +482,12 @@ public class CTRCalloutComXCtrlTest {
         );
         insert testRequestItem;
         
+        Map<Id, CTRRequestFormItem__c> mRequestItemNewMap = new Map<Id, CTRRequestFormItem__c>();
+        mRequestItemNewMap.put(testRequestItem.Id, testRequestItem);
+
         Test.startTest();
-        CTRCalloutComXCtrl.organizeData(String.valueOf(testRequestItem.Id));
+        CTRCalloutComXCtrl.organizeData(mRequestItemNewMap);
+        // CTRCalloutComXCtrl.organizeData(String.valueOf(testRequestItem.Id));
         Test.stopTest();
     }
 

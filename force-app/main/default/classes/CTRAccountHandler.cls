@@ -8,7 +8,6 @@ public class CTRAccountHandler
             List<Account> mAccountCreateFolderList = new List<Account>();
             List<Account> mAccountReNameFolderList = new List<Account>();
             Set<Id> mAccountSetId = new Set<Id>();
-            Id shipToRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('ShipTo').getRecordTypeId();
             
             for(Account mAccount: mAccountNewMap.values())
             {
@@ -27,14 +26,30 @@ public class CTRAccountHandler
                                 mAccountCreateFolderList.add(mAccount);
                             }
                         }
+                    } else if(mAccount.Name != mAccountOldMap.get(mAccount.Id).Name || mAccount.AccountNumber__c != mAccountOldMap.get(mAccount.Id).AccountNumber__c || mAccount.SupplierNumber__c != mAccountOldMap.get(mAccount.Id).SupplierNumber__c) {
+                        mAccountCreateFolderList.add(mAccount);
                     }
                 }
             }
-            System.debug('mAccountReNameFolderList:'+mAccountReNameFolderList.size());
-            System.debug('mAccountCreateFolderList:'+mAccountCreateFolderList.size());
-
             if(mAccountReNameFolderList.size()>0 || mAccountCreateFolderList.size()>0)
             {
+                createCommonOrRenameSharePointFolder(mAccountReNameFolderList, mAccountCreateFolderList);
+            }
+        }
+        catch(exception e)
+        {
+            System.debug('Error from CTRAccountHandler.CreateFolderSharePointAfterCreate Line: '+e.getLineNumber()+' || Message: '+e.getMessage());
+        }
+    } 
+
+    public static void createCommonOrRenameSharePointFolder(List<Account> mAccountReNameFolderList, List<Account> mAccountCreateFolderList)
+    {
+        try
+        {
+            if(mAccountReNameFolderList.size()>0 || mAccountCreateFolderList.size()>0)
+            {
+                Id shipToRecordTypeId = Schema.SObjectType.Account.getRecordTypeInfosByDeveloperName().get('ShipTo').getRecordTypeId();
+
                 C360Integration__c mSetting = C360Integration__c.getInstance();
                 List<Map<String, String>> mSendDataList = new List<Map<String, String>>();
                 Map<String, Object> mDataToSendMap = new Map<String, Object>();
@@ -86,7 +101,7 @@ public class CTRAccountHandler
                                 if(mAccount.RecordTypeId == shipToRecordTypeId) {
                                     subFolder = 'ShipTo';
                                 }
-                                String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(mSetting.SharePointMainFolderDuringCreate__c, mAccount.SFCode__c, subFolder, '', new List<String>(), '');
+                                String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(mSetting.SharePointMainFolderDuringCreate__c, mAccount.SFCode__c, subFolder, '', new List<String>(), '', mAccount);
                                 if(String.isNotBlank(mBody))
                                 {
                                     mDataMap.put('mBody',mBody);
@@ -120,9 +135,9 @@ public class CTRAccountHandler
         }
         catch(exception e)
         {
-            System.debug('Error from CTRAccountHandler.CreateFolderSharePointAfterCreate Line: '+e.getLineNumber()+' || Message: '+e.getMessage());
+            System.debug('Error from CTRAccountHandler.createCommonOrRenameSharePointFolder Line: '+e.getLineNumber()+' || Message: '+e.getMessage());
         }
-    } 
+    }
 
 
     public static void createRequestFolderAfterSharepointFolderReady(Map<Id, Account> mAccountOldMap, Map<Id, Account> mAccountNewMap)

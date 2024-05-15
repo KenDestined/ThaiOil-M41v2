@@ -284,7 +284,7 @@
                     var toastEvent = $A.get("e.force:showToast");
                     toastEvent.setParams({
                         "title": "Success!",
-                        "message": 'The new credit condition has been completed',
+                        "message": 'The new credit condition has been evaluated',
                         "type" : "success"
                     });
                     toastEvent.fire();
@@ -384,6 +384,7 @@
             var buInfo = component.get("v.BUInfo"); 
             
             component.set('v.IsDescriptionDisable',false);
+            component.set('v.IsRequiredEffectiveDate',true);
             
             component.set('v.IsChangeCreditPaymentTermDisable',true);
             if(buInfo.BusinessUnit__c != "TX")
@@ -432,6 +433,11 @@
                     component.set('v.IsTradeCreditInsuranceDisable',true);
                     component.set('v.IsInternalCreditRatingDisable',true);
                     component.set('v.IsChangeCreditCreditConditionDisable',true);
+                    
+                    if(buInfo.BusinessUnit__c!="TX")
+                    {
+                        component.set('v.IsRequiredEffectiveDate',false);
+                    }
                 }
                 else if (SubTypeCondition == 'Change Credit Condition')
                 {

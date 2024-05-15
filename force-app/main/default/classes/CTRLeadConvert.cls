@@ -24,7 +24,7 @@ public class CTRLeadConvert {
                                     Salutation,FirstName, LastName, DoNotCall, Title, Phone, MobilePhone, Fax, Website, Status, OwnerId, Name, HouseNo__c, BuildingCode__c, 
                                     Room__c,Floor__c,Street__c, SubDistrict__c, District__c,PostalCode__c,NickName__c
                                     FROM Lead WHERE Id =: LeadIds[0]];
-            List<Account>exisitngAccList = [SELECT Id FROM Account Where Name=:leadList[0].Company AND TaxNumber__c=:leadList[0].TaxNumber__c AND FormerNameofCompany__c=:leadList[0].FormerNameofCompany__c];
+            List<Account>exisitngAccList = [SELECT Id FROM Account Where Name=:leadList[0].Company AND TaxCode1__c=:leadList[0].TaxNumber__c AND FormerNameofCompany__c=:leadList[0].FormerNameofCompany__c];
             String accountId = '';
             Boolean isExtAcc = false;
             if(exisitngAccList.size() > 0)

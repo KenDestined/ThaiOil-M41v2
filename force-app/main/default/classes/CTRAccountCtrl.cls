@@ -654,20 +654,13 @@ public with sharing class CTRAccountCtrl
 
         if(mBu == 'TX')
         {
-            newReqForm.WHTaxCountry__c = (mAccount.Country__c != null &&  mAccount.Country__r.Code__c != null)?mAccount.Country__r.Code__c:'';
-            newReqForm.Liable1__c = true;
-            newReqForm.Liable2__c = true;
-            newReqForm.GRBasedInvVerif__c = true;
-            newReqForm.Recty1__c = '53';
-            newReqForm.Recty2__c = '53';
-            newReqForm.Wthttype1__c = 'J1';
-            newReqForm.Wthttype2__c = 'J2';
-            newReqForm.SortKey__c = '009';
+
             newReqForm.Division__c = '00';
             newReqForm.ExchangeRateType__c = 'B';
             newReqForm.CustPriceProc__c = '1';
             newReqForm.CustStatGroup__c = '1';
-            //newReqForm.PartialDeliveriesperitem__c = 'B';
+            newReqForm.PartialDeliveriesperitem__c = 'B';
+            newReqForm.DeliveryPriority__c = '02';
             newReqForm.MaxPartialDeliveries__c = 1;
             newReqForm.UnderdeliveryTolerance__c = 5;
             newReqForm.OverdeliveryTolerance__c = 5;
@@ -677,9 +670,31 @@ public with sharing class CTRAccountCtrl
             newReqForm.Chkdoubleinv__c = true;
             newReqForm.IsPriceDetermin__c = true;
             newReqForm.ShippingConditions__c = '02';
+
             newReqForm.automaticPurchaseOrder__c = true;
+            newReqForm.GRBasedInvVerif__c = true;
+            newReqForm.PaymentHistoryRecord__c = true;
             newReqForm.SalesOrganization__c = mAccount.LeadName__r.Seller__c;
             newReqForm.PurchasingOrganization__c = mAccount.LeadName__r.Buyer__c;
+            if(mAccount.LeadName__r.Seller__c != null)
+            {
+                newReqForm.SortKey__c = '009';
+            }
+            else if(mAccount.LeadName__r.Buyer__c != null)
+            {
+                newReqForm.SortKey__c = '001';
+                if(mAccount.LeadName__r.Buyer__c == 'A000')
+                {
+                    newReqForm.WHTaxCountry__c = 'TH';
+                    newReqForm.Liable1__c = true;
+                    newReqForm.Liable2__c = true;
+                    newReqForm.Recty1__c = '53';
+                    newReqForm.Recty2__c = '53';
+                    newReqForm.Wthttype1__c = 'J1';
+                    newReqForm.Wthttype2__c = 'J2';
+                }
+
+            }
             System.debug('mType: '+mType);
             System.debug('mProduct: '+mProduct);
 
@@ -858,6 +873,8 @@ public with sharing class CTRAccountCtrl
         mHeader.CustomerType__c = mAccount.CustomerType__c;
         mHeader.TypeOfBusinessCommercialEvaluation__c = mAccount.TypeOfBusinessCommercialEvaluation__c;
         mHeader.TypeOfBusiness__c = mAccount.TypeOfBusiness__c;
+        mHeader.TypeOfBusinessBranch__c = mAccount.TypeOfBusinessBranch__c;
+        mHeader.AccountGroup__c = mAccount.AccountGroup__c;
         mHeader.LegalEntity__c = mAccount.LegalEntity__c;
         mHeader.IncoperationDate__c = mAccount.IncoperationDate__c;
         mHeader.TaxCode1__c = mAccount.TaxCode1__c;

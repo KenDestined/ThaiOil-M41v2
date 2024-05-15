@@ -16,6 +16,7 @@
     <!-- Profile & Record Type -->
     <aura:attribute name="recordType" type="String" default="" />
     <aura:attribute name="profile" type="String" default="TOP" />
+    <aura:attribute name="subBU" type="String" default="TOP" />
     <!-- Alert Message -->
     <aura:attribute name="showAlert" type="Boolean" default="false" />
     <aura:attribute name="alertMessage" type="String" />
@@ -32,6 +33,7 @@
     <aura:attribute name="metaDocList" type="CTRDocumentMaster__mdt[]" default="[]" />
     <aura:attribute name="requiredDocList" type="List" default="[]" />
     <aura:attribute name="selectedDocObj" type="Map" default="{}" />
+    <aura:attribute name="isSaved" type="Boolean" default="false" />
 
     <aura:attribute name="TRCRHead" type="String" default="" />
 

@@ -86,6 +86,7 @@ public class CTRShipToRequestFormItemModelDataTest {
                                                     TradingPartner__r.Code__c
                                                     FROM CTRRequestFormHeader__c LIMIT 1];
         CTRRequestFormItem__c mRequestItem = [SELECT ID, GatewayId__c,Customer__r.SupplierNumber__c,PurchasingOrganization__c,
+                                                Partner__c,
                                                 Incoterms__c,
                                                 Incoterms2__c,
                                                 Currency__c,

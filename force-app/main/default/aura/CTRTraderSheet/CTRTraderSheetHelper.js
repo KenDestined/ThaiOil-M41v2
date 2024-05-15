@@ -46,6 +46,20 @@
                 
                 console.log('---OwnerId---'+component.get('v.StatusPass'));
                     console.log('---OwnerId---'+requestList[0].OwnerId);
+                    
+                    if(RecordTypeName.includes('Customer'))
+                    {
+                     component.set('v.RecordTypeName','Customer');   
+                    }
+                    else
+                    {
+                        component.set('v.RecordTypeName','Supplier');
+                        if(BU == 'TX') {
+                            TypeOfBusinessEva = 'N/A';
+                            LegalEntity = 'N/A';
+                            Thelevelofreputation = 'N/A';
+                        }
+                    }
                     //set value
                     component.set('v.BU',BU);
                     component.set('v.TypeOfBusinessEva',TypeOfBusinessEva);
@@ -55,14 +69,8 @@
                     component.set('v.VPName',VPName);
                     component.set('v.TraderName',TraderName);
                     component.set('v.IsDeclareCheck',IsDeclareCheck);
-                    if(RecordTypeName.includes('Customer'))
-                    {
-                     component.set('v.RecordTypeName','Customer');   
-                    }
-                    else
-                    {
-                        component.set('v.RecordTypeName','Supplier');
-                    }
+                    
+                    component.set('v.counterPartyType', component.get('v.RecordTypeName').toLowerCase());
                     console.log('---RecordTypeName---'+RecordTypeName);
                     console.log('---RecordTypeName-2--'+component.get('v.RecordTypeName'));
                     component.set('v.CustomerPurchaseProductFrom',CustomerPurchaseProductFrom);

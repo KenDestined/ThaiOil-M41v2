@@ -62,6 +62,8 @@ public with sharing class CTRRequestItemHandler
                     List<CTRRequestFormHeader__c> mGetHeaderList = CTRCommitteeSendToSap.geRequestHeaderForSendToSAP(mHeaderSetId);
                     List<CTRRequestFormItem__c> mRequestItemFilteredList = new List<CTRRequestFormItem__c> ();
                     Map<Id, CTRRequestFormHeader__c> mHeaderItemMap = new Map<Id, CTRRequestFormHeader__c>();
+                    List<CTRIntegrationMapping__mdt> mAllMappingList = [SELECT Id, BusinessUnit__c, IntegrationType__c, JsonMapping__c, RecordType__c, ViewName__c,SupportIntegrationType__c FROM CTRIntegrationMapping__mdt];
+
                     Set<String>mProfileNameSet = new Set<String>();
                     for(CTRRequestFormItem__c mItem: mGetRequestItemList)
                     {
@@ -100,12 +102,13 @@ public with sharing class CTRRequestItemHandler
                                 }
                             }
                             String mGatewayId = (mItem.GatewayId__c != null)?mItem.GatewayId__c: Uuid.randomUUID();
-                            CTRCustomerRequestFormItemModelData mCustomerData = CTRCustomerRequestFormItemModelData.SetupJsonForCustomerDataModel(mHeader, mItem, IntegrationType, mItem.BusinessUnit__c, mGatewayId);
-
+                            //CTRCustomerRequestFormItemModelData mCustomerData = CTRCustomerRequestFormItemModelData.SetupJsonForCustomerDataModel(mHeader, mItem, IntegrationType, mItem.BusinessUnit__c, mGatewayId);
+                            CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
+                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader, mItem, 'Customer', mItem.BusinessUnit__c, mGatewayId, '', 'Static' ,'',  true);
                             //String mGatewayId = mCustomerData.input.input.GatewayId;
-                            if(mCustomerData != null)
+                            if(mEditData != null)
                             {
-                                String mJson = JSON.serialize(mCustomerData);
+                                String mJson = JSON.serialize(mEditData);
                                 mJson = mJson.replace('null', '""');
                                 System.debug('mJson: '+mJson);
                                 CTRTriggerWebServiceQueueable.sendServiceToHeroku(mJson, mIntegration.Token__c, mSetting.HerokuIntegrationDomain__c+mIntegration.Path__c, IntegrationType, mItem.Id, mGatewayId);
@@ -1931,11 +1934,45 @@ public with sharing class CTRRequestItemHandler
         }
     }
 
+    public static void CreateMainFolderSharePointAfterCreate(List<CTRRequestFormItem__c> mItemList)
+    {
+        try
+        {
+            Set<Id> mCustomerSetId = new Set<Id>();
+            for(CTRRequestFormItem__c mItem: mItemList)
+            {
+                if(mItem.MainSharePointFolderIsReady__c == false)
+                {
+                    mCustomerSetId.add(mItem.Customer__c);
+                }
+            }
+            if(mCustomerSetId.size() > 0)
+            {
+                List<Account> mAccountList = new List<Account>();
+                for(Id mCustomerId: mCustomerSetId)
+                {
+                    Account mAccount = new Account(Id = mCustomerId);
+                    mAccount.SubmitToCreateSharePointFolder__c = true;
+                    mAccountList.add(mAccount);
+                }
+                if(mAccountList.size()>0)
+                {
+                    update mAccountList;
+                }
+            }
+        }
+        catch(exception e)
+        {
+            system.debug('Error from CreateFolderSharePointAfterCreate line:'+e.getLineNumber()+' || Message: '+e.getMessage());
+        }
+    }
+
     public static void CreateSharePointForInitialAfterUpdate(Map<Id,CTRRequestFormItem__c> mItemOldMap, Map<Id,CTRRequestFormItem__c> mItemNewMap)
     {
         try
         {
             Set<Id> mItemSetId = new Set<Id>();
+            Set<Id> mItemGenDocSetId = new Set<Id>();
             for(CTRRequestFormItem__c mItem: mItemNewMap.values())
             {
                 if(mItem.MainSharePointFolderIsReady__c == true)
@@ -1945,10 +1982,22 @@ public with sharing class CTRRequestItemHandler
                         mItemSetId.add(mItem.id);
                     }
                 }
+
+                System.debug('MasterDocumentGenerateStatus__c '+mItem.MasterDocumentGenerateStatus__c+':'+mItemOldMap.get(mItem.Id).MasterDocumentGenerateStatus__c);
+                //for uploading master document
+                if(mItem.MasterDocumentGenerateStatus__c != mItemOldMap.get(mItem.Id).MasterDocumentGenerateStatus__c && mItem.MasterDocumentGenerateStatus__c == 'Send File to SharePoint') {
+                    mItemGenDocSetId.add(mItem.id);
+                }
             }
             if(mItemSetId.size() > 0)
             {
                 createFolderDependtoSalesOrg(mItemSetId);
+            }
+
+            System.debug('mItemGenDocSetId size='+mItemGenDocSetId.size());
+            if(mItemGenDocSetId.size() > 0) 
+            {
+                uploadMasterFileToSharePoint(mItemGenDocSetId);
             }
         }
         catch(exception e)
@@ -1998,16 +2047,19 @@ public with sharing class CTRRequestItemHandler
                 List<CTRRequestFormItem__c> mItemFilteredList =[SELECT Id, Name, RecordTypeName__c ,SharePointSubFolderName__c, fmlAccountTypeName__c, Customer__c, Customer__r.SFCode__c, SubBU__c, OwnerId, Owner.Email FROM CTRRequestFormItem__c WHERE Id IN: mItemSetId];
                 Set<String> mSubBUSet = new Set<String>();
                 Set<String> mEmployeeSet = new Set<String>();
+                Set<String> mAccountSet = new Set<String>();
                 for(CTRRequestFormItem__c mItem: mItemFilteredList)
                 {
                     if(String.isNotBlank(mItem.SubBU__c))
                     {
                         mSubBUSet.add(mItem.SubBU__c);
                     }
+                    mAccountSet.add(mItem.Customer__c);
                 }
                 List<User> mUserList = new List<User>();
                 List<CTRActorInProcess__mdt> mActorList = new List<CTRActorInProcess__mdt>();
                 Map<String, String> mActorEmailMaping = new Map<String, String>();
+                Map<Id, Account> mAccountMap = new Map<Id, Account>([SELECT Id, Name,AccountNumber__c,SupplierNumber__c, SFCode__c FROM Account WHERE Id IN: mAccountSet]);
 
                 mActorList = [SELECT Id, EmployeeId__c, RecordType__c, SalesOrg__c FROM CTRActorInProcess__mdt WHERE SalesOrg__c IN: mSubBUSet];
                 for(CTRActorInProcess__mdt mActor: mActorList)
@@ -2079,7 +2131,8 @@ public with sharing class CTRRequestItemHandler
                             accFolder = mItem.Name;
                             subFolder = 'ShipTo';
                         }
-                        String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(mSetting.SharePointMainFolderDuringCreate__c, accFolder, subFolder, mFolderType, mEmailList, 'contribute');
+
+                        String mBody = CTRSharePointLinkController.manageWrapperToCreateFolder(mSetting.SharePointMainFolderDuringCreate__c, accFolder, subFolder, mFolderType, mEmailList, 'contribute', mAccountMap.get(mItem.Customer__c));
                         if(String.isNotBlank(mBody))
                         {
                             String mEndPoint = mSetting.HerokuIntegrationDomain__c+mIntegrationList[0].Path__c;
@@ -2146,6 +2199,13 @@ public with sharing class CTRRequestItemHandler
             CTRIntegraionList__mdt mIntegrationInitialCustomer = CTRIntegraionList__mdt.getInstance('CTRCustomer');
             CTRIntegraionList__mdt mIntegrationInintialSupplier = CTRIntegraionList__mdt.getInstance('CTRSupplier');
             C360Integration__c mSetting = C360Integration__c.getInstance();
+            Map<Id, String> mAccountJsonMapResult = new Map<Id, String>();
+            Map<Id, String> mHeaderJsonMapResult = new Map<Id, String>();
+            Set<Id> mCustomerSetId = new set<Id>();
+            Set<Id> mHeaderSetId = new set<Id>();
+
+            String mAccountObjName = 'Account';
+            String mHeaderObjName = 'CTRRequestFormHeader__c';
 
             String mIntegrationName = '';
             
@@ -2153,7 +2213,7 @@ public with sharing class CTRRequestItemHandler
 
             List<Map<String, String>> mEditDataMapWrap = new List<Map<String, String>>();
             List<CTRRequestFormItem__c> mItemList = CTRCommitteeSendToSap.geRequestItemForSendToSAP(mItemSetId);
-            Set<Id> mHeaderSetId = new Set<Id>();
+
             for(CTRRequestFormItem__c mItem: mItemList)
             {
                 if(mItem.CTRRequestFormHeader__c != null)
@@ -2166,6 +2226,36 @@ public with sharing class CTRRequestItemHandler
                 List<CTRRequestFormHeader__c> mHeaderList = CTRCommitteeSendToSap.geRequestHeaderForSendToSAP(mHeaderSetId);
                 List<CTRIntegrationMapping__mdt> mAllMappingList = [SELECT Id, BusinessUnit__c, IntegrationType__c, JsonMapping__c, RecordType__c, ViewName__c, SupportIntegrationType__c FROM CTRIntegrationMapping__mdt];
 
+                Map<String, String> mSAPInfoFieldListMap = CTRRequestEditLogFieldController.getMetadataFieldListFromSource('SAP Information');
+                mHeaderSetId.clear();
+                for(CTRRequestFormItem__c mItem: mItemList)
+                {
+                    if(mItem.RecordTypeName__c.contains('Edit'))
+                    {
+                        if(mItem.Customer__c != null)
+                        {
+                            mCustomerSetId.add(mItem.Customer__c);
+                        }
+                        if(mItem.CTRRequestFormHeader__c != null)
+                        {
+                            mHeaderSetId.add(mItem.CTRRequestFormHeader__c);
+                        }
+                    }
+                }
+                if(mSAPInfoFieldListMap.size()>0)
+                {
+                    List<String> mAccountFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mAccountObjName), mAccountObjName,'');
+                    if(mAccountFieldList.size()>0)
+                    {
+                            mAccountJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mAccountFieldList, mAccountObjName, mCustomerSetId);
+                    }
+                    List<String> mHeaderFieldList = CTRRequestEditLogFieldController.getFieldListFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, '');
+                    if(mHeaderFieldList.size()>0)
+                    {
+                        mHeaderJsonMapResult = CTRRequestEditLogFieldController.manageQueryObjToJson(mHeaderFieldList, mHeaderObjName, mHeaderSetId);
+                    }
+                }
+                
                 for(CTRRequestFormItem__c mItem: mItemList)
                 {
                     Map<String, String> mEditDataMap = new Map<String, String>();
@@ -2183,6 +2273,7 @@ public with sharing class CTRRequestItemHandler
                                 String mRecordTypeName = '';
                                 String mPath = '';
                                 String mToken = '';
+                                String mBu = (mItem.BusinessUnit__c == 'TX')?'TX':'TOP';
                                 String mGatewayId = (mItem.GatewayId__c != null)?mItem.GatewayId__c: Uuid.randomUUID();
 
                                 if(mItem.RecordTypeName__c.contains('Customer')) 
@@ -2217,6 +2308,7 @@ public with sharing class CTRRequestItemHandler
                                     }
 
                                 }
+
                                 if(mPath != null)
                                 {
                                     String mSendType = '';
@@ -2227,10 +2319,15 @@ public with sharing class CTRRequestItemHandler
                                     {
                                         if(mItem.RecordTypeName__c.contains('Edit'))
                                         {
+
+                                                String mBuType = mBu+mRecordTypeName;
+                                                Map<String, Object> mHeaderFieldDataMap = CTRRequestEditLogFieldController.getFieldMapFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
+                                                mItem.InternalGeneralChangedField__c = CTRRequestEditLogFieldController.filteredCompareAccountAndHeaderJson(mItem.Id,mAccountJsonMapResult.get(mItem.Customer__c), mHeaderJsonMapResult.get(mItem.CTRRequestFormHeader__c), mHeaderFieldDataMap, mBuType);
+                                            
                                             mSendType = 'Edit '+mRecordTypeName;
                                             CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
-                                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mHeader,mItem, mRecordTypeName, mItem.BusinessUnit__c, mGatewayId);
-                                            //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader,mItem ,mRecordTypeName, mItem.BusinessUnit__c, mGatewayId, 'Dynamic', 'Dynamic' ,'',  isMain);
+                                            //mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModel(mAllMappingList, mHeader,mItem, mRecordTypeName, mBu, mGatewayId);
+                                            mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader,mItem ,mRecordTypeName, mBu, mGatewayId, 'Dynamic', 'Dynamic' ,'',  isMain);
                                             jsonInput = JSON.serialize(mEditData);
                                         }
                                         if(mItem.RecordTypeName__c.contains('Block'))
@@ -2239,29 +2336,39 @@ public with sharing class CTRRequestItemHandler
                                             {
                                                 mSendType = 'Block '+mRecordTypeName;
                                                 CTRBlockRequestFormItemModelData mBlockData = new CTRBlockRequestFormItemModelData();
-                                                mBlockData = CTRBlockRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem,'SoldTo' , mItem.BusinessUnit__c, mGatewayId);
+                                                mBlockData = CTRBlockRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem,'SoldTo' , mBu, mGatewayId);
                                                 jsonInput = JSON.serialize(mBlockData);
                                             }
                                             if(mItem.RecordTypeName__c.contains('Supplier'))
                                             {
                                                 mSendType = 'Block '+mRecordTypeName;
                                                 CTRBlockSupplierRequestFormItemModelData mBlockSupplier = new CTRBlockSupplierRequestFormItemModelData();
-                                                mBlockSupplier = CTRBlockSupplierRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem, '', mItem.BusinessUnit__c, mGatewayId);
+                                                mBlockSupplier = CTRBlockSupplierRequestFormItemModelData.SetupJsonForBlockDataModel(mHeader,mItem, '', mBu, mGatewayId);
                                                 jsonInput = JSON.serialize(mBlockSupplier);
                                             }
                                         }
                                     }
                                     else
                                     {
+                                        System.debug('ismain: '+ isMain);
                                         if(!mItem.RecordTypeName__c.contains('Block'))
                                         {
+                                            System.debug('is block: '+ !mItem.RecordTypeName__c.contains('Block'));
                                             if((mItem.RecordTypeName__c.contains('Customer') && mItem.Customer__r.SupplierNumber__c != null) ||
                                             (mItem.RecordTypeName__c.contains('Supplier') && mItem.Customer__r.AccountNumber__c != null))
                                             {
+                                                System.debug('is setting: ');
+
+                                                if(mItem.RecordTypeName__c.contains('Edit'))
+                                                {
+                                                    String mBuType = mBu+mRecordTypeName;
+                                                    Map<String, Object> mHeaderFieldDataMap = CTRRequestEditLogFieldController.getFieldMapFromJsonFiltered(mSAPInfoFieldListMap.get(mHeaderObjName), mHeaderObjName, mBuType);
+                                                    mItem.InternalGeneralChangedField__c = CTRRequestEditLogFieldController.filteredCompareAccountAndHeaderJson(mItem.Id,mAccountJsonMapResult.get(mItem.Customer__c), mHeaderJsonMapResult.get(mItem.CTRRequestFormHeader__c), mHeaderFieldDataMap, mBuType);
+                                                }
                                                 mGatewayId = Uuid.randomUUID();
                                                 mSendType = 'Sub '+mRecordTypeName;
                                                 CTRRequestItemIntegrationEditController.mapLv1 mEditData = new CTRRequestItemIntegrationEditController.mapLv1();
-                                                mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader,mItem ,mRecordTypeName, mItem.BusinessUnit__c, mGatewayId, 'Dynamic', '' ,'Edit',  isMain);
+                                                mEditData = CTRRequestItemIntegrationEditController.SetupJsonForCTRDataModelv2(mAllMappingList, mHeader,mItem ,mRecordTypeName, mBu, mGatewayId, 'Dynamic', '' ,'Edit',  isMain);
                                                 jsonInput = JSON.serialize(mEditData);
                                             }
                                         }
@@ -2327,6 +2434,7 @@ public with sharing class CTRRequestItemHandler
             }
             if(mItemSetId.size()>0)
             {
+                System.debug('Trigger: '+ mItemSetId.size());
                 sendEditIntegrationViaTrigger(mItemSetId, false);
             }
         }
@@ -2433,8 +2541,202 @@ public with sharing class CTRRequestItemHandler
             system.debug('Error from updateHeaderToAccountAfterUpdate line:'+e.getLineNumber()+' || Message: '+e.getMessage());
         }
     }
+
     
+    public static void uploadMasterFileToSharePoint(Set<Id> reqItemSetId) {
+        List<Attachment> fileList = [SELECT Id,Name, ContentType, Body, BodyLength, Description, ParentId FROM Attachment WHERE Name LIKE '%master%' AND ParentId IN: reqItemSetId];
+        // /AccountDev/Test
+        Map<Id, List<CTRSharPointFileController.FileWrapper>> mapReqIdFileWrapper = new Map<Id, List<CTRSharPointFileController.FileWrapper>>();
+        String mPath = '/AccountDev/Test';
+
+        Map<Id, CTRRequestFormItem__c> mItemMap = new Map<Id, CTRRequestFormItem__c>([SELECT Id,Customer__c, Customer__r.SFCode__c, SharePointSubFolderName__c, RecordTypeId, RecordType.DeveloperName FROM CTRRequestFormItem__c WHERE Id IN:reqItemSetId]);
+        Set<String> mSubFolderNameSet = new Set<String>();
+        for(CTRRequestFormItem__c mItem: mItemMap.values())
+        {
+            if(mItem.SharePointSubFolderName__c != null)
+            {
+                mSubFolderNameSet.add(mItem.SharePointSubFolderName__c);
+            }
+        }
+
+        //getInstance(developerName)
+        CTRIntegraionList__mdt tokenMdt = CTRIntegraionList__mdt.getInstance('CTRUploadFileSharepoint');
+        C360Integration__c mDefault360Data = C360Integration__c.getInstance();
+        String mFolderName = mDefault360Data.SharePoint_Document_Folder__c;
+        String mMainFolder = mDefault360Data.SharePointMainFolderDuringCreate__c;
+
+        List<CTRSharePointFolder__mdt>  mFolderList = [SELECT Id ,QualifiedApiName, Label, Main__c, Path__c, Button_Name__c, Folder__c, SubFolder__c 
+                                                        FROM CTRSharePointFolder__mdt 
+                                                        WHERE Folder__c IN: mSubFolderNameSet AND Salesforce_Object_Name__c LIKE '%CTRRequestFormItem__c%' AND Path__c != null];
+
+        Map<String, List<CTRSharePointFolder__mdt>> mFolderListMap = new Map<String, List<CTRSharePointFolder__mdt>>();
+        for(String mSubFolderName :mSubFolderNameSet)
+        {
+            List<CTRSharePointFolder__mdt> mFileteredFolderList = new List<CTRSharePointFolder__mdt>();
+            for(CTRSharePointFolder__mdt mFolder: mFolderList)
+            {
+                if(mSubFolderName == mFolder.Folder__c)
+                {
+                    mFileteredFolderList.add(mFolder);
+                }
+            }
+            mFolderListMap.put(mSubFolderName, mFileteredFolderList);
+        }
+
+        for(Attachment file : fileList) {
+            CTRSharPointFileController.FileWrapper mFileData = new CTRSharPointFileController.FileWrapper();
+            Blob mFileBody = file.Body;
+            mFileData.mTitle = file.Name;
+            mFileData.mFileBody = mFileBody;
+            mFileData.mId = file.Id;
+
+            if(mapReqIdFileWrapper.containsKey(file.ParentId)) {
+                mapReqIdFileWrapper.get(file.ParentId).add(mFileData);
+            } else {
+                mapReqIdFileWrapper.put(file.ParentId,new List<CTRSharPointFileController.FileWrapper>{mFileData});
+            }
+        }
+
+
+        for(Id mRequestId : mapReqIdFileWrapper.keySet()) {
+            List<CTRSharPointFileController.FileWrapper> fileWrapperList = mapReqIdFileWrapper.get(mRequestId);
+
+            for(CTRSharPointFileController.FileWrapper mFile : fileWrapperList) {
+
+                CTRRequestFormItem__c mItem = mItemMap.get(mRequestId);
+                if(mItem != null)
+                {
+                    String mType = mItem.RecordType.DeveloperName.contains('Customer') ? 'Customer' : 'Supplier';
+                    String url = mPath;
+                    // Find the index where 'Shared Documents' starts
+                    Integer startIndex = url.indexOf('Shared Documents');
+                    // Extract the substring from the startIndex to the end of the URL
+                    String extractedSubstring = startIndex >= 0 ? url.substring(startIndex) : url;
+
+                    url = mDefault360Data.SharePoint_Document_Folder__c+'/'+mMainFolder+'/'+mItem.Customer__r.SFCode__c+'/'+mItem.SharePointSubFolderName__c+'/';
+                    List<CTRSharePointFolder__mdt>  mSharepointFolderList = mFolderListMap.get(mItem.SharePointSubFolderName__c);
+                    for(CTRSharePointFolder__mdt mFolder: mSharepointFolderList)
+                    {
+                        if(String.isNotBlank(mFolder.SubFolder__c) && String.isNotBlank(mFolder.Path__c))
+                        {
+                            if(mFolder.SubFolder__c.contains(mType) && mFolder.Path__c.contains('Others'))
+                            {
+                                url += mFolder.SubFolder__c+'/'+mFolder.Path__c;
+                                break;
+                            }
+                        }
+
+                    }
+                    System.debug('--url--'+url);
+                    System.debug('--extractedSubstring--'+extractedSubstring);
+                    System.debug('Upload master doc to HEROKU '+mRequestId+':'+mFile.mTitle);
+                    sendMasterDocToHeroku(mRequestId, mFolderName, /*mDefault360Data.SharePoint_Document_Folder__c+extractedSubstring*/ url /*mPath*/, mDefault360Data.HerokuIntegrationDomain__c+tokenMdt.Path__c, mFile.mTitle, mFile.mFileBody, tokenMdt.Token__c); 
+                }
+
+            }
+        }
+    }
+
+    
+    @future(callout = true) 
+    public static void sendMasterDocToHeroku(String mRequestId, String mFolderName, String mPath, String mEndPoint, String mFileTitle , Blob mFileData, String mToken)
+    {   
+        Http http = new Http();
+        HttpRequest request = CTRSharPointFileController.ManageFileCallout( mFolderName,  mPath,  mEndPoint,  mFileTitle ,  mFileData,  mToken);
+        HttpResponse response;
+        if(!Test.isRunningTest()){
+            response = http.send(request);
+
+            // Parse the JSON response
+            System.debug('The status code : ' + response.getStatusCode());
+            System.debug('The response body : ' + response.getBody());
+            if(response.getStatusCode() == 200) {
+                System.debug('Send Master Doc file success => Delete file');
+                List<Attachment> fileList = [SELECT Id FROM Attachment WHERE Name LIKE '%master%' AND ParentId =: mRequestId];
+                delete fileList;
+
+                CTRRequestFormItem__c updateRequest = new CTRRequestFormItem__c(Id = mRequestId, MasterDocumentGenerateStatus__c = 'Removed File');
+                update updateRequest;
+            }
+        }
+    }
+
+    public static void generateMasterDocResponseSendToSAPAfterUpdate(Map<Id,CTRRequestFormItem__c> mItemOldMap, Map<Id,CTRRequestFormItem__c> mItemNewMap)
+    {
+        try
+        {
+            // List<CTRRequestFormItem__c> reqItemList = new List<CTRRequestFormItem__c>();
+            Map<Id, String> mapReqItemIdType = new Map<Id, String>();
+            Map<Id, String> mapReqItemRecordType = new Map<Id, String>();
+            // List<Attachment> masterDocList = new List<Attachment>();
+            for(CTRRequestFormItem__c mItem: mItemNewMap.values())
+            {
+                System.debug('Debug integration '+mItem.MasterDocumentGenerateStatus__c);
+                if(mItem.MasterDocumentGenerateStatus__c == 'To Generate Document' && mItem.MasterDocumentGenerateStatus__c != mItemOldMap.get(mItem.Id).MasterDocumentGenerateStatus__c)
+                {
+                    // String counterPartyType = mItem.RecordTypeName__c.contains('Customer') ? 'Customer' : 'Supplier';
+                    mapReqItemIdType.put(mItem.Id,mItem.Name);
+                    mapReqItemRecordType.put(mItem.Id,mItem.RecordTypeName__c);
+                }
+            }
+            System.debug('Master doc list size ='+mapReqItemIdType.size());
+            if(mapReqItemIdType.size()>0)
+            {
+                // CTRTriggerGenerateFileQueueable genFileQueue = new CTRTriggerGenerateFileQueueable(reqItemList);
+                // System.enqueueJob(genFileQueue);
+                generateMasterDoc(mapReqItemIdType, mapReqItemRecordType);
+            }
+        }
+        catch(exception e)
+        {
+            System.debug('Error generateMasterDocResponseSendToSAPAfterUpdate  line:'+e.getLineNumber()+' || Message:'+e.getmessage());
+        }
+    }
+
+    @future(callout = true) 
+    public static void generateMasterDoc(Map<Id, String> mapReqItemIdType, Map<Id, String> mapReqItemRecordType) {
+        //...
+        try
+        {
+            List<CTRRequestFormItem__c> toUpdateItems = new List<CTRRequestFormItem__c>();
+            List<Attachment> masterDocList = new List<Attachment>();
+            for(Id mItemId : mapReqItemIdType.keySet()) 
+            {
+                String mRecordType = mapReqItemRecordType.get(mItemId);
+                String mType = (mRecordType.contains('Supplier'))?'Supplier':'Customer';
+                PageReference pageRef;
+                if(mType == 'Customer')
+                {
+                    pageRef = Page.CTRCustomerMasterForm;
+                    pageRef.getParameters().put('recordId',mItemId);
+                }
 
 
 
+                if(pageRef != null)
+                {
+                    Attachment cusMasterDoc = new Attachment();
+                    cusMasterDoc.ParentId = mItemId;
+                    cusMasterDoc.Name = mapReqItemIdType.get(mItemId)+' - '+mType+' Master Form.doc';
+                    cusMasterDoc.Description = mapReqItemIdType.get(mItemId)+' - '+mType+' Master Form';
+                    cusMasterDoc.ContentType = 'application/msword';
+                    cusMasterDoc.Body = pageRef.getContent(); // converting your binary string to Blog
+                    masterDocList.add(cusMasterDoc);
+            
+                    // mItem.MasterDocumentGenerateStatus__c = 'Document Generated'; //after file generated
+                    toUpdateItems.add(new CTRRequestFormItem__c(Id=mItemId, MasterDocumentGenerateStatus__c='Document Generated'));
+                }
+
+            }
+
+            if(masterDocList.size() > 0) {
+                insert masterDocList;
+                update toUpdateItems;
+            }
+        }
+        catch(exception e)
+        {
+            System.debug('Error generateMasterDoc  line:'+e.getLineNumber()+' || Message:'+e.getmessage());
+        }
+    }
 }

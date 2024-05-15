@@ -8,7 +8,7 @@
     </values>
     <values>
         <field>DocumentName__c</field>
-        <value xsi:type="xsd:string">Memorandum of Association TOP</value>
+        <value xsi:type="xsd:string">Memorandum of Association</value>
     </values>
     <values>
         <field>IsActive__c</field>
@@ -25,5 +25,9 @@
     <values>
         <field>SortOrder__c</field>
         <value xsi:type="xsd:double">2.0</value>
+    </values>
+    <values>
+        <field>SubBu__c</field>
+        <value xsi:type="xsd:string">TOP</value>
     </values>
 </CustomMetadata>
