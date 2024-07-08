@@ -32,6 +32,14 @@
         <members>*</members>
         <name>Flow</name>
     </types>
+       <types>
+        <members>*</members>
+        <name>ApprovalProcess</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>Workflow</name>
+    </types>
     <types>
         <members>*</members>
         <name>StaticResource</name>
